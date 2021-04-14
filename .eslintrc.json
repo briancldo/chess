@@ -1,0 +1,49 @@
+{
+  "env": {
+      "browser": true,
+      "es2021": true,
+      "node": true,
+      "jest": true
+  },
+  "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:sonarjs/recommended",
+      "plugin:unicorn/recommended",
+      "plugin:compat/recommended",
+      "plugin:jsx-a11y/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:react-redux/recommended",
+      "prettier"
+  ],
+  "parserOptions": {
+      "ecmaFeatures": {
+          "jsx": true
+      },
+      "ecmaVersion": 12,
+      "sourceType": "module"
+  },
+  "plugins": [
+      "react",
+      "sonarjs",
+      "unicorn",
+      "compat",
+      "jsx-a11y",
+      "react-hooks",
+      "react-redux",
+      "prettier"
+  ],
+  "rules": {
+      "prettier/prettier": "error",
+      "unicorn/filename-case": "off",
+      "unicorn/prefer-query-selector": "off",
+      "unicorn/prevent-abbreviations": "off",
+      "unicorn/no-null": "off",
+      "react/prop-types": "off"
+  },
+  "settings": {
+      "react": {
+          "version": "detect"
+      }
+  }
+}
