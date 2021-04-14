@@ -34,7 +34,9 @@
       "prettier"
   ],
   "rules": {
-      "prettier/prettier": "error",
+      "prettier/prettier": ["error", {
+        "endOfLine":"auto"
+      }],
       "unicorn/filename-case": "off",
       "unicorn/prefer-query-selector": "off",
       "unicorn/prevent-abbreviations": "off",
