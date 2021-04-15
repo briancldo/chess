@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { DevError } from '../../utils/errors';
 
@@ -38,7 +38,9 @@ export default function Piece(props) {
   if (!pieces.has(type)) throw new DevError(`No such piece: ${type}`);
   if (!colors.has(color)) throw new DevError(`No such color: ${color}`);
 
-  const pieceName = `${color}-${type}`;
-  const PieceSvg = pieceSvgMapping[pieceName];
+  const PieceSvg = useMemo(() => pieceSvgMapping[`${color}-${type}`], [
+    color,
+    type,
+  ]);
   return <PieceSvg />;
 }
