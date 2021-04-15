@@ -1,4 +1,10 @@
 {
+  "board": {
+    "dimensions": {
+      "numberRanks": 8,
+      "numberFiles": 8
+    }
+  },
   "square": {
     "colors": {
       "default": {
