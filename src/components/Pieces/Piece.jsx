@@ -2,19 +2,19 @@ import React from 'react';
 
 import { DevError } from '../../utils/errors';
 
-import BlackKing from './svg/black-king.svg';
-import BlackQueen from './svg/black-queen.svg';
-import BlackRook from './svg/black-rook.svg';
-import BlackBishop from './svg/black-bishop.svg';
-import BlackKnight from './svg/black-knight.svg';
-import BlackPawn from './svg/black-pawn.svg';
+import { ReactComponent as BlackKing } from './svg/black-king.svg';
+import { ReactComponent as BlackQueen } from './svg/black-queen.svg';
+import { ReactComponent as BlackRook } from './svg/black-rook.svg';
+import { ReactComponent as BlackBishop } from './svg/black-bishop.svg';
+import { ReactComponent as BlackKnight } from './svg/black-knight.svg';
+import { ReactComponent as BlackPawn } from './svg/black-pawn.svg';
 
-import WhiteKing from './svg/white-king.svg';
-import WhiteQueen from './svg/white-queen.svg';
-import WhiteRook from './svg/white-rook.svg';
-import WhiteBishop from './svg/white-bishop.svg';
-import WhiteKnight from './svg/white-knight.svg';
-import WhitePawn from './svg/white-pawn.svg';
+import { ReactComponent as WhiteKing } from './svg/white-king.svg';
+import { ReactComponent as WhiteQueen } from './svg/white-queen.svg';
+import { ReactComponent as WhiteRook } from './svg/white-rook.svg';
+import { ReactComponent as WhiteBishop } from './svg/white-bishop.svg';
+import { ReactComponent as WhiteKnight } from './svg/white-knight.svg';
+import { ReactComponent as WhitePawn } from './svg/white-pawn.svg';
 
 const pieces = new Set(['king', 'queen', 'rook', 'bishop', 'knight', 'pawn']);
 const colors = new Set(['black', 'white']);
@@ -39,6 +39,6 @@ export default function Piece(props) {
   if (!colors.has(color)) throw new DevError(`No such color: ${color}`);
 
   const pieceName = `${color}-${type}`;
-  const pieceSvg = pieceSvgMapping[pieceName];
-  return <img src={pieceSvg} alt={pieceName} />;
+  const PieceSvg = pieceSvgMapping[pieceName];
+  return <PieceSvg />;
 }
