@@ -16,13 +16,14 @@ export default function Square(props) {
       <svg width='5vw' height='5vw' className='square-svg'>
         <rect width='5vw' height='5vw' style={{ fill: color }} />
       </svg>
-      {containingPiece && <PieceWrapper {...containingPiece} />}
+      {containingPiece && <PieceWrapper {...{ containingPiece }} />}
     </div>
   );
 }
 
 function PieceWrapper(props) {
-  const { type, color } = props;
+  const { containingPiece } = props;
+  const [color, type] = containingPiece.split('');
 
   return (
     <div className='piece-wrapper-outer'>
@@ -33,22 +34,15 @@ function PieceWrapper(props) {
   );
 }
 
-const validPieceTypes = new Set([
-  'king',
-  'queen',
-  'rook',
-  'bishop',
-  'knight',
-  'pawn',
-]);
-const validPieceColors = new Set(['black', 'white']);
+const validPieceTypes = new Set(['k', 'q', 'r', 'b', 'n', 'p']);
+const validPieceColors = new Set(['b', 'w']);
 function validateContainingPiece(containingPiece) {
   if (!containingPiece) return;
 
-  if (typeof containingPiece !== 'object')
-    throw new DevError('Containing piece must be an object.');
+  if (typeof containingPiece !== 'string' || containingPiece.length !== 2)
+    throw new DevError('Containing piece must be a string of length 2.');
 
-  const { type, color } = containingPiece;
+  const [color, type] = containingPiece.split('');
   if (!type) throw new DevError('Containing piece must have type.');
   if (!validPieceTypes.has(type))
     throw new DevError(`Invalid piece type: ${type}`);
