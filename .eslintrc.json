@@ -40,6 +40,7 @@
       "unicorn/filename-case": "off",
       "unicorn/prefer-query-selector": "off",
       "unicorn/prevent-abbreviations": "off",
+      "unicorn/no-array-for-each": "off",
       "unicorn/no-null": "off",
       "react/prop-types": "off"
   },
