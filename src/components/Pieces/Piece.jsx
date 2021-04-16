@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 
 import { DevError } from '../../utils/errors';
+import './Piece.css';
 
 const pieces = new Set(['king', 'queen', 'rook', 'bishop', 'knight', 'pawn']);
 const colors = new Set(['black', 'white']);
@@ -17,17 +18,6 @@ export default function Piece(props) {
       `${piecesDirectoryPathRelativePublic}/${color}-${type}.${pieceFileType}`,
     [color, type]
   );
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '4vw',
-        width: '4vw',
-        backgroundImage: `url(${pieceImagePath})`,
-        backgroundSize: 'cover',
-      }}
-    ></div>
-  );
+  const style = { backgroundImage: `url(${pieceImagePath})` };
+  return <div className='piece-container' style={style}></div>;
 }

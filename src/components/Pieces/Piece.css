@@ -1,0 +1,8 @@
+.piece-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4vw;
+  width: 4vw;
+  background-size: cover;
+}

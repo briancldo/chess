@@ -3,6 +3,7 @@ import React from 'react';
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
 import { DevError } from '../../utils/errors';
+import './Square.css';
 const colorScheme = config.get('square.colors.default');
 
 export default function Square(props) {
@@ -11,14 +12,8 @@ export default function Square(props) {
   validateContainingPiece(containingPiece);
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        height: '5vw',
-        width: '5vw',
-      }}
-    >
-      <svg width='5vw' height='5vw' style={{ position: 'absolute' }}>
+    <div className='square-wrapper'>
+      <svg width='5vw' height='5vw' className='square-svg'>
         <rect width='5vw' height='5vw' style={{ fill: color }} />
       </svg>
       {containingPiece && <PieceWrapper {...containingPiece} />}
@@ -30,22 +25,8 @@ function PieceWrapper(props) {
   const { type, color } = props;
 
   return (
-    <div
-      style={{
-        position: 'absolute',
-        height: '100%',
-        width: '100%',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100%',
-          width: '100%',
-        }}
-      >
+    <div className='piece-wrapper-outer'>
+      <div className='piece-wrapper-inner'>
         <Piece {...{ type, color }} />
       </div>
     </div>

@@ -1,0 +1,23 @@
+.square-wrapper {
+  position: relative;
+  height: 5vw;
+  width: 5vw;
+}
+
+.square-svg {
+  position: absolute;
+}
+
+.piece-wrapper-outer {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.piece-wrapper-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}

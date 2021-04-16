@@ -14,7 +14,7 @@ function Rank(props) {
   const lightSquareParity = number % 2;
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div className='rank-wrapper'>
       {files.map((file, index) => (
         <Square
           light={index % 2 === lightSquareParity}
