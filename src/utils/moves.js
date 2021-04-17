@@ -16,16 +16,18 @@ function getPieceLegalMoves(board, pieceCoordinate) {
 const computeCandidateSquares = {
   p: (coordinate, board, color) => {
     const { rank } = getCoordinateParts(coordinate);
+    const direction = color === 'w' ? 1 : -1;
     const candidates = [];
 
-    candidates.push(addCoordinates(coordinate, 0, 1));
+    candidates.push(addCoordinates(coordinate, 0, 1 * direction));
 
     const startingRank = color === 'w' ? 2 : 7;
-    rank === startingRank && candidates.push(addCoordinates(coordinate, 0, 2));
+    rank === startingRank &&
+      candidates.push(addCoordinates(coordinate, 0, 2 * direction));
 
     const [leftDiagonalCoordinate, rightDiagonalCoordinate] = [
-      addCoordinates(coordinate, -1, 1),
-      addCoordinates(coordinate, 1, 1),
+      addCoordinates(coordinate, -1 * direction, 1 * direction),
+      addCoordinates(coordinate, 1 * direction, 1 * direction),
     ];
     const [pieceLeftDiagonal, pieceRightDiagonal] = getPiecesAtSquares(board, [
       leftDiagonalCoordinate,

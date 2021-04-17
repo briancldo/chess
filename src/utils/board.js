@@ -21,7 +21,7 @@ function getStartingPosition() {
     [undefined, 'bp'],
     [],
     [],
-    [],
+    [undefined, 'wp'],
     ['bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp'],
     ['br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br'],
   ];
