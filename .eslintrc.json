@@ -42,6 +42,7 @@
       "unicorn/prevent-abbreviations": "off",
       "unicorn/no-array-for-each": "off",
       "unicorn/no-null": "off",
+      "unicorn/consistent-function-scoping": "off",
       "react/prop-types": "off"
   },
   "settings": {
