@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 
 import Square from './Square';
-import config from '../../config/config';
-import * as boardUtils from '../../utils/board';
+import { ranks, files, getStartingPosition } from '../../utils/board';
 import './Board.css';
 
-const { numberRanks, numberFiles } = config.get('board.dimensions');
-const ranks = boardUtils.getRanks(numberRanks);
-const files = boardUtils.getFiles(numberFiles);
-
 export default function Board() {
-  const [position] = useState(boardUtils.getStartingPosition());
+  const [position] = useState(getStartingPosition());
 
   return <BoardUI position={position} />;
 }
