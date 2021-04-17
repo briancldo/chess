@@ -1,5 +1,6 @@
 import { DevError } from './errors';
 import config from '../config/config';
+import { validatePiece } from './pieces';
 
 const { numberRanks, numberFiles } = config.get('board.dimensions');
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
@@ -26,4 +27,67 @@ function getStartingPosition() {
   ];
 }
 
-export { files, ranks, getStartingPosition };
+function validateSquareCoordinate(coordinate) {
+  if (typeof coordinate !== 'string' || coordinate.length !== 2)
+    throw new DevError('Coordinate must be string of length 2.');
+
+  const [file, rank] = coordinate.split('');
+  if (!files.includes(file)) throw new DevError(`No such file: ${file}`);
+  if (!ranks.includes(rank)) throw new DevError(`No such rank: ${rank}`);
+}
+
+function fileToIndex(file) {
+  return alphabet.indexOf(file);
+}
+
+function rankToIndex(rank) {
+  return rank - 1;
+}
+
+function boardIndiciesToCoordinate(boardIndicies) {
+  const { rankIndex, fileIndex } = boardIndicies;
+
+  return {
+    rank: ranks[rankIndex],
+    file: files[fileIndex],
+  };
+}
+
+function coordinateToBoardIndicies(coordinate) {
+  validateSquareCoordinate(coordinate);
+
+  const [file, rank] = coordinate.split('');
+  return {
+    fileIndex: fileToIndex(file),
+    rankIndex: rankToIndex(rank),
+  };
+}
+
+function getPieceAtSquare(coordinate) {
+  const { rankIndex, fileIndex } = coordinateToBoardIndicies(coordinate);
+
+  const piece = coordinate[rankIndex][fileIndex];
+  validatePiece(piece);
+  return piece;
+}
+
+function addCoordinates(coordinate, x, y) {
+  validateSquareCoordinate(coordinate);
+
+  const [file, rank] = coordinate.split('');
+  const newFile = alphabet[alphabet.indexOf(file) + x];
+  const newRank = rank + y;
+
+  return `${newFile}${newRank}`;
+}
+
+export {
+  files,
+  ranks,
+  getStartingPosition,
+  validateSquareCoordinate,
+  coordinateToBoardIndicies,
+  boardIndiciesToCoordinate,
+  getPieceAtSquare,
+  addCoordinates,
+};
