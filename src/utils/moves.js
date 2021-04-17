@@ -1,4 +1,9 @@
-import { getPieceAtSquare, addCoordinates } from './board';
+import {
+  getPieceAtSquare,
+  getCoordinateParts,
+  addCoordinates,
+  getPiecesAtSquares,
+} from './board';
 
 function getPieceLegalMoves(board, pieceCoordinate) {
   const [pieceColor, pieceType] = getPieceAtSquare(
@@ -10,17 +15,29 @@ function getPieceLegalMoves(board, pieceCoordinate) {
 
 const computeCandidateSquares = {
   p: (coordinate, board, color) => {
-    const [, rank] = coordinate.split('');
-    const candidateSquares = [];
+    const { rank } = getCoordinateParts(coordinate);
+    const candidates = [];
 
-    candidateSquares.push(addCoordinates(coordinate, 0, 1));
+    candidates.push(addCoordinates(coordinate, 0, 1));
 
-    const startingRank = color === 'w' ? '2' : '7';
-    console.log({ color, rank, startingRank });
-    rank === startingRank &&
-      candidateSquares.push(addCoordinates(coordinate, 0, 2));
+    const startingRank = color === 'w' ? 2 : 7;
+    rank === startingRank && candidates.push(addCoordinates(coordinate, 0, 2));
 
-    return candidateSquares;
+    const [leftDiagonalCoordinate, rightDiagonalCoordinate] = [
+      addCoordinates(coordinate, -1, 1),
+      addCoordinates(coordinate, 1, 1),
+    ];
+    const [pieceLeftDiagonal, pieceRightDiagonal] = getPiecesAtSquares(board, [
+      leftDiagonalCoordinate,
+      rightDiagonalCoordinate,
+    ]);
+    if (pieceLeftDiagonal && pieceLeftDiagonal[0] !== color)
+      candidates.push(leftDiagonalCoordinate);
+    if (pieceRightDiagonal && pieceRightDiagonal[0] !== color) {
+      candidates.push(rightDiagonalCoordinate);
+    }
+
+    return candidates;
   },
 };
 
