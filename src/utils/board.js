@@ -16,14 +16,14 @@ Object.freeze(ranks);
 
 function getStartingPosition() {
   return [
-    ['br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br'],
-    ['bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp'],
-    [],
-    [],
-    [],
-    [],
-    ['wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp'],
     ['wr', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr'],
+    ['wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp'],
+    [],
+    [],
+    [],
+    [],
+    ['bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp'],
+    ['br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br'],
   ];
 }
 
@@ -33,7 +33,8 @@ function validateSquareCoordinate(coordinate) {
 
   const [file, rank] = coordinate.split('');
   if (!files.includes(file)) throw new DevError(`No such file: ${file}`);
-  if (!ranks.includes(rank)) throw new DevError(`No such rank: ${rank}`);
+  if (!ranks.includes(Number(rank)))
+    throw new DevError(`No such rank: ${rank}`);
 }
 
 function fileToIndex(file) {
@@ -41,7 +42,7 @@ function fileToIndex(file) {
 }
 
 function rankToIndex(rank) {
-  return rank - 1;
+  return Number(rank) - 1;
 }
 
 function boardIndiciesToCoordinate(boardIndicies) {
@@ -59,14 +60,14 @@ function coordinateToBoardIndicies(coordinate) {
   const [file, rank] = coordinate.split('');
   return {
     fileIndex: fileToIndex(file),
-    rankIndex: rankToIndex(rank),
+    rankIndex: rankToIndex(Number(rank)),
   };
 }
 
-function getPieceAtSquare(coordinate) {
+function getPieceAtSquare(board, coordinate) {
   const { rankIndex, fileIndex } = coordinateToBoardIndicies(coordinate);
 
-  const piece = coordinate[rankIndex][fileIndex];
+  const piece = board[rankIndex][fileIndex];
   validatePiece(piece);
   return piece;
 }
@@ -76,7 +77,7 @@ function addCoordinates(coordinate, x, y) {
 
   const [file, rank] = coordinate.split('');
   const newFile = alphabet[alphabet.indexOf(file) + x];
-  const newRank = rank + y;
+  const newRank = Number(rank) + y;
 
   return `${newFile}${newRank}`;
 }

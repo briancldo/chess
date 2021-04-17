@@ -8,6 +8,15 @@
   position: absolute;
 }
 
+.square-highlight-wrapper {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .piece-wrapper-outer {
   position: absolute;
   height: 100%;

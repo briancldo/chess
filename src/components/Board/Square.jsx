@@ -3,13 +3,12 @@ import React from 'react';
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
 import { validatePiece } from '../../utils/pieces';
-// import { getPieceLegalMoves } from '../../utils/moves';
 import './Square.css';
 
 const colorScheme = config.get('square.colors.default');
 
 export default function Square(props) {
-  const { light, containingPiece, coordinate, handlers } = props;
+  const { light, containingPiece, coordinate, highlighted, handlers } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);
 
@@ -24,6 +23,13 @@ export default function Square(props) {
         <rect width='5vw' height='5vw' style={{ fill: color }} />
       </svg>
       {containingPiece && <PieceWrapper {...{ containingPiece }} />}
+      {highlighted && (
+        <div className='square-highlight-wrapper'>
+          <svg height='5vw' width='5vw'>
+            <rect height='5vw' width='5vw' stroke='white' fill='transparent' />
+          </svg>
+        </div>
+      )}
     </div>
   );
 }
