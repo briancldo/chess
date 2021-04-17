@@ -10,7 +10,7 @@ if (numberFiles > alphabet.length)
 
 const files = alphabet.slice(0, numberFiles).split('');
 const ranks = [];
-for (let i = 1; i <= numberRanks; i++) ranks.push(i);
+for (let i = numberRanks; i >= 1; i--) ranks.push(i);
 Object.freeze(files);
 Object.freeze(ranks);
 

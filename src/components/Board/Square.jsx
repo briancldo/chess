@@ -3,16 +3,23 @@ import React from 'react';
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
 import { validatePiece } from '../../utils/pieces';
+// import { getPieceLegalMoves } from '../../utils/moves';
 import './Square.css';
+
 const colorScheme = config.get('square.colors.default');
 
 export default function Square(props) {
-  const { light, containingPiece } = props;
+  const { light, containingPiece, coordinate, handlers } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);
 
+  function handlePieceClick() {
+    handlers.setPieceFocus(containingPiece, coordinate);
+  }
+
   return (
-    <div className='square-wrapper'>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
+    <div className='square-wrapper' onClick={handlePieceClick}>
       <svg width='5vw' height='5vw' className='square-svg'>
         <rect width='5vw' height='5vw' style={{ fill: color }} />
       </svg>
