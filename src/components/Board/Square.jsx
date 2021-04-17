@@ -2,14 +2,14 @@ import React from 'react';
 
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
-import { DevError } from '../../utils/errors';
+import { validatePiece } from '../../utils/pieces';
 import './Square.css';
 const colorScheme = config.get('square.colors.default');
 
 export default function Square(props) {
   const { light, containingPiece } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
-  validateContainingPiece(containingPiece);
+  validatePiece(containingPiece);
 
   return (
     <div className='square-wrapper'>
@@ -32,22 +32,4 @@ function PieceWrapper(props) {
       </div>
     </div>
   );
-}
-
-const validPieceTypes = new Set(['k', 'q', 'r', 'b', 'n', 'p']);
-const validPieceColors = new Set(['b', 'w']);
-function validateContainingPiece(containingPiece) {
-  if (!containingPiece) return;
-
-  if (typeof containingPiece !== 'string' || containingPiece.length !== 2)
-    throw new DevError('Containing piece must be a string of length 2.');
-
-  const [color, type] = containingPiece.split('');
-  if (!type) throw new DevError('Containing piece must have type.');
-  if (!validPieceTypes.has(type))
-    throw new DevError(`Invalid piece type: ${type}`);
-
-  if (!color) throw new DevError('Containing piece must have a color');
-  if (!validPieceColors.has(color))
-    throw new DevError(`Invalid piece color: ${color}`);
 }
