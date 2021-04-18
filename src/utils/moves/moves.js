@@ -1,5 +1,6 @@
 import { getPieceAtSquare } from '../board';
 import kingMove from './king';
+import knightMove from './knight';
 import pawnMove from './pawn';
 
 function getPieceLegalMoves(board, square) {
@@ -9,7 +10,8 @@ function getPieceLegalMoves(board, square) {
     board,
     piece.color
   );
-  return excludeOccupiedSquares(candidates);
+
+  return excludeOccupiedSquares(candidates, board, piece.color);
 }
 
 const movePlaceholder = () => [];
@@ -19,7 +21,7 @@ const computeCandidateSquares = {
   q: movePlaceholder,
   r: movePlaceholder,
   b: movePlaceholder,
-  n: movePlaceholder,
+  n: knightMove,
   p: pawnMove,
 };
 
