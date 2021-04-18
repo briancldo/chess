@@ -9,8 +9,7 @@
     "colors": {
       "default": {
         "light": "#8080FF",
-        "dark": "#6465FA",
-        "darkComplementary": "#FADF64"
+        "dark": "#6465FA"
       }
     }
   }
