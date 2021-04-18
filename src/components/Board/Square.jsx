@@ -56,11 +56,12 @@ function SquareHighlight(props) {
 
   return (
     <div className='square-highlight-wrapper'>
-      <svg height='5vw' width='5vw'>
+      <svg height='4.5vw' width='4.5vw'>
         <rect
-          height='5vw'
-          width='5vw'
+          height='4.5vw'
+          width='4.5vw'
           stroke={strokeColor}
+          strokeWidth='0.25vw'
           fill='transparent'
         />
       </svg>
