@@ -8,12 +8,12 @@ import './Square.css';
 const colorScheme = config.get('square.colors.default');
 
 export default function Square(props) {
-  const { light, containingPiece, coordinate, highlighted, handlers } = props;
+  const { light, containingPiece, square, highlighted, handlers } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);
 
   function handlePieceClick() {
-    handlers.setPieceFocus(containingPiece, coordinate);
+    handlers.setPieceFocus(containingPiece, square);
   }
 
   return (

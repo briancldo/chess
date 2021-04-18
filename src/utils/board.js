@@ -24,8 +24,8 @@ function matchingSquares(square1, square2) {
   return square1.rank === square2.rank && square1.file === square2.file;
 }
 
-function getPieceAtSquare(board, coordinate, options) {
-  const { rank, file } = coordinate;
+function getPieceAtSquare(board, square, options = {}) {
+  const { rank, file } = square;
 
   const piece = board[rank][file];
   if (!piece) return;
@@ -33,4 +33,24 @@ function getPieceAtSquare(board, coordinate, options) {
   return piece;
 }
 
-export { files, ranks, getStartingPosition, matchingSquares, getPieceAtSquare };
+function getSquareAtOffset(square, offsetX, offsetY) {
+  const { file, rank } = square;
+
+  const newFile = alphabet[alphabet.indexOf(file) + offsetX];
+  const newRank = rank + offsetY;
+  if (!files.includes(newFile))
+    throw new Error(`OffsetX too large. File: ${file}, offseetX: ${offsetX}`);
+  if (!ranks.includes(newRank))
+    throw new Error(`OffsetY too large. Rank: ${rank}, offseetY: ${offsetY}`);
+
+  return { file: newFile, rank: newRank };
+}
+
+export {
+  files,
+  ranks,
+  getStartingPosition,
+  matchingSquares,
+  getPieceAtSquare,
+  getSquareAtOffset,
+};

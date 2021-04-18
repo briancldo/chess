@@ -7,7 +7,7 @@ import {
   getStartingPosition,
   matchingSquares,
 } from '../../utils/board';
-import { getPieceLegalMoves } from '../../utils/moves';
+import { getPieceLegalMoves } from '../../utils/moves/moves';
 import './Board.css';
 
 export default function Board() {
@@ -16,16 +16,14 @@ export default function Board() {
   const [candidateSquares, setCandidateSquares] = useState([]);
 
   useEffect(() => {
-    if (focusedPiece.coordinate)
-      setCandidateSquares(
-        getPieceLegalMoves(position, focusedPiece.coordinate)
-      );
+    if (focusedPiece.square)
+      setCandidateSquares(getPieceLegalMoves(position, focusedPiece.square));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusedPiece]);
 
   const handlers = {
-    setPieceFocus: (piece, coordinate) => {
-      if (piece && coordinate) setFocusedPiece({ piece, coordinate });
+    setPieceFocus: (piece, square) => {
+      if (piece && square) setFocusedPiece({ piece, square });
     },
   };
   const data = { candidateSquares };
@@ -59,9 +57,9 @@ function Rank(props) {
   return (
     <div className='rank-wrapper'>
       {files.map((file, index) => {
-        const coordinate = { rank: number, file };
-        const highlighted = data.candidateSquares.some((square) =>
-          matchingSquares(square, coordinate)
+        const square = { rank: number, file };
+        const highlighted = data.candidateSquares.some((candidateSquare) =>
+          matchingSquares(candidateSquare, square)
         );
 
         return (
@@ -69,7 +67,7 @@ function Rank(props) {
             key={`rank${number}-file${file}`}
             light={index % 2 === lightSquareParity}
             containingPiece={rankPosition[file]}
-            coordinate={coordinate}
+            square={square}
             highlighted={highlighted}
             handlers={handlers}
           />
