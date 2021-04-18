@@ -7,8 +7,14 @@ function getPieceLegalMoves(board, square) {
   return computeCandidateSquares[piece.type](square, board, piece.color);
 }
 
+const movePlaceholder = () => [];
+
 const computeCandidateSquares = {
   k: kingMove,
+  q: movePlaceholder,
+  r: movePlaceholder,
+  b: movePlaceholder,
+  n: movePlaceholder,
   p: pawnMove,
 };
 
