@@ -22,7 +22,7 @@ function Square(props) {
   validatePiece(containingPiece);
 
   function handleSquareClick() {
-    if (highlighted) handlers.movePiece(square);
+    if (highlighted) return handlers.movePiece(square);
 
     if (currentlyFocusedPiece || (!containingPiece && !highlighted))
       return handlers.removePieceFocus();
