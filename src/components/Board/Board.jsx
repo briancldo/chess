@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import Square from './Square';
-import { ranks, files, getStartingPosition } from '../../utils/board';
+import {
+  ranks,
+  files,
+  getStartingPosition,
+  matchingSquares,
+} from '../../utils/board';
 import { getPieceLegalMoves } from '../../utils/moves';
 import './Board.css';
 
@@ -36,7 +41,7 @@ function BoardUI(props) {
         <React.Fragment key={`rank${rank}`}>
           <Rank
             number={rank}
-            position={position[rank - 1]}
+            rankPosition={position[rank]}
             handlers={handlers}
             data={data}
           />
@@ -48,20 +53,22 @@ function BoardUI(props) {
 }
 
 function Rank(props) {
-  const { number, position, handlers, data } = props;
+  const { number, rankPosition, handlers, data } = props;
   const lightSquareParity = number % 2;
 
   return (
     <div className='rank-wrapper'>
       {files.map((file, index) => {
-        const coordinate = `${file}${number}`;
-        const highlighted = data.candidateSquares.includes(coordinate);
+        const coordinate = { rank: number, file };
+        const highlighted = data.candidateSquares.some((square) =>
+          matchingSquares(square, coordinate)
+        );
 
         return (
           <Square
             key={`rank${number}-file${file}`}
             light={index % 2 === lightSquareParity}
-            containingPiece={position[index]}
+            containingPiece={rankPosition[file]}
             coordinate={coordinate}
             highlighted={highlighted}
             handlers={handlers}

@@ -18,4 +18,11 @@ function validatePiece(piece) {
     throw new DevError(`Invalid piece color: ${color}`);
 }
 
-export { validatePiece };
+function pieceStringToObject(pieceString) {
+  validatePiece(pieceString);
+
+  const [color, type] = pieceString.split('');
+  return { color, type };
+}
+
+export { validatePiece, pieceStringToObject };
