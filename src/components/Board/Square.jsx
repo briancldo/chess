@@ -37,10 +37,8 @@ function Square(props) {
       <svg width='5vw' height='5vw' className='square-svg'>
         <rect width='5vw' height='5vw' style={squareStyle} />
       </svg>
-      {containingPiece && <PieceWrapper {...{ containingPiece }} />}
-      {(highlighted || currentlyFocusedPiece) && (
-        <SquareHighlight focusedPiece={currentlyFocusedPiece} />
-      )}
+      <PieceWrapper {...{ containingPiece }} />
+      <SquareHighlight {...{ highlighted, currentlyFocusedPiece }} />
     </div>
   );
 }
@@ -56,6 +54,7 @@ function PieceWrapper(props) {
   const { containingPiece } = props;
   const { color, type } = containingPiece;
 
+  if (!containingPiece) return null;
   return (
     <div className='piece-wrapper-outer'>
       <div className='piece-wrapper-inner'>
@@ -66,9 +65,10 @@ function PieceWrapper(props) {
 }
 
 function SquareHighlight(props) {
-  const { focusedPiece } = props;
-  const strokeColor = focusedPiece ? 'red' : 'white';
+  const { highlighted, currentlyFocusedPiece } = props;
+  const strokeColor = currentlyFocusedPiece ? 'red' : 'white';
 
+  if (!highlighted && !currentlyFocusedPiece) return null;
   return (
     <div className='square-highlight-wrapper'>
       <svg height='4.5vw' width='4.5vw'>
