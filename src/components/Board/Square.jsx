@@ -52,9 +52,9 @@ export default React.memo(Square, (oldProps, newProps) => {
 
 function PieceWrapper(props) {
   const { containingPiece } = props;
+  if (!containingPiece) return null;
   const { color, type } = containingPiece;
 
-  if (!containingPiece) return null;
   return (
     <div className='piece-wrapper-outer'>
       <div className='piece-wrapper-inner'>
@@ -66,9 +66,9 @@ function PieceWrapper(props) {
 
 function SquareHighlight(props) {
   const { highlighted, currentlyFocusedPiece } = props;
+  if (!highlighted && !currentlyFocusedPiece) return null;
   const strokeColor = currentlyFocusedPiece ? 'red' : 'white';
 
-  if (!highlighted && !currentlyFocusedPiece) return null;
   return (
     <div className='square-highlight-wrapper'>
       <svg height='4.5vw' width='4.5vw'>
