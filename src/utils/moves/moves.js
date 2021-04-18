@@ -1,4 +1,5 @@
 import { getPieceAtSquare } from '../board';
+import kingMove from './king';
 import pawnMove from './pawn';
 
 function getPieceLegalMoves(board, square) {
@@ -7,9 +8,8 @@ function getPieceLegalMoves(board, square) {
 }
 
 const computeCandidateSquares = {
+  k: kingMove,
   p: pawnMove,
 };
-
-// function removeImpossibleCandidateSquares() {}
 
 export { getPieceLegalMoves };
