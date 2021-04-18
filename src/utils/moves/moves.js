@@ -1,5 +1,6 @@
 import { getPieceAtSquare } from '../board';
 import kingMove from './king';
+import queenMove from './queen';
 import rookMove from './rook';
 import bishopMove from './bishop';
 import knightMove from './knight';
@@ -19,11 +20,9 @@ function getPieceLegalMoves(board, square) {
   return excludeOccupiedSquares(candidates, board, piece.color);
 }
 
-const movePlaceholder = () => [];
-
 const computeCandidateSquares = {
   k: kingMove,
-  q: movePlaceholder,
+  q: queenMove,
   r: rookMove,
   b: bishopMove,
   n: knightMove,
