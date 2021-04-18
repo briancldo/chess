@@ -26,7 +26,7 @@ export default function Board() {
       if (piece && square) setFocusedPiece({ piece, square });
     },
   };
-  const data = { candidateSquares };
+  const data = { candidateSquares, focusedPiece };
   return <BoardUI {...{ position, handlers, data }} />;
 }
 
@@ -61,6 +61,10 @@ function Rank(props) {
         const highlighted = data.candidateSquares.some((candidateSquare) =>
           matchingSquares(candidateSquare, square)
         );
+        const currentlyFocusedPiece = matchingSquares(
+          data.focusedPiece.square || {},
+          square
+        );
 
         return (
           <Square
@@ -69,6 +73,7 @@ function Rank(props) {
             containingPiece={rankPosition[file]}
             square={square}
             highlighted={highlighted}
+            currentlyFocusedPiece={currentlyFocusedPiece}
             handlers={handlers}
           />
         );

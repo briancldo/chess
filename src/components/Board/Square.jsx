@@ -8,7 +8,14 @@ import './Square.css';
 const colorScheme = config.get('square.colors.default');
 
 export default function Square(props) {
-  const { light, containingPiece, square, highlighted, handlers } = props;
+  const {
+    light,
+    containingPiece,
+    square,
+    highlighted,
+    currentlyFocusedPiece,
+    handlers,
+  } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);
 
@@ -23,12 +30,8 @@ export default function Square(props) {
         <rect width='5vw' height='5vw' style={{ fill: color }} />
       </svg>
       {containingPiece && <PieceWrapper {...{ containingPiece }} />}
-      {highlighted && (
-        <div className='square-highlight-wrapper'>
-          <svg height='5vw' width='5vw'>
-            <rect height='5vw' width='5vw' stroke='white' fill='transparent' />
-          </svg>
-        </div>
+      {(highlighted || currentlyFocusedPiece) && (
+        <SquareHighlight focusedPiece={currentlyFocusedPiece} />
       )}
     </div>
   );
@@ -43,6 +46,24 @@ function PieceWrapper(props) {
       <div className='piece-wrapper-inner'>
         <Piece {...{ type, color }} />
       </div>
+    </div>
+  );
+}
+
+function SquareHighlight(props) {
+  const { focusedPiece } = props;
+  const strokeColor = focusedPiece ? 'red' : 'white';
+
+  return (
+    <div className='square-highlight-wrapper'>
+      <svg height='5vw' width='5vw'>
+        <rect
+          height='5vw'
+          width='5vw'
+          stroke={strokeColor}
+          fill='transparent'
+        />
+      </svg>
     </div>
   );
 }
