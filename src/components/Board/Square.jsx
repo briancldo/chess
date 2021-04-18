@@ -1,4 +1,6 @@
 import React from 'react';
+import areObjectsEqual from 'lodash/isEqual';
+import omit from 'lodash/omit';
 
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
@@ -7,7 +9,7 @@ import './Square.css';
 
 const colorScheme = config.get('square.colors.default');
 
-export default function Square(props) {
+function Square(props) {
   const {
     light,
     containingPiece,
@@ -18,16 +20,18 @@ export default function Square(props) {
   } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);
+  console.log('square');
 
   function handlePieceClick() {
     handlers.setPieceFocus(containingPiece, square);
   }
 
+  const squareStyle = { fill: color };
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
     <div className='square-wrapper' onClick={handlePieceClick}>
       <svg width='5vw' height='5vw' className='square-svg'>
-        <rect width='5vw' height='5vw' style={{ fill: color }} />
+        <rect width='5vw' height='5vw' style={squareStyle} />
       </svg>
       {containingPiece && <PieceWrapper {...{ containingPiece }} />}
       {(highlighted || currentlyFocusedPiece) && (
@@ -36,6 +40,13 @@ export default function Square(props) {
     </div>
   );
 }
+const squareIrrelevantProps = ['handlers', 'key', 'get', '__proto__'];
+export default React.memo(Square, (oldProps, newProps) => {
+  return areObjectsEqual(
+    omit(oldProps, squareIrrelevantProps),
+    omit(newProps, squareIrrelevantProps)
+  );
+});
 
 function PieceWrapper(props) {
   const { containingPiece } = props;
