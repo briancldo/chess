@@ -1,4 +1,4 @@
-import { getPieceAtSquare, getSquareAtOffset } from '../board';
+import { getLegalSquaresInDirection } from './utils';
 
 const offsetDirections = [
   [1, 0],
@@ -14,32 +14,6 @@ export default function rookMove(square, board, color) {
     squares.push(
       ...getLegalSquaresInDirection(square, board, color, offsetDirection)
     );
-  }
-
-  return squares;
-}
-
-function getLegalSquaresInDirection(square, board, color, offsetDirection) {
-  const squares = [];
-  let currentSquare = square;
-  const [offsetX, offsetY] = offsetDirection;
-  let done = false;
-
-  while (!done) {
-    try {
-      currentSquare = getSquareAtOffset(currentSquare, offsetX, offsetY);
-      const currentSquarePiece = getPieceAtSquare(board, currentSquare);
-
-      if (!currentSquarePiece) {
-        squares.push(currentSquare);
-        continue;
-      }
-
-      if (currentSquarePiece.color !== color) squares.push(currentSquare);
-      done = true;
-    } catch {
-      done = true;
-    }
   }
 
   return squares;
