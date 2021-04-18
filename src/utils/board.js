@@ -1,31 +1,50 @@
+import cloneDeep from 'lodash/cloneDeep';
 import { DevError } from './errors';
+import config from '../config/config';
+import initialBoardPosition from './board.init.json';
 
+const { numberRanks, numberFiles } = config.get('board.dimensions');
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
-function getFiles(count) {
-  if (count > alphabet.length)
-    throw new DevError(`Max file size is ${alphabet.length}`);
+if (numberFiles > alphabet.length)
+  throw new DevError(`Max file size is ${alphabet.length}`);
 
-  return alphabet.slice(0, count).split('');
-}
-
-function getRanks(count) {
-  const ranks = [];
-  for (let i = 1; i <= count; i++) ranks.push(i);
-  return ranks;
-}
+const files = alphabet.slice(0, numberFiles).split('');
+const ranks = [];
+for (let i = numberRanks; i >= 1; i--) ranks.push(i);
+Object.freeze(files);
+Object.freeze(ranks);
 
 function getStartingPosition() {
-  return [
-    ['br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br'],
-    ['bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp'],
-    [],
-    [],
-    [],
-    [],
-    ['wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp'],
-    ['wr', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr'],
-  ];
+  return cloneDeep(initialBoardPosition);
 }
 
-export { getFiles, getRanks, getStartingPosition };
+function matchingSquares(square1, square2) {
+  return square1.rank === square2.rank && square1.file === square2.file;
+}
+
+function getPieceAtSquare(board, square) {
+  return board[square.rank][square.file];
+}
+
+function getSquareAtOffset(square, offsetX, offsetY) {
+  const { file, rank } = square;
+
+  const newFile = alphabet[alphabet.indexOf(file) + offsetX];
+  const newRank = rank + offsetY;
+  if (!files.includes(newFile))
+    throw new Error(`OffsetX too large. File: ${file}, offseetX: ${offsetX}`);
+  if (!ranks.includes(newRank))
+    throw new Error(`OffsetY too large. Rank: ${rank}, offseetY: ${offsetY}`);
+
+  return { file: newFile, rank: newRank };
+}
+
+export {
+  files,
+  ranks,
+  getStartingPosition,
+  matchingSquares,
+  getPieceAtSquare,
+  getSquareAtOffset,
+};

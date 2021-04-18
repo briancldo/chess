@@ -2,28 +2,44 @@ import React from 'react';
 
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
-import { DevError } from '../../utils/errors';
+import { validatePiece } from '../../utils/pieces';
 import './Square.css';
+
 const colorScheme = config.get('square.colors.default');
 
 export default function Square(props) {
-  const { light, containingPiece } = props;
+  const {
+    light,
+    containingPiece,
+    square,
+    highlighted,
+    currentlyFocusedPiece,
+    handlers,
+  } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
-  validateContainingPiece(containingPiece);
+  validatePiece(containingPiece);
+
+  function handlePieceClick() {
+    handlers.setPieceFocus(containingPiece, square);
+  }
 
   return (
-    <div className='square-wrapper'>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
+    <div className='square-wrapper' onClick={handlePieceClick}>
       <svg width='5vw' height='5vw' className='square-svg'>
         <rect width='5vw' height='5vw' style={{ fill: color }} />
       </svg>
       {containingPiece && <PieceWrapper {...{ containingPiece }} />}
+      {(highlighted || currentlyFocusedPiece) && (
+        <SquareHighlight focusedPiece={currentlyFocusedPiece} />
+      )}
     </div>
   );
 }
 
 function PieceWrapper(props) {
   const { containingPiece } = props;
-  const [color, type] = containingPiece.split('');
+  const { color, type } = containingPiece;
 
   return (
     <div className='piece-wrapper-outer'>
@@ -34,20 +50,20 @@ function PieceWrapper(props) {
   );
 }
 
-const validPieceTypes = new Set(['k', 'q', 'r', 'b', 'n', 'p']);
-const validPieceColors = new Set(['b', 'w']);
-function validateContainingPiece(containingPiece) {
-  if (!containingPiece) return;
+function SquareHighlight(props) {
+  const { focusedPiece } = props;
+  const strokeColor = focusedPiece ? 'red' : 'white';
 
-  if (typeof containingPiece !== 'string' || containingPiece.length !== 2)
-    throw new DevError('Containing piece must be a string of length 2.');
-
-  const [color, type] = containingPiece.split('');
-  if (!type) throw new DevError('Containing piece must have type.');
-  if (!validPieceTypes.has(type))
-    throw new DevError(`Invalid piece type: ${type}`);
-
-  if (!color) throw new DevError('Containing piece must have a color');
-  if (!validPieceColors.has(color))
-    throw new DevError(`Invalid piece color: ${color}`);
+  return (
+    <div className='square-highlight-wrapper'>
+      <svg height='5vw' width='5vw'>
+        <rect
+          height='5vw'
+          width='5vw'
+          stroke={strokeColor}
+          fill='transparent'
+        />
+      </svg>
+    </div>
+  );
 }
