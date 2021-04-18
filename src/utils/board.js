@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { DevError } from './errors';
 import config from '../config/config';
-import initialBoardPosition from './board.init';
+import initialBoardPosition from './board.init.json';
 import { pieceStringToObject } from './pieces';
 
 const { numberRanks, numberFiles } = config.get('board.dimensions');
