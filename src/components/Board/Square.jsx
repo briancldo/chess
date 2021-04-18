@@ -20,7 +20,6 @@ function Square(props) {
   } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);
-  console.log('square');
 
   function handlePieceClick() {
     handlers.setPieceFocus(containingPiece, square);
