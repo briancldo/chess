@@ -25,6 +25,10 @@ export default function Board() {
     setPieceFocus: (piece, square) => {
       if (piece && square) setFocusedPiece({ piece, square });
     },
+    removePieceFocus: () => {
+      setFocusedPiece({});
+      setCandidateSquares([]);
+    },
   };
   const data = { candidateSquares, focusedPiece };
   return <BoardUI {...{ position, handlers, data }} />;

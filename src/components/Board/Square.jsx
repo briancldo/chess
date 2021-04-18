@@ -22,6 +22,8 @@ function Square(props) {
   validatePiece(containingPiece);
 
   function handlePieceClick() {
+    if (currentlyFocusedPiece) return handlers.removePieceFocus();
+
     handlers.setPieceFocus(containingPiece, square);
   }
 
