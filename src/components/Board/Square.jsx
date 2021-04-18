@@ -21,16 +21,19 @@ function Square(props) {
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);
 
-  function handlePieceClick() {
+  function handleSquareClick() {
+    if (highlighted) handlers.movePiece(square);
+
     if (currentlyFocusedPiece || (!containingPiece && !highlighted))
       return handlers.removePieceFocus();
+
     handlers.setPieceFocus(containingPiece, square);
   }
 
   const squareStyle = { fill: color };
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-    <div className='square-wrapper' onClick={handlePieceClick}>
+    <div className='square-wrapper' onClick={handleSquareClick}>
       <svg width='5vw' height='5vw' className='square-svg'>
         <rect width='5vw' height='5vw' style={squareStyle} />
       </svg>

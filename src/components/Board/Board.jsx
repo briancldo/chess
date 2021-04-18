@@ -4,14 +4,15 @@ import Square from './Square';
 import {
   ranks,
   files,
-  getStartingPosition,
   matchingSquares,
+  movePiece as movePieceUtil,
 } from '../../utils/board';
 import { getPieceLegalMoves } from '../../utils/moves/moves';
+import initialBoardPosition from '../../utils/board.init.json';
 import './Board.css';
 
 export default function Board() {
-  const [position] = useState(getStartingPosition());
+  const [position, setPosition] = useState(initialBoardPosition);
   const [focusedPiece, setFocusedPiece] = useState({});
   const [candidateSquares, setCandidateSquares] = useState([]);
 
@@ -21,15 +22,18 @@ export default function Board() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusedPiece]);
 
-  const handlers = {
-    setPieceFocus: (piece, square) => {
-      if (piece && square) setFocusedPiece({ piece, square });
-    },
-    removePieceFocus: () => {
-      setFocusedPiece({});
-      setCandidateSquares([]);
-    },
-  };
+  function setPieceFocus(piece, square) {
+    if (piece && square) setFocusedPiece({ piece, square });
+  }
+  function removePieceFocus() {
+    setFocusedPiece({});
+    setCandidateSquares([]);
+  }
+  function movePiece(destination) {
+    setPosition(movePieceUtil(position, focusedPiece.square, destination));
+    removePieceFocus();
+  }
+  const handlers = { setPieceFocus, removePieceFocus, movePiece };
   const data = { candidateSquares, focusedPiece };
   return <BoardUI {...{ position, handlers, data }} />;
 }
