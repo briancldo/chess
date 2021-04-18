@@ -30,13 +30,10 @@ function Square(props) {
     handlers.setPieceFocus(containingPiece, square);
   }
 
-  const squareStyle = { fill: color };
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
     <div className='square-wrapper' onClick={handleSquareClick}>
-      <svg width='5vw' height='5vw' className='square-svg'>
-        <rect width='5vw' height='5vw' style={squareStyle} />
-      </svg>
+      <SquareUI color={color} />
       <PieceWrapper {...{ containingPiece }} />
       <SquareHighlight {...{ highlighted, currentlyFocusedPiece }} />
     </div>
@@ -49,6 +46,17 @@ export default React.memo(Square, (oldProps, newProps) => {
     omit(newProps, squareIrrelevantProps)
   );
 });
+
+function SquareUI(props) {
+  const { color } = props;
+  const squareStyle = { fill: color };
+
+  return (
+    <svg width='5vw' height='5vw' className='square-svg'>
+      <rect width='5vw' height='5vw' style={squareStyle} />
+    </svg>
+  );
+}
 
 function PieceWrapper(props) {
   const { containingPiece } = props;
