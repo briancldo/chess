@@ -1,6 +1,7 @@
 import { getPieceAtSquare } from '../board';
 import kingMove from './king';
 import rookMove from './rook';
+import bishopMove from './bishop';
 import knightMove from './knight';
 import pawnMove from './pawn';
 
@@ -15,7 +16,6 @@ function getPieceLegalMoves(board, square) {
   );
 
   if (!piecesNeedExcludeLogic.has(piece.type)) return candidates;
-  console.log('needs for exclude logic');
   return excludeOccupiedSquares(candidates, board, piece.color);
 }
 
@@ -25,7 +25,7 @@ const computeCandidateSquares = {
   k: kingMove,
   q: movePlaceholder,
   r: rookMove,
-  b: movePlaceholder,
+  b: bishopMove,
   n: knightMove,
   p: pawnMove,
 };
