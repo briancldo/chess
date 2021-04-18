@@ -2,7 +2,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import { DevError } from './errors';
 import config from '../config/config';
 import initialBoardPosition from './board.init.json';
-import { pieceStringToObject } from './pieces';
 
 const { numberRanks, numberFiles } = config.get('board.dimensions');
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
@@ -24,13 +23,8 @@ function matchingSquares(square1, square2) {
   return square1.rank === square2.rank && square1.file === square2.file;
 }
 
-function getPieceAtSquare(board, square, options = {}) {
-  const { rank, file } = square;
-
-  const piece = board[rank][file];
-  if (!piece) return;
-  if (options.object) return pieceStringToObject(piece);
-  return piece;
+function getPieceAtSquare(board, square) {
+  return board[square.rank][square.file];
 }
 
 function getSquareAtOffset(square, offsetX, offsetY) {

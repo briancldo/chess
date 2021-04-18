@@ -36,7 +36,7 @@ export default function Square(props) {
 
 function PieceWrapper(props) {
   const { containingPiece } = props;
-  const [color, type] = containingPiece.split('');
+  const { color, type } = containingPiece;
 
   return (
     <div className='piece-wrapper-outer'>
