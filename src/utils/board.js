@@ -9,21 +9,22 @@ const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 if (numberFiles > alphabet.length)
   throw new DevError(`Max file size is ${alphabet.length}`);
 
-const files = alphabet.slice(0, numberFiles).split('');
-const ranks = [];
+export const files = alphabet.slice(0, numberFiles).split('');
+export const ranks = [];
+
 for (let i = numberRanks; i >= 1; i--) ranks.push(i);
 Object.freeze(files);
 Object.freeze(ranks);
 
-function matchingSquares(square1, square2) {
+export function matchingSquares(square1, square2) {
   return square1.rank === square2.rank && square1.file === square2.file;
 }
 
-function getPieceAtSquare(board, square) {
+export function getPieceAtSquare(board, square) {
   return board[square.rank][square.file];
 }
 
-function getSquareAtOffset(square, offsetX, offsetY) {
+export function getSquareAtOffset(square, offsetX, offsetY) {
   const { file, rank } = square;
 
   const newFile = alphabet[alphabet.indexOf(file) + offsetX];
@@ -45,7 +46,7 @@ function validateSquare(square) {
   if (!files.includes(file)) throw new DevError(`Invalid file: ${file}`);
 }
 
-function movePiece(board, start, end) {
+export function movePiece(board, start, end) {
   validateSquare(start);
   validateSquare(end);
 
@@ -57,12 +58,3 @@ function movePiece(board, start, end) {
     draft[start.rank][start.file] = undefined;
   });
 }
-
-export {
-  files,
-  ranks,
-  matchingSquares,
-  getPieceAtSquare,
-  getSquareAtOffset,
-  movePiece,
-};

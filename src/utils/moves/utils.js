@@ -1,6 +1,11 @@
 import { getSquareAtOffset, getPieceAtSquare } from '../board';
 
-function getLegalSquaresInDirection(square, board, color, offsetDirection) {
+export function getLegalSquaresInDirection(
+  square,
+  board,
+  color,
+  offsetDirection
+) {
   const squares = [];
   let currentSquare = square;
   const [offsetX, offsetY] = offsetDirection;
@@ -25,5 +30,3 @@ function getLegalSquaresInDirection(square, board, color, offsetDirection) {
 
   return squares;
 }
-
-export { getLegalSquaresInDirection };

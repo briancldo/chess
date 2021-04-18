@@ -8,7 +8,7 @@ import pawnMove from './pawn';
 
 const piecesNeedExcludeLogic = new Set(['k', 'n', 'p']);
 
-function getPieceLegalMoves(board, square) {
+export function getPieceLegalMoves(board, square) {
   const piece = getPieceAtSquare(board, square, { object: true });
   const candidates = computeCandidateSquares[piece.type](
     square,
@@ -38,5 +38,3 @@ function excludeOccupiedSquares(squares, board, color) {
     return false;
   });
 }
-
-export { getPieceLegalMoves };

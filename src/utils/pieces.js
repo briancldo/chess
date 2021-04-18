@@ -15,7 +15,7 @@ function validateType(type) {
     throw new DevError(`Invalid piece type: ${type}`);
 }
 
-function validatePiece(piece) {
+export function validatePiece(piece) {
   if (!piece) return;
 
   if (typeof piece !== 'object' || !piece.color || !piece.type)
@@ -34,11 +34,9 @@ function validatePieceString(pieceString) {
   validateType(type);
 }
 
-function constructPiece(pieceString) {
+export function constructPiece(pieceString) {
   validatePieceString(pieceString);
 
   const [color, type] = pieceString.split('');
   return { color, type };
 }
-
-export { validatePiece, constructPiece };
