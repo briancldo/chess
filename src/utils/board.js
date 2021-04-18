@@ -36,9 +36,22 @@ function getSquareAtOffset(square, offsetX, offsetY) {
   return { file: newFile, rank: newRank };
 }
 
+function validateSquare(square) {
+  if (typeof square !== 'object' || !square.rank || !square.file)
+    throw new DevError('Square must have rank and file properties.');
+
+  const { rank, file } = square;
+  if (!ranks.includes(rank)) throw new DevError(`Invalid rank: ${rank}`);
+  if (!files.includes(file)) throw new DevError(`Invalid file: ${file}`);
+}
+
 function movePiece(board, start, end) {
-  // validation
+  validateSquare(start);
+  validateSquare(end);
+
   const piece = getPieceAtSquare(board, start);
+  if (!piece) throw new DevError(`No piece at start square ${start}`);
+
   return produce(board, (draft) => {
     draft[end.rank][end.file] = piece;
     draft[start.rank][start.file] = undefined;
