@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import Rank from './Rank';
 import { ranks, movePiece as movePieceUtil } from '../../utils/board';
-import { awaitAllPromises } from '../../utils/utils';
 import { getPieceLegalMoves } from '../../utils/moves/moves';
 import initialBoardPosition from '../../utils/board.init.json';
 import './Board.css';
+import { DevError } from '../../utils/errors';
 
 export default function Board() {
   const [position, setPosition] = useState(initialBoardPosition);
@@ -25,13 +25,31 @@ export default function Board() {
     setFocusedPiece({});
     setCandidateSquares([]);
   }
+
+  const hooks = {
+    moves: {
+      pre: {
+        enPassant: () => ({}),
+      },
+      post: {},
+    },
+  };
+  function validateMoveHooks(hooks, type) {
+    hooks.forEach((hook) => {
+      if (!hooks.moves[type][hook])
+        throw new DevError(`Hook doesn't exist: ${hook}`);
+    });
+  }
   function movePiece(destination, preMoveHooks, postMoveHooks) {
-    if (preMoveHooks) awaitAllPromises(preMoveHooks);
+    validateMoveHooks(preMoveHooks, 'pre');
+    validateMoveHooks(postMoveHooks, 'post');
+
+    if (preMoveHooks) preMoveHooks.forEach((hook) => hooks.moves.pre[hook]());
 
     setPosition(movePieceUtil(position, focusedPiece.square, destination));
 
-    if (postMoveHooks) awaitAllPromises(postMoveHooks);
-    removePieceFocus();
+    if (postMoveHooks)
+      postMoveHooks.forEach((hook) => hooks.moves.post[hook]());
   }
   const handlers = { setPieceFocus, removePieceFocus, movePiece };
   const data = { candidateSquares, focusedPiece };
