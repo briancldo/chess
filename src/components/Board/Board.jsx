@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Rank from './Rank';
 import { ranks, movePiece as movePieceUtil } from '../../utils/board';
+import { awaitAllPromises } from '../../utils/utils';
 import { getPieceLegalMoves } from '../../utils/moves/moves';
 import initialBoardPosition from '../../utils/board.init.json';
 import './Board.css';
@@ -24,8 +25,12 @@ export default function Board() {
     setFocusedPiece({});
     setCandidateSquares([]);
   }
-  function movePiece(destination) {
+  function movePiece(destination, preMoveHooks, postMoveHooks) {
+    if (preMoveHooks) awaitAllPromises(preMoveHooks);
+
     setPosition(movePieceUtil(position, focusedPiece.square, destination));
+
+    if (postMoveHooks) awaitAllPromises(postMoveHooks);
     removePieceFocus();
   }
   const handlers = { setPieceFocus, removePieceFocus, movePiece };
