@@ -35,6 +35,7 @@ export default function Board() {
     },
   };
   function validateMoveHooks(hooks, type) {
+    if (!hooks) return;
     hooks.forEach((hook) => {
       if (!hooks.moves[type][hook])
         throw new DevError(`Hook doesn't exist: ${hook}`);
@@ -50,6 +51,7 @@ export default function Board() {
 
     if (postMoveHooks)
       postMoveHooks.forEach((hook) => hooks.moves.post[hook]());
+    removePieceFocus();
   }
   const handlers = { setPieceFocus, removePieceFocus, movePiece };
   const data = { candidateSquares, focusedPiece };
