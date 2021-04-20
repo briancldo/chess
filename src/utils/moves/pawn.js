@@ -50,7 +50,6 @@ function moveStraightTwice(square, board, direction) {
   return [twoSquaresAhead];
 }
 
-// TODO: en passant
 function attackDiagonally(square, board, color) {
   const leftDiagonalSquare = attackLeftDiagonal(square, board, color);
   const rightDiagonalSquare = attackRightDiagonal(square, board, color);
@@ -70,7 +69,23 @@ function attackLeftDiagonal(square, board, color) {
   const leftDiagonalPiece = getPieceAtSquare(board, leftDiagonalSquare, {
     object: true,
   });
-  if (!leftDiagonalPiece || leftDiagonalPiece.color === color) return [];
+  if (leftDiagonalPiece?.color === color) return [];
+
+  let leftSquare;
+  try {
+    leftSquare = getSquareAtOffset(square, -1 * direction, 0);
+  } catch {
+    return [];
+  }
+  const leftSquarePiece = getPieceAtSquare(board, leftSquare, { object: true });
+  if (
+    !leftSquarePiece ||
+    leftSquarePiece.color === color ||
+    leftSquarePiece.type !== 'p' ||
+    !leftSquarePiece.canEnPassant
+  )
+    return [];
+
   return [leftDiagonalSquare];
 }
 
@@ -86,6 +101,24 @@ function attackRightDiagonal(square, board, color) {
   const rightDiagonalPiece = getPieceAtSquare(board, rightDiagonalSquare, {
     object: true,
   });
-  if (!rightDiagonalPiece || rightDiagonalPiece.color === color) return [];
+  if (rightDiagonalPiece?.color === color) return [];
+
+  let rightSquare;
+  try {
+    rightSquare = getSquareAtOffset(square, direction, 0);
+  } catch {
+    return [];
+  }
+  const rightSquarePiece = getPieceAtSquare(board, rightSquare, {
+    object: true,
+  });
+  if (
+    !rightSquarePiece ||
+    rightSquarePiece.color === color ||
+    rightSquarePiece.type !== 'p' ||
+    !rightSquarePiece.canEnPassant
+  )
+    return [];
+
   return [rightDiagonalSquare];
 }
