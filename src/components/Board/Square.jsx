@@ -11,6 +11,7 @@ const backRank = {
   w: config.get('board.dimensions.numberRanks'),
   b: 1,
 };
+const promotionPieces = ['q', 'r', 'b', 'n'];
 
 const colorScheme = config.get('square.colors.default');
 
@@ -34,7 +35,15 @@ function Square(props) {
       square.rank === backRank[focusedPieceColor] &&
       data.focusedPiece.piece.type === 'p'
     ) {
-      return handlers.promotePawn(PIECES[focusedPieceColor].q, square);
+      let promotionPiece;
+      do {
+        promotionPiece = prompt(`Promote to: (${promotionPieces.join(', ')})`);
+      } while (!promotionPieces.includes(promotionPiece));
+
+      return handlers.promotePawn(
+        PIECES[focusedPieceColor][promotionPiece],
+        square
+      );
     }
     if (highlighted) return handlers.movePiece(square);
 
