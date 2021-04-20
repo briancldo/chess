@@ -42,20 +42,20 @@ export function constructPiece(pieceString) {
 }
 
 export const PIECES = {
-  BLACK: {
-    KING: { type: 'k', color: 'b' },
-    QUEEN: { type: 'q', color: 'b' },
-    ROOK: { type: 'r', color: 'b' },
-    BISHOP: { type: 'b', color: 'b' },
-    KNIGHT: { type: 'n', color: 'b' },
-    PAWN: { type: 'p', color: 'b' },
+  b: {
+    k: { type: 'k', color: 'b' },
+    q: { type: 'q', color: 'b' },
+    r: { type: 'r', color: 'b' },
+    b: { type: 'b', color: 'b' },
+    n: { type: 'n', color: 'b' },
+    p: { type: 'p', color: 'b' },
   },
-  WHITE: {
-    KING: { type: 'k', color: 'w' },
-    QUEEN: { type: 'q', color: 'w' },
-    ROOK: { type: 'r', color: 'w' },
-    BISHOP: { type: 'b', color: 'w' },
-    KNIGHT: { type: 'n', color: 'w' },
-    PAWN: { type: 'p', color: 'w' },
+  w: {
+    k: { type: 'k', color: 'w' },
+    q: { type: 'q', color: 'w' },
+    r: { type: 'r', color: 'w' },
+    b: { type: 'b', color: 'w' },
+    n: { type: 'n', color: 'w' },
+    p: { type: 'p', color: 'w' },
   },
 };
