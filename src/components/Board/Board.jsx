@@ -16,9 +16,8 @@ export default function Board() {
   const [candidateSquares, setCandidateSquares] = useState([]);
 
   useEffect(() => {
-    if (focusedPiece?.square) {
-      setCandidateSquares(getPieceLegalMoves(position, focusedPiece.square));
-    }
+    if (!focusedPiece?.square) return setCandidateSquares([]);
+    setCandidateSquares(getPieceLegalMoves(position, focusedPiece.square));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusedPiece]);
 
@@ -28,7 +27,6 @@ export default function Board() {
     },
     removePieceFocus: () => {
       setFocusedPiece({});
-      setCandidateSquares([]);
     },
     movePiece: (destination) => {
       setPosition(movePieceUtil(position, focusedPiece.square, destination));
