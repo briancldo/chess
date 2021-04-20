@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Rank from './Rank';
 import { ranks, movePiece as movePieceUtil } from '../../utils/board';
 import { getPieceLegalMoves } from '../../utils/moves/moves';
-import initialBoardPosition from '../../utils/board.init.json';
+import initialBoardPosition from '../../utils/board.init';
 import './Board.css';
 import { DevError } from '../../utils/errors';
 

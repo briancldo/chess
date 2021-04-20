@@ -1,0 +1,50 @@
+import { PIECES } from './pieces';
+const { WHITE, BLACK } = PIECES;
+
+export default [
+  null,
+  {
+    a: WHITE.ROOK,
+    b: WHITE.KNIGHT,
+    c: WHITE.BISHOP,
+    d: WHITE.QUEEN,
+    e: WHITE.KING,
+    f: WHITE.BISHOP,
+    g: WHITE.KNIGHT,
+    h: WHITE.ROOK,
+  },
+  {
+    a: WHITE.PAWN,
+    b: WHITE.PAWN,
+    c: WHITE.PAWN,
+    d: WHITE.PAWN,
+    e: WHITE.PAWN,
+    f: WHITE.PAWN,
+    g: WHITE.PAWN,
+    h: WHITE.PAWN,
+  },
+  {},
+  {},
+  {},
+  {},
+  {
+    a: BLACK.PAWN,
+    b: BLACK.PAWN,
+    c: BLACK.PAWN,
+    d: BLACK.PAWN,
+    e: BLACK.PAWN,
+    f: BLACK.PAWN,
+    g: BLACK.PAWN,
+    h: BLACK.PAWN,
+  },
+  {
+    a: BLACK.ROOK,
+    b: BLACK.KNIGHT,
+    c: BLACK.BISHOP,
+    d: BLACK.QUEEN,
+    e: BLACK.KING,
+    f: BLACK.BISHOP,
+    g: BLACK.KNIGHT,
+    h: BLACK.ROOK,
+  },
+];
