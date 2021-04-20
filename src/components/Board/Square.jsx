@@ -17,7 +17,6 @@ function Square(props) {
     highlighted,
     isCurrentlyFocusedPiece,
     handlers,
-    // data,
   } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);
@@ -40,7 +39,7 @@ function Square(props) {
     </div>
   );
 }
-const omitSquareProps = ['handlers', 'data', 'key', 'get', '__proto__'];
+const omitSquareProps = ['handlers', 'key', 'get', '__proto__'];
 export default React.memo(Square, shouldSquareUpdate);
 function shouldSquareUpdate(oldProps, newProps) {
   return areObjectsEqual(

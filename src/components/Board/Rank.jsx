@@ -28,7 +28,6 @@ export default function Rank(props) {
             highlighted={highlighted}
             isCurrentlyFocusedPiece={isCurrentlyFocusedPiece}
             handlers={handlers}
-            data={data}
           />
         );
       })}
