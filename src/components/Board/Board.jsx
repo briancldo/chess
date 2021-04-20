@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import Rank from './Rank';
-import { ranks, movePiece as movePieceUtil } from '../../utils/board';
+import {
+  ranks,
+  movePiece as movePieceUtil,
+  promotePawn as promotePawnUtil,
+} from '../../utils/board';
 import { getPieceLegalMoves } from '../../utils/moves/moves';
 import initialBoardPosition from '../../utils/board.init';
 import './Board.css';
@@ -12,8 +16,9 @@ export default function Board() {
   const [candidateSquares, setCandidateSquares] = useState([]);
 
   useEffect(() => {
-    if (focusedPiece.square)
+    if (focusedPiece?.square) {
       setCandidateSquares(getPieceLegalMoves(position, focusedPiece.square));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusedPiece]);
 
@@ -28,6 +33,17 @@ export default function Board() {
     movePiece: (destination) => {
       setPosition(movePieceUtil(position, focusedPiece.square, destination));
       handlers.removePieceFocus();
+    },
+    promotePawn: (promotionPiece, promotionSquare) => {
+      setPosition(
+        promotePawnUtil(
+          position,
+          promotionPiece,
+          promotionSquare,
+          focusedPiece.square
+        )
+      );
+      handlers.removePieceFocus({});
     },
   };
   const data = { candidateSquares, focusedPiece };

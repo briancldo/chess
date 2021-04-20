@@ -51,10 +51,18 @@ export function movePiece(board, start, end) {
   validateSquare(end);
 
   const piece = getPieceAtSquare(board, start);
-  if (!piece) throw new DevError(`No piece at start square ${start}`);
+  if (!piece)
+    throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
 
   return produce(board, (draft) => {
     draft[end.rank][end.file] = piece;
     draft[start.rank][start.file] = undefined;
+  });
+}
+
+export function promotePawn(board, promotionPiece, promotionSquare, oldSquare) {
+  return produce(board, (draft) => {
+    draft[promotionSquare.rank][promotionSquare.file] = promotionPiece;
+    draft[oldSquare.rank][oldSquare.file] = undefined;
   });
 }

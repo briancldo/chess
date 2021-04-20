@@ -4,8 +4,13 @@ import omit from 'lodash/omit';
 
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
-import { validatePiece } from '../../utils/pieces';
+import { PIECES, validatePiece } from '../../utils/pieces';
 import './Square.css';
+
+const backRank = {
+  w: config.get('board.dimensions.numberRanks'),
+  b: 1,
+};
 
 const colorScheme = config.get('square.colors.default');
 
@@ -17,15 +22,21 @@ function Square(props) {
     highlighted,
     isCurrentlyFocusedPiece,
     handlers,
-    // data,
+    data,
   } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
+  const focusedPieceColor = data?.focusedPiece?.piece?.color;
   validatePiece(containingPiece);
 
   function handleSquareClick() {
-    if (highlighted) {
-      return handlers.movePiece(square);
+    if (
+      highlighted &&
+      square.rank === backRank[focusedPieceColor] &&
+      data.focusedPiece.piece.type === 'p'
+    ) {
+      return handlers.promotePawn(PIECES[focusedPieceColor].q, square);
     }
+    if (highlighted) return handlers.movePiece(square);
 
     if (isCurrentlyFocusedPiece || (!containingPiece && !highlighted))
       return handlers.removePieceFocus();
