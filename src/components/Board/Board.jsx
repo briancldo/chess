@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import Rank from './Rank';
-import { ranks, promotePawn as promotePawnUtil } from '../../utils/board';
+import { ranks } from '../../utils/board';
 import { getPieceLegalMoves, makeMove } from '../../utils/moves/moves';
 import initialBoardPosition from '../../utils/board.init';
 import './Board.css';
@@ -27,17 +27,6 @@ export default function Board() {
     movePiece: (destination) => {
       setPosition(makeMove(position, focusedPiece.square, destination));
       handlers.removePieceFocus();
-    },
-    promotePawn: (promotionPiece, promotionSquare) => {
-      setPosition(
-        promotePawnUtil(
-          position,
-          promotionPiece,
-          promotionSquare,
-          focusedPiece.square
-        )
-      );
-      handlers.removePieceFocus({});
     },
   };
   const data = { candidateSquares, focusedPiece };

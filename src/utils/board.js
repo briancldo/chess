@@ -1,5 +1,3 @@
-import { produce } from 'immer';
-
 import { DevError } from './errors';
 import config from '../config/config';
 
@@ -44,11 +42,4 @@ export function validateSquare(square) {
   const { rank, file } = square;
   if (!ranks.includes(rank)) throw new DevError(`Invalid rank: ${rank}`);
   if (!files.includes(file)) throw new DevError(`Invalid file: ${file}`);
-}
-
-export function promotePawn(board, promotionPiece, promotionSquare, oldSquare) {
-  return produce(board, (draft) => {
-    draft[promotionSquare.rank][promotionSquare.file] = promotionPiece;
-    draft[oldSquare.rank][oldSquare.file] = undefined;
-  });
 }
