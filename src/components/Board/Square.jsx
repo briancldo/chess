@@ -15,7 +15,7 @@ function Square(props) {
     containingPiece,
     square,
     highlighted,
-    currentlyFocusedPiece,
+    isCurrentlyFocusedPiece,
     handlers,
   } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
@@ -24,7 +24,7 @@ function Square(props) {
   function handleSquareClick() {
     if (highlighted) return handlers.movePiece(square);
 
-    if (currentlyFocusedPiece || (!containingPiece && !highlighted))
+    if (isCurrentlyFocusedPiece || (!containingPiece && !highlighted))
       return handlers.removePieceFocus();
 
     handlers.setPieceFocus(containingPiece, square);
@@ -35,7 +35,7 @@ function Square(props) {
     <div className='square-wrapper' onClick={handleSquareClick}>
       <SquareUI color={color} />
       <PieceWrapper {...{ containingPiece }} />
-      <SquareHighlight {...{ highlighted, currentlyFocusedPiece }} />
+      <SquareHighlight {...{ highlighted, isCurrentlyFocusedPiece }} />
     </div>
   );
 }
@@ -73,9 +73,9 @@ function PieceWrapper(props) {
 }
 
 function SquareHighlight(props) {
-  const { highlighted, currentlyFocusedPiece } = props;
-  if (!highlighted && !currentlyFocusedPiece) return null;
-  const strokeColor = currentlyFocusedPiece ? 'red' : 'white';
+  const { highlighted, isCurrentlyFocusedPiece } = props;
+  if (!highlighted && !isCurrentlyFocusedPiece) return null;
+  const strokeColor = isCurrentlyFocusedPiece ? 'red' : 'white';
 
   return (
     <div className='square-highlight-wrapper'>

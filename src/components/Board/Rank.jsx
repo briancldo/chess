@@ -14,7 +14,7 @@ export default function Rank(props) {
         const highlighted = data.candidateSquares.some((candidateSquare) =>
           matchingSquares(candidateSquare, square)
         );
-        const currentlyFocusedPiece = matchingSquares(
+        const isCurrentlyFocusedPiece = matchingSquares(
           data.focusedPiece.square || {},
           square
         );
@@ -26,7 +26,7 @@ export default function Rank(props) {
             containingPiece={rankPosition[file]}
             square={square}
             highlighted={highlighted}
-            currentlyFocusedPiece={currentlyFocusedPiece}
+            isCurrentlyFocusedPiece={isCurrentlyFocusedPiece}
             handlers={handlers}
           />
         );
