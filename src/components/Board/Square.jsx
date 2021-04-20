@@ -4,8 +4,14 @@ import omit from 'lodash/omit';
 
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
-import { validatePiece } from '../../utils/pieces';
+import { PIECES, validatePiece } from '../../utils/pieces';
 import './Square.css';
+
+const backRank = {
+  w: config.get('board.dimensions.numberRanks'),
+  b: 1,
+};
+const promotionPieces = ['q', 'r', 'b', 'n'];
 
 const colorScheme = config.get('square.colors.default');
 
@@ -15,16 +21,33 @@ function Square(props) {
     containingPiece,
     square,
     highlighted,
-    currentlyFocusedPiece,
+    isCurrentlyFocusedPiece,
     handlers,
+    data,
   } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
+  const focusedPieceColor = data?.focusedPiece?.piece?.color;
   validatePiece(containingPiece);
 
   function handleSquareClick() {
+    if (
+      highlighted &&
+      square.rank === backRank[focusedPieceColor] &&
+      data.focusedPiece.piece.type === 'p'
+    ) {
+      let promotionPiece;
+      do {
+        promotionPiece = prompt(`Promote to: (${promotionPieces.join(', ')})`);
+      } while (!promotionPieces.includes(promotionPiece));
+
+      return handlers.promotePawn(
+        PIECES[focusedPieceColor][promotionPiece],
+        square
+      );
+    }
     if (highlighted) return handlers.movePiece(square);
 
-    if (currentlyFocusedPiece || (!containingPiece && !highlighted))
+    if (isCurrentlyFocusedPiece || (!containingPiece && !highlighted))
       return handlers.removePieceFocus();
 
     handlers.setPieceFocus(containingPiece, square);
@@ -35,17 +58,18 @@ function Square(props) {
     <div className='square-wrapper' onClick={handleSquareClick}>
       <SquareUI color={color} />
       <PieceWrapper {...{ containingPiece }} />
-      <SquareHighlight {...{ highlighted, currentlyFocusedPiece }} />
+      <SquareHighlight {...{ highlighted, isCurrentlyFocusedPiece }} />
     </div>
   );
 }
-const squareIrrelevantProps = ['handlers', 'key', 'get', '__proto__'];
-export default React.memo(Square, (oldProps, newProps) => {
+const omitSquareProps = ['handlers', 'data', 'key', 'get', '__proto__'];
+export default React.memo(Square, shouldSquareUpdate);
+function shouldSquareUpdate(oldProps, newProps) {
   return areObjectsEqual(
-    omit(oldProps, squareIrrelevantProps),
-    omit(newProps, squareIrrelevantProps)
+    omit(oldProps, omitSquareProps),
+    omit(newProps, omitSquareProps)
   );
-});
+}
 
 function SquareUI(props) {
   const { color } = props;
@@ -73,9 +97,9 @@ function PieceWrapper(props) {
 }
 
 function SquareHighlight(props) {
-  const { highlighted, currentlyFocusedPiece } = props;
-  if (!highlighted && !currentlyFocusedPiece) return null;
-  const strokeColor = currentlyFocusedPiece ? 'red' : 'white';
+  const { highlighted, isCurrentlyFocusedPiece } = props;
+  if (!highlighted && !isCurrentlyFocusedPiece) return null;
+  const strokeColor = isCurrentlyFocusedPiece ? 'red' : 'white';
 
   return (
     <div className='square-highlight-wrapper'>
