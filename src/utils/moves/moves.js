@@ -1,4 +1,7 @@
-import { getPieceAtSquare } from '../board';
+import { produce } from 'immer';
+import { getPieceAtSquare, validateSquare } from '../board';
+import { DevError } from '../errors';
+
 import kingMove from './king';
 import queenMove from './queen';
 import rookMove from './rook';
@@ -36,5 +39,19 @@ function excludeOccupiedSquares(squares, board, color) {
     if (piece.color !== color) return true;
 
     return false;
+  });
+}
+
+export function makeMove(board, start, end) {
+  validateSquare(start);
+  validateSquare(end);
+
+  const piece = getPieceAtSquare(board, start);
+  if (!piece)
+    throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
+
+  return produce(board, (draft) => {
+    draft[end.rank][end.file] = piece;
+    draft[start.rank][start.file] = undefined;
   });
 }
