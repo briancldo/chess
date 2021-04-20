@@ -17,7 +17,7 @@ function Square(props) {
     highlighted,
     isCurrentlyFocusedPiece,
     handlers,
-    data,
+    // data,
   } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);

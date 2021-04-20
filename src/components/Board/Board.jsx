@@ -2,13 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import Rank from './Rank';
 import { ranks, movePiece as movePieceUtil } from '../../utils/board';
-import { PIECES } from '../../utils/pieces';
 import { getPieceLegalMoves } from '../../utils/moves/moves';
 import initialBoardPosition from '../../utils/board.init';
 import './Board.css';
-import { DevError } from '../../utils/errors';
-
-const { WHITE } = PIECES;
 
 export default function Board() {
   const [position, setPosition] = useState(initialBoardPosition);
@@ -21,17 +17,6 @@ export default function Board() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusedPiece]);
 
-  const hooks = {
-    moves: {
-      pre: {
-        promote: () => {
-          const promotionPiece = WHITE.QUEEN;
-          setFocusedPiece((piece) => ({ ...piece, piece: promotionPiece }));
-        },
-      },
-      post: {},
-    },
-  };
   const handlers = {
     setPieceFocus: (piece, square) => {
       if (piece && square) setFocusedPiece({ piece, square });
@@ -40,16 +25,8 @@ export default function Board() {
       setFocusedPiece({});
       setCandidateSquares([]);
     },
-    movePiece: (destination, preMoveHooks, postMoveHooks) => {
-      validateMoveHooks(preMoveHooks, 'pre');
-      validateMoveHooks(postMoveHooks, 'post');
-
-      if (preMoveHooks) preMoveHooks.forEach((hook) => hooks.moves.pre[hook]());
-
+    movePiece: (destination) => {
       setPosition(movePieceUtil(position, focusedPiece.square, destination));
-
-      if (postMoveHooks)
-        postMoveHooks.forEach((hook) => hooks.moves.post[hook]());
       handlers.removePieceFocus();
     },
   };
@@ -75,12 +52,4 @@ function BoardUI(props) {
       ))}
     </div>
   );
-}
-
-function validateMoveHooks(hooks, type) {
-  if (!hooks) return;
-  hooks.forEach((hook) => {
-    if (!hooks.moves[type][hook])
-      throw new DevError(`Hook doesn't exist: ${hook}`);
-  });
 }
