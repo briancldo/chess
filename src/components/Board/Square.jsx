@@ -17,12 +17,15 @@ function Square(props) {
     highlighted,
     isCurrentlyFocusedPiece,
     handlers,
+    data,
   } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);
 
   function handleSquareClick() {
-    if (highlighted) return handlers.movePiece(square);
+    if (highlighted) {
+      return handlers.movePiece(square);
+    }
 
     if (isCurrentlyFocusedPiece || (!containingPiece && !highlighted))
       return handlers.removePieceFocus();
@@ -39,13 +42,14 @@ function Square(props) {
     </div>
   );
 }
-const squareIrrelevantProps = ['handlers', 'key', 'get', '__proto__'];
-export default React.memo(Square, (oldProps, newProps) => {
+const omitSquareProps = ['handlers', 'data', 'key', 'get', '__proto__'];
+export default React.memo(Square, shouldSquareUpdate);
+function shouldSquareUpdate(oldProps, newProps) {
   return areObjectsEqual(
-    omit(oldProps, squareIrrelevantProps),
-    omit(newProps, squareIrrelevantProps)
+    omit(oldProps, omitSquareProps),
+    omit(newProps, omitSquareProps)
   );
-});
+}
 
 function SquareUI(props) {
   const { color } = props;

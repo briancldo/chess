@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import Rank from './Rank';
 import { ranks, movePiece as movePieceUtil } from '../../utils/board';
+import { PIECES } from '../../utils/pieces';
 import { getPieceLegalMoves } from '../../utils/moves/moves';
 import initialBoardPosition from '../../utils/board.init';
 import './Board.css';
 import { DevError } from '../../utils/errors';
+
+const { WHITE } = PIECES;
 
 export default function Board() {
   const [position, setPosition] = useState(initialBoardPosition);
@@ -21,7 +24,10 @@ export default function Board() {
   const hooks = {
     moves: {
       pre: {
-        enPassant: () => ({}),
+        promote: () => {
+          const promotionPiece = WHITE.QUEEN;
+          setFocusedPiece((piece) => ({ ...piece, piece: promotionPiece }));
+        },
       },
       post: {},
     },
