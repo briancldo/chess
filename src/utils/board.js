@@ -1,5 +1,3 @@
-import { produce } from 'immer';
-
 import { DevError } from './errors';
 import config from '../config/config';
 
@@ -37,32 +35,11 @@ export function getSquareAtOffset(square, offsetX, offsetY) {
   return { file: newFile, rank: newRank };
 }
 
-function validateSquare(square) {
+export function validateSquare(square) {
   if (typeof square !== 'object' || !square.rank || !square.file)
     throw new DevError('Square must have rank and file properties.');
 
   const { rank, file } = square;
   if (!ranks.includes(rank)) throw new DevError(`Invalid rank: ${rank}`);
   if (!files.includes(file)) throw new DevError(`Invalid file: ${file}`);
-}
-
-export function movePiece(board, start, end) {
-  validateSquare(start);
-  validateSquare(end);
-
-  const piece = getPieceAtSquare(board, start);
-  if (!piece)
-    throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
-
-  return produce(board, (draft) => {
-    draft[end.rank][end.file] = piece;
-    draft[start.rank][start.file] = undefined;
-  });
-}
-
-export function promotePawn(board, promotionPiece, promotionSquare, oldSquare) {
-  return produce(board, (draft) => {
-    draft[promotionSquare.rank][promotionSquare.file] = promotionPiece;
-    draft[oldSquare.rank][oldSquare.file] = undefined;
-  });
 }

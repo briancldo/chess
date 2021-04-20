@@ -4,14 +4,8 @@ import omit from 'lodash/omit';
 
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
-import { PIECES, validatePiece } from '../../utils/pieces';
+import { validatePiece } from '../../utils/pieces';
 import './Square.css';
-
-const backRank = {
-  w: config.get('board.dimensions.numberRanks'),
-  b: 1,
-};
-const promotionPieces = ['q', 'r', 'b', 'n'];
 
 const colorScheme = config.get('square.colors.default');
 
@@ -23,28 +17,11 @@ function Square(props) {
     highlighted,
     isCurrentlyFocusedPiece,
     handlers,
-    data,
   } = props;
   const color = colorScheme[light ? 'light' : 'dark'];
-  const focusedPieceColor = data?.focusedPiece?.piece?.color;
   validatePiece(containingPiece);
 
   function handleSquareClick() {
-    if (
-      highlighted &&
-      square.rank === backRank[focusedPieceColor] &&
-      data.focusedPiece.piece.type === 'p'
-    ) {
-      let promotionPiece;
-      do {
-        promotionPiece = prompt(`Promote to: (${promotionPieces.join(', ')})`);
-      } while (!promotionPieces.includes(promotionPiece));
-
-      return handlers.promotePawn(
-        PIECES[focusedPieceColor][promotionPiece],
-        square
-      );
-    }
     if (highlighted) return handlers.movePiece(square);
 
     if (isCurrentlyFocusedPiece || (!containingPiece && !highlighted))
@@ -62,7 +39,7 @@ function Square(props) {
     </div>
   );
 }
-const omitSquareProps = ['handlers', 'data', 'key', 'get', '__proto__'];
+const omitSquareProps = ['handlers', 'key', 'get', '__proto__'];
 export default React.memo(Square, shouldSquareUpdate);
 function shouldSquareUpdate(oldProps, newProps) {
   return areObjectsEqual(
