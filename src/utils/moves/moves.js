@@ -56,8 +56,9 @@ export function makeMove(board, start, end) {
   if (!piece)
     throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
 
-  if (piece.type === 'p' && end.rank === backRank[piece.color]) {
-    piece = promotePawn(piece.color);
+  if (piece.type === 'p') {
+    if (end.rank === backRank[piece.color]) piece = promotePawn(piece.color);
+    piece = markEnPassant(piece, Math.abs(end.rank - start.rank) === 2);
   }
 
   return produce(board, (draft) => {
@@ -73,4 +74,8 @@ function promotePawn(color) {
   } while (!promotionPieces.includes(promotionPiece));
 
   return { type: promotionPiece, color };
+}
+
+function markEnPassant(piece, mark) {
+  return { ...piece, canEnPassant: mark };
 }
