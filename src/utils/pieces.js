@@ -40,3 +40,22 @@ export function constructPiece(pieceString) {
   const [color, type] = pieceString.split('');
   return { color, type };
 }
+
+export const PIECES = {
+  BLACK: {
+    KING: { type: 'k', color: 'b' },
+    QUEEN: { type: 'q', color: 'b' },
+    ROOK: { type: 'r', color: 'b' },
+    BISHOP: { type: 'b', color: 'b' },
+    KNIGHT: { type: 'n', color: 'b' },
+    PAWN: { type: 'p', color: 'b' },
+  },
+  WHITE: {
+    KING: { type: 'k', color: 'w' },
+    QUEEN: { type: 'q', color: 'w' },
+    ROOK: { type: 'r', color: 'w' },
+    BISHOP: { type: 'b', color: 'w' },
+    KNIGHT: { type: 'n', color: 'w' },
+    PAWN: { type: 'p', color: 'w' },
+  },
+};
