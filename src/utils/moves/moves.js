@@ -13,7 +13,7 @@ import pawnMove from './pawn';
 const piecesNeedExcludeLogic = new Set(['k', 'n', 'p']);
 
 export function getPieceLegalMoves(board, square) {
-  const piece = getPieceAtSquare(board, square, { object: true });
+  const piece = getPieceAtSquare(board, square);
   const candidates = computeCandidateSquares[piece.type](
     square,
     board,
