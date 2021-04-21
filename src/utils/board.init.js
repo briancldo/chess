@@ -2,7 +2,7 @@ import { PIECES } from './pieces';
 const { w, b } = PIECES;
 
 export default [
-  null,
+  {},
   {
     a: w.r,
     b: w.n,
