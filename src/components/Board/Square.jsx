@@ -66,7 +66,6 @@ const SquareUI = React.memo(SquareUIComponent, () => true);
 function CornerSquare(props) {
   const { square } = props;
   const { rank, file } = square;
-  console.log('corner');
 
   const isLastRank = rank === ranks.last;
   const isLastFile = file === files.last;
