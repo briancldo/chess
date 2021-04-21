@@ -66,7 +66,7 @@ export function makeMove(board, start, end) {
     draft[end.rank][end.file] = piece;
     draft[start.rank][start.file] = undefined;
 
-    draft.enPassant = enPassant ? end : undefined;
+    draft[0].enPassant = enPassant ? end : undefined;
   });
 }
 
