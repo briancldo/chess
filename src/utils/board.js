@@ -10,9 +10,11 @@ if (numberFiles > alphabet.length)
 export const files = alphabet.slice(0, numberFiles).split('');
 export const ranks = [];
 
+files.first = files[0];
 files.last = files[files.length - 1];
-ranks.last = ranks[ranks.length - 1];
 for (let i = numberRanks; i >= 1; i--) ranks.push(i);
+ranks.first = ranks[ranks.length - 1];
+ranks.last = ranks[0];
 Object.freeze(files);
 Object.freeze(ranks);
 
@@ -44,4 +46,13 @@ export function validateSquare(square) {
   const { rank, file } = square;
   if (!ranks.includes(rank)) throw new DevError(`Invalid rank: ${rank}`);
   if (!files.includes(file)) throw new DevError(`Invalid file: ${file}`);
+}
+
+export function isCornerSquare(square) {
+  validateSquare(square);
+  const { file, rank } = square;
+  if (rank > ranks.first && rank < ranks.last) return false;
+  if (file > files.first && file < files.last) return false;
+
+  return true;
 }

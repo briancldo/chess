@@ -4,6 +4,7 @@ import omit from 'lodash/omit';
 
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
+import { isCornerSquare } from '../../utils/board';
 import { validatePiece } from '../../utils/pieces';
 import './Square.css';
 
@@ -33,7 +34,7 @@ function Square(props) {
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
     <div className='square-wrapper' onClick={handleSquareClick}>
-      <SquareUI color={color} />
+      <SquareUI color={color} square={square} />
       <PieceWrapper {...{ containingPiece }} />
       <SquareHighlight {...{ highlighted, isCurrentlyFocusedPiece }} />
     </div>
@@ -49,9 +50,10 @@ function shouldSquareUpdate(oldProps, newProps) {
 }
 
 function SquareUIComponent(props) {
-  const { color } = props;
+  const { color, square } = props;
   const squareStyle = { fill: color };
-  console.log('square ui');
+
+  if (isCornerSquare(square)) return null;
 
   return (
     <svg width='5vw' height='5vw' className='square-svg'>
