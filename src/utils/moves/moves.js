@@ -56,11 +56,11 @@ export function makeMove(board, start, end) {
   if (!piece)
     throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
 
-  let enPassant;
+  let enPassantSquare;
   let capturedEnPassant;
   if (piece.type === 'p') {
     if (end.rank === backRank[piece.color]) piece = promotePawn(piece.color);
-    enPassant = Math.abs(end.rank - start.rank) === 2;
+    enPassantSquare = Math.abs(end.rank - start.rank) === 2;
 
     capturedEnPassant =
       start.file !== end.file && getPieceAtSquare(board, end) === undefined;
@@ -71,10 +71,10 @@ export function makeMove(board, start, end) {
     draft[start.rank][start.file] = undefined;
 
     if (capturedEnPassant) {
-      const { rank, file } = draft[0].enPassant;
+      const { rank, file } = draft[0].enPassantSquare;
       draft[rank][file] = undefined;
     }
-    draft[0].enPassant = enPassant ? end : undefined;
+    draft[0].enPassantSquare = enPassantSquare ? end : undefined;
   });
 }
 

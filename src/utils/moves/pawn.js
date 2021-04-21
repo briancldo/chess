@@ -105,9 +105,9 @@ function attackLeftEnPassant(square, board, color) {
     return [];
   }
   const leftSquarePiece = getPieceAtSquare(board, leftSquare, { object: true });
-  if (!board[0].enPassant) return [];
+  if (!board[0].enPassantSquare) return [];
   if (leftSquarePiece?.color === color) return [];
-  if (!matchingSquares(board[0].enPassant, leftSquare)) return [];
+  if (!matchingSquares(board[0].enPassantSquare, leftSquare)) return [];
 
   const leftDiagonalSquare = getSquareAtOffset(square, -direction, direction);
   return [leftDiagonalSquare];
@@ -124,9 +124,9 @@ function attackRightEnPassant(square, board, color) {
   const rightSquarePiece = getPieceAtSquare(board, rightSquare, {
     object: true,
   });
-  if (!board[0].enPassant) return [];
+  if (!board[0].enPassantSquare) return [];
   if (rightSquarePiece?.color === color) return [];
-  if (!matchingSquares(board[0].enPassant, rightSquare)) return [];
+  if (!matchingSquares(board[0].enPassantSquare, rightSquare)) return [];
 
   const rightDiagonalSquare = getSquareAtOffset(square, direction, direction);
   return [rightDiagonalSquare];
