@@ -10,6 +10,8 @@ if (numberFiles > alphabet.length)
 export const files = alphabet.slice(0, numberFiles).split('');
 export const ranks = [];
 
+files.last = files[files.length - 1];
+ranks.last = ranks[ranks.length - 1];
 for (let i = numberRanks; i >= 1; i--) ranks.push(i);
 Object.freeze(files);
 Object.freeze(ranks);
