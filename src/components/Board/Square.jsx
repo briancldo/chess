@@ -4,6 +4,7 @@ import omit from 'lodash/omit';
 
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
+import { isCornerSquare, ranks, files } from '../../utils/board';
 import { validatePiece } from '../../utils/pieces';
 import './Square.css';
 
@@ -33,7 +34,7 @@ function Square(props) {
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
     <div className='square-wrapper' onClick={handleSquareClick}>
-      <SquareUI color={color} />
+      <SquareUI color={color} square={square} />
       <PieceWrapper {...{ containingPiece }} />
       <SquareHighlight {...{ highlighted, isCurrentlyFocusedPiece }} />
     </div>
@@ -48,15 +49,39 @@ function shouldSquareUpdate(oldProps, newProps) {
   );
 }
 
-function SquareUI(props) {
-  const { color } = props;
+function SquareUIComponent(props) {
+  const { color, square } = props;
   const squareStyle = { fill: color };
+
+  if (isCornerSquare(square)) return <CornerSquare square={square} />;
 
   return (
     <svg width='5vw' height='5vw' className='square-svg'>
       <rect width='5vw' height='5vw' style={squareStyle} />
     </svg>
   );
+}
+const SquareUI = React.memo(SquareUIComponent, () => true);
+
+function CornerSquare(props) {
+  const { square } = props;
+  const { rank, file } = square;
+
+  const isLastRank = rank === ranks.last;
+  const isLastFile = file === files.last;
+  let corner = `${isLastRank ? 'Top' : 'Bottom'}${
+    isLastFile ? 'Right' : 'Left'
+  }`;
+  const squareType = isLastRank === isLastFile ? 'dark' : 'light';
+  const color = colorScheme[squareType];
+  const cornerSquareStyle = {
+    height: '5vw',
+    width: '5vw',
+    [`border${corner}Radius`]: '1.3vw',
+    backgroundColor: color,
+    position: 'absolute',
+  };
+  return <div style={cornerSquareStyle} />;
 }
 
 function PieceWrapper(props) {
