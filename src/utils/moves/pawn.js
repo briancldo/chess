@@ -92,25 +92,7 @@ function attackRightDiagonal(square, board, color) {
   const rightDiagonalPiece = getPieceAtSquare(board, rightDiagonalSquare, {
     object: true,
   });
-  if (rightDiagonalPiece?.color === color) return [];
-
-  let rightSquare;
-  try {
-    rightSquare = getSquareAtOffset(square, direction, 0);
-  } catch {
-    return [];
-  }
-  const rightSquarePiece = getPieceAtSquare(board, rightSquare, {
-    object: true,
-  });
-  if (
-    !rightSquarePiece ||
-    rightSquarePiece.color === color ||
-    rightSquarePiece.type !== 'p' ||
-    !rightSquarePiece.canEnPassant
-  )
-    return [];
-
+  if (!rightDiagonalPiece || rightDiagonalPiece.color === color) return [];
   return [rightDiagonalSquare];
 }
 
