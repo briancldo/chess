@@ -4,7 +4,7 @@ import omit from 'lodash/omit';
 
 import Piece from '../Pieces/Piece';
 import config from '../../config/config';
-import { isCornerSquare } from '../../utils/board';
+import { isCornerSquare, ranks, files } from '../../utils/board';
 import { validatePiece } from '../../utils/pieces';
 import './Square.css';
 
@@ -51,9 +51,26 @@ function shouldSquareUpdate(oldProps, newProps) {
 
 function SquareUIComponent(props) {
   const { color, square } = props;
+  const { rank, file } = square;
   const squareStyle = { fill: color };
 
-  if (isCornerSquare(square)) return null;
+  if (isCornerSquare(square)) {
+    const isLastRank = rank === ranks.last;
+    const isLastFile = file === files.last;
+    let corner = `${isLastRank ? 'Top' : 'Bottom'}${
+      isLastFile ? 'Right' : 'Left'
+    }`;
+    const squareType = isLastRank === isLastFile ? 'dark' : 'light';
+    const color = colorScheme[squareType];
+    const cornerSquareStyle = {
+      height: '5vw',
+      width: '5vw',
+      [`border${corner}Radius`]: '1.3vw',
+      backgroundColor: color,
+      position: 'absolute',
+    };
+    return <div style={cornerSquareStyle} />;
+  }
 
   return (
     <svg width='5vw' height='5vw' className='square-svg'>
