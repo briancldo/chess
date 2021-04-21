@@ -30,14 +30,7 @@ export default function Board() {
     },
   };
   const data = { candidateSquares, focusedPiece };
-  return (
-    <>
-      {process.env.NODE_ENV === 'development' && (
-        <button onClick={() => console.log(position)}>Print board</button>
-      )}
-      <BoardUI {...{ position, handlers, data }} />;
-    </>
-  );
+  return <BoardUI {...{ position, handlers, data }} />;
 }
 
 function BoardUI(props) {
