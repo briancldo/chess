@@ -48,9 +48,10 @@ function shouldSquareUpdate(oldProps, newProps) {
   );
 }
 
-function SquareUI(props) {
+function SquareUIComponent(props) {
   const { color } = props;
   const squareStyle = { fill: color };
+  console.log('square ui');
 
   return (
     <svg width='5vw' height='5vw' className='square-svg'>
@@ -58,6 +59,7 @@ function SquareUI(props) {
     </svg>
   );
 }
+const SquareUI = React.memo(SquareUIComponent, () => true);
 
 function PieceWrapper(props) {
   const { containingPiece } = props;
