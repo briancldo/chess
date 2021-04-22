@@ -1,5 +1,6 @@
 import { produce } from 'immer';
 import { getPieceAtSquare, validateSquare } from '../board';
+import { excludeOccupiedSquares } from './utils';
 import { DevError } from '../errors';
 import config from '../../config/config';
 
@@ -32,16 +33,6 @@ const computeCandidateSquares = {
   n: knightMove,
   p: pawnMove,
 };
-
-function excludeOccupiedSquares(squares, board, color) {
-  return squares.filter((square) => {
-    const piece = getPieceAtSquare(board, square);
-    if (!piece) return true;
-    if (piece.color !== color) return true;
-
-    return false;
-  });
-}
 
 const backRank = {
   w: config.get('board.dimensions.numberRanks'),

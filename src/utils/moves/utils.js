@@ -30,3 +30,13 @@ export function getLegalSquaresInDirection(
 
   return squares;
 }
+
+export function excludeOccupiedSquares(squares, board, color) {
+  return squares.filter((square) => {
+    const piece = getPieceAtSquare(board, square);
+    if (!piece) return true;
+    if (piece.color !== color) return true;
+
+    return false;
+  });
+}
