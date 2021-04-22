@@ -1,7 +1,7 @@
 import { getSquareAtOffset, getPieceAtSquare, ranks } from '../board';
 import rookMove from './rook';
 import bishopMove from './bishop';
-// import knightMove from './knight';
+import knightMove from './knight';
 
 export function getLegalSquaresInDirection(
   square,
@@ -71,6 +71,7 @@ export const castlingPathSquares = {
   },
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export function isSquareAttacked(square, board, color) {
   const rookMoves = rookMove(square, board, color);
   const rookMovePieces = rookMoves.map((move) => getPieceAtSquare(board, move));
@@ -88,8 +89,14 @@ export function isSquareAttacked(square, board, color) {
     if (['b', 'q'].includes(piece.type) && piece.color !== color) return true;
   }
 
-  // knight move - see knight -> true
-  // const knightMoves = knightMoves(square, board, color);
+  const knightMoves = knightMove(square, board, color);
+  const knightMovePieces = knightMoves.map((move) =>
+    getPieceAtSquare(board, move)
+  );
+  for (const piece of knightMovePieces) {
+    if (!piece) continue;
+    if (piece.type === 'n' && piece.color !== color) return true;
+  }
 
   // pawn attack - see pawn -> true
 
