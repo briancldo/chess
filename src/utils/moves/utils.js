@@ -75,53 +75,51 @@ export function getDirection(color) {
   return color === 'w' ? 1 : -1;
 }
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 export function isSquareAttacked(square, board, color) {
-  const rookMoves = rookMove(square, board, color);
-  const rookMovePieces = rookMoves.map((move) => getPieceAtSquare(board, move));
-  for (const piece of rookMovePieces) {
-    if (!piece) continue;
-    if (['r', 'q'].includes(piece.type) && piece.color !== color) return true;
+  for (const piece of ['r', 'b', 'n', 'p']) {
+    const attacked = isSquareAttackedByPiece(piece, square, board, color);
+    if (attacked) {
+      console.log('attacked', piece);
+      return true;
+    }
   }
 
-  const bishopMoves = bishopMove(square, board, color);
-  const bishopMovePieces = bishopMoves.map((move) =>
-    getPieceAtSquare(board, move)
-  );
-  for (const piece of bishopMovePieces) {
-    if (!piece) continue;
-    if (['b', 'q'].includes(piece.type) && piece.color !== color) return true;
-  }
+  return false;
+}
 
-  const knightMoves = knightMove(square, board, color);
-  const knightMovePieces = knightMoves.map((move) =>
-    getPieceAtSquare(board, move)
-  );
-  for (const piece of knightMovePieces) {
-    if (!piece) continue;
-    if (piece.type === 'n' && piece.color !== color) return true;
-  }
+const attackingPiecesData = {
+  r: { getMoves: rookMove, pieces: ['r', 'q'] },
+  b: { getMoves: bishopMove, pieces: ['b', 'q'] },
+  n: { getMoves: knightMove, pieces: ['n'] },
+  p: {
+    getMoves: (square, board, color) => {
+      const direction = getDirection(color);
+      const pawnMoves = [];
+      try {
+        const leftDiagonal = getSquareAtOffset(square, -direction, direction);
+        pawnMoves.push(leftDiagonal);
+      } catch {
+        0;
+      }
+      try {
+        const rightDiagonal = getSquareAtOffset(square, direction, direction);
+        pawnMoves.push(rightDiagonal);
+      } catch {
+        0;
+      }
+      return pawnMoves;
+    },
+    pieces: ['p'],
+  },
+};
 
-  const direction = getDirection(color);
-  const pawnMoves = [];
-  try {
-    const leftDiagonal = getSquareAtOffset(square, -direction, direction);
-    pawnMoves.push(leftDiagonal);
-  } catch {
-    0;
-  }
-  try {
-    const rightDiagonal = getSquareAtOffset(square, direction, direction);
-    pawnMoves.push(rightDiagonal);
-  } catch {
-    0;
-  }
-  const pawnMovePieces = pawnMoves.map((move) => getPieceAtSquare(board, move));
-  if (square.file === 'd') console.log({ pawnMoves, pawnMovePieces });
-  for (const piece of pawnMovePieces) {
+function isSquareAttackedByPiece(piece, square, board, color) {
+  const { getMoves, pieces } = attackingPiecesData[piece];
+  const moves = getMoves(square, board, color);
+  const movePieces = moves.map((move) => getPieceAtSquare(board, move));
+  for (const piece of movePieces) {
     if (!piece) continue;
-    if (piece.type === 'p' && piece.color !== color) return true;
+    if (pieces.includes(piece.type) && piece.color !== color) return true;
   }
-
   return false;
 }
