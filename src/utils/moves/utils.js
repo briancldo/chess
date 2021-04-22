@@ -31,10 +31,12 @@ export function getLegalSquaresInDirection(
   return squares;
 }
 
-export function excludeOccupiedSquares(squares, board, color) {
+export function excludeOccupiedSquares(squares, board, color, options = {}) {
   return squares.filter((square) => {
     const piece = getPieceAtSquare(board, square);
+
     if (!piece) return true;
+    if (options.ignoreColor) return false;
     if (piece.color !== color) return true;
 
     return false;
