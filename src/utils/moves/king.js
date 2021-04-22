@@ -1,5 +1,9 @@
 import { getSquareAtOffset, files, ranks } from '../board';
-import { excludeOccupiedSquares, castlingPathSquares } from './utils';
+import {
+  excludeOccupiedSquares,
+  castlingPathSquares,
+  isSquareAttacked,
+} from './utils';
 
 export default function kingMove(square, board, color) {
   const regularMoves = computeRegularMoves(square);
@@ -53,6 +57,7 @@ function haveCastlingPiecesMoved(board, color) {
 
 function computeCanCastleSide(side, board, color) {
   if (areCastlingSquaresOccupied(side, board, color)) return false;
+  if (areCastlingSquaresAttacked(side, board, color)) return false;
 
   return true;
 }
@@ -66,4 +71,15 @@ function areCastlingSquaresOccupied(side, board, color) {
     { ignoreColor: true }
   );
   if (unoccupiedCastlingSquares.length !== castlingSquares.length) return true;
+  return false;
+}
+
+function areCastlingSquaresAttacked(side, board, color) {
+  const castlingSquares = castlingPathSquares[color][side];
+
+  for (const square of castlingSquares) {
+    if (isSquareAttacked(square, board, color)) return true;
+  }
+
+  return false;
 }
