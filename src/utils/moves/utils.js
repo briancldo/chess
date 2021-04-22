@@ -1,6 +1,6 @@
 import { getSquareAtOffset, getPieceAtSquare, ranks } from '../board';
 import rookMove from './rook';
-// import bishopMove from './bishop';
+import bishopMove from './bishop';
 // import knightMove from './knight';
 
 export function getLegalSquaresInDirection(
@@ -72,7 +72,6 @@ export const castlingPathSquares = {
 };
 
 export function isSquareAttacked(square, board, color) {
-  // rook move - see rook or queen -> true
   const rookMoves = rookMove(square, board, color);
   const rookMovePieces = rookMoves.map((move) => getPieceAtSquare(board, move));
   for (const piece of rookMovePieces) {
@@ -80,9 +79,19 @@ export function isSquareAttacked(square, board, color) {
     if (['r', 'q'].includes(piece.type) && piece.color !== color) return true;
   }
 
-  // bishop move - see bishop, pawn, or queen -> true
-  // const bishopMoves = bishopMove(square, board, color);
+  const bishopMoves = bishopMove(square, board, color);
+  const bishopMovePieces = bishopMoves.map((move) =>
+    getPieceAtSquare(board, move)
+  );
+  for (const piece of bishopMovePieces) {
+    if (!piece) continue;
+    if (['b', 'q'].includes(piece.type) && piece.color !== color) return true;
+  }
 
   // knight move - see knight -> true
   // const knightMoves = knightMoves(square, board, color);
+
+  // pawn attack - see pawn -> true
+
+  return false;
 }
