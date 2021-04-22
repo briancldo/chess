@@ -1,5 +1,5 @@
 import { getSquareAtOffset, files, ranks } from '../board';
-import { excludeOccupiedSquares } from './utils';
+import { excludeOccupiedSquares, castlingPathSquares } from './utils';
 
 export default function kingMove(square, board, color) {
   const regularMoves = computeRegularMoves(square);
@@ -67,28 +67,3 @@ function areCastlingSquaresOccupied(side, board, color) {
   );
   if (unoccupiedCastlingSquares.length !== castlingSquares.length) return true;
 }
-
-const castlingPathSquares = {
-  w: {
-    q: [
-      { rank: ranks.first, file: 'b' },
-      { rank: ranks.first, file: 'c' },
-      { rank: ranks.first, file: 'd' },
-    ],
-    k: [
-      { rank: ranks.first, file: 'f' },
-      { rank: ranks.first, file: 'g' },
-    ],
-  },
-  b: {
-    q: [
-      { rank: ranks.first, file: 'b' },
-      { rank: ranks.first, file: 'c' },
-      { rank: ranks.first, file: 'd' },
-    ],
-    k: [
-      { rank: ranks.first, file: 'f' },
-      { rank: ranks.first, file: 'g' },
-    ],
-  },
-};

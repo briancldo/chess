@@ -1,4 +1,4 @@
-import { getSquareAtOffset, getPieceAtSquare } from '../board';
+import { getSquareAtOffset, getPieceAtSquare, ranks } from '../board';
 
 export function getLegalSquaresInDirection(
   square,
@@ -42,3 +42,28 @@ export function excludeOccupiedSquares(squares, board, color, options = {}) {
     return false;
   });
 }
+
+export const castlingPathSquares = {
+  w: {
+    q: [
+      { rank: ranks.first, file: 'b' },
+      { rank: ranks.first, file: 'c' },
+      { rank: ranks.first, file: 'd' },
+    ],
+    k: [
+      { rank: ranks.first, file: 'f' },
+      { rank: ranks.first, file: 'g' },
+    ],
+  },
+  b: {
+    q: [
+      { rank: ranks.first, file: 'b' },
+      { rank: ranks.first, file: 'c' },
+      { rank: ranks.first, file: 'd' },
+    ],
+    k: [
+      { rank: ranks.first, file: 'f' },
+      { rank: ranks.first, file: 'g' },
+    ],
+  },
+};
