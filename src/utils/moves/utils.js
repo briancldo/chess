@@ -102,7 +102,26 @@ export function isSquareAttacked(square, board, color) {
     if (piece.type === 'n' && piece.color !== color) return true;
   }
 
-  // pawn attack - see pawn -> true
+  const direction = getDirection(color);
+  const pawnMoves = [];
+  try {
+    const leftDiagonal = getSquareAtOffset(square, -direction, direction);
+    pawnMoves.push(leftDiagonal);
+  } catch {
+    0;
+  }
+  try {
+    const rightDiagonal = getSquareAtOffset(square, direction, direction);
+    pawnMoves.push(rightDiagonal);
+  } catch {
+    0;
+  }
+  const pawnMovePieces = pawnMoves.map((move) => getPieceAtSquare(board, move));
+  if (square.file === 'd') console.log({ pawnMoves, pawnMovePieces });
+  for (const piece of pawnMovePieces) {
+    if (!piece) continue;
+    if (piece.type === 'p' && piece.color !== color) return true;
+  }
 
   return false;
 }
