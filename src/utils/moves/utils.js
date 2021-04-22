@@ -71,6 +71,10 @@ export const castlingPathSquares = {
   },
 };
 
+export function getDirection(color) {
+  return color === 'w' ? 1 : -1;
+}
+
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export function isSquareAttacked(square, board, color) {
   const rookMoves = rookMove(square, board, color);
