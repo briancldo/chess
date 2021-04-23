@@ -32,7 +32,6 @@ function computeRegularMoves(square) {
 }
 
 function computeCastlingMoves(board, color) {
-  if (haveCastlingPiecesMoved(board, color)) return [];
   const canQueensideCastle = computeCanCastleSide('q', board, color);
   const canKingsideCastle = computeCanCastleSide('k', board, color);
   const castlingRank = getCastlingRank(color);
@@ -43,19 +42,8 @@ function computeCastlingMoves(board, color) {
   return squares;
 }
 
-function haveCastlingPiecesMoved(board, color) {
-  const kingCanCastle = board[0].castling[color].k;
-  if (!kingCanCastle) return true;
-
-  const queenRookCanCastle = board[0].castling[color].side.q;
-  if (!queenRookCanCastle) return true;
-  const kingRookCanCastle = board[0].castling[color].side.k;
-  if (!kingRookCanCastle) return true;
-
-  return false;
-}
-
 function computeCanCastleSide(side, board, color) {
+  if (haveCastlingPiecesMoved(side, board, color)) return false;
   if (areCastlingSquaresOccupied(side, board, color)) return false;
   if (areCastlingSquaresAttacked(side, board, color)) return false;
 
@@ -81,6 +69,18 @@ function areCastlingSquaresAttacked(side, board, color) {
   for (const square of castlingSquares) {
     if (isSquareAttacked(square, board, color)) return true;
   }
+
+  return false;
+}
+
+function haveCastlingPiecesMoved(side, board, color) {
+  const kingCanCastle = board[0].castling[color].k;
+  if (!kingCanCastle) return true;
+
+  const queenRookCanCastle = board[0].castling[color].side.q;
+  if (side === 'q' && !queenRookCanCastle) return true;
+  const kingRookCanCastle = board[0].castling[color].side.k;
+  if (side === 'k' && !kingRookCanCastle) return true;
 
   return false;
 }
