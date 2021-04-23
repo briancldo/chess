@@ -60,15 +60,16 @@ function handleSpecialCases(draft, piece, squares) {
 }
 
 function handleEnPassant(draft, piece, squares) {
-  if (piece.type !== 'p') return;
-
   const { start, end } = squares;
-  console.log({ start, end });
   if (end.rank === backRank[piece.color]) piece = promotePawn(piece.color);
 
-  const isEnPassantSquare = Math.abs(end.rank - start.rank) === 2;
-  const capturedEnPassant =
-    start.file !== end.file && getPieceAtSquare(draft, end) === undefined;
+  let isEnPassantSquare;
+  let capturedEnPassant;
+  if (piece.type === 'p') {
+    isEnPassantSquare = Math.abs(end.rank - start.rank) === 2;
+    capturedEnPassant =
+      start.file !== end.file && getPieceAtSquare(draft, end) === undefined;
+  }
 
   if (capturedEnPassant) {
     const { rank, file } = draft[0].enPassantSquare;
