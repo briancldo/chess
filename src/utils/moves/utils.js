@@ -78,10 +78,7 @@ export function getDirection(color) {
 export function isSquareAttacked(square, board, color) {
   for (const piece of ['r', 'b', 'n', 'p']) {
     const attacked = isSquareAttackedByPiece(piece, square, board, color);
-    if (attacked) {
-      console.log('attacked', piece);
-      return true;
-    }
+    if (attacked) return true;
   }
 
   return false;
