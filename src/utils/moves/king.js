@@ -70,7 +70,7 @@ function areCastlingSquaresOccupied(side, board, color) {
     color,
     { ignoreColor: true }
   );
-  console.log({ unoccupiedCastlingSquares, castlingSquares });
+
   if (unoccupiedCastlingSquares.length !== castlingSquares.length) return true;
   return false;
 }

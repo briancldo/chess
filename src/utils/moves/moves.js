@@ -64,6 +64,7 @@ function handleSpecialCases(board, draft, piece, squares) {
   handleEnPassant(board, draft, piece, squares);
   handlePawnPromotion(draft, piece, squares.end);
   handleCastling(board, draft, piece, squares.end);
+  handleCastlingPiecesMoved(draft, piece);
 }
 
 function handleEnPassant(board, draft, piece, squares) {
@@ -120,4 +121,10 @@ function handleCastling(board, draft, piece, end) {
   draft[0].castling[piece.color].k = false;
   draft[0].castling[piece.color].side.q = false;
   draft[0].castling[piece.color].side.k = false;
+}
+
+function handleCastlingPiecesMoved(draft, piece) {
+  if (piece.type === 'k') {
+    draft[0].castling[piece.color].k = false;
+  }
 }
