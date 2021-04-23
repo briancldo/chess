@@ -48,20 +48,20 @@ export function makeMove(board, start, end) {
     throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
 
   return produce(board, (draft) => {
-    handleSpecialCases(draft, piece, { start, end });
-
+    // this order is neccessary
     draft[end.rank][end.file] = piece;
+    handleSpecialCases(draft, piece, { start, end });
     draft[start.rank][start.file] = undefined;
   });
 }
 
 function handleSpecialCases(draft, piece, squares) {
   handleEnPassant(draft, piece, squares);
+  handlePawnPromotion(draft, piece, squares.end);
 }
 
 function handleEnPassant(draft, piece, squares) {
   const { start, end } = squares;
-  if (end.rank === backRank[piece.color]) piece = promotePawn(piece.color);
 
   let isEnPassantSquare;
   let capturedEnPassant;
@@ -76,6 +76,13 @@ function handleEnPassant(draft, piece, squares) {
     draft[rank][file] = undefined;
   }
   draft[0].enPassantSquare = isEnPassantSquare ? end : undefined;
+}
+
+function handlePawnPromotion(draft, piece, end) {
+  if (piece.type !== 'p') return;
+
+  if (end.rank === backRank[piece.color])
+    draft[end.rank][end.file] = promotePawn(piece.color);
 }
 
 function promotePawn(color) {
