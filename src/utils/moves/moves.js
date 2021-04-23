@@ -4,6 +4,7 @@ import {
   getPieceAtSquare,
   matchingSquares,
   validateSquare,
+  files,
 } from '../board';
 import { excludeOccupiedSquares } from './utils';
 import { DevError } from '../errors';
@@ -64,7 +65,7 @@ function handleSpecialCases(board, draft, piece, squares) {
   handleEnPassant(board, draft, piece, squares);
   handlePawnPromotion(draft, piece, squares.end);
   handleCastling(board, draft, piece, squares.end);
-  handleCastlingPiecesMoved(draft, piece);
+  handleCastlingPiecesMoved(board, draft, piece, squares.start);
 }
 
 function handleEnPassant(board, draft, piece, squares) {
@@ -123,8 +124,16 @@ function handleCastling(board, draft, piece, end) {
   draft[0].castling[piece.color].side.k = false;
 }
 
-function handleCastlingPiecesMoved(draft, piece) {
-  if (piece.type === 'k') {
-    draft[0].castling[piece.color].k = false;
+function handleCastlingPiecesMoved(board, draft, piece, start) {
+  if (piece.type === 'k') draft[0].castling[piece.color].k = false;
+
+  if (piece.type !== 'r') return;
+  const rookCastlingState = board[0].castling[piece.color].side;
+
+  if (rookCastlingState.q && start.file === files.first) {
+    draft[0].castling[piece.color].side.q = false;
+  }
+  if (rookCastlingState.k && start.file === files.last) {
+    draft[0].castling[piece.color].side.k = false;
   }
 }
