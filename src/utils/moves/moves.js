@@ -1,5 +1,10 @@
 import { produce } from 'immer';
-import { getPieceAtSquare, validateSquare } from '../board';
+import {
+  getCastlingPosition,
+  getPieceAtSquare,
+  matchingSquares,
+  validateSquare,
+} from '../board';
 import { excludeOccupiedSquares } from './utils';
 import { DevError } from '../errors';
 import config from '../../config/config';
@@ -50,17 +55,18 @@ export function makeMove(board, start, end) {
   return produce(board, (draft) => {
     // this order is neccessary
     draft[end.rank][end.file] = piece;
-    handleSpecialCases(draft, piece, { start, end });
+    handleSpecialCases(board, draft, piece, { start, end });
     draft[start.rank][start.file] = undefined;
   });
 }
 
-function handleSpecialCases(draft, piece, squares) {
-  handleEnPassant(draft, piece, squares);
+function handleSpecialCases(board, draft, piece, squares) {
+  handleEnPassant(board, draft, piece, squares);
   handlePawnPromotion(draft, piece, squares.end);
+  handleCastling(board, draft, piece, squares.end);
 }
 
-function handleEnPassant(draft, piece, squares) {
+function handleEnPassant(board, draft, piece, squares) {
   const { start, end } = squares;
 
   let isEnPassantSquare;
@@ -68,7 +74,7 @@ function handleEnPassant(draft, piece, squares) {
   if (piece.type === 'p') {
     isEnPassantSquare = Math.abs(end.rank - start.rank) === 2;
     capturedEnPassant =
-      start.file !== end.file && getPieceAtSquare(draft, end) === undefined;
+      start.file !== end.file && getPieceAtSquare(board, end) === undefined;
   }
 
   if (capturedEnPassant) {
@@ -92,4 +98,26 @@ function promotePawn(color) {
   } while (!promotionPieces.includes(promotionPiece));
 
   return { type: promotionPiece, color };
+}
+
+function handleCastling(board, draft, piece, end) {
+  if (piece.type !== 'k') return;
+  const castling = board[0].castling[piece.color];
+  if (!castling.k) return;
+
+  const castlingSquares = getCastlingPosition(piece.color);
+  const isQueensideSquare = matchingSquares(end, castlingSquares.q.k);
+  const isKingsideSquare = matchingSquares(end, castlingSquares.k.k);
+  if (!isQueensideSquare && !isKingsideSquare) return;
+  if (!castling.side.q && !castling.side.k) return;
+
+  const side = isKingsideSquare ? 'k' : 'q';
+  const rookSquare = castlingSquares[side].r;
+  const oldRookSquare = castlingSquares[side].rFormer;
+  draft[rookSquare.rank][rookSquare.file] = { type: 'r', color: piece.color };
+  draft[oldRookSquare.rank][oldRookSquare.file] = undefined;
+
+  draft[0].castling[piece.color].k = false;
+  draft[0].castling[piece.color].side.q = false;
+  draft[0].castling[piece.color].side.k = false;
 }

@@ -60,13 +60,13 @@ export const castlingPathSquares = {
   },
   b: {
     q: [
-      { rank: ranks.first, file: 'b' },
-      { rank: ranks.first, file: 'c' },
-      { rank: ranks.first, file: 'd' },
+      { rank: ranks.last, file: 'b' },
+      { rank: ranks.last, file: 'c' },
+      { rank: ranks.last, file: 'd' },
     ],
     k: [
-      { rank: ranks.first, file: 'f' },
-      { rank: ranks.first, file: 'g' },
+      { rank: ranks.last, file: 'f' },
+      { rank: ranks.last, file: 'g' },
     ],
   },
 };

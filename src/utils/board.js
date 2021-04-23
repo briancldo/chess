@@ -56,3 +56,23 @@ export function isCornerSquare(square) {
 
   return true;
 }
+
+export function getCastlingRank(color) {
+  return color === 'w' ? ranks.first : ranks.last;
+}
+
+export function getCastlingPosition(color) {
+  const castlingRank = getCastlingRank(color);
+  return {
+    q: {
+      k: { rank: castlingRank, file: 'c' },
+      r: { rank: castlingRank, file: 'd' },
+      rFormer: { rank: castlingRank, file: 'a' },
+    },
+    k: {
+      k: { rank: castlingRank, file: 'g' },
+      r: { rank: castlingRank, file: 'f' },
+      rFormer: { rank: castlingRank, file: 'h' },
+    },
+  };
+}

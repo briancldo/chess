@@ -1,4 +1,4 @@
-import { getSquareAtOffset, files, ranks } from '../board';
+import { getSquareAtOffset, getCastlingRank } from '../board';
 import {
   excludeOccupiedSquares,
   castlingPathSquares,
@@ -35,8 +35,8 @@ function computeCastlingMoves(board, color) {
   if (haveCastlingPiecesMoved(board, color)) return [];
   const canQueensideCastle = computeCanCastleSide('q', board, color);
   const canKingsideCastle = computeCanCastleSide('k', board, color);
+  const castlingRank = getCastlingRank(color);
 
-  const castlingRank = color === 'w' ? ranks.first : ranks.last;
   const squares = [];
   if (canQueensideCastle) squares.push({ rank: castlingRank, file: 'c' });
   if (canKingsideCastle) squares.push({ rank: castlingRank, file: 'g' });
@@ -47,9 +47,9 @@ function haveCastlingPiecesMoved(board, color) {
   const kingCanCastle = board[0].castling[color].k;
   if (!kingCanCastle) return true;
 
-  const queenRookCanCastle = board[0].castling[color][files.first];
+  const queenRookCanCastle = board[0].castling[color].side.q;
   if (!queenRookCanCastle) return true;
-  const kingRookCanCastle = board[0].castling[color][files.last];
+  const kingRookCanCastle = board[0].castling[color].side.k;
   if (!kingRookCanCastle) return true;
 
   return false;
@@ -70,6 +70,7 @@ function areCastlingSquaresOccupied(side, board, color) {
     color,
     { ignoreColor: true }
   );
+  console.log({ unoccupiedCastlingSquares, castlingSquares });
   if (unoccupiedCastlingSquares.length !== castlingSquares.length) return true;
   return false;
 }
