@@ -5,8 +5,8 @@ export default [
   {
     enPassant: undefined,
     castling: {
-      w: { k: true, a: true, h: true },
-      b: { k: true, a: true, h: true },
+      w: { k: true, side: { q: true, k: true } },
+      b: { k: true, side: { q: true, k: true } },
     },
   },
   {
