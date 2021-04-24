@@ -32,8 +32,8 @@ function Square(props) {
   }
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-    <div className='square-wrapper' onClick={handleSquareClick}>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div className='square-wrapper' onMouseDown={handleSquareClick}>
       <SquareUI color={color} square={square} />
       <PieceWrapper {...{ containingPiece }} />
       <SquareHighlight {...{ highlighted, isCurrentlyFocusedPiece }} />
