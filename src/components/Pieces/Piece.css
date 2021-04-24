@@ -2,6 +2,16 @@
   position: absolute;
   height: 100%;
   width: 100%;
+  z-index: 100;
+  cursor: grab;
+}
+
+.piece-wrapper-outer:active {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  cursor: grabbing;
 }
 
 .piece-wrapper-inner {
@@ -19,17 +29,4 @@
   height: 4vw;
   width: 4vw;
   background-size: cover;
-  z-index: 100;
-  cursor: grab;
-}
-
-.piece-container:active {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 4vw;
-  width: 4vw;
-  background-size: cover;
-  z-index: 100;
-  cursor: grabbing;
 }
