@@ -5,5 +5,17 @@
   height: 4vw;
   width: 4vw;
   background-size: cover;
+  z-index: 100;
+  cursor: grab;
+}
+
+.piece-container:active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4vw;
+  width: 4vw;
+  background-size: cover;
+  z-index: 100;
   cursor: grab;
 }
