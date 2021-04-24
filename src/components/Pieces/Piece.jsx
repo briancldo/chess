@@ -15,7 +15,7 @@ const typeMapping = {
 const piecesDirectoryPathRelativePublic = './assets/pieces';
 const pieceFileType = 'png';
 
-export default function Piece(props) {
+function Piece(props) {
   const { color, type } = props;
 
   const pieceImagePath = useMemo(
@@ -25,4 +25,18 @@ export default function Piece(props) {
   );
   const style = { backgroundImage: `url(${pieceImagePath})` };
   return <div className='piece-container' style={style}></div>;
+}
+
+export default function PieceWrapper(props) {
+  const { containingPiece } = props;
+  if (!containingPiece) return null;
+  const { color, type } = containingPiece;
+
+  return (
+    <div className='piece-wrapper-outer'>
+      <div className='piece-wrapper-inner'>
+        <Piece {...{ type, color }} />
+      </div>
+    </div>
+  );
 }

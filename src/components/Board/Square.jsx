@@ -34,7 +34,7 @@ function Square(props) {
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className='square-wrapper' onMouseDown={handleSquareClick}>
       <SquareUI color={color} square={square} />
-      <PieceWrapper {...{ containingPiece }} />
+      <Piece {...{ containingPiece }} />
       <SquareHighlight {...{ highlighted, isCurrentlyFocusedPiece }} />
     </div>
   );
@@ -81,20 +81,6 @@ function CornerSquare(props) {
     position: 'absolute',
   };
   return <div style={cornerSquareStyle} />;
-}
-
-function PieceWrapper(props) {
-  const { containingPiece } = props;
-  if (!containingPiece) return null;
-  const { color, type } = containingPiece;
-
-  return (
-    <div className='piece-wrapper-outer'>
-      <div className='piece-wrapper-inner'>
-        <Piece {...{ type, color }} />
-      </div>
-    </div>
-  );
 }
 
 function SquareHighlight(props) {
