@@ -2,7 +2,13 @@ import { PIECES } from './pieces';
 const { w, b } = PIECES;
 
 export default [
-  {},
+  {
+    enPassant: undefined,
+    castling: {
+      w: { k: true, side: { q: true, k: true } },
+      b: { k: true, side: { q: true, k: true } },
+    },
+  },
   {
     a: w.r,
     b: w.n,

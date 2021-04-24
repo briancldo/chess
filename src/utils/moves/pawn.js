@@ -1,4 +1,5 @@
 import { getPieceAtSquare, getSquareAtOffset, matchingSquares } from '../board';
+import { getDirection } from './utils';
 
 export default function pawnMove(square, board, color) {
   const candidates = [];
@@ -8,10 +9,6 @@ export default function pawnMove(square, board, color) {
   );
 
   return candidates;
-}
-
-function getDirection(color) {
-  return color === 'w' ? 1 : -1;
 }
 
 function moveStraight(square, board, color) {
