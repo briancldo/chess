@@ -25,8 +25,7 @@ function Square(props) {
   function handleSquareClick() {
     if (highlighted) return handlers.movePiece(square);
 
-    if (isCurrentlyFocusedPiece || (!containingPiece && !highlighted))
-      return handlers.removePieceFocus();
+    if (!containingPiece && !highlighted) return handlers.removePieceFocus();
 
     handlers.setPieceFocus(containingPiece, square);
   }
