@@ -1,4 +1,4 @@
-.movable-piece {
+.movable-piece-static {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -6,10 +6,18 @@
   cursor: grab;
 }
 
-.movable-piece:active {
+.movable-piece-static:active {
   position: absolute;
   height: 100%;
   width: 100%;
+  z-index: 100;
+  cursor: grabbing;
+}
+
+.movable-piece-floating {
+  position: fixed;
+  height: 4vw;
+  width: 4vw;
   z-index: 100;
   cursor: grabbing;
 }
