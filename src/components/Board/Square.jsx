@@ -2,7 +2,7 @@ import React from 'react';
 import areObjectsEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 
-import Piece from '../Pieces/Piece';
+import MovablePiece from '../Pieces/MovablePiece';
 import config from '../../config/config';
 import { isCornerSquare, ranks, files } from '../../utils/board';
 import { validatePiece } from '../../utils/pieces';
@@ -34,8 +34,8 @@ function Square(props) {
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className='square-wrapper' onMouseDown={handleSquareClick}>
       <SquareUI color={color} square={square} />
-      <Piece {...{ containingPiece }} />
       <SquareHighlight {...{ highlighted, isCurrentlyFocusedPiece }} />
+      <MovablePiece {...{ containingPiece }} />
     </div>
   );
 }
