@@ -39,13 +39,20 @@ export default function MovablePiece(props) {
     }
 
     return () => {
-      window.removeEventListener('mouseup', mouseUpHandler);
       window.removeEventListener('mousemove', mouseMoveHandler);
+      window.removeEventListener('mouseup', mouseUpHandler);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dragging]);
 
   if (!containingPiece) return null;
+  const piece = <Piece {...{ containingPiece }} />;
+  const staticPieceStyle = { display: staticPieceVisible ? null : 'none' };
+  const floatingPieceStyle = {
+    display: staticPieceVisible ? 'none' : null,
+    top: floatingPiecePosition.y,
+    left: floatingPiecePosition.x,
+  };
   return (
     <>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
@@ -53,19 +60,12 @@ export default function MovablePiece(props) {
         className='movable-piece-static'
         onMouseDown={mouseDownHandler}
         draggable={true}
-        style={{ display: staticPieceVisible ? null : 'none' }}
+        style={staticPieceStyle}
       >
-        <Piece {...{ containingPiece }} />
+        {piece}
       </div>
-      <div
-        className='movable-piece-floating'
-        style={{
-          display: staticPieceVisible ? 'none' : null,
-          top: floatingPiecePosition.y,
-          left: floatingPiecePosition.x,
-        }}
-      >
-        <Piece {...{ containingPiece }} />
+      <div className='movable-piece-floating' style={floatingPieceStyle}>
+        {piece}
       </div>
     </>
   );
