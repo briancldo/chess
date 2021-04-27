@@ -2,7 +2,7 @@ import React from 'react';
 import areObjectsEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 
-import Piece from '../Pieces/Piece';
+import MovablePiece from '../Pieces/MovablePiece';
 import config from '../../config/config';
 import { isCornerSquare, ranks, files } from '../../utils/board';
 import { validatePiece } from '../../utils/pieces';
@@ -22,21 +22,25 @@ function Square(props) {
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);
 
-  function handleSquareClick() {
+  function handleSquareMouseUp() {
     if (highlighted) return handlers.movePiece(square);
+  }
 
-    if (isCurrentlyFocusedPiece || (!containingPiece && !highlighted))
-      return handlers.removePieceFocus();
-
+  function handleSquareMouseDown() {
+    if (!containingPiece && !highlighted) return handlers.removePieceFocus();
     handlers.setPieceFocus(containingPiece, square);
   }
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-    <div className='square-wrapper' onClick={handleSquareClick}>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div
+      className='square-wrapper'
+      onMouseDown={handleSquareMouseDown}
+      onMouseUp={handleSquareMouseUp}
+    >
       <SquareUI color={color} square={square} />
-      <PieceWrapper {...{ containingPiece }} />
       <SquareHighlight {...{ highlighted, isCurrentlyFocusedPiece }} />
+      <MovablePiece {...{ containingPiece }} />
     </div>
   );
 }
@@ -82,20 +86,6 @@ function CornerSquare(props) {
     position: 'absolute',
   };
   return <div style={cornerSquareStyle} />;
-}
-
-function PieceWrapper(props) {
-  const { containingPiece } = props;
-  if (!containingPiece) return null;
-  const { color, type } = containingPiece;
-
-  return (
-    <div className='piece-wrapper-outer'>
-      <div className='piece-wrapper-inner'>
-        <Piece {...{ type, color }} />
-      </div>
-    </div>
-  );
 }
 
 function SquareHighlight(props) {

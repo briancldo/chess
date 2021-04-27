@@ -1,3 +1,23 @@
+.piece-wrapper-outer {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.piece-wrapper-outer:active {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.piece-wrapper-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
 .piece-container {
   display: flex;
   align-items: center;
