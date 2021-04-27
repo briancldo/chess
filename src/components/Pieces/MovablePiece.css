@@ -19,5 +19,5 @@
   height: 4vw;
   width: 4vw;
   z-index: 100;
-  cursor: grabbing;
+  pointer-events: none;
 }

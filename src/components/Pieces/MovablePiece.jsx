@@ -12,10 +12,12 @@ export default function MovablePiece(props) {
 
   function mouseDownHandler(event) {
     setDragging(true);
+    document.body.style.cursor = 'grabbing';
     mouseMoveHandler(event);
   }
 
   function mouseUpHandler() {
+    document.body.style.cursor = '';
     setDragging(false);
   }
 
