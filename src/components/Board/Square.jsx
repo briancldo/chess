@@ -22,11 +22,12 @@ function Square(props) {
   const color = colorScheme[light ? 'light' : 'dark'];
   validatePiece(containingPiece);
 
-  function handleSquareClick() {
+  function handleSquareMouseUp() {
     if (highlighted) return handlers.movePiece(square);
+  }
 
+  function handleSquareMouseDown() {
     if (!containingPiece && !highlighted) return handlers.removePieceFocus();
-
     handlers.setPieceFocus(containingPiece, square);
   }
 
@@ -34,8 +35,8 @@ function Square(props) {
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/mouse-events-have-key-events
     <div
       className='square-wrapper'
-      onMouseDown={handleSquareClick}
-      onMouseUp={() => console.log(square)}
+      onMouseDown={handleSquareMouseDown}
+      onMouseUp={handleSquareMouseUp}
     >
       <SquareUI color={color} square={square} />
       <SquareHighlight {...{ highlighted, isCurrentlyFocusedPiece }} />
