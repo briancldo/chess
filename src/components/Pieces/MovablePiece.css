@@ -18,6 +18,6 @@
   position: fixed;
   height: 4vw;
   width: 4vw;
-  z-index: 100;
+  z-index: 101;
   pointer-events: none;
 }
