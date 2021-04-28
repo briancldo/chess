@@ -4,9 +4,11 @@ import {
   getPieceAtSquare,
   matchingSquares,
   validateSquare,
+  getKingSquare,
   files,
 } from '../board';
-import { excludeOccupiedSquares } from './utils';
+import { flipColor } from '../pieces';
+import { excludeOccupiedSquares, isSquareAttacked } from './utils';
 import { DevError } from '../errors';
 import config from '../../config/config';
 
@@ -58,6 +60,7 @@ export function makeMove(board, start, end) {
     draft[end.rank][end.file] = piece;
     handleSpecialCases(board, draft, piece, { start, end });
     draft[start.rank][start.file] = undefined;
+    handleChecks(board, draft, piece.color);
   });
 }
 
@@ -66,6 +69,7 @@ function handleSpecialCases(board, draft, piece, squares) {
   handlePawnPromotion(draft, piece, squares.end);
   handleCastling(board, draft, piece, squares.end);
   handleCastlingPiecesMoved(board, draft, piece, squares.start);
+  // TODO: handle king moved
 }
 
 function handleEnPassant(board, draft, piece, squares) {
@@ -136,4 +140,13 @@ function handleCastlingPiecesMoved(board, draft, piece, start) {
   if (rookCastlingState.k && start.file === files.last) {
     draft[0].castling[piece.color].side.k = false;
   }
+}
+
+function handleChecks(board, draft, enemyColor) {
+  const kingColor = flipColor(enemyColor);
+  const kingSquare = getKingSquare(board, kingColor);
+
+  const isKingChecked = isSquareAttacked(kingSquare, board, kingColor);
+  if (!isKingChecked) return;
+  draft[0].k[kingColor].check = true;
 }

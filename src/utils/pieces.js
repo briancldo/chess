@@ -59,3 +59,9 @@ export const PIECES = {
     p: { type: 'p', color: 'w' },
   },
 };
+
+export function flipColor(color) {
+  if (color === 'w') return 'b';
+  if (color === 'b') return 'w';
+  throw new DevError(`No such color: ${color}`);
+}
