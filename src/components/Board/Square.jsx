@@ -19,7 +19,8 @@ function Square(props) {
     isCurrentlyFocusedPiece,
     handlers,
   } = props;
-  const color = colorScheme[light ? 'light' : 'dark'];
+  const squareShade = light ? 'light' : 'dark';
+  const color = colorScheme[squareShade];
   validatePiece(containingPiece);
 
   function handleSquareMouseUp() {
@@ -39,7 +40,9 @@ function Square(props) {
       onMouseUp={handleSquareMouseUp}
     >
       <SquareUI color={color} square={square} />
-      <SquareHighlight {...{ highlighted, isCurrentlyFocusedPiece }} />
+      <SquareHighlight
+        {...{ highlighted, isCurrentlyFocusedPiece, squareShade }}
+      />
       <MovablePiece {...{ containingPiece }} />
     </div>
   );
@@ -76,8 +79,8 @@ function CornerSquare(props) {
   let corner = `${isLastRank ? 'Top' : 'Bottom'}${
     isLastFile ? 'Right' : 'Left'
   }`;
-  const squareType = isLastRank === isLastFile ? 'dark' : 'light';
-  const color = colorScheme[squareType];
+  const squareShade = isLastRank === isLastFile ? 'dark' : 'light';
+  const color = colorScheme[squareShade];
   const cornerSquareStyle = {
     height: '5vw',
     width: '5vw',
@@ -88,10 +91,16 @@ function CornerSquare(props) {
   return <div style={cornerSquareStyle} />;
 }
 
+const highlightColors = {
+  default: 'white',
+  focused: colorScheme.lightComplement,
+};
 function SquareHighlight(props) {
   const { highlighted, isCurrentlyFocusedPiece } = props;
   if (!highlighted && !isCurrentlyFocusedPiece) return null;
-  const strokeColor = isCurrentlyFocusedPiece ? 'red' : 'white';
+  const strokeColor = isCurrentlyFocusedPiece
+    ? highlightColors.focused
+    : highlightColors.default;
 
   return (
     <div className='square-highlight-wrapper'>
