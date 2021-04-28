@@ -146,7 +146,7 @@ function handleChecks(board, draft, enemyColor) {
   const kingColor = flipColor(enemyColor);
   const kingSquare = getKingSquare(board, kingColor);
 
-  const isKingChecked = isSquareAttacked(kingSquare, board, kingColor);
+  const isKingChecked = isSquareAttacked(kingSquare, draft, kingColor);
   if (!isKingChecked) return;
   draft[0].k[kingColor].check = true;
 }
