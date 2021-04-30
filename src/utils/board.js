@@ -80,3 +80,7 @@ export function getCastlingPosition(color) {
 export function getKingSquare(board, color) {
   return board[0].king[color].square;
 }
+
+export function getCheckedSide(board) {
+  return board[0].king.checkedSide;
+}
