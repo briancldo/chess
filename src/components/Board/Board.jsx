@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Rank from './Rank';
 import { ranks } from '../../utils/board';
-import { getPieceLegalMoves, makeMove } from '../../utils/moves/moves';
+import { getPieceLegalMoves, makeMove } from '../../utils/moves';
 import initialBoardPosition from '../../utils/board.init';
 import './Board.css';
 

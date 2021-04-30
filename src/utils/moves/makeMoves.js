@@ -8,46 +8,16 @@ import {
   files,
 } from '../board';
 import { flipColor } from '../pieces';
-import { excludeOccupiedSquares, isSquareAttacked } from './utils';
+import { isSquareAttacked } from './utils';
 import { DevError } from '../errors';
 import config from '../../config/config';
-
-import kingMove from './king';
-import queenMove from './queen';
-import rookMove from './rook';
-import bishopMove from './bishop';
-import knightMove from './knight';
-import pawnMove from './pawn';
-
-const piecesNeedExcludeLogic = new Set(['k', 'n', 'p']);
-
-export function getPieceLegalMoves(board, square, piece) {
-  if (!piece) piece = getPieceAtSquare(board, square);
-  const candidates = computeCandidateSquares[piece.type](
-    square,
-    board,
-    piece.color
-  );
-
-  if (!piecesNeedExcludeLogic.has(piece.type)) return candidates;
-  return excludeOccupiedSquares(candidates, board, piece.color);
-}
-
-const computeCandidateSquares = {
-  k: kingMove,
-  q: queenMove,
-  r: rookMove,
-  b: bishopMove,
-  n: knightMove,
-  p: pawnMove,
-};
 
 const backRank = {
   w: config.get('board.dimensions.numberRanks'),
   b: 1,
 };
 const promotionPieces = ['q', 'r', 'b', 'n'];
-export function makeMove(board, start, end) {
+export default function makeMove(board, start, end) {
   validateSquare(start);
   validateSquare(end);
 
