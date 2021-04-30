@@ -69,7 +69,7 @@ function handleSpecialCases(board, draft, piece, squares) {
   handlePawnPromotion(draft, piece, squares.end);
   handleCastling(board, draft, piece, squares.end);
   handleCastlingPiecesMoved(board, draft, piece, squares.start);
-  // TODO: handle king moved
+  handleKingMoved(draft, piece, squares.end);
 }
 
 function handleEnPassant(board, draft, piece, squares) {
@@ -149,4 +149,9 @@ function handleChecks(board, draft, enemyColor) {
   const isKingChecked = isSquareAttacked(kingSquare, draft, kingColor);
   if (!isKingChecked) return;
   draft[0].king.checkedSide = kingColor;
+}
+
+function handleKingMoved(draft, piece, endSquare) {
+  if (piece.type !== 'k') return;
+  draft[0].king[piece.color].square = endSquare;
 }
