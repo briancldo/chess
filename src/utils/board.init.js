@@ -8,9 +8,10 @@ export default [
       w: { k: true, side: { q: true, k: true } },
       b: { k: true, side: { q: true, k: true } },
     },
-    k: {
-      w: { square: { file: 'e', rank: 1 }, check: false },
-      b: { square: { file: 'e', rank: 8 }, check: false },
+    king: {
+      checkedSide: undefined,
+      w: { square: { file: 'e', rank: 1 } },
+      b: { square: { file: 'e', rank: 8 } },
     },
   },
   {

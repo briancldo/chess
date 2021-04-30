@@ -17,6 +17,7 @@ function Square(props) {
     square,
     highlighted,
     isCurrentlyFocusedPiece,
+    isChecked,
     handlers,
   } = props;
   const squareShade = light ? 'light' : 'dark';
@@ -41,7 +42,7 @@ function Square(props) {
     >
       <SquareUI color={color} square={square} />
       <SquareHighlight
-        {...{ highlighted, isCurrentlyFocusedPiece, squareShade }}
+        {...{ highlighted, isCurrentlyFocusedPiece, isChecked, squareShade }}
       />
       <MovablePiece {...{ containingPiece }} />
     </div>
@@ -91,16 +92,14 @@ function CornerSquare(props) {
   return <div style={cornerSquareStyle} />;
 }
 
-const highlightColors = {
-  default: 'white',
-  focused: colorScheme.lightComplement,
-};
 function SquareHighlight(props) {
-  const { highlighted, isCurrentlyFocusedPiece } = props;
-  if (!highlighted && !isCurrentlyFocusedPiece) return null;
-  const strokeColor = isCurrentlyFocusedPiece
-    ? highlightColors.focused
-    : highlightColors.default;
+  const { highlighted, isCurrentlyFocusedPiece, isChecked } = props;
+  if (!highlighted && !isCurrentlyFocusedPiece && !isChecked) return null;
+
+  const strokeColor = getSquareHighlightColor({
+    isCurrentlyFocusedPiece,
+    isChecked,
+  });
 
   return (
     <div className='square-highlight-wrapper'>
@@ -115,4 +114,17 @@ function SquareHighlight(props) {
       </svg>
     </div>
   );
+}
+
+const highlightColors = {
+  default: 'white',
+  focused: colorScheme.lightComplement,
+  checked: 'red',
+};
+function getSquareHighlightColor(conditions) {
+  const { isCurrentlyFocusedPiece, isChecked } = conditions;
+
+  if (isCurrentlyFocusedPiece) return highlightColors.focused;
+  if (isChecked) return highlightColors.checked;
+  return highlightColors.default;
 }
