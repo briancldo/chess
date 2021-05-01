@@ -117,7 +117,7 @@ function SquareHighlight(props) {
 }
 
 const highlightColors = {
-  default: 'white',
+  candidate: 'white',
   focused: colorScheme.lightComplement,
   checked: 'red',
 };
@@ -126,5 +126,5 @@ function getSquareHighlightColor(conditions) {
 
   if (isCurrentlyFocusedPiece) return highlightColors.focused;
   if (isChecked) return highlightColors.checked;
-  return highlightColors.default;
+  return highlightColors.candidate;
 }
