@@ -4,7 +4,7 @@ import Square from './Square';
 import { files, matchingSquares } from '../../utils/board';
 
 export default function Rank(props) {
-  const { number, rankPosition, handlers, data } = props;
+  const { number, rankPosition, checkedSquare, handlers, data } = props;
   const lightSquareParity = number % 2;
 
   return (
@@ -27,6 +27,7 @@ export default function Rank(props) {
             square={square}
             highlighted={highlighted}
             isCurrentlyFocusedPiece={isCurrentlyFocusedPiece}
+            isChecked={checkedSquare && checkedSquare.file === file}
             handlers={handlers}
           />
         );

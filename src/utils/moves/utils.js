@@ -76,15 +76,15 @@ export function getDirection(color) {
 }
 
 export function isSquareAttacked(square, board, color) {
-  for (const piece of ['r', 'b', 'n', 'p']) {
-    const attacked = isSquareAttackedByPiece(piece, square, board, color);
+  for (const pieceType of ['r', 'b', 'n', 'p']) {
+    const attacked = isSquareAttackedByPiece(pieceType, square, board, color);
     if (attacked) return true;
   }
 
   return false;
 }
 
-const attackingPiecesData = {
+export const attackingPiecesData = {
   r: { getMoves: rookMove, pieces: ['r', 'q'] },
   b: { getMoves: bishopMove, pieces: ['b', 'q'] },
   n: { getMoves: knightMove, pieces: ['n'] },
@@ -110,8 +110,8 @@ const attackingPiecesData = {
   },
 };
 
-function isSquareAttackedByPiece(piece, square, board, color) {
-  const { getMoves, pieces } = attackingPiecesData[piece];
+function isSquareAttackedByPiece(pieceType, square, board, color) {
+  const { getMoves, pieces } = attackingPiecesData[pieceType];
   const moves = getMoves(square, board, color);
   const movePieces = moves.map((move) => getPieceAtSquare(board, move));
   for (const piece of movePieces) {

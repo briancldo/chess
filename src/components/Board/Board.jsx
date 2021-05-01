@@ -30,11 +30,22 @@ export default function Board() {
     },
   };
   const data = { candidateSquares, focusedPiece };
-  return <BoardUI {...{ position, handlers, data }} />;
+  return (
+    <>
+      {process.env.NODE_ENV === 'development' && (
+        <button onClick={() => console.log(position)}>Print Board</button>
+      )}
+      <BoardUI {...{ position, handlers, data }} />;
+    </>
+  );
 }
 
 function BoardUI(props) {
   const { position, handlers, data } = props;
+  const checkedSide = position[0].king.checkedSide;
+  const checkedSquare = checkedSide
+    ? position[0].king[checkedSide].square
+    : undefined;
 
   return (
     <div className='board'>
@@ -43,6 +54,11 @@ function BoardUI(props) {
           <Rank
             number={rank}
             rankPosition={position[rank]}
+            checkedSquare={
+              checkedSquare && checkedSquare.rank === rank
+                ? checkedSquare
+                : undefined
+            }
             handlers={handlers}
             data={data}
           />

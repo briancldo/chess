@@ -15,8 +15,10 @@ files.last = files[files.length - 1];
 for (let i = numberRanks; i >= 1; i--) ranks.push(i);
 ranks.first = ranks[ranks.length - 1];
 ranks.last = ranks[0];
+export const orderedRanks = [...ranks].reverse();
 Object.freeze(files);
 Object.freeze(ranks);
+Object.freeze(orderedRanks);
 
 export function matchingSquares(square1, square2) {
   return square1.rank === square2.rank && square1.file === square2.file;
@@ -75,4 +77,12 @@ export function getCastlingPosition(color) {
       rFormer: { rank: castlingRank, file: 'h' },
     },
   };
+}
+
+export function getKingSquare(board, color) {
+  return board[0].king[color].square;
+}
+
+export function getCheckedSide(board) {
+  return board[0].king.checkedSide;
 }

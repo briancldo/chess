@@ -17,9 +17,11 @@ function Square(props) {
     square,
     highlighted,
     isCurrentlyFocusedPiece,
+    isChecked,
     handlers,
   } = props;
-  const color = colorScheme[light ? 'light' : 'dark'];
+  const squareShade = light ? 'light' : 'dark';
+  const color = colorScheme[squareShade];
   validatePiece(containingPiece);
 
   function handleSquareMouseUp() {
@@ -39,7 +41,9 @@ function Square(props) {
       onMouseUp={handleSquareMouseUp}
     >
       <SquareUI color={color} square={square} />
-      <SquareHighlight {...{ highlighted, isCurrentlyFocusedPiece }} />
+      <SquareHighlight
+        {...{ highlighted, isCurrentlyFocusedPiece, isChecked, squareShade }}
+      />
       <MovablePiece {...{ containingPiece }} />
     </div>
   );
@@ -76,8 +80,8 @@ function CornerSquare(props) {
   let corner = `${isLastRank ? 'Top' : 'Bottom'}${
     isLastFile ? 'Right' : 'Left'
   }`;
-  const squareType = isLastRank === isLastFile ? 'dark' : 'light';
-  const color = colorScheme[squareType];
+  const squareShade = isLastRank === isLastFile ? 'dark' : 'light';
+  const color = colorScheme[squareShade];
   const cornerSquareStyle = {
     height: '5vw',
     width: '5vw',
@@ -89,9 +93,13 @@ function CornerSquare(props) {
 }
 
 function SquareHighlight(props) {
-  const { highlighted, isCurrentlyFocusedPiece } = props;
-  if (!highlighted && !isCurrentlyFocusedPiece) return null;
-  const strokeColor = isCurrentlyFocusedPiece ? 'red' : 'white';
+  const { highlighted, isCurrentlyFocusedPiece, isChecked } = props;
+  if (!highlighted && !isCurrentlyFocusedPiece && !isChecked) return null;
+
+  const strokeColor = getSquareHighlightColor({
+    isCurrentlyFocusedPiece,
+    isChecked,
+  });
 
   return (
     <div className='square-highlight-wrapper'>
@@ -106,4 +114,17 @@ function SquareHighlight(props) {
       </svg>
     </div>
   );
+}
+
+const highlightColors = {
+  candidate: 'white',
+  focused: colorScheme.lightComplement,
+  checked: 'red',
+};
+function getSquareHighlightColor(conditions) {
+  const { isCurrentlyFocusedPiece, isChecked } = conditions;
+
+  if (isCurrentlyFocusedPiece) return highlightColors.focused;
+  if (isChecked) return highlightColors.checked;
+  return highlightColors.candidate;
 }
