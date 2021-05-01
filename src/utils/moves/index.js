@@ -20,11 +20,10 @@ export function getPieceLegalMoves(board, square, piece) {
     piece.color
   );
 
-  if (!piecesNeedExcludeLogic.has(piece.type)) return candidates;
-  candidates = excludeOccupiedSquares(candidates, board, piece.color);
   if (getCheckedSide(board))
-    return excludeNonCheckHandlingSquares(candidates, board, piece);
-  return candidates;
+    candidates = excludeNonCheckHandlingSquares(candidates, board, piece);
+  if (!piecesNeedExcludeLogic.has(piece.type)) return candidates;
+  return excludeOccupiedSquares(candidates, board, piece.color);
 }
 
 const computeCandidateSquares = {
