@@ -8,7 +8,7 @@ import {
   files,
 } from '../board';
 import { flipColor } from '../pieces';
-import { isSquareAttacked } from './utils';
+import { isSquareAttacked, setCheckDetails } from './utils';
 import { DevError } from '../errors';
 import config from '../../config/config';
 
@@ -112,6 +112,11 @@ function handleCastlingPiecesMoved(board, draft, piece, start) {
   }
 }
 
+function handleKingMoved(draft, piece, endSquare) {
+  if (piece.type !== 'k') return;
+  draft[0].king[piece.color].square = endSquare;
+}
+
 function handleChecks(board, draft, enemyColor) {
   const kingColor = flipColor(enemyColor);
   const kingSquare = getKingSquare(board, kingColor);
@@ -119,9 +124,5 @@ function handleChecks(board, draft, enemyColor) {
   const isKingChecked = isSquareAttacked(kingSquare, draft, kingColor);
   if (!isKingChecked) return;
   draft[0].king.checkedSide = kingColor;
-}
-
-function handleKingMoved(draft, piece, endSquare) {
-  if (piece.type !== 'k') return;
-  draft[0].king[piece.color].square = endSquare;
+  setCheckDetails(board, draft, kingSquare, kingColor);
 }

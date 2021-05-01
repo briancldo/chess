@@ -36,5 +36,6 @@ const computeCandidateSquares = {
 };
 
 function excludeNonCheckHandlingSquares(squares, board) {
-  return { squares, board };
+  board;
+  return squares;
 }
