@@ -122,7 +122,13 @@ function handleChecks(board, draft, enemyColor) {
   const kingSquare = getKingSquare(board, kingColor);
 
   const isKingChecked = isSquareAttacked(kingSquare, draft, kingColor);
-  if (!isKingChecked) return;
+  if (!isKingChecked) return handleUncheck(draft);
   draft[0].king.checkedSide = kingColor;
   setCheckDetails(board, draft, kingSquare, kingColor);
+}
+
+function handleUncheck(draft) {
+  draft[0].king.checkedSide = undefined;
+  draft[0].king.checkDetails.threatPieces = [];
+  draft[0].king.checkDetails.threatSquares = [];
 }

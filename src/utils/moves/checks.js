@@ -16,7 +16,6 @@ function excludeNonBlockOrCaptureSquares(candidates, checkDetails, piece) {
   if (threatPieces.length > 1) return [];
 
   const allBlockOrCaptureSquares = [threatPieces[0].square, ...threatSquares];
-  console.log({ allBlockOrCaptureSquares });
   return candidates.filter((candidate) =>
     allBlockOrCaptureSquares.some((blockOrCaptureSquare) =>
       matchingSquares(blockOrCaptureSquare, candidate)
