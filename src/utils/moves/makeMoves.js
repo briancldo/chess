@@ -5,10 +5,11 @@ import {
   matchingSquares,
   validateSquare,
   getKingSquare,
+  orderedRanks,
   files,
 } from '../board';
 import { flipColor } from '../pieces';
-import { isSquareAttacked, setCheckDetails } from './utils';
+import { isSquareAttacked, attackingPiecesData } from './utils';
 import { DevError } from '../errors';
 import config from '../../config/config';
 
@@ -131,4 +132,122 @@ function handleUncheck(draft) {
   draft[0].king.checkedSide = undefined;
   draft[0].king.checkDetails.threatPieces = [];
   draft[0].king.checkDetails.threatSquares = [];
+}
+
+// ------------------------------------------------------------
+
+export function setCheckDetails(board, draft, kingSquare, color) {
+  const threatPieces = getThreatPieces(draft, kingSquare, color);
+  const threatSquares = getThreatSquares(kingSquare, threatPieces);
+
+  draft[0].king.checkDetails.threatPieces = threatPieces;
+  draft[0].king.checkDetails.threatSquares = threatSquares;
+}
+
+function getThreatPieces(draft, square, color) {
+  const threatPieces = [];
+  for (const pieceType of ['r', 'b', 'n', 'p']) {
+    const { getMoves, pieces } = attackingPiecesData[pieceType];
+    const moves = getMoves(square, draft, color);
+    const movePieces = moves.map((move) => getPieceAtSquare(draft, move));
+
+    for (const [i, piece] of movePieces.entries()) {
+      if (piece && pieces.includes(piece.type) && piece.color !== color) {
+        threatPieces.push({ piece, square: moves[i] });
+      }
+    }
+  }
+  return threatPieces;
+}
+
+function getIntermediateLines(type, startLine, endLine) {
+  const lines = type === 'ranks' ? orderedRanks : files;
+  const startLineIndex = lines.indexOf(startLine);
+  const endLineIndex = lines.indexOf(endLine);
+  const [loIndex, hiIndex] = [startLineIndex, endLineIndex].sort();
+  const intermediateLines = lines.slice(loIndex + 1, hiIndex);
+
+  if (startLine < endLine) return intermediateLines;
+  return [...intermediateLines].reverse();
+}
+
+function getThreatSquares(attackedSquare, threatPieces) {
+  const threatSquares = [];
+  for (const threatPieceInfo of threatPieces) {
+    const { piece: threatPiece, square: threatSquare } = threatPieceInfo;
+
+    if (['n', 'p'].includes(threatPiece.type)) continue;
+
+    const { rookLike, bishopLike } = isAttackRookOrBishopLike(
+      threatPiece,
+      attackedSquare,
+      threatSquare
+    );
+
+    if (rookLike)
+      threatSquares.push(...getThreatSquaresRook(threatSquare, attackedSquare));
+
+    if (bishopLike)
+      threatSquares.push(
+        ...getThreatSquaresBishop(threatSquare, attackedSquare)
+      );
+  }
+  return threatSquares;
+}
+
+function isAttackRookOrBishopLike(piece, attackedSquare, queenSquare) {
+  if (piece.type === 'r') return { rookLike: true };
+  if (piece.type === 'b') return { bishopLike: true };
+  if (piece.type !== 'q') return {};
+
+  if (
+    queenSquare.rank === attackedSquare.rank ||
+    queenSquare.file === attackedSquare.file
+  ) {
+    return { rookLike: true };
+  }
+  return { bishopLike: true };
+}
+
+function getThreatSquaresRook(threatSquare, attackedSquare) {
+  if (threatSquare.rank !== attackedSquare.rank)
+    return getIntermediateLines(
+      'ranks',
+      threatSquare.rank,
+      attackedSquare.rank
+    ).map((rank) => ({
+      file: threatSquare.file,
+      rank,
+    }));
+  return getIntermediateLines(
+    'files',
+    threatSquare.file,
+    attackedSquare.file
+  ).map((file) => ({
+    file,
+    rank: threatSquare.rank,
+  }));
+}
+
+function getThreatSquaresBishop(threatSquare, attackedSquare) {
+  const threatSquares = [];
+
+  const intermediateRanks = getIntermediateLines(
+    'ranks',
+    threatSquare.rank,
+    attackedSquare.rank
+  );
+  const intermediateFiles = getIntermediateLines(
+    'files',
+    threatSquare.file,
+    attackedSquare.file
+  );
+  // eslint-disable-next-line unicorn/no-for-loop
+  for (let i = 0; i < intermediateRanks.length; i++) {
+    const rank = intermediateRanks[i];
+    const file = intermediateFiles[i];
+    threatSquares.push({ rank, file });
+  }
+
+  return threatSquares;
 }
