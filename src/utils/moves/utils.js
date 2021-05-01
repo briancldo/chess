@@ -151,18 +151,15 @@ function getThreatPieces(draft, square, color) {
   return threatPieces;
 }
 
-function getIntermediateRanks(rank1, rank2) {
-  const rank1Index = ranks.indexOf(rank1);
-  const rank2Index = ranks.indexOf(rank2);
-  const [startRankIndex, endRankIndex] = [rank1Index, rank2Index].sort();
-  return orderedRanks.slice(startRankIndex + 1, endRankIndex);
-}
+function getIntermediateLines(type, startLine, endLine) {
+  const lines = type === 'ranks' ? orderedRanks : files;
+  const startLineIndex = lines.indexOf(startLine);
+  const endLineIndex = lines.indexOf(endLine);
+  const [loIndex, hiIndex] = [startLineIndex, endLineIndex].sort();
+  const intermediateLines = lines.slice(loIndex + 1, hiIndex);
 
-function getIntermediateFiles(file1, file2) {
-  const file1Index = files.indexOf(file1);
-  const file2Index = files.indexOf(file2);
-  const [startFileIndex, endFileIndex] = [file1Index, file2Index].sort();
-  return files.slice(startFileIndex + 1, endFileIndex);
+  if (startLine < endLine) return intermediateLines;
+  return [...intermediateLines].reverse();
 }
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -193,23 +190,27 @@ function getThreatSquares(attackedSquare, threatPieces) {
         if file different:
           return [{ file: <in between king & rook/queen>, rank: <same> }, ...]
     */
-    if (threatPiece === 'r' || rookLike) {
+    if (threatPiece.type === 'r' || rookLike) {
       if (threatSquare.rank !== attackedSquare.rank)
         threatSquares.push(
-          ...getIntermediateRanks(threatSquare.rank, attackedSquare.file).map(
-            (rank) => ({
-              file: threatSquare.file,
-              rank,
-            })
-          )
+          ...getIntermediateLines(
+            'ranks',
+            threatSquare.rank,
+            attackedSquare.rank
+          ).map((rank) => ({
+            file: threatSquare.file,
+            rank,
+          }))
         );
       threatSquares.push(
-        ...getIntermediateFiles(threatSquare.file, attackedSquare.file).map(
-          (file) => ({
-            file,
-            rank: threatSquare.rank,
-          })
-        )
+        ...getIntermediateLines(
+          'files',
+          threatSquare.file,
+          attackedSquare.file
+        ).map((file) => ({
+          file,
+          rank: threatSquare.rank,
+        }))
       );
     }
 
@@ -217,12 +218,14 @@ function getThreatSquares(attackedSquare, threatPieces) {
       if bishop or bishop-like queen:
         return [{ file: <intermediate files>, rank: <intermediate ranks> }, ...]
     */
-    if (threatPiece === 'b' || bishopLike) {
-      const intermediateRanks = getIntermediateRanks(
+    if (threatPiece.type === 'b' || bishopLike) {
+      const intermediateRanks = getIntermediateLines(
+        'ranks',
         threatSquare.rank,
         attackedSquare.rank
       );
-      const intermediateFiles = getIntermediateFiles(
+      const intermediateFiles = getIntermediateLines(
+        'files',
         threatSquare.file,
         attackedSquare.file
       );
