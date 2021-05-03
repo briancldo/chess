@@ -139,16 +139,27 @@ function handleUncheck(draft) {
 function handleGameOver(draft, color) {
   const kingSquare = draft[0].king[color].square;
   const kingMoves = getPieceLegalMoves(draft, kingSquare, { type: 'k', color });
+  console.log({ kingMoves });
   if (kingMoves.length > 0) return;
 
-  const allyPieceMoves = getSideAllPieceMoves(draft, color);
-  if (allyPieceMoves > 0) return;
+  const allyPiecesCanMove = canAllyPiecesMove(draft, color);
+  if (allyPiecesCanMove) return;
 
   const isKingChecked = draft[0].king.checkedSide === color;
   draft[0].result = isKingChecked ? 'c' : 's';
 }
 
-function getSideAllPieceMoves(draft, color) {
-  draft, color;
-  return [];
+function canAllyPiecesMove(board, color) {
+  for (const rank of board) {
+    if (rank === 0) continue;
+    for (const file in rank) {
+      console.log({ rank, file, board });
+      const piece = board[rank][file];
+      if (!piece || piece.color !== color) continue;
+
+      const moves = getPieceLegalMoves(board, { rank, file }, piece);
+      if (moves > 0) return true;
+    }
+  }
+  return false;
 }
