@@ -23,29 +23,30 @@ export default function makeMove(board, start, end) {
   validateSquare(start);
   validateSquare(end);
 
-  let piece = getPieceAtSquare(board, start);
+  let piece = getPieceAtSquare(board.position, start);
   if (!piece)
     throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
 
   return produce(board, (draft) => {
     // this order is neccessary
-    draft[end.rank][end.file] = piece;
+    draft.position[end.rank][end.file] = piece;
     handleSpecialCases(board, draft, piece, { start, end });
-    draft[start.rank][start.file] = undefined;
-    handleChecks(board, draft, piece.color);
+    draft.position[start.rank][start.file] = undefined;
+    handleChecks(board.state, draft, piece.color);
     handleGameOver(draft, piece.color);
   });
 }
 
 function handleSpecialCases(board, draft, piece, squares) {
-  handleEnPassant(board, draft, piece, squares);
+  const { state: boardState, position } = board;
+  handleEnPassant(position, draft, piece, squares);
   handlePawnPromotion(draft, piece, squares.end);
-  handleCastling(board, draft, piece, squares.end);
-  handleCastlingPiecesMoved(board, draft, piece, squares.start);
+  handleCastling(boardState, draft, piece, squares.end);
+  handleCastlingPiecesMoved(boardState, draft, piece, squares.start);
   handleKingMoved(draft, piece, squares.end);
 }
 
-function handleEnPassant(board, draft, piece, squares) {
+function handleEnPassant(position, draft, piece, squares) {
   const { start, end } = squares;
 
   let isEnPassantSquare;
@@ -53,21 +54,21 @@ function handleEnPassant(board, draft, piece, squares) {
   if (piece.type === 'p') {
     isEnPassantSquare = Math.abs(end.rank - start.rank) === 2;
     capturedEnPassant =
-      start.file !== end.file && getPieceAtSquare(board, end) === undefined;
+      start.file !== end.file && getPieceAtSquare(position, end) === undefined;
   }
 
   if (capturedEnPassant) {
-    const { rank, file } = draft[0].enPassantSquare;
-    draft[rank][file] = undefined;
+    const { rank, file } = draft.state.enPassantSquare;
+    draft.position[rank][file] = undefined;
   }
-  draft[0].enPassantSquare = isEnPassantSquare ? end : undefined;
+  draft.state.enPassantSquare = isEnPassantSquare ? end : undefined;
 }
 
 function handlePawnPromotion(draft, piece, end) {
   if (piece.type !== 'p') return;
 
   if (end.rank === backRank[piece.color])
-    draft[end.rank][end.file] = promotePawn(piece.color);
+    draft.position[end.rank][end.file] = promotePawn(piece.color);
 }
 
 function promotePawn(color) {
@@ -79,9 +80,9 @@ function promotePawn(color) {
   return { type: promotionPiece, color };
 }
 
-function handleCastling(board, draft, piece, end) {
+function handleCastling(boardState, draft, piece, end) {
   if (piece.type !== 'k') return;
-  const castling = board[0].castling[piece.color];
+  const castling = boardState.castling[piece.color];
   if (!castling.k) return;
 
   const castlingSquares = getCastlingPosition(piece.color);
@@ -93,47 +94,50 @@ function handleCastling(board, draft, piece, end) {
   const side = isKingsideSquare ? 'k' : 'q';
   const rookSquare = castlingSquares[side].r;
   const oldRookSquare = castlingSquares[side].rFormer;
-  draft[rookSquare.rank][rookSquare.file] = { type: 'r', color: piece.color };
-  draft[oldRookSquare.rank][oldRookSquare.file] = undefined;
+  draft.position[rookSquare.rank][rookSquare.file] = {
+    type: 'r',
+    color: piece.color,
+  };
+  draft.position[oldRookSquare.rank][oldRookSquare.file] = undefined;
 
-  draft[0].castling[piece.color].k = false;
-  draft[0].castling[piece.color].side.q = false;
-  draft[0].castling[piece.color].side.k = false;
+  draft.state.castling[piece.color].k = false;
+  draft.state.castling[piece.color].side.q = false;
+  draft.state.castling[piece.color].side.k = false;
 }
 
-function handleCastlingPiecesMoved(board, draft, piece, start) {
-  if (piece.type === 'k') draft[0].castling[piece.color].k = false;
+function handleCastlingPiecesMoved(boardState, draft, piece, start) {
+  if (piece.type === 'k') draft.state.castling[piece.color].k = false;
 
   if (piece.type !== 'r') return;
-  const rookCastlingState = board[0].castling[piece.color].side;
+  const rookCastlingState = boardState.castling[piece.color].side;
 
   if (rookCastlingState.q && start.file === files.first) {
-    draft[0].castling[piece.color].side.q = false;
+    draft.state.castling[piece.color].side.q = false;
   }
   if (rookCastlingState.k && start.file === files.last) {
-    draft[0].castling[piece.color].side.k = false;
+    draft.state.castling[piece.color].side.k = false;
   }
 }
 
 function handleKingMoved(draft, piece, endSquare) {
   if (piece.type !== 'k') return;
-  draft[0].king[piece.color].square = endSquare;
+  draft.state.king[piece.color].square = endSquare;
 }
 
-function handleChecks(board, draft, enemyColor) {
+function handleChecks(boardState, draft, enemyColor) {
   const kingColor = flipColor(enemyColor);
-  const kingSquare = getKingSquare(board, kingColor);
+  const kingSquare = getKingSquare(boardState, kingColor);
 
-  const isKingChecked = isSquareAttacked(kingSquare, draft, kingColor);
+  const isKingChecked = isSquareAttacked(kingSquare, draft.position, kingColor);
   if (!isKingChecked) return handleUncheck(draft);
-  draft[0].king.checkedSide = kingColor;
-  setCheckDetails(board, draft, kingSquare, kingColor);
+  draft.state.king.checkedSide = kingColor;
+  setCheckDetails(draft, kingSquare, kingColor);
 }
 
 function handleUncheck(draft) {
-  draft[0].king.checkedSide = undefined;
-  draft[0].king.checkDetails.threatPieces = [];
-  draft[0].king.checkDetails.threatSquares = [];
+  draft.state.king.checkedSide = undefined;
+  draft.state.king.checkDetails.threatPieces = [];
+  draft.state.king.checkDetails.threatSquares = [];
 }
 
 function handleGameOver(draft, color) {

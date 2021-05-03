@@ -5,7 +5,7 @@ import knightMove from './knight';
 
 export function getLegalSquaresInDirection(
   square,
-  board,
+  position,
   color,
   offsetDirection
 ) {
@@ -17,7 +17,7 @@ export function getLegalSquaresInDirection(
   while (!done) {
     try {
       currentSquare = getSquareAtOffset(currentSquare, offsetX, offsetY);
-      const currentSquarePiece = getPieceAtSquare(board, currentSquare);
+      const currentSquarePiece = getPieceAtSquare(position, currentSquare);
 
       if (!currentSquarePiece) {
         squares.push(currentSquare);
@@ -34,9 +34,9 @@ export function getLegalSquaresInDirection(
   return squares;
 }
 
-export function excludeOccupiedSquares(squares, board, color, options = {}) {
+export function excludeOccupiedSquares(squares, position, color, options = {}) {
   return squares.filter((square) => {
-    const piece = getPieceAtSquare(board, square);
+    const piece = getPieceAtSquare(position, square);
 
     if (!piece) return true;
     if (options.ignoreColor) return false;
@@ -75,9 +75,14 @@ export function getDirection(color) {
   return color === 'w' ? 1 : -1;
 }
 
-export function isSquareAttacked(square, board, color) {
+export function isSquareAttacked(square, position, color) {
   for (const pieceType of ['r', 'b', 'n', 'p']) {
-    const attacked = isSquareAttackedByPiece(pieceType, square, board, color);
+    const attacked = isSquareAttackedByPiece(
+      pieceType,
+      square,
+      position,
+      color
+    );
     if (attacked) return true;
   }
 
@@ -89,7 +94,7 @@ export const attackingPiecesData = {
   b: { getMoves: bishopMove, pieces: ['b', 'q'] },
   n: { getMoves: knightMove, pieces: ['n'] },
   p: {
-    getMoves: (square, board, color) => {
+    getMoves: (square, color) => {
       const direction = getDirection(color);
       const pawnMoves = [];
       try {
@@ -110,10 +115,10 @@ export const attackingPiecesData = {
   },
 };
 
-function isSquareAttackedByPiece(pieceType, square, board, color) {
+function isSquareAttackedByPiece(pieceType, square, position, color) {
   const { getMoves, pieces } = attackingPiecesData[pieceType];
-  const moves = getMoves(square, board, color);
-  const movePieces = moves.map((move) => getPieceAtSquare(board, move));
+  const moves = getMoves(square, color, position);
+  const movePieces = moves.map((move) => getPieceAtSquare(position, move));
   for (const piece of movePieces) {
     if (!piece) continue;
     if (pieces.includes(piece.type) && piece.color !== color) return true;

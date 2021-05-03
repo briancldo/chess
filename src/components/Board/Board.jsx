@@ -3,17 +3,17 @@ import React, { useEffect, useState } from 'react';
 import Rank from './Rank';
 import { ranks } from '../../utils/board';
 import { getPieceLegalMoves, makeMove } from '../../utils/moves/moves';
-import initialBoardPosition from '../../utils/board.init';
+import initialBoard from '../../utils/board.init';
 import './Board.css';
 
 export default function Board() {
-  const [position, setPosition] = useState(initialBoardPosition);
+  const [board, setBoard] = useState(initialBoard);
   const [focusedPiece, setFocusedPiece] = useState({});
   const [candidateSquares, setCandidateSquares] = useState([]);
 
   useEffect(() => {
     if (!focusedPiece?.square) return setCandidateSquares([]);
-    setCandidateSquares(getPieceLegalMoves(position, focusedPiece.square));
+    setCandidateSquares(getPieceLegalMoves(board, focusedPiece.square));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusedPiece]);
 
@@ -25,7 +25,7 @@ export default function Board() {
       setFocusedPiece({});
     },
     movePiece: (destination) => {
-      setPosition(makeMove(position, focusedPiece.square, destination));
+      setBoard((board) => makeMove(board, focusedPiece.square, destination));
       handlers.removePieceFocus();
     },
   };
@@ -33,18 +33,18 @@ export default function Board() {
   return (
     <>
       {process.env.NODE_ENV === 'development' && (
-        <button onClick={() => console.log(position)}>Print Board</button>
+        <button onClick={() => console.log(board)}>Print Board</button>
       )}
-      <BoardUI {...{ position, handlers, data }} />;
+      <BoardUI {...{ board, handlers, data }} />;
     </>
   );
 }
 
 function BoardUI(props) {
-  const { position, handlers, data } = props;
-  const checkedSide = position[0].king.checkedSide;
+  const { board, handlers, data } = props;
+  const checkedSide = board.state.king.checkedSide;
   const checkedSquare = checkedSide
-    ? position[0].king[checkedSide].square
+    ? board.state.king[checkedSide].square
     : undefined;
 
   return (
@@ -53,7 +53,7 @@ function BoardUI(props) {
         <React.Fragment key={`rank${rank}`}>
           <Rank
             number={rank}
-            rankPosition={position[rank]}
+            rankPosition={board.position[rank]}
             checkedSquare={
               checkedSquare && checkedSquare.rank === rank
                 ? checkedSquare
