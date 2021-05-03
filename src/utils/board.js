@@ -24,8 +24,8 @@ export function matchingSquares(square1, square2) {
   return square1.rank === square2.rank && square1.file === square2.file;
 }
 
-export function getPieceAtSquare(board, square) {
-  return board[square.rank][square.file];
+export function getPieceAtSquare(position, square) {
+  return position[square.rank][square.file];
 }
 
 export function getSquareAtOffset(square, offsetX, offsetY) {
@@ -79,10 +79,10 @@ export function getCastlingPosition(color) {
   };
 }
 
-export function getKingSquare(board, color) {
-  return board[0].king[color].square;
+export function getKingSquare(boardState, color) {
+  return boardState.king[color].square;
 }
 
-export function getCheckedSide(board) {
-  return board[0].king.checkedSide;
+export function getCheckedSide(boardState) {
+  return boardState.king.checkedSide;
 }

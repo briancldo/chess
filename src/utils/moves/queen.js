@@ -1,9 +1,9 @@
 import bishopMove from './bishop';
 import rookMove from './rook';
 
-export default function queenMove(square, board, color) {
+export default function queenMove(square, color, position) {
   return [
-    ...bishopMove(square, board, color),
-    ...rookMove(square, board, color),
+    ...bishopMove(square, color, position),
+    ...rookMove(square, color, position),
   ];
 }
