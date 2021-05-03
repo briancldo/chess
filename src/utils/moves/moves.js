@@ -16,20 +16,23 @@ const piecesNeedExcludeLogic = new Set(['k', 'n', 'p']);
 
 export { default as makeMove } from './makeMoves';
 export function getPieceLegalMoves(board, square, piece) {
-  if (!piece) piece = getPieceAtSquare(board, square);
+  const { state: boardState, position } = board;
+  if (!piece) piece = getPieceAtSquare(position, square);
+
   let candidates = computeCandidateSquares[piece.type](
     square,
-    board,
-    piece.color
+    piece.color,
+    position,
+    boardState
   );
 
-  if (getCheckedSide(board))
-    candidates = excludeNonCheckHandlingSquares(candidates, board, piece);
+  if (getCheckedSide(boardState))
+    candidates = excludeNonCheckHandlingSquares(candidates, boardState, piece);
   if (!piecesNeedExcludeLogic.has(piece.type)) return candidates;
 
   if (piece.type === 'k')
     candidates = excludeCheckingSquares(candidates, board, piece.color);
-  return excludeOccupiedSquares(candidates, board, piece.color);
+  return excludeOccupiedSquares(candidates, position, piece.color);
 }
 
 const computeCandidateSquares = {

@@ -7,8 +7,8 @@ import {
 } from '../board';
 import { isSquareAttacked, attackingPiecesData } from './utils';
 
-export function excludeNonCheckHandlingSquares(candidates, board, piece) {
-  const { checkDetails } = board[0].king;
+export function excludeNonCheckHandlingSquares(candidates, boardState, piece) {
+  const { checkDetails } = boardState.king;
   const checkHandlingSquares = [];
   checkHandlingSquares.push(
     ...excludeNonBlockOrCaptureSquares(candidates, checkDetails, piece),
@@ -44,32 +44,33 @@ function excludeNonKingMoveSquares(candidates, threatSquares, piece) {
 // -------------------------------------------------------------------
 
 export function excludeCheckingSquares(candidates, board, pieceColor) {
-  const boardWithoutKing = produce(board, (draft) => {
-    const kingSquare = board[0].king[pieceColor].square;
+  const { state: boardState, position } = board;
+  const kingSquare = boardState.king[pieceColor].square;
+  const positionWithoutKing = produce(position, (draft) => {
     draft[kingSquare.rank][kingSquare.file] = undefined;
   });
 
   return candidates.filter(
-    (candidate) => !isSquareAttacked(candidate, boardWithoutKing, pieceColor)
+    (candidate) => !isSquareAttacked(candidate, positionWithoutKing, pieceColor)
   );
 }
 
 // -------------------------------------------------------------------
 
-export function setCheckDetails(board, draft, kingSquare, color) {
-  const threatPieces = getThreatPieces(draft, kingSquare, color);
+export function setCheckDetails(draft, kingSquare, color) {
+  const threatPieces = getThreatPieces(draft.position, kingSquare, color);
   const threatSquares = getThreatSquares(kingSquare, threatPieces);
 
-  draft[0].king.checkDetails.threatPieces = threatPieces;
-  draft[0].king.checkDetails.threatSquares = threatSquares;
+  draft.state.king.checkDetails.threatPieces = threatPieces;
+  draft.state.king.checkDetails.threatSquares = threatSquares;
 }
 
-function getThreatPieces(draft, square, color) {
+function getThreatPieces(position, square, color) {
   const threatPieces = [];
   for (const pieceType of ['r', 'b', 'n', 'p']) {
     const { getMoves, pieces } = attackingPiecesData[pieceType];
-    const moves = getMoves(square, draft, color);
-    const movePieces = moves.map((move) => getPieceAtSquare(draft, move));
+    const moves = getMoves(square, color, position);
+    const movePieces = moves.map((move) => getPieceAtSquare(position, move));
 
     for (const [i, piece] of movePieces.entries()) {
       if (piece && pieces.includes(piece.type) && piece.color !== color) {

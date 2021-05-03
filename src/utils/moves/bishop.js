@@ -7,12 +7,12 @@ const offsetDirections = [
   [-1, -1],
 ];
 
-export default function bishopMove(square, board, color) {
+export default function bishopMove(square, color, position) {
   const squares = [];
 
   for (const offsetDirection of offsetDirections) {
     squares.push(
-      ...getLegalSquaresInDirection(square, board, color, offsetDirection)
+      ...getLegalSquaresInDirection(square, position, color, offsetDirection)
     );
   }
 
