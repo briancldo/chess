@@ -10,6 +10,7 @@ import {
 import { flipColor } from '../pieces';
 import { setCheckDetails } from './checks';
 import { isSquareAttacked } from './utils';
+import { getPieceLegalMoves } from './moves';
 import { DevError } from '../errors';
 import config from '../../config/config';
 
@@ -32,6 +33,7 @@ export default function makeMove(board, start, end) {
     handleSpecialCases(board, draft, piece, { start, end });
     draft[start.rank][start.file] = undefined;
     handleChecks(board, draft, piece.color);
+    handleGameOver(draft, piece.color);
   });
 }
 
@@ -132,4 +134,21 @@ function handleUncheck(draft) {
   draft[0].king.checkedSide = undefined;
   draft[0].king.checkDetails.threatPieces = [];
   draft[0].king.checkDetails.threatSquares = [];
+}
+
+function handleGameOver(draft, color) {
+  const kingSquare = draft[0].king[color].square;
+  const kingMoves = getPieceLegalMoves(draft, kingSquare, { type: 'k', color });
+  if (kingMoves.length > 0) return;
+
+  const allyPieceMoves = getSideAllPieceMoves(draft, color);
+  if (allyPieceMoves > 0) return;
+
+  const isKingChecked = draft[0].king.checkedSide === color;
+  draft[0].result = isKingChecked ? 'c' : 's';
+}
+
+function getSideAllPieceMoves(draft, color) {
+  draft, color;
+  return [];
 }
