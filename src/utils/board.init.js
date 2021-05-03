@@ -17,6 +17,7 @@ export default [
         threatSquares: [],
       },
     },
+    result: undefined,
   },
   {
     a: w.r,
