@@ -10,6 +10,7 @@ export default function Board() {
   const [board, setBoard] = useState(initialBoard);
   const [focusedPiece, setFocusedPiece] = useState({});
   const [candidateSquares, setCandidateSquares] = useState([]);
+  const result = board.state.result;
 
   useEffect(() => {
     if (!focusedPiece?.square) return setCandidateSquares([]);
@@ -35,20 +36,23 @@ export default function Board() {
       {process.env.NODE_ENV === 'development' && (
         <button onClick={() => console.log(board)}>Print Board</button>
       )}
-      <BoardUI {...{ board, handlers, data }} />;
+      <BoardUI
+        {...{ board, handlers, data, frozen: result.value !== undefined }}
+      />
+      ;
     </>
   );
 }
 
 function BoardUI(props) {
-  const { board, handlers, data } = props;
+  const { board, handlers, data, frozen } = props;
   const checkedSide = board.state.king.checkedSide;
   const checkedSquare = checkedSide
     ? board.state.king[checkedSide].square
     : undefined;
 
   return (
-    <div className='board'>
+    <div className={frozen ? 'board-frozen' : 'board'}>
       {ranks.map((rank) => (
         <React.Fragment key={`rank${rank}`}>
           <Rank
