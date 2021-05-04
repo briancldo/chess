@@ -17,7 +17,11 @@ export default {
         threatSquares: [],
       },
     },
-    result: undefined,
+    result: {
+      value: undefined,
+      side: undefined,
+      method: undefined,
+    },
   },
   position: [
     undefined,

@@ -154,7 +154,11 @@ function handleGameOver(draft, color) {
   if (allyPiecesCanMove) return;
 
   const isKingChecked = getCheckedSide(draft.state) === enemyColor;
-  draft.state.result = isKingChecked ? 'c' : 's';
+  draft.state.result = {
+    value: isKingChecked ? '+' : '=',
+    side: isKingChecked ? color : undefined,
+    method: isKingChecked ? 'c' : 's',
+  };
 }
 
 function canAllyPiecesMove(draft, color) {
