@@ -4,13 +4,6 @@
   border-radius: 1.3vw;
 }
 
-.board-frozen {
-  line-height: 0;
-  box-shadow: 0px 0px 0.5vw;
-  border-radius: 1.3vw;
-  pointer-events: none;
-}
-
 .rank-wrapper {
   display: flex;
 }

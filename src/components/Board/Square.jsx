@@ -18,17 +18,20 @@ function Square(props) {
     highlighted,
     isCurrentlyFocusedPiece,
     isChecked,
+    isGameOver,
     handlers,
   } = props;
   const squareShade = light ? 'light' : 'dark';
   const color = colorScheme[squareShade];
   validatePiece(containingPiece);
+  console.log('square');
 
   function handleSquareMouseUp() {
     if (highlighted) return handlers.movePiece(square);
   }
 
   function handleSquareMouseDown() {
+    if (isGameOver) return;
     if (!containingPiece && !highlighted) return handlers.removePieceFocus();
     handlers.setPieceFocus(containingPiece, square);
   }

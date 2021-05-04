@@ -10,7 +10,7 @@ export default function Board() {
   const [board, setBoard] = useState(initialBoard);
   const [focusedPiece, setFocusedPiece] = useState({});
   const [candidateSquares, setCandidateSquares] = useState([]);
-  const result = board.state.result;
+  const gameOver = board.state.result.value !== undefined;
 
   useEffect(() => {
     if (!focusedPiece?.square) return setCandidateSquares([]);
@@ -23,21 +23,25 @@ export default function Board() {
       if (piece && square) setFocusedPiece({ piece, square });
     },
     removePieceFocus: () => {
-      setFocusedPiece({});
+      if (focusedPiece.type) setFocusedPiece({});
     },
     movePiece: (destination) => {
       setBoard((board) => makeMove(board, focusedPiece.square, destination));
-      handlers.removePieceFocus();
+      setFocusedPiece({});
     },
   };
-  const data = { candidateSquares, focusedPiece };
+  const data = { candidateSquares, focusedPiece, gameOver };
   return (
     <>
       {process.env.NODE_ENV === 'development' && (
         <button onClick={() => console.log(board)}>Print Board</button>
       )}
       <BoardUI
-        {...{ board, handlers, data, frozen: result.value !== undefined }}
+        {...{
+          board,
+          handlers: handlers, // !gameOver ? handlers : mapValues(handlers, () => () => {}),
+          data,
+        }}
       />
       ;
     </>
@@ -45,14 +49,14 @@ export default function Board() {
 }
 
 function BoardUI(props) {
-  const { board, handlers, data, frozen } = props;
+  const { board, handlers, data } = props;
   const checkedSide = board.state.king.checkedSide;
   const checkedSquare = checkedSide
     ? board.state.king[checkedSide].square
     : undefined;
 
   return (
-    <div className={frozen ? 'board-frozen' : 'board'}>
+    <div className='board'>
       {ranks.map((rank) => (
         <React.Fragment key={`rank${rank}`}>
           <Rank
