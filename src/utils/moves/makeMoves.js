@@ -6,6 +6,7 @@ import {
   validateSquare,
   getKingSquare,
   files,
+  getCheckedSide,
 } from '../board';
 import { flipColor } from '../pieces';
 import { setCheckDetails } from './checks';
@@ -141,28 +142,37 @@ function handleUncheck(draft) {
 }
 
 function handleGameOver(draft, color) {
-  const kingSquare = draft[0].king[color].square;
-  const kingMoves = getPieceLegalMoves(draft, kingSquare, { type: 'k', color });
-  console.log({ kingMoves });
+  const enemyColor = flipColor(color);
+  const enemyKingSquare = draft.state.king[enemyColor].square;
+  const kingMoves = getPieceLegalMoves(draft, enemyKingSquare, {
+    type: 'k',
+    color: enemyColor,
+  });
   if (kingMoves.length > 0) return;
 
-  const allyPiecesCanMove = canAllyPiecesMove(draft, color);
+  const allyPiecesCanMove = canAllyPiecesMove(draft, enemyColor);
   if (allyPiecesCanMove) return;
 
-  const isKingChecked = draft[0].king.checkedSide === color;
-  draft[0].result = isKingChecked ? 'c' : 's';
+  const isKingChecked = getCheckedSide(draft.state) === enemyColor;
+  draft.state.result = isKingChecked ? 'c' : 's';
 }
 
-function canAllyPiecesMove(board, color) {
-  for (const rank of board) {
-    if (rank === 0) continue;
-    for (const file in rank) {
-      console.log({ rank, file, board });
-      const piece = board[rank][file];
+function canAllyPiecesMove(draft, color) {
+  const position = draft.position;
+  const numRanks = position.length;
+
+  for (let rankNumber = 1; rankNumber < numRanks; rankNumber++) {
+    const rankRow = position[rankNumber];
+    for (const file in rankRow) {
+      const piece = position[rankNumber][file];
       if (!piece || piece.color !== color) continue;
 
-      const moves = getPieceLegalMoves(board, { rank, file }, piece);
-      if (moves > 0) return true;
+      const moves = getPieceLegalMoves(
+        draft,
+        { rank: rankNumber, file },
+        piece
+      );
+      if (moves.length > 0) return true;
     }
   }
   return false;
