@@ -18,6 +18,7 @@ function Square(props) {
     highlighted,
     isCurrentlyFocusedPiece,
     isChecked,
+    isGameOver,
     handlers,
   } = props;
   const squareShade = light ? 'light' : 'dark';
@@ -29,6 +30,7 @@ function Square(props) {
   }
 
   function handleSquareMouseDown() {
+    if (isGameOver) return;
     if (!containingPiece && !highlighted) return handlers.removePieceFocus();
     handlers.setPieceFocus(containingPiece, square);
   }

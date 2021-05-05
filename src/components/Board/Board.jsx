@@ -10,6 +10,7 @@ export default function Board() {
   const [board, setBoard] = useState(initialBoard);
   const [focusedPiece, setFocusedPiece] = useState({});
   const [candidateSquares, setCandidateSquares] = useState([]);
+  const gameOver = board.state.result.value !== undefined;
 
   useEffect(() => {
     if (!focusedPiece?.square) return setCandidateSquares([]);
@@ -29,7 +30,7 @@ export default function Board() {
       handlers.removePieceFocus();
     },
   };
-  const data = { candidateSquares, focusedPiece };
+  const data = { candidateSquares, focusedPiece, gameOver };
   return (
     <>
       {process.env.NODE_ENV === 'development' && (

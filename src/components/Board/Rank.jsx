@@ -28,6 +28,7 @@ export default function Rank(props) {
             highlighted={highlighted}
             isCurrentlyFocusedPiece={isCurrentlyFocusedPiece}
             isChecked={checkedSquare && checkedSquare.file === file}
+            isGameOver={data.gameOver}
             handlers={handlers}
           />
         );

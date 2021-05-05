@@ -6,10 +6,12 @@ import {
   validateSquare,
   getKingSquare,
   files,
+  getCheckedSide,
 } from '../board';
 import { flipColor } from '../pieces';
 import { setCheckDetails } from './checks';
 import { isSquareAttacked } from './utils';
+import { getPieceLegalMoves } from './moves';
 import { DevError } from '../errors';
 import config from '../../config/config';
 
@@ -32,6 +34,7 @@ export default function makeMove(board, start, end) {
     handleSpecialCases(board, draft, piece, { start, end });
     draft.position[start.rank][start.file] = undefined;
     handleChecks(board.state, draft, piece.color);
+    handleGameOver(draft, piece.color);
   });
 }
 
@@ -136,4 +139,41 @@ function handleUncheck(draft) {
   draft.state.king.checkedSide = undefined;
   draft.state.king.checkDetails.threatPieces = [];
   draft.state.king.checkDetails.threatSquares = [];
+}
+
+function handleGameOver(draft, color) {
+  const enemyColor = flipColor(color);
+  const enemyKingSquare = getKingSquare(draft.state, enemyColor);
+  const kingMoves = getPieceLegalMoves(draft, enemyKingSquare, {
+    type: 'k',
+    color: enemyColor,
+  });
+  if (kingMoves.length > 0) return;
+
+  const allyPiecesCanMove = canAllyPiecesMove(draft, enemyColor);
+  if (allyPiecesCanMove) return;
+
+  const isKingChecked = getCheckedSide(draft.state) === enemyColor;
+  draft.state.result = {
+    value: isKingChecked ? '+' : '=',
+    side: isKingChecked ? color : undefined,
+    method: isKingChecked ? 'c' : 's',
+  };
+}
+
+function canAllyPiecesMove(draft, color) {
+  const position = draft.position;
+  const numRanks = position.length;
+
+  for (let rank = 1; rank < numRanks; rank++) {
+    const rankRow = position[rank];
+    for (const file in rankRow) {
+      const piece = position[rank][file];
+      if (!piece || piece.color !== color) continue;
+
+      const moves = getPieceLegalMoves(draft, { rank, file }, piece);
+      if (moves.length > 0) return true;
+    }
+  }
+  return false;
 }
