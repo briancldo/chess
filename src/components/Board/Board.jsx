@@ -36,14 +36,7 @@ export default function Board() {
       {process.env.NODE_ENV === 'development' && (
         <button onClick={() => console.log(board)}>Print Board</button>
       )}
-      <BoardUI
-        {...{
-          board,
-          handlers: handlers, // !gameOver ? handlers : mapValues(handlers, () => () => {}),
-          data,
-        }}
-      />
-      ;
+      <BoardUI {...{ board, handlers, data }} />;
     </>
   );
 }

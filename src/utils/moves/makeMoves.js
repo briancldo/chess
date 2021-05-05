@@ -143,7 +143,7 @@ function handleUncheck(draft) {
 
 function handleGameOver(draft, color) {
   const enemyColor = flipColor(color);
-  const enemyKingSquare = draft.state.king[enemyColor].square;
+  const enemyKingSquare = getKingSquare(draft.state, enemyColor);
   const kingMoves = getPieceLegalMoves(draft, enemyKingSquare, {
     type: 'k',
     color: enemyColor,
@@ -165,17 +165,13 @@ function canAllyPiecesMove(draft, color) {
   const position = draft.position;
   const numRanks = position.length;
 
-  for (let rankNumber = 1; rankNumber < numRanks; rankNumber++) {
-    const rankRow = position[rankNumber];
+  for (let rank = 1; rank < numRanks; rank++) {
+    const rankRow = position[rank];
     for (const file in rankRow) {
-      const piece = position[rankNumber][file];
+      const piece = position[rank][file];
       if (!piece || piece.color !== color) continue;
 
-      const moves = getPieceLegalMoves(
-        draft,
-        { rank: rankNumber, file },
-        piece
-      );
+      const moves = getPieceLegalMoves(draft, { rank, file }, piece);
       if (moves.length > 0) return true;
     }
   }
