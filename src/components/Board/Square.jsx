@@ -24,7 +24,6 @@ function Square(props) {
   const squareShade = light ? 'light' : 'dark';
   const color = colorScheme[squareShade];
   validatePiece(containingPiece);
-  console.log('square');
 
   function handleSquareMouseUp() {
     if (highlighted) return handlers.movePiece(square);
