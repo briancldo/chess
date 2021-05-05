@@ -34,7 +34,9 @@ export default function Board() {
   return (
     <>
       {process.env.NODE_ENV === 'development' && (
-        <button onClick={() => console.log(board)}>Print Board</button>
+        <button onClick={() => console.log(board)} className='debug-button'>
+          Print Board
+        </button>
       )}
       <BoardUI {...{ board, handlers, data }} />;
     </>
