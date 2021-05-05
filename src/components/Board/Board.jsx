@@ -20,14 +20,17 @@ export default function Board() {
 
   const handlers = {
     setPieceFocus: (piece, square) => {
-      if (piece && square) setFocusedPiece({ piece, square });
+      if (piece && square) {
+        console.log({ piece, square });
+        setFocusedPiece({ piece, square });
+      }
     },
     removePieceFocus: () => {
-      if (focusedPiece.type) setFocusedPiece({});
+      setFocusedPiece({});
     },
     movePiece: (destination) => {
       setBoard((board) => makeMove(board, focusedPiece.square, destination));
-      setFocusedPiece({});
+      handlers.removePieceFocus();
     },
   };
   const data = { candidateSquares, focusedPiece, gameOver };
