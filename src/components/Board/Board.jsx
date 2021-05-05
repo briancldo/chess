@@ -20,10 +20,7 @@ export default function Board() {
 
   const handlers = {
     setPieceFocus: (piece, square) => {
-      if (piece && square) {
-        console.log({ piece, square });
-        setFocusedPiece({ piece, square });
-      }
+      if (piece && square) setFocusedPiece({ piece, square });
     },
     removePieceFocus: () => {
       setFocusedPiece({});
