@@ -1,4 +1,9 @@
-import { getSquareAtOffset, getCastlingRank } from '../board';
+import {
+  getSquareAtOffset,
+  getCastlingRank,
+  getCastlingPosition,
+  getPieceAtSquare,
+} from '../board';
 import {
   excludeOccupiedSquares,
   castlingPathSquares,
@@ -53,6 +58,7 @@ function computeCastlingMoves(color, position, boardState) {
 }
 
 function computeCanCastleSide(side, color, position, boardState) {
+  if (isRookGone(side, color, position)) return false;
   if (haveCastlingPiecesMoved(side, color, boardState)) return false;
   if (areCastlingSquaresOccupied(side, color, position)) return false;
   if (areCastlingSquaresAttacked(side, color, position)) return false;
@@ -92,5 +98,13 @@ function haveCastlingPiecesMoved(side, color, boardState) {
   const kingRookCanCastle = boardState.castling[color].side.k;
   if (side === 'k' && !kingRookCanCastle) return true;
 
+  return false;
+}
+
+function isRookGone(side, color, position) {
+  const rookSquare = getCastlingPosition(color)[side].rFormer;
+  const piece = getPieceAtSquare(position, rookSquare);
+
+  if (!piece || piece.type !== 'r' || piece.color !== color) return true;
   return false;
 }
