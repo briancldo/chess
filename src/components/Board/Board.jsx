@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Rank from './Rank';
 import { ranks } from '../../utils/board';
 import { getPieceLegalMoves, makeMove } from '../../utils/moves/moves';
+import { tempHandleGameOver } from '../../utils/game';
 import initialBoard from '../../utils/board.init';
 import './Board.css';
 
@@ -11,6 +12,7 @@ export default function Board() {
   const [focusedPiece, setFocusedPiece] = useState({});
   const [candidateSquares, setCandidateSquares] = useState([]);
   const gameOver = board.state.result.value !== undefined;
+  if (gameOver) tempHandleGameOver(board.state.result);
 
   useEffect(() => {
     if (!focusedPiece?.square) return setCandidateSquares([]);
