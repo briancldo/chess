@@ -14,14 +14,17 @@
       "plugin:jsx-a11y/recommended",
       "plugin:react-hooks/recommended",
       "plugin:react-redux/recommended",
-      "prettier"
+      "prettier",
+      "plugin:@typescript-eslint/recommended",
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
       "ecmaFeatures": {
           "jsx": true
       },
       "ecmaVersion": 12,
-      "sourceType": "module"
+      "sourceType": "module",
+      "project": "./tsconfig.json"
   },
   "plugins": [
       "react",
@@ -31,7 +34,8 @@
       "jsx-a11y",
       "react-hooks",
       "react-redux",
-      "prettier"
+      "prettier",
+      "@typescript-eslint"
   ],
   "rules": {
       "prettier/prettier": ["error", {
