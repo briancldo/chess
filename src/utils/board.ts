@@ -1,7 +1,7 @@
 import { DevError } from './errors';
 import config from '../config/config';
 
-import { BoardLine, BoardPosition, BoardSquare, BoardState } from './board.types';
+import { BoardFile, BoardLine, BoardPosition, BoardRank, BoardSquare, BoardState } from './board.types';
 import { PieceColor } from './pieces.types';
 
 const { numberRanks, numberFiles } = config.get('board.dimensions');
@@ -10,12 +10,12 @@ const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 if (numberFiles > alphabet.length)
   throw new DevError(`Max file size is ${alphabet.length}`);
 
-export const files: BoardLine<string> = Object.assign(alphabet.slice(0, numberFiles).split(''), { first: alphabet[0] as string, last: alphabet[numberFiles - 1] as string });
-export const ranks: BoardLine<number> = Object.assign([], { first: 0, last: 0 });
+export const files: BoardLine<BoardFile> = Object.assign(alphabet.slice(0, numberFiles).split('') as BoardFile[], { first: alphabet[0] as BoardFile, last: alphabet[numberFiles - 1] as BoardFile });
+export const ranks: BoardLine<BoardRank> = Object.assign([] as BoardRank[], { first: 0 as BoardRank, last: 0 as BoardRank });
 
 for (let i = numberRanks; i >= 1; i--) ranks.push(i);
-ranks.first = ranks[ranks.length - 1] as number;
-ranks.last = ranks[0] as number;
+ranks.first = ranks[ranks.length - 1] as BoardRank;
+ranks.last = ranks[0] as BoardRank;
 export const orderedRanks: BoardLine<number> = [...ranks].reverse() as BoardLine<number>;
 Object.freeze(files);
 Object.freeze(ranks);
@@ -29,11 +29,11 @@ export function getPieceAtSquare(position: BoardPosition, square: BoardSquare) {
   return position[square.rank][square.file];
 }
 
-export function getSquareAtOffset(square: BoardSquare, offsetX: number, offsetY: number) {
+export function getSquareAtOffset(square: BoardSquare, offsetX: number, offsetY: number): BoardSquare {
   const { file, rank } = square;
 
-  const newFile = alphabet[alphabet.indexOf(file) + offsetX] as string;
-  const newRank = rank + offsetY;
+  const newFile = alphabet[alphabet.indexOf(file) + offsetX] as BoardFile;
+  const newRank = (rank + offsetY) as BoardRank;
   if (!files.includes(newFile))
     throw new Error(`OffsetX too large. File: ${file}, offseetX: ${offsetX}`);
   if (!ranks.includes(newRank))
