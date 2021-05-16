@@ -1,15 +1,23 @@
+import { GameResult, GameResultValue, GameWon, GameDrawn, GameResultMethod } from './board.types';
+
+function isGameWon(result: GameResult): result is GameWon {
+  return result.value === GameResultValue.won;
+}
+
+function isGameDrawn(result: GameResult): result is GameDrawn {
+  return result.value === GameResultValue.drawn;
+}
+
 let gameOverHandled = false;
-export function tempHandleGameOver(result) {
+export function tempHandleGameOver(result: GameResult) {
   if (gameOverHandled) return;
 
-  const { value, side, method } = result;
-  const _method = getMethodLonghand(method);
-
-  if (value === '=') {
+  const _method = getMethodLonghand(result.method);
+  if (isGameDrawn(result)) {
     alert(`Draw by ${_method}.`);
   }
-  if (value === '+') {
-    const sideLong = side === 'w' ? 'White' : 'Black';
+  if (isGameWon(result)) {
+    const sideLong = result.side === 'w' ? 'White' : 'Black';
     alert(`${sideLong} wins by ${_method}.`);
   }
   gameOverHandled = true;
@@ -19,6 +27,6 @@ const methodMapping = {
   s: 'stalemate',
   c: 'checkmate',
 };
-function getMethodLonghand(methodShorthand) {
+function getMethodLonghand(methodShorthand: GameResultMethod) {
   return methodMapping[methodShorthand];
 }

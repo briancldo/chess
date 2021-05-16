@@ -10,14 +10,21 @@ export interface BoardSquare {
   file: BoardFile;
 }
 
-type GameResult = {
-  value: '+',
+export enum GameResultValue { won = '+', drawn = '=' }
+export enum GameResultMethod { c = 'c', s = 's' };
+
+export type GameWon = {
+  value: GameResultValue.won,
   side: PieceColor,
-  method: 'c',
-} | {
-  value: '=',
-  method: 's',
-}
+  method: GameResultMethod.c,
+};
+
+export type GameDrawn = {
+  value: GameResultValue.drawn,
+  method: GameResultMethod.s,
+};
+
+export type GameResult = GameWon | GameDrawn; 
 
 export interface BoardState {
   enPassantSquare?: BoardSquare,
