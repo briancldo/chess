@@ -43,17 +43,7 @@ export function getSquareAtOffset(square: BoardSquare, offsetX: number, offsetY:
   return { file: newFile, rank: newRank };
 }
 
-export function validateSquare(square: BoardSquare) {
-  if (typeof square !== 'object' || !square.rank || !square.file)
-    throw new DevError('Square must have rank and file properties.');
-
-  const { rank, file } = square;
-  if (!ranks.includes(rank)) throw new DevError(`Invalid rank: ${rank}`);
-  if (!files.includes(file)) throw new DevError(`Invalid file: ${file}`);
-}
-
 export function isCornerSquare(square: BoardSquare) {
-  validateSquare(square);
   const { file, rank } = square;
   if (rank > ranks.first && rank < ranks.last) return false;
   if (file > files.first && file < files.last) return false;

@@ -1,4 +1,4 @@
-import { getPieceAtSquare, getCheckedSide } from '../board';
+import { getCheckedSide } from '../board';
 import {
   excludeNonCheckHandlingSquares,
   excludeCheckingSquares,

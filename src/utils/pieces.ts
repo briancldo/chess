@@ -20,7 +20,7 @@ export const PIECES: { [side in PieceColor]: { [piece in PieceType]: Piece } } =
   },
 };
 
-export function flipColor(color: PieceColor) {
+export function flipColor(color: PieceColor): PieceColor {
   if (color === 'w') return 'b';
   if (color === 'b') return 'w';
   throw new DevError(`No such color: ${color}`);

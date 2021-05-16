@@ -1,9 +1,8 @@
-import { produce } from 'immer';
+import { produce, Draft } from 'immer';
 import {
   getCastlingPosition,
   getPieceAtSquare,
   matchingSquares,
-  validateSquare,
   getKingSquare,
   files,
   getCheckedSide,
@@ -14,21 +13,21 @@ import { isSquareAttacked } from './utils';
 import { getPieceLegalMoves } from './moves';
 import { DevError } from '../errors';
 import config from '../../config/config';
+import { Board, BoardFile, BoardPosition, BoardRank, BoardSquare, BoardState } from '../board.types';
+import { Piece, PieceColor, PieceType } from '../pieces.types';
 
 const backRank = {
   w: config.get('board.dimensions.numberRanks'),
   b: 1,
 };
 const promotionPieces = ['q', 'r', 'b', 'n'];
-export default function makeMove(board, start, end) {
-  validateSquare(start);
-  validateSquare(end);
-
+export default function makeMove(board: Board, start: BoardSquare, end: BoardSquare) {
   let piece = getPieceAtSquare(board.position, start);
-  if (!piece)
-    throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
-
+  
   return produce(board, (draft) => {
+    if (!piece)
+      throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
+
     // this order is neccessary
     draft.position[end.rank][end.file] = piece;
     handleSpecialCases(board, draft, piece, { start, end });
@@ -38,7 +37,8 @@ export default function makeMove(board, start, end) {
   });
 }
 
-function handleSpecialCases(board, draft, piece, squares) {
+type StartEndSquares = { start: BoardSquare, end: BoardSquare };
+function handleSpecialCases(board: Board, draft: Draft<Board>, piece: Piece, squares: StartEndSquares) {
   const { state: boardState, position } = board;
   handleEnPassant(position, draft, piece, squares);
   handlePawnPromotion(draft, piece, squares.end);
@@ -47,11 +47,11 @@ function handleSpecialCases(board, draft, piece, squares) {
   handleKingMoved(draft, piece, squares.end);
 }
 
-function handleEnPassant(position, draft, piece, squares) {
+function handleEnPassant(position: BoardPosition, draft: Draft<Board>, piece: Piece, squares: StartEndSquares) {
   const { start, end } = squares;
 
-  let isEnPassantSquare;
-  let capturedEnPassant;
+  let isEnPassantSquare: boolean | undefined;
+  let capturedEnPassant: boolean | undefined;
   if (piece.type === 'p') {
     isEnPassantSquare = Math.abs(end.rank - start.rank) === 2;
     capturedEnPassant =
@@ -59,29 +59,34 @@ function handleEnPassant(position, draft, piece, squares) {
   }
 
   if (capturedEnPassant) {
-    const { rank, file } = draft.state.enPassantSquare;
+    const { rank, file } = draft.state.enPassantSquare as BoardSquare;
     draft.position[rank][file] = undefined;
   }
   draft.state.enPassantSquare = isEnPassantSquare ? end : undefined;
 }
 
-function handlePawnPromotion(draft, piece, end) {
+function handlePawnPromotion(draft: Draft<Board>, piece: Piece, end: BoardSquare) {
   if (piece.type !== 'p') return;
 
   if (end.rank === backRank[piece.color])
     draft.position[end.rank][end.file] = promotePawn(piece.color);
 }
 
-function promotePawn(color) {
-  let promotionPiece;
-  do {
-    promotionPiece = prompt(`Promote to: (${promotionPieces.join(', ')})`);
-  } while (!promotionPieces.includes(promotionPiece));
-
-  return { type: promotionPiece, color };
+function isValidPromotionPieceType(pieceTypeString: string | null): pieceTypeString is PieceType {
+  if (pieceTypeString === null) return false;
+  return promotionPieces.includes(pieceTypeString);
 }
 
-function handleCastling(boardState, draft, piece, end) {
+function promotePawn(color: PieceColor) {
+  let promotionPieceType;
+  do {
+    promotionPieceType = prompt(`Promote to: (${promotionPieces.join(', ')})`);
+  } while (!isValidPromotionPieceType(promotionPieceType));
+
+  return { type: promotionPieceType, color };
+}
+
+function handleCastling(boardState: BoardState, draft: Draft<Board>, piece: Piece, end: BoardSquare) {
   if (piece.type !== 'k') return;
   const castling = boardState.castling[piece.color];
   if (!castling.k) return;
@@ -106,7 +111,7 @@ function handleCastling(boardState, draft, piece, end) {
   draft.state.castling[piece.color].side.k = false;
 }
 
-function handleCastlingPiecesMoved(boardState, draft, piece, start) {
+function handleCastlingPiecesMoved(boardState: BoardState, draft: Draft<Board>, piece: Piece, start: BoardSquare) {
   if (piece.type === 'k') draft.state.castling[piece.color].k = false;
 
   if (piece.type !== 'r') return;
@@ -120,12 +125,12 @@ function handleCastlingPiecesMoved(boardState, draft, piece, start) {
   }
 }
 
-function handleKingMoved(draft, piece, endSquare) {
+function handleKingMoved(draft: Draft<Board>, piece: Piece, endSquare: BoardSquare) {
   if (piece.type !== 'k') return;
   draft.state.king[piece.color].square = endSquare;
 }
 
-function handleChecks(boardState, draft, enemyColor) {
+function handleChecks(boardState: BoardState, draft: Draft<Board>, enemyColor: PieceColor) {
   const kingColor = flipColor(enemyColor);
   const kingSquare = getKingSquare(boardState, kingColor);
 
@@ -135,13 +140,13 @@ function handleChecks(boardState, draft, enemyColor) {
   setCheckDetails(draft, kingSquare, kingColor);
 }
 
-function handleUncheck(draft) {
+function handleUncheck(draft: Draft<Board>) {
   draft.state.king.checkedSide = undefined;
   draft.state.king.checkDetails.threatPieces = [];
   draft.state.king.checkDetails.threatSquares = [];
 }
 
-function handleGameOver(draft, color) {
+function handleGameOver(draft: Draft<Board>, color: PieceColor) {
   const enemyColor = flipColor(color);
   const enemyKingSquare = getKingSquare(draft.state, enemyColor);
   const kingMoves = getPieceLegalMoves(draft, enemyKingSquare, {
@@ -161,17 +166,17 @@ function handleGameOver(draft, color) {
   };
 }
 
-function canAllyPiecesMove(draft, color) {
+function canAllyPiecesMove(draft: Draft<Board>, color: PieceColor) {
   const position = draft.position;
   const numRanks = position.length;
 
   for (let rank = 1; rank < numRanks; rank++) {
     const rankRow = position[rank];
     for (const file in rankRow) {
-      const piece = position[rank][file];
+      const piece = position[rank as BoardRank][file as BoardFile];
       if (!piece || piece.color !== color) continue;
 
-      const moves = getPieceLegalMoves(draft, { rank, file }, piece);
+      const moves = getPieceLegalMoves(draft, { rank: rank as BoardRank, file: file as BoardFile }, piece);
       if (moves.length > 0) return true;
     }
   }
