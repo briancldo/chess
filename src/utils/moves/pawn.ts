@@ -1,17 +1,20 @@
 import { getPieceAtSquare, getSquareAtOffset, matchingSquares } from '../board';
 import { BoardDirection, BoardPosition, BoardSquare, BoardState } from '../board.types';
 import { PieceColor } from '../pieces.types';
+import { PieceMoveHandler } from './moves.types';
 import { getDirection } from './utils';
 
-export default function pawnMove(square: BoardSquare, color: PieceColor, position: BoardPosition, boardState: BoardState) {
+const pawnMove: PieceMoveHandler = (square, color, position, boardState) => {
   const candidates: BoardSquare[] = [];
   candidates.push(
-    ...moveStraight(square, color, position),
-    ...attackDiagonally(square, color, position, boardState)
+    ...moveStraight(square, color as PieceColor, position as BoardPosition),
+    ...attackDiagonally(square, color as PieceColor, position as BoardPosition, boardState as BoardState)
   );
 
   return candidates;
 }
+
+export default pawnMove;
 
 function moveStraight(square: BoardSquare, color: PieceColor, position: BoardPosition) {
   const direction = getDirection(color);

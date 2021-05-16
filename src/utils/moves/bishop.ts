@@ -1,4 +1,5 @@
-import { BoardSquare } from '../board.types';
+import { BoardPosition, BoardSquare } from '../board.types';
+import { PieceColor } from '../pieces.types';
 import { PieceMoveHandler } from './moves.types';
 import { getLegalSquaresInDirection } from './utils';
 
@@ -14,7 +15,7 @@ const bishopMove: PieceMoveHandler = (square, color, position) =>{
 
   for (const offsetDirection of offsetDirections) {
     squares.push(
-      ...getLegalSquaresInDirection(square, position, color, offsetDirection)
+      ...getLegalSquaresInDirection(square, position as BoardPosition, color as PieceColor, offsetDirection)
     );
   }
 
