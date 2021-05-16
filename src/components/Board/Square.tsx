@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import areObjectsEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 
 import MovablePiece from '../Pieces/MovablePiece';
 import config from '../../config/config';
 import { isCornerSquare, ranks, files } from '../../utils/board';
-import { validatePiece } from '../../utils/pieces';
 import './Square.css';
+import { CornerSquareProps, SquareHighlightProps, SquareProps, SquareUIComponentProps } from './Square.types';
 
 const colorScheme = config.get('square.colors.default');
 
-function Square(props) {
+const Square: React.FC<SquareProps> = (props) => {
   const {
     light,
     containingPiece,
@@ -23,7 +23,6 @@ function Square(props) {
   } = props;
   const squareShade = light ? 'light' : 'dark';
   const color = colorScheme[squareShade];
-  validatePiece(containingPiece);
 
   function handleSquareMouseUp() {
     if (highlighted) return handlers.movePiece(square);
@@ -52,14 +51,14 @@ function Square(props) {
 }
 const omitSquareProps = ['handlers', 'key', 'get', '__proto__'];
 export default React.memo(Square, shouldSquareUpdate);
-function shouldSquareUpdate(oldProps, newProps) {
+function shouldSquareUpdate(oldProps: SquareProps, newProps: SquareProps) {
   return areObjectsEqual(
     omit(oldProps, omitSquareProps),
     omit(newProps, omitSquareProps)
   );
 }
 
-function SquareUIComponent(props) {
+const SquareUIComponent: React.FC<SquareUIComponentProps> = (props) => {
   const { color, square } = props;
   const squareStyle = { fill: color };
 
@@ -73,7 +72,7 @@ function SquareUIComponent(props) {
 }
 const SquareUI = React.memo(SquareUIComponent, () => true);
 
-function CornerSquare(props) {
+const CornerSquare: React.FC<CornerSquareProps> = (props) => {
   const { square } = props;
   const { rank, file } = square;
 
@@ -84,7 +83,7 @@ function CornerSquare(props) {
   }`;
   const squareShade = isLastRank === isLastFile ? 'dark' : 'light';
   const color = colorScheme[squareShade];
-  const cornerSquareStyle = {
+  const cornerSquareStyle: CSSProperties = {
     height: '5vw',
     width: '5vw',
     [`border${corner}Radius`]: '1.3vw',
@@ -94,7 +93,7 @@ function CornerSquare(props) {
   return <div style={cornerSquareStyle} />;
 }
 
-function SquareHighlight(props) {
+const SquareHighlight: React.FC<SquareHighlightProps> = (props) => {
   const { highlighted, isCurrentlyFocusedPiece, isChecked } = props;
   if (!highlighted && !isCurrentlyFocusedPiece && !isChecked) return null;
 
@@ -123,7 +122,7 @@ const highlightColors = {
   focused: colorScheme.lightComplement,
   checked: 'red',
 };
-function getSquareHighlightColor(conditions) {
+function getSquareHighlightColor(conditions: Partial<SquareHighlightProps>) {
   const { isCurrentlyFocusedPiece, isChecked } = conditions;
 
   if (isCurrentlyFocusedPiece) return highlightColors.focused;
