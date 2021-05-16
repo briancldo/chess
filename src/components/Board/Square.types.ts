@@ -7,7 +7,7 @@ export interface SquareProps {
   square: BoardSquare,
   highlighted: boolean,
   isCurrentlyFocusedPiece: boolean,
-  isChecked: boolean,
+  isChecked?: boolean,
   isGameOver: boolean,
   handlers: any,
 }

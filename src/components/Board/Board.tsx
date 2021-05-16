@@ -6,21 +6,23 @@ import { getPieceLegalMoves, makeMove } from '../../utils/moves/moves';
 import { tempHandleGameOver } from '../../utils/game';
 import initialBoard from '../../utils/board.init';
 import './Board.css';
+import { BoardSquare, GameResult } from '../../utils/board.types';
+import { BoardHandlers, BoardUIProps, FocusedPiece } from './Board.types';
 
 export default function Board() {
   const [board, setBoard] = useState(initialBoard);
-  const [focusedPiece, setFocusedPiece] = useState({});
-  const [candidateSquares, setCandidateSquares] = useState([]);
-  const gameOver = board.state.result.value !== undefined;
-  if (gameOver) tempHandleGameOver(board.state.result);
+  const [focusedPiece, setFocusedPiece] = useState<FocusedPiece>({});
+  const [candidateSquares, setCandidateSquares] = useState<BoardSquare[]>([]);
+  const gameOver = 'value' in board.state.result;
+  if (gameOver) tempHandleGameOver(board.state.result as GameResult);
 
   useEffect(() => {
-    if (!focusedPiece?.square) return setCandidateSquares([]);
-    setCandidateSquares(getPieceLegalMoves(board, focusedPiece.square));
+    if (!('square' in focusedPiece)) return setCandidateSquares([]);
+    setCandidateSquares(getPieceLegalMoves(board, focusedPiece.square, focusedPiece.piece));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusedPiece]);
 
-  const handlers = {
+  const handlers: BoardHandlers = {
     setPieceFocus: (piece, square) => {
       if (piece && square) setFocusedPiece({ piece, square });
     },
@@ -28,6 +30,7 @@ export default function Board() {
       setFocusedPiece({});
     },
     movePiece: (destination) => {
+      if (!('square' in focusedPiece)) return;
       setBoard((board) => makeMove(board, focusedPiece.square, destination));
       handlers.removePieceFocus();
     },
@@ -45,7 +48,7 @@ export default function Board() {
   );
 }
 
-function BoardUI(props) {
+const BoardUI: React.FC<BoardUIProps> = (props) => {
   const { board, handlers, data } = props;
   const checkedSide = board.state.king.checkedSide;
   const checkedSquare = checkedSide
