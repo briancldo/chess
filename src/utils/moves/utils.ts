@@ -4,6 +4,7 @@ import bishopMove from './bishop';
 import knightMove from './knight';
 import { BoardPosition, BoardSquare } from '../board.types';
 import { PieceColor, PieceType } from '../pieces.types';
+import { CastleSide } from './moves.types';
 
 export function getLegalSquaresInDirection(
   square: BoardSquare,
@@ -48,7 +49,12 @@ export function excludeOccupiedSquares(squares: BoardSquare[], position: BoardPo
   });
 }
 
-export const castlingPathSquares = {
+type CastlingPathSquaresData = {
+  [color in PieceColor]: {
+    [side in CastleSide]: BoardSquare[];
+  };
+}
+export const castlingPathSquares: CastlingPathSquaresData = {
   w: {
     q: [
       { rank: ranks.first, file: 'b' },

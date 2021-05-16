@@ -3,6 +3,7 @@ import config from '../config/config';
 
 import { BoardFile, BoardLine, BoardPosition, BoardRank, BoardSquare, BoardState } from './board.types';
 import { PieceColor } from './pieces.types';
+import { CastleSide } from './moves/moves.types';
 
 const { numberRanks, numberFiles } = config.get('board.dimensions');
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
@@ -64,7 +65,12 @@ export function getCastlingRank(color: PieceColor) {
   return color === 'w' ? ranks.first : ranks.last;
 }
 
-export function getCastlingPosition(color: PieceColor) {
+type CastlingPositionData = {
+  [side in CastleSide]: {
+    [piece in 'k' | 'r' | 'rFormer']: BoardSquare;
+  };
+}
+export function getCastlingPosition(color: PieceColor): CastlingPositionData {
   const castlingRank = getCastlingRank(color);
   return {
     q: {
