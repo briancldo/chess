@@ -7,6 +7,6 @@ const queenMove: PieceMoveHandler = (square, color, position) => {
     ...bishopMove(square, color, position),
     ...rookMove(square, color, position),
   ];
-}
+};
 
 export default queenMove;

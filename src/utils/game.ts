@@ -1,4 +1,10 @@
-import { GameResult, GameResultValue, GameWon, GameDrawn, GameResultMethod } from './board.types';
+import {
+  GameResult,
+  GameResultValue,
+  GameWon,
+  GameDrawn,
+  GameResultMethod,
+} from './board.types';
 
 function isGameWon(result: GameResult): result is GameWon {
   return result.value === GameResultValue.won;

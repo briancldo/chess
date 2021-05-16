@@ -15,11 +15,16 @@ const rookMove: PieceMoveHandler = (square, color, position) => {
 
   for (const offsetDirection of offsetDirections) {
     squares.push(
-      ...getLegalSquaresInDirection(square, position as BoardPosition, color as PieceColor, offsetDirection)
+      ...getLegalSquaresInDirection(
+        square,
+        position as BoardPosition,
+        color as PieceColor,
+        offsetDirection
+      )
     );
   }
 
   return squares;
-}
+};
 
 export default rookMove;

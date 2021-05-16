@@ -6,7 +6,12 @@ import MovablePiece from '../Pieces/MovablePiece';
 import config from '../../config/config';
 import { isCornerSquare, ranks, files } from '../../utils/board';
 import './Square.css';
-import { CornerSquareProps, SquareHighlightProps, SquareProps, SquareUIComponentProps } from './Square.types';
+import {
+  CornerSquareProps,
+  SquareHighlightProps,
+  SquareProps,
+  SquareUIComponentProps,
+} from './Square.types';
 
 const colorScheme = config.get('square.colors.default');
 
@@ -48,7 +53,7 @@ const Square: React.FC<SquareProps> = (props) => {
       <MovablePiece {...{ containingPiece }} />
     </div>
   );
-}
+};
 const omitSquareProps = ['handlers', 'key', 'get', '__proto__'];
 export default React.memo(Square, shouldSquareUpdate);
 function shouldSquareUpdate(oldProps: SquareProps, newProps: SquareProps) {
@@ -69,7 +74,7 @@ const SquareUIComponent: React.FC<SquareUIComponentProps> = (props) => {
       <rect width='5vw' height='5vw' style={squareStyle} />
     </svg>
   );
-}
+};
 const SquareUI = React.memo(SquareUIComponent, () => true);
 
 const CornerSquare: React.FC<CornerSquareProps> = (props) => {
@@ -78,7 +83,7 @@ const CornerSquare: React.FC<CornerSquareProps> = (props) => {
 
   const isLastRank = rank === ranks.last;
   const isLastFile = file === files.last;
-  let corner = `${isLastRank ? 'Top' : 'Bottom'}${
+  const corner = `${isLastRank ? 'Top' : 'Bottom'}${
     isLastFile ? 'Right' : 'Left'
   }`;
   const squareShade = isLastRank === isLastFile ? 'dark' : 'light';
@@ -91,7 +96,7 @@ const CornerSquare: React.FC<CornerSquareProps> = (props) => {
     position: 'absolute',
   };
   return <div style={cornerSquareStyle} />;
-}
+};
 
 const SquareHighlight: React.FC<SquareHighlightProps> = (props) => {
   const { highlighted, isCurrentlyFocusedPiece, isChecked } = props;
@@ -115,7 +120,7 @@ const SquareHighlight: React.FC<SquareHighlightProps> = (props) => {
       </svg>
     </div>
   );
-}
+};
 
 const highlightColors = {
   candidate: 'white',

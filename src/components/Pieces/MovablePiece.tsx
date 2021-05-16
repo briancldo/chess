@@ -12,13 +12,16 @@ const MovablePiece: React.FC<MovablePieceProps> = (props) => {
   const { containingPiece } = props;
   const [dragging, setDragging] = useState(false);
   const [staticPieceVisible, setStaticPieceVisible] = useState(true);
-  const [floatingPiecePosition, setFloatingPiecePosition] = useState<{ x?: number, y?: number}>({});
+  const [floatingPiecePosition, setFloatingPiecePosition] = useState<{
+    x?: number;
+    y?: number;
+  }>({});
   const viewWidth = window.innerWidth;
 
   function mouseDownHandler(event: React.MouseEvent) {
     setDragging(true);
     document.body.style.cursor = 'grabbing';
-    mouseMoveHandler(event as unknown as Event);
+    mouseMoveHandler((event as unknown) as Event);
   }
 
   function mouseUpHandler() {
@@ -27,7 +30,7 @@ const MovablePiece: React.FC<MovablePieceProps> = (props) => {
   }
 
   function mouseMoveHandler(event: Event) {
-    const { clientX, clientY } = event as unknown as React.MouseEvent;
+    const { clientX, clientY } = (event as unknown) as React.MouseEvent;
     setFloatingPiecePosition({
       x: clientX - 0.5 * 0.04 * viewWidth,
       y: clientY - 0.5 * 0.04 * viewWidth,
@@ -54,7 +57,9 @@ const MovablePiece: React.FC<MovablePieceProps> = (props) => {
 
   if (!containingPiece) return null;
   const piece = <PieceUI {...{ containingPiece }} />;
-  const staticPieceStyle: CSSProperties = { display: staticPieceVisible ? 'inline' : 'none' };
+  const staticPieceStyle: CSSProperties = {
+    display: staticPieceVisible ? 'inline' : 'none',
+  };
   const floatingPieceStyle: CSSProperties = {
     display: staticPieceVisible ? 'none' : 'inline',
     top: floatingPiecePosition.y,
@@ -76,6 +81,6 @@ const MovablePiece: React.FC<MovablePieceProps> = (props) => {
       </div>
     </>
   );
-}
+};
 
 export default MovablePiece;

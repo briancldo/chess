@@ -17,7 +17,11 @@ import { Piece } from '../pieces.types';
 const piecesNeedExcludeLogic = new Set(['k', 'n', 'p']);
 
 export { default as makeMove } from './makeMoves';
-export function getPieceLegalMoves(board: Board, square: BoardSquare, piece: Piece) {
+export function getPieceLegalMoves(
+  board: Board,
+  square: BoardSquare,
+  piece: Piece
+) {
   const { state: boardState, position } = board;
 
   let candidates = computeCandidateSquares[piece.type](

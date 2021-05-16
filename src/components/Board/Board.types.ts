@@ -1,10 +1,12 @@
-import { Board, BoardSquare } from "../../utils/board.types";
-import { Piece } from "../../utils/pieces.types";
+import { Board, BoardSquare } from '../../utils/board.types';
+import { Piece } from '../../utils/pieces.types';
 
-export type FocusedPiece = {
-  piece: Piece;
-  square: BoardSquare;
-} | {};
+export type FocusedPiece =
+  | {
+      piece: Piece;
+      square: BoardSquare;
+    }
+  | Record<string, never>;
 
 export interface BoardHandlers {
   setPieceFocus: (piece: Piece, square: BoardSquare) => void;
@@ -20,6 +22,6 @@ export interface BoardData {
 
 export interface BoardUIProps {
   board: Board;
-  handlers: any;
-  data: any;
+  handlers: BoardHandlers;
+  data: BoardData;
 }

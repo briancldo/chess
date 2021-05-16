@@ -18,6 +18,6 @@ const knightMove: PieceMoveHandler = (square) => {
   }
 
   return squares;
-}
+};
 
 export default knightMove;

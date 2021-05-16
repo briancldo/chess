@@ -5,12 +5,24 @@ import {
   orderedRanks,
   files,
 } from '../board';
-import { Board, BoardFile, BoardPosition, BoardRank, BoardSquare, BoardState, ThreatPiece } from '../board.types';
+import {
+  Board,
+  BoardFile,
+  BoardPosition,
+  BoardRank,
+  BoardSquare,
+  BoardState,
+  ThreatPiece,
+} from '../board.types';
 import { DevError } from '../errors';
 import { Piece, PieceColor } from '../pieces.types';
 import { isSquareAttacked, attackingPiecesData } from './utils';
 
-export function excludeNonCheckHandlingSquares(candidates: BoardSquare[], boardState: BoardState, piece: Piece) {
+export function excludeNonCheckHandlingSquares(
+  candidates: BoardSquare[],
+  boardState: BoardState,
+  piece: Piece
+) {
   const checkHandlingSquares = [];
   checkHandlingSquares.push(
     ...excludeNonBlockOrCaptureSquares(candidates, boardState, piece),
@@ -19,11 +31,16 @@ export function excludeNonCheckHandlingSquares(candidates: BoardSquare[], boardS
   return checkHandlingSquares;
 }
 
-function excludeNonBlockOrCaptureSquares(candidates: BoardSquare[], boardState: BoardState, piece: Piece) {
+function excludeNonBlockOrCaptureSquares(
+  candidates: BoardSquare[],
+  boardState: BoardState,
+  piece: Piece
+) {
   const { threatPieces, threatSquares } = boardState.king.checkDetails;
   if (piece.type === 'k') return [];
   if (threatPieces.length > 1) return [];
-  if (!threatPieces[0]) throw new DevError('At least one piece should attack the king.');
+  if (!threatPieces[0])
+    throw new DevError('At least one piece should attack the king.');
 
   const allBlockOrCaptureSquares = [threatPieces[0].square, ...threatSquares];
   return candidates.filter((candidate) =>
@@ -33,7 +50,11 @@ function excludeNonBlockOrCaptureSquares(candidates: BoardSquare[], boardState: 
   );
 }
 
-function excludeNonKingMoveSquares(candidates: BoardSquare[], boardState: BoardState, piece: Piece) {
+function excludeNonKingMoveSquares(
+  candidates: BoardSquare[],
+  boardState: BoardState,
+  piece: Piece
+) {
   if (piece.type !== 'k') return [];
 
   const threatSquares = boardState.king.checkDetails.threatSquares;
@@ -47,7 +68,11 @@ function excludeNonKingMoveSquares(candidates: BoardSquare[], boardState: BoardS
 
 // -------------------------------------------------------------------
 
-export function excludeCheckingSquares(candidates: BoardSquare[], board: Board, pieceColor: PieceColor) {
+export function excludeCheckingSquares(
+  candidates: BoardSquare[],
+  board: Board,
+  pieceColor: PieceColor
+) {
   const { state: boardState, position } = board;
   const kingSquare = boardState.king[pieceColor].square;
   const positionWithoutKing = produce(position, (draft) => {
@@ -61,7 +86,11 @@ export function excludeCheckingSquares(candidates: BoardSquare[], board: Board, 
 
 // -------------------------------------------------------------------
 
-export function setCheckDetails(draft: Draft<Board>, kingSquare: BoardSquare, color: PieceColor) {
+export function setCheckDetails(
+  draft: Draft<Board>,
+  kingSquare: BoardSquare,
+  color: PieceColor
+) {
   const threatPieces = getThreatPieces(draft.position, kingSquare, color);
   const threatSquares = getThreatSquares(kingSquare, threatPieces);
 
@@ -70,7 +99,11 @@ export function setCheckDetails(draft: Draft<Board>, kingSquare: BoardSquare, co
 }
 
 const attackingPieces = ['r', 'b', 'n', 'p'] as const;
-function getThreatPieces(position: BoardPosition, square: BoardSquare, color: PieceColor): ThreatPiece[] {
+function getThreatPieces(
+  position: BoardPosition,
+  square: BoardSquare,
+  color: PieceColor
+): ThreatPiece[] {
   const threatPieces = [];
   for (const pieceType of attackingPieces) {
     const { getMoves, pieces } = attackingPiecesData[pieceType];
@@ -89,7 +122,10 @@ function getThreatPieces(position: BoardPosition, square: BoardSquare, color: Pi
 function getIntermediateRanks(startLine: BoardRank, endLine: BoardRank) {
   const startLineIndex = orderedRanks.indexOf(startLine);
   const endLineIndex = orderedRanks.indexOf(endLine);
-  const [loIndex, hiIndex] = [startLineIndex, endLineIndex].sort() as [number, number];
+  const [loIndex, hiIndex] = [startLineIndex, endLineIndex].sort() as [
+    number,
+    number
+  ];
   const intermediateLines = orderedRanks.slice(loIndex + 1, hiIndex);
 
   if (startLine < endLine) return intermediateLines;
@@ -98,14 +134,20 @@ function getIntermediateRanks(startLine: BoardRank, endLine: BoardRank) {
 function getIntermediateFiles(startLine: BoardFile, endLine: BoardFile) {
   const startLineIndex = files.indexOf(startLine);
   const endLineIndex = files.indexOf(endLine);
-  const [loIndex, hiIndex] = [startLineIndex, endLineIndex].sort() as [number, number];
+  const [loIndex, hiIndex] = [startLineIndex, endLineIndex].sort() as [
+    number,
+    number
+  ];
   const intermediateLines = files.slice(loIndex + 1, hiIndex);
 
   if (startLine < endLine) return intermediateLines;
   return [...intermediateLines].reverse();
 }
 
-function getThreatSquares(attackedSquare: BoardSquare, threatPieces: ThreatPiece[]) {
+function getThreatSquares(
+  attackedSquare: BoardSquare,
+  threatPieces: ThreatPiece[]
+) {
   const threatSquares: BoardSquare[] = [];
   for (const threatPieceInfo of threatPieces) {
     const { piece: threatPiece, square: threatSquare } = threatPieceInfo;
@@ -129,7 +171,11 @@ function getThreatSquares(attackedSquare: BoardSquare, threatPieces: ThreatPiece
   return threatSquares;
 }
 
-function isAttackRookOrBishopLike(piece: Piece, attackedSquare: BoardSquare, queenSquare: BoardSquare) {
+function isAttackRookOrBishopLike(
+  piece: Piece,
+  attackedSquare: BoardSquare,
+  queenSquare: BoardSquare
+) {
   if (piece.type === 'r') return { rookLike: true };
   if (piece.type === 'b') return { bishopLike: true };
   if (piece.type !== 'q') return {};
@@ -143,25 +189,29 @@ function isAttackRookOrBishopLike(piece: Piece, attackedSquare: BoardSquare, que
   return { bishopLike: true };
 }
 
-function getThreatSquaresRook(threatSquare: BoardSquare, attackedSquare: BoardSquare) {
+function getThreatSquaresRook(
+  threatSquare: BoardSquare,
+  attackedSquare: BoardSquare
+) {
   if (threatSquare.rank !== attackedSquare.rank)
-    return getIntermediateRanks(
-      threatSquare.rank,
-      attackedSquare.rank
-    ).map((rank) => ({
-      file: threatSquare.file,
-      rank,
-    }));
-  return getIntermediateFiles(
-    threatSquare.file,
-    attackedSquare.file
-  ).map((file) => ({
-    file,
-    rank: threatSquare.rank,
-  }));
+    return getIntermediateRanks(threatSquare.rank, attackedSquare.rank).map(
+      (rank) => ({
+        file: threatSquare.file,
+        rank,
+      })
+    );
+  return getIntermediateFiles(threatSquare.file, attackedSquare.file).map(
+    (file) => ({
+      file,
+      rank: threatSquare.rank,
+    })
+  );
 }
 
-function getThreatSquaresBishop(threatSquare: BoardSquare, attackedSquare: BoardSquare) {
+function getThreatSquaresBishop(
+  threatSquare: BoardSquare,
+  attackedSquare: BoardSquare
+) {
   const threatSquares: BoardSquare[] = [];
 
   const intermediateRanks = getIntermediateRanks(

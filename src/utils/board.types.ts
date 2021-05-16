@@ -1,6 +1,6 @@
-import { Piece, PieceColor } from "./pieces.types";
+import { Piece, PieceColor } from './pieces.types';
 
-export type BoardLine<T> = T[] & { first: T, last: T };
+export type BoardLine<T> = T[] & { first: T; last: T };
 
 export type BoardRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 export type BoardFile = 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h';
@@ -12,44 +12,50 @@ export interface BoardSquare {
   file: BoardFile;
 }
 
-export enum GameResultValue { won = '+', drawn = '=' }
-export enum GameResultMethod { c = 'c', s = 's' };
+export enum GameResultValue {
+  won = '+',
+  drawn = '=',
+}
+export enum GameResultMethod {
+  c = 'c',
+  s = 's',
+}
 
 export type GameWon = {
-  value: GameResultValue.won,
-  side: PieceColor,
-  method: GameResultMethod.c,
+  value: GameResultValue.won;
+  side: PieceColor;
+  method: GameResultMethod.c;
 };
 
 export type GameDrawn = {
-  value: GameResultValue.drawn,
-  method: GameResultMethod.s,
+  value: GameResultValue.drawn;
+  method: GameResultMethod.s;
 };
 
-export type GameResult = GameWon | GameDrawn; 
+export type GameResult = GameWon | GameDrawn;
 
-export type ThreatPiece = { piece: Piece, square: BoardSquare };
+export type ThreatPiece = { piece: Piece; square: BoardSquare };
 export interface BoardState {
-  enPassantSquare?: BoardSquare,
+  enPassantSquare?: BoardSquare;
   castling: {
-    w: { k: boolean, side: { q: boolean, k: boolean } },
-    b: { k: boolean, side: { q: boolean, k: boolean } },
-  },
+    w: { k: boolean; side: { q: boolean; k: boolean } };
+    b: { k: boolean; side: { q: boolean; k: boolean } };
+  };
   king: {
-    w: { square: { file: BoardFile, rank: BoardRank } },
-    b: { square: { file: BoardFile, rank: BoardRank } },
-    checkedSide?: PieceColor,
+    w: { square: { file: BoardFile; rank: BoardRank } };
+    b: { square: { file: BoardFile; rank: BoardRank } };
+    checkedSide?: PieceColor;
     checkDetails: {
-      threatPieces: ThreatPiece[],
-      threatSquares: BoardSquare[],
-    },
-  },
-  result: GameResult | {}
+      threatPieces: ThreatPiece[];
+      threatSquares: BoardSquare[];
+    };
+  };
+  result?: GameResult;
 }
 
 export type BoardFullRank = {
-  [file in BoardFile]?: Piece
-}
+  [file in BoardFile]?: Piece;
+};
 
 export type BoardPosition = [
   undefined,
@@ -60,8 +66,8 @@ export type BoardPosition = [
   BoardFullRank,
   BoardFullRank,
   BoardFullRank,
-  BoardFullRank,
-]
+  BoardFullRank
+];
 
 export interface Board {
   state: BoardState;

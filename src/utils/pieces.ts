@@ -1,7 +1,9 @@
 import { DevError } from './errors';
 import { Piece, PieceColor, PieceType } from './pieces.types';
 
-export const PIECES: { [side in PieceColor]: { [piece in PieceType]: Piece } } = {
+export const PIECES: {
+  [side in PieceColor]: { [piece in PieceType]: Piece };
+} = {
   b: {
     k: { type: 'k', color: 'b' },
     q: { type: 'q', color: 'b' },

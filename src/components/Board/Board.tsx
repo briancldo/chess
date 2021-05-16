@@ -13,12 +13,14 @@ export default function Board() {
   const [board, setBoard] = useState(initialBoard);
   const [focusedPiece, setFocusedPiece] = useState<FocusedPiece>({});
   const [candidateSquares, setCandidateSquares] = useState<BoardSquare[]>([]);
-  const gameOver = 'value' in board.state.result;
+  const gameOver = board.state.result !== undefined;
   if (gameOver) tempHandleGameOver(board.state.result as GameResult);
 
   useEffect(() => {
     if (!('square' in focusedPiece)) return setCandidateSquares([]);
-    setCandidateSquares(getPieceLegalMoves(board, focusedPiece.square, focusedPiece.piece));
+    setCandidateSquares(
+      getPieceLegalMoves(board, focusedPiece.square, focusedPiece.piece)
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusedPiece]);
 
@@ -75,4 +77,4 @@ const BoardUI: React.FC<BoardUIProps> = (props) => {
       ))}
     </div>
   );
-}
+};

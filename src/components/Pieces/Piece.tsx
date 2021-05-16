@@ -26,7 +26,7 @@ const PieceUI: React.FC<Piece> = (props) => {
   );
   const style = { backgroundImage: `url(${pieceImagePath})` };
   return <div className='piece-container' style={style}></div>;
-}
+};
 
 export interface PieceWrapperProps {
   containingPiece?: Piece;
@@ -44,6 +44,6 @@ const PieceWrapper: React.FC<PieceWrapperProps> = (props) => {
       </div>
     </div>
   );
-}
+};
 
 export default PieceWrapper;

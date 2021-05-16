@@ -15,10 +15,14 @@ import {
 
 const kingMove: PieceMoveHandler = (square, color, position, boardState) => {
   const regularMoves = computeRegularMoves(square);
-  const castlingMoves = computeCastlingMoves(color as PieceColor, position as BoardPosition, boardState as BoardState);
+  const castlingMoves = computeCastlingMoves(
+    color as PieceColor,
+    position as BoardPosition,
+    boardState as BoardState
+  );
 
   return [...regularMoves, ...castlingMoves];
-}
+};
 
 export default kingMove;
 
@@ -41,7 +45,11 @@ function computeRegularMoves(square: BoardSquare) {
   return squares;
 }
 
-function computeCastlingMoves(color: PieceColor, position: BoardPosition, boardState: BoardState) {
+function computeCastlingMoves(
+  color: PieceColor,
+  position: BoardPosition,
+  boardState: BoardState
+) {
   const canQueensideCastle = computeCanCastleSide(
     'q',
     color,
@@ -62,7 +70,12 @@ function computeCastlingMoves(color: PieceColor, position: BoardPosition, boardS
   return squares;
 }
 
-function computeCanCastleSide(side: CastleSide, color: PieceColor, position: BoardPosition, boardState: BoardState) {
+function computeCanCastleSide(
+  side: CastleSide,
+  color: PieceColor,
+  position: BoardPosition,
+  boardState: BoardState
+) {
   if (isRookGone(side, color, position)) return false;
   if (haveCastlingPiecesMoved(side, color, boardState)) return false;
   if (areCastlingSquaresOccupied(side, color, position)) return false;
@@ -71,7 +84,11 @@ function computeCanCastleSide(side: CastleSide, color: PieceColor, position: Boa
   return true;
 }
 
-function areCastlingSquaresOccupied(side: CastleSide, color: PieceColor, position: BoardPosition) {
+function areCastlingSquaresOccupied(
+  side: CastleSide,
+  color: PieceColor,
+  position: BoardPosition
+) {
   const castlingSquares = castlingPathSquares[color][side];
   const unoccupiedCastlingSquares = excludeOccupiedSquares(
     castlingSquares,
@@ -84,7 +101,11 @@ function areCastlingSquaresOccupied(side: CastleSide, color: PieceColor, positio
   return false;
 }
 
-function areCastlingSquaresAttacked(side: CastleSide, color: PieceColor, position: BoardPosition) {
+function areCastlingSquaresAttacked(
+  side: CastleSide,
+  color: PieceColor,
+  position: BoardPosition
+) {
   const castlingSquares = castlingPathSquares[color][side];
 
   for (const square of castlingSquares) {
@@ -94,7 +115,11 @@ function areCastlingSquaresAttacked(side: CastleSide, color: PieceColor, positio
   return false;
 }
 
-function haveCastlingPiecesMoved(side: CastleSide, color: PieceColor, boardState: BoardState) {
+function haveCastlingPiecesMoved(
+  side: CastleSide,
+  color: PieceColor,
+  boardState: BoardState
+) {
   const kingCanCastle = boardState.castling[color].k;
   if (!kingCanCastle) return true;
 
@@ -106,7 +131,11 @@ function haveCastlingPiecesMoved(side: CastleSide, color: PieceColor, boardState
   return false;
 }
 
-function isRookGone(side: CastleSide, color: PieceColor, position: BoardPosition) {
+function isRookGone(
+  side: CastleSide,
+  color: PieceColor,
+  position: BoardPosition
+) {
   const rookSquare = getCastlingPosition(color)[side].rFormer;
   const piece = getPieceAtSquare(position, rookSquare);
 

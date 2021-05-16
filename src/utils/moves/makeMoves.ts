@@ -13,7 +13,15 @@ import { isSquareAttacked } from './utils';
 import { getPieceLegalMoves } from './moves';
 import { DevError } from '../errors';
 import config from '../../config/config';
-import { Board, BoardFile, BoardPosition, BoardRank, BoardSquare, BoardState } from '../board.types';
+import {
+  Board,
+  BoardFile,
+  BoardPosition,
+  BoardRank,
+  BoardSquare,
+  BoardState,
+  GameResult,
+} from '../board.types';
 import { Piece, PieceColor, PieceType } from '../pieces.types';
 
 const backRank = {
@@ -21,9 +29,13 @@ const backRank = {
   b: 1,
 };
 const promotionPieces = ['q', 'r', 'b', 'n'];
-export default function makeMove(board: Board, start: BoardSquare, end: BoardSquare) {
-  let piece = getPieceAtSquare(board.position, start);
-  
+export default function makeMove(
+  board: Board,
+  start: BoardSquare,
+  end: BoardSquare
+) {
+  const piece = getPieceAtSquare(board.position, start);
+
   return produce(board, (draft) => {
     if (!piece)
       throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
@@ -37,8 +49,13 @@ export default function makeMove(board: Board, start: BoardSquare, end: BoardSqu
   });
 }
 
-type StartEndSquares = { start: BoardSquare, end: BoardSquare };
-function handleSpecialCases(board: Board, draft: Draft<Board>, piece: Piece, squares: StartEndSquares) {
+type StartEndSquares = { start: BoardSquare; end: BoardSquare };
+function handleSpecialCases(
+  board: Board,
+  draft: Draft<Board>,
+  piece: Piece,
+  squares: StartEndSquares
+) {
   const { state: boardState, position } = board;
   handleEnPassant(position, draft, piece, squares);
   handlePawnPromotion(draft, piece, squares.end);
@@ -47,7 +64,12 @@ function handleSpecialCases(board: Board, draft: Draft<Board>, piece: Piece, squ
   handleKingMoved(draft, piece, squares.end);
 }
 
-function handleEnPassant(position: BoardPosition, draft: Draft<Board>, piece: Piece, squares: StartEndSquares) {
+function handleEnPassant(
+  position: BoardPosition,
+  draft: Draft<Board>,
+  piece: Piece,
+  squares: StartEndSquares
+) {
   const { start, end } = squares;
 
   let isEnPassantSquare: boolean | undefined;
@@ -65,14 +87,20 @@ function handleEnPassant(position: BoardPosition, draft: Draft<Board>, piece: Pi
   draft.state.enPassantSquare = isEnPassantSquare ? end : undefined;
 }
 
-function handlePawnPromotion(draft: Draft<Board>, piece: Piece, end: BoardSquare) {
+function handlePawnPromotion(
+  draft: Draft<Board>,
+  piece: Piece,
+  end: BoardSquare
+) {
   if (piece.type !== 'p') return;
 
   if (end.rank === backRank[piece.color])
     draft.position[end.rank][end.file] = promotePawn(piece.color);
 }
 
-function isValidPromotionPieceType(pieceTypeString: string | null): pieceTypeString is PieceType {
+function isValidPromotionPieceType(
+  pieceTypeString: string | null
+): pieceTypeString is PieceType {
   if (pieceTypeString === null) return false;
   return promotionPieces.includes(pieceTypeString);
 }
@@ -86,7 +114,12 @@ function promotePawn(color: PieceColor) {
   return { type: promotionPieceType, color };
 }
 
-function handleCastling(boardState: BoardState, draft: Draft<Board>, piece: Piece, end: BoardSquare) {
+function handleCastling(
+  boardState: BoardState,
+  draft: Draft<Board>,
+  piece: Piece,
+  end: BoardSquare
+) {
   if (piece.type !== 'k') return;
   const castling = boardState.castling[piece.color];
   if (!castling.k) return;
@@ -111,7 +144,12 @@ function handleCastling(boardState: BoardState, draft: Draft<Board>, piece: Piec
   draft.state.castling[piece.color].side.k = false;
 }
 
-function handleCastlingPiecesMoved(boardState: BoardState, draft: Draft<Board>, piece: Piece, start: BoardSquare) {
+function handleCastlingPiecesMoved(
+  boardState: BoardState,
+  draft: Draft<Board>,
+  piece: Piece,
+  start: BoardSquare
+) {
   if (piece.type === 'k') draft.state.castling[piece.color].k = false;
 
   if (piece.type !== 'r') return;
@@ -125,12 +163,20 @@ function handleCastlingPiecesMoved(boardState: BoardState, draft: Draft<Board>, 
   }
 }
 
-function handleKingMoved(draft: Draft<Board>, piece: Piece, endSquare: BoardSquare) {
+function handleKingMoved(
+  draft: Draft<Board>,
+  piece: Piece,
+  endSquare: BoardSquare
+) {
   if (piece.type !== 'k') return;
   draft.state.king[piece.color].square = endSquare;
 }
 
-function handleChecks(boardState: BoardState, draft: Draft<Board>, enemyColor: PieceColor) {
+function handleChecks(
+  boardState: BoardState,
+  draft: Draft<Board>,
+  enemyColor: PieceColor
+) {
   const kingColor = flipColor(enemyColor);
   const kingSquare = getKingSquare(boardState, kingColor);
 
@@ -163,7 +209,7 @@ function handleGameOver(draft: Draft<Board>, color: PieceColor) {
     value: isKingChecked ? '+' : '=',
     side: isKingChecked ? color : undefined,
     method: isKingChecked ? 'c' : 's',
-  };
+  } as GameResult;
 }
 
 function canAllyPiecesMove(draft: Draft<Board>, color: PieceColor) {
@@ -176,7 +222,11 @@ function canAllyPiecesMove(draft: Draft<Board>, color: PieceColor) {
       const piece = position[rank as BoardRank][file as BoardFile];
       if (!piece || piece.color !== color) continue;
 
-      const moves = getPieceLegalMoves(draft, { rank: rank as BoardRank, file: file as BoardFile }, piece);
+      const moves = getPieceLegalMoves(
+        draft,
+        { rank: rank as BoardRank, file: file as BoardFile },
+        piece
+      );
       if (moves.length > 0) return true;
     }
   }

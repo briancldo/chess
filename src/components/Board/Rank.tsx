@@ -13,13 +13,14 @@ const Rank: React.FC<RankProps> = (props) => {
     <div className='rank-wrapper'>
       {files.map((file, index) => {
         const square = { rank: number, file };
-        const highlighted = data.candidateSquares.some((candidateSquare: BoardSquare) =>
-          matchingSquares(candidateSquare, square)
+        const highlighted = data.candidateSquares.some(
+          (candidateSquare: BoardSquare) =>
+            matchingSquares(candidateSquare, square)
         );
-        const isCurrentlyFocusedPiece = 'square' in data.focusedPiece ? matchingSquares(
-          data.focusedPiece.square,
-          square
-        ) : false;
+        const isCurrentlyFocusedPiece =
+          'square' in data.focusedPiece
+            ? matchingSquares(data.focusedPiece.square, square)
+            : false;
 
         return (
           <Square
@@ -37,6 +38,6 @@ const Rank: React.FC<RankProps> = (props) => {
       })}
     </div>
   );
-}
+};
 
 export default Rank;

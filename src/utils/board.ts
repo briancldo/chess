@@ -1,7 +1,14 @@
 import { DevError } from './errors';
 import config from '../config/config';
 
-import { BoardFile, BoardLine, BoardPosition, BoardRank, BoardSquare, BoardState } from './board.types';
+import {
+  BoardFile,
+  BoardLine,
+  BoardPosition,
+  BoardRank,
+  BoardSquare,
+  BoardState,
+} from './board.types';
 import { PieceColor } from './pieces.types';
 import { CastleSide } from './moves/moves.types';
 
@@ -11,13 +18,24 @@ const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 if (numberFiles > alphabet.length)
   throw new DevError(`Max file size is ${alphabet.length}`);
 
-export const files: BoardLine<BoardFile> = Object.assign(alphabet.slice(0, numberFiles).split('') as BoardFile[], { first: alphabet[0] as BoardFile, last: alphabet[numberFiles - 1] as BoardFile });
-export const ranks: BoardLine<BoardRank> = Object.assign([] as BoardRank[], { first: 0 as BoardRank, last: 0 as BoardRank });
+export const files: BoardLine<BoardFile> = Object.assign(
+  alphabet.slice(0, numberFiles).split('') as BoardFile[],
+  {
+    first: alphabet[0] as BoardFile,
+    last: alphabet[numberFiles - 1] as BoardFile,
+  }
+);
+export const ranks: BoardLine<BoardRank> = Object.assign([] as BoardRank[], {
+  first: 0 as BoardRank,
+  last: 0 as BoardRank,
+});
 
 for (let i = numberRanks; i >= 1; i--) ranks.push(i);
 ranks.first = ranks[ranks.length - 1] as BoardRank;
 ranks.last = ranks[0] as BoardRank;
-export const orderedRanks: BoardLine<BoardRank> = [...ranks].reverse() as BoardLine<BoardRank>;
+export const orderedRanks: BoardLine<BoardRank> = [
+  ...ranks,
+].reverse() as BoardLine<BoardRank>;
 Object.freeze(files);
 Object.freeze(ranks);
 Object.freeze(orderedRanks);
@@ -30,7 +48,11 @@ export function getPieceAtSquare(position: BoardPosition, square: BoardSquare) {
   return position[square.rank][square.file];
 }
 
-export function getSquareAtOffset(square: BoardSquare, offsetX: number, offsetY: number): BoardSquare {
+export function getSquareAtOffset(
+  square: BoardSquare,
+  offsetX: number,
+  offsetY: number
+): BoardSquare {
   const { file, rank } = square;
 
   const newFile = alphabet[alphabet.indexOf(file) + offsetX] as BoardFile;
@@ -59,7 +81,7 @@ type CastlingPositionData = {
   [side in CastleSide]: {
     [piece in 'k' | 'r' | 'rFormer']: BoardSquare;
   };
-}
+};
 export function getCastlingPosition(color: PieceColor): CastlingPositionData {
   const castlingRank = getCastlingRank(color);
   return {
