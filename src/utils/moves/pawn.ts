@@ -1,8 +1,10 @@
 import { getPieceAtSquare, getSquareAtOffset, matchingSquares } from '../board';
+import { BoardDirection, BoardPosition, BoardSquare, BoardState } from '../board.types';
+import { PieceColor } from '../pieces.types';
 import { getDirection } from './utils';
 
-export default function pawnMove(square, color, position, boardState) {
-  const candidates = [];
+export default function pawnMove(square: BoardSquare, color: PieceColor, position: BoardPosition, boardState: BoardState) {
+  const candidates: BoardSquare[] = [];
   candidates.push(
     ...moveStraight(square, color, position),
     ...attackDiagonally(square, color, position, boardState)
@@ -11,7 +13,7 @@ export default function pawnMove(square, color, position, boardState) {
   return candidates;
 }
 
-function moveStraight(square, color, position) {
+function moveStraight(square: BoardSquare, color: PieceColor, position: BoardPosition) {
   const direction = getDirection(color);
 
   const oneSquare = moveStraightOnce(square, position, direction);
@@ -21,7 +23,7 @@ function moveStraight(square, color, position) {
   return [...oneSquare, ...twoSquares];
 }
 
-function moveStraightOnce(square, position, direction) {
+function moveStraightOnce(square: BoardSquare, position: BoardPosition, direction: BoardDirection) {
   let oneSquareAhead;
   try {
     oneSquareAhead = getSquareAtOffset(square, 0, direction);
@@ -38,7 +40,7 @@ const startingRank = {
   1: 2,
   '-1': 7,
 };
-function moveStraightTwice(square, position, direction) {
+function moveStraightTwice(square: BoardSquare, position: BoardPosition, direction: BoardDirection) {
   if (startingRank[direction] !== square.rank) return [];
 
   const twoSquaresAhead = getSquareAtOffset(square, 0, 2 * direction);
@@ -47,7 +49,7 @@ function moveStraightTwice(square, position, direction) {
   return [twoSquaresAhead];
 }
 
-function attackDiagonally(square, color, position, boardState) {
+function attackDiagonally(square: BoardSquare, color: PieceColor, position: BoardPosition, boardState: BoardState) {
   const leftDiagonalSquare = attackLeftDiagonal(square, color, position);
   const rightDiagonalSquare = attackRightDiagonal(square, color, position);
   const leftEnPassant = attackLeftEnPassant(
@@ -71,7 +73,7 @@ function attackDiagonally(square, color, position, boardState) {
   ];
 }
 
-function attackLeftDiagonal(square, color, position) {
+function attackLeftDiagonal(square: BoardSquare, color: PieceColor, position: BoardPosition) {
   const direction = getDirection(color);
   let leftDiagonalSquare;
   try {
@@ -85,7 +87,7 @@ function attackLeftDiagonal(square, color, position) {
   return [leftDiagonalSquare];
 }
 
-function attackRightDiagonal(square, color, position) {
+function attackRightDiagonal(square: BoardSquare, color: PieceColor, position: BoardPosition) {
   const direction = getDirection(color);
   let rightDiagonalSquare;
   try {
@@ -99,7 +101,7 @@ function attackRightDiagonal(square, color, position) {
   return [rightDiagonalSquare];
 }
 
-function attackLeftEnPassant(square, color, position, boardState) {
+function attackLeftEnPassant(square: BoardSquare, color: PieceColor, position: BoardPosition, boardState: BoardState) {
   const direction = getDirection(color);
   let leftSquare;
   try {
@@ -116,7 +118,7 @@ function attackLeftEnPassant(square, color, position, boardState) {
   return [leftDiagonalSquare];
 }
 
-function attackRightEnPassant(square, color, position, boardState) {
+function attackRightEnPassant(square: BoardSquare, color: PieceColor, position: BoardPosition, boardState: BoardState) {
   const direction = getDirection(color);
   let rightSquare;
   try {

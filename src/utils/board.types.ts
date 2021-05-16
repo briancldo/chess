@@ -5,6 +5,8 @@ export type BoardLine<T> = T[] & { first: T, last: T };
 export type BoardRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 export type BoardFile = 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h';
 
+export type BoardDirection = 1 | -1;
+
 export interface BoardSquare {
   rank: BoardRank;
   file: BoardFile;

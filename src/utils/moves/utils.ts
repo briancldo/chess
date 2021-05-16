@@ -2,7 +2,7 @@ import { getSquareAtOffset, getPieceAtSquare, ranks } from '../board';
 import rookMove from './rook';
 import bishopMove from './bishop';
 import knightMove from './knight';
-import { BoardPosition, BoardSquare } from '../board.types';
+import { BoardDirection, BoardPosition, BoardSquare } from '../board.types';
 import { PieceColor, PieceType } from '../pieces.types';
 import { CastleSide } from './moves.types';
 
@@ -79,7 +79,7 @@ export const castlingPathSquares: CastlingPathSquaresData = {
   },
 };
 
-export function getDirection(color: PieceColor) {
+export function getDirection(color: PieceColor): BoardDirection {
   return color === 'w' ? 1 : -1;
 }
 
