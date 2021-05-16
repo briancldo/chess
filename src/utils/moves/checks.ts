@@ -1,26 +1,29 @@
-import { produce } from 'immer';
+import { Draft, produce } from 'immer';
 import {
   getPieceAtSquare,
   matchingSquares,
   orderedRanks,
   files,
 } from '../board';
+import { Board, BoardFile, BoardPosition, BoardRank, BoardSquare, BoardState, ThreatPiece } from '../board.types';
+import { DevError } from '../errors';
+import { Piece, PieceColor } from '../pieces.types';
 import { isSquareAttacked, attackingPiecesData } from './utils';
 
-export function excludeNonCheckHandlingSquares(candidates, boardState, piece) {
-  const { checkDetails } = boardState.king;
+export function excludeNonCheckHandlingSquares(candidates: BoardSquare[], boardState: BoardState, piece: Piece) {
   const checkHandlingSquares = [];
   checkHandlingSquares.push(
-    ...excludeNonBlockOrCaptureSquares(candidates, checkDetails, piece),
-    ...excludeNonKingMoveSquares(candidates, checkDetails.threatSquares, piece)
+    ...excludeNonBlockOrCaptureSquares(candidates, boardState, piece),
+    ...excludeNonKingMoveSquares(candidates, boardState, piece)
   );
   return checkHandlingSquares;
 }
 
-function excludeNonBlockOrCaptureSquares(candidates, checkDetails, piece) {
-  const { threatPieces, threatSquares } = checkDetails;
+function excludeNonBlockOrCaptureSquares(candidates: BoardSquare[], boardState: BoardState, piece: Piece) {
+  const { threatPieces, threatSquares } = boardState.king.checkDetails;
   if (piece.type === 'k') return [];
   if (threatPieces.length > 1) return [];
+  if (!threatPieces[0]) throw new DevError('At least one piece should attack the king.');
 
   const allBlockOrCaptureSquares = [threatPieces[0].square, ...threatSquares];
   return candidates.filter((candidate) =>
@@ -30,9 +33,10 @@ function excludeNonBlockOrCaptureSquares(candidates, checkDetails, piece) {
   );
 }
 
-function excludeNonKingMoveSquares(candidates, threatSquares, piece) {
+function excludeNonKingMoveSquares(candidates: BoardSquare[], boardState: BoardState, piece: Piece) {
   if (piece.type !== 'k') return [];
 
+  const threatSquares = boardState.king.checkDetails.threatSquares;
   return candidates.filter(
     (candidate) =>
       !threatSquares.some((threatSquare) =>
@@ -43,7 +47,7 @@ function excludeNonKingMoveSquares(candidates, threatSquares, piece) {
 
 // -------------------------------------------------------------------
 
-export function excludeCheckingSquares(candidates, board, pieceColor) {
+export function excludeCheckingSquares(candidates: BoardSquare[], board: Board, pieceColor: PieceColor) {
   const { state: boardState, position } = board;
   const kingSquare = boardState.king[pieceColor].square;
   const positionWithoutKing = produce(position, (draft) => {
@@ -57,7 +61,7 @@ export function excludeCheckingSquares(candidates, board, pieceColor) {
 
 // -------------------------------------------------------------------
 
-export function setCheckDetails(draft, kingSquare, color) {
+export function setCheckDetails(draft: Draft<Board>, kingSquare: BoardSquare, color: PieceColor) {
   const threatPieces = getThreatPieces(draft.position, kingSquare, color);
   const threatSquares = getThreatSquares(kingSquare, threatPieces);
 
@@ -65,35 +69,44 @@ export function setCheckDetails(draft, kingSquare, color) {
   draft.state.king.checkDetails.threatSquares = threatSquares;
 }
 
-function getThreatPieces(position, square, color) {
+const attackingPieces = ['r', 'b', 'n', 'p'] as const;
+function getThreatPieces(position: BoardPosition, square: BoardSquare, color: PieceColor): ThreatPiece[] {
   const threatPieces = [];
-  for (const pieceType of ['r', 'b', 'n', 'p']) {
+  for (const pieceType of attackingPieces) {
     const { getMoves, pieces } = attackingPiecesData[pieceType];
     const moves = getMoves(square, color, position);
     const movePieces = moves.map((move) => getPieceAtSquare(position, move));
 
     for (const [i, piece] of movePieces.entries()) {
       if (piece && pieces.includes(piece.type) && piece.color !== color) {
-        threatPieces.push({ piece, square: moves[i] });
+        threatPieces.push({ piece, square: moves[i] as BoardSquare });
       }
     }
   }
   return threatPieces;
 }
 
-function getIntermediateLines(type, startLine, endLine) {
-  const lines = type === 'ranks' ? orderedRanks : files;
-  const startLineIndex = lines.indexOf(startLine);
-  const endLineIndex = lines.indexOf(endLine);
-  const [loIndex, hiIndex] = [startLineIndex, endLineIndex].sort();
-  const intermediateLines = lines.slice(loIndex + 1, hiIndex);
+function getIntermediateRanks(startLine: BoardRank, endLine: BoardRank) {
+  const startLineIndex = orderedRanks.indexOf(startLine);
+  const endLineIndex = orderedRanks.indexOf(endLine);
+  const [loIndex, hiIndex] = [startLineIndex, endLineIndex].sort() as [number, number];
+  const intermediateLines = orderedRanks.slice(loIndex + 1, hiIndex);
+
+  if (startLine < endLine) return intermediateLines;
+  return [...intermediateLines].reverse();
+}
+function getIntermediateFiles(startLine: BoardFile, endLine: BoardFile) {
+  const startLineIndex = files.indexOf(startLine);
+  const endLineIndex = files.indexOf(endLine);
+  const [loIndex, hiIndex] = [startLineIndex, endLineIndex].sort() as [number, number];
+  const intermediateLines = files.slice(loIndex + 1, hiIndex);
 
   if (startLine < endLine) return intermediateLines;
   return [...intermediateLines].reverse();
 }
 
-function getThreatSquares(attackedSquare, threatPieces) {
-  const threatSquares = [];
+function getThreatSquares(attackedSquare: BoardSquare, threatPieces: ThreatPiece[]) {
+  const threatSquares: BoardSquare[] = [];
   for (const threatPieceInfo of threatPieces) {
     const { piece: threatPiece, square: threatSquare } = threatPieceInfo;
 
@@ -116,7 +129,7 @@ function getThreatSquares(attackedSquare, threatPieces) {
   return threatSquares;
 }
 
-function isAttackRookOrBishopLike(piece, attackedSquare, queenSquare) {
+function isAttackRookOrBishopLike(piece: Piece, attackedSquare: BoardSquare, queenSquare: BoardSquare) {
   if (piece.type === 'r') return { rookLike: true };
   if (piece.type === 'b') return { bishopLike: true };
   if (piece.type !== 'q') return {};
@@ -130,18 +143,16 @@ function isAttackRookOrBishopLike(piece, attackedSquare, queenSquare) {
   return { bishopLike: true };
 }
 
-function getThreatSquaresRook(threatSquare, attackedSquare) {
+function getThreatSquaresRook(threatSquare: BoardSquare, attackedSquare: BoardSquare) {
   if (threatSquare.rank !== attackedSquare.rank)
-    return getIntermediateLines(
-      'ranks',
+    return getIntermediateRanks(
       threatSquare.rank,
       attackedSquare.rank
     ).map((rank) => ({
       file: threatSquare.file,
       rank,
     }));
-  return getIntermediateLines(
-    'files',
+  return getIntermediateFiles(
     threatSquare.file,
     attackedSquare.file
   ).map((file) => ({
@@ -150,23 +161,21 @@ function getThreatSquaresRook(threatSquare, attackedSquare) {
   }));
 }
 
-function getThreatSquaresBishop(threatSquare, attackedSquare) {
-  const threatSquares = [];
+function getThreatSquaresBishop(threatSquare: BoardSquare, attackedSquare: BoardSquare) {
+  const threatSquares: BoardSquare[] = [];
 
-  const intermediateRanks = getIntermediateLines(
-    'ranks',
+  const intermediateRanks = getIntermediateRanks(
     threatSquare.rank,
     attackedSquare.rank
   );
-  const intermediateFiles = getIntermediateLines(
-    'files',
+  const intermediateFiles = getIntermediateFiles(
     threatSquare.file,
     attackedSquare.file
   );
   // eslint-disable-next-line unicorn/no-for-loop
   for (let i = 0; i < intermediateRanks.length; i++) {
-    const rank = intermediateRanks[i];
-    const file = intermediateFiles[i];
+    const rank = intermediateRanks[i] as BoardRank;
+    const file = intermediateFiles[i] as BoardFile;
     threatSquares.push({ rank, file });
   }
 

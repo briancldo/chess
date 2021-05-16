@@ -28,6 +28,7 @@ export type GameDrawn = {
 
 export type GameResult = GameWon | GameDrawn; 
 
+export type ThreatPiece = { piece: Piece, square: BoardSquare };
 export interface BoardState {
   enPassantSquare?: BoardSquare,
   castling: {
@@ -39,7 +40,7 @@ export interface BoardState {
     b: { square: { file: BoardFile, rank: BoardRank } },
     checkedSide?: PieceColor,
     checkDetails: {
-      threatPieces: Piece[],
+      threatPieces: ThreatPiece[],
       threatSquares: BoardSquare[],
     },
   },

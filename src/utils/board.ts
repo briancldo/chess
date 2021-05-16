@@ -17,7 +17,7 @@ export const ranks: BoardLine<BoardRank> = Object.assign([] as BoardRank[], { fi
 for (let i = numberRanks; i >= 1; i--) ranks.push(i);
 ranks.first = ranks[ranks.length - 1] as BoardRank;
 ranks.last = ranks[0] as BoardRank;
-export const orderedRanks: BoardLine<number> = [...ranks].reverse() as BoardLine<number>;
+export const orderedRanks: BoardLine<BoardRank> = [...ranks].reverse() as BoardLine<BoardRank>;
 Object.freeze(files);
 Object.freeze(ranks);
 Object.freeze(orderedRanks);
