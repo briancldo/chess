@@ -1,9 +1,10 @@
+import { Board } from './board.types';
 import { PIECES } from './pieces';
 const { w, b } = PIECES;
 
-export default {
+const board: Board = {
   state: {
-    enPassant: undefined,
+    enPassantSquare: undefined,
     castling: {
       w: { k: true, side: { q: true, k: true } },
       b: { k: true, side: { q: true, k: true } },
@@ -17,11 +18,7 @@ export default {
         threatSquares: [],
       },
     },
-    result: {
-      value: undefined,
-      side: undefined,
-      method: undefined,
-    },
+    result: {},
   },
   position: [
     undefined,
@@ -71,3 +68,5 @@ export default {
     },
   ],
 };
+
+export default board;
