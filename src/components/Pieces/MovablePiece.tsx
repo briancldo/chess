@@ -5,7 +5,7 @@ import './MovablePiece.css';
 import { Piece } from '../../utils/pieces.types';
 
 interface MovablePieceProps {
-  containingPiece: Piece;
+  containingPiece?: Piece;
 }
 
 const MovablePiece: React.FC<MovablePieceProps> = (props) => {

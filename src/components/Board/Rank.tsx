@@ -16,10 +16,10 @@ const Rank: React.FC<RankProps> = (props) => {
         const highlighted = data.candidateSquares.some((candidateSquare: BoardSquare) =>
           matchingSquares(candidateSquare, square)
         );
-        const isCurrentlyFocusedPiece = matchingSquares(
-          data.focusedPiece.square || {},
+        const isCurrentlyFocusedPiece = 'square' in data.focusedPiece ? matchingSquares(
+          data.focusedPiece.square,
           square
-        );
+        ) : false;
 
         return (
           <Square

@@ -31,7 +31,7 @@ const Square: React.FC<SquareProps> = (props) => {
   function handleSquareMouseDown() {
     if (isGameOver) return;
     if (!containingPiece && !highlighted) return handlers.removePieceFocus();
-    handlers.setPieceFocus(containingPiece, square);
+    if (containingPiece) handlers.setPieceFocus(containingPiece, square);
   }
 
   return (

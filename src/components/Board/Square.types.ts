@@ -1,5 +1,6 @@
 import { BoardSquare } from "../../utils/board.types";
 import { Piece } from "../../utils/pieces.types";
+import { BoardHandlers } from "./Board.types";
 
 export interface SquareProps {
   light: boolean,
@@ -9,7 +10,7 @@ export interface SquareProps {
   isCurrentlyFocusedPiece: boolean,
   isChecked?: boolean,
   isGameOver: boolean,
-  handlers: any,
+  handlers: BoardHandlers,
 }
 
 export interface SquareUIComponentProps {
@@ -24,5 +25,5 @@ export interface CornerSquareProps {
 export interface SquareHighlightProps {
   highlighted: boolean;
   isCurrentlyFocusedPiece: boolean;
-  isChecked: boolean;
+  isChecked?: boolean;
 }
