@@ -1,14 +1,16 @@
+import { BoardSquare } from '../board.types';
+import { PieceMoveHandler } from './moves.types';
 import { getLegalSquaresInDirection } from './utils';
 
-const offsetDirections = [
+const offsetDirections: [number, number][] = [
   [1, 0],
   [-1, 0],
   [0, 1],
   [0, -1],
 ];
 
-export default function rookMove(square, color, position) {
-  const squares = [];
+const rookMove: PieceMoveHandler = (square, color, position) => {
+  const squares: BoardSquare[] = [];
 
   for (const offsetDirection of offsetDirections) {
     squares.push(
@@ -18,3 +20,5 @@ export default function rookMove(square, color, position) {
 
   return squares;
 }
+
+export default rookMove;
