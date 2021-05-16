@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, CSSProperties } from 'react';
 
-import Piece from './Piece';
+import PieceUI from './Piece';
 import './MovablePiece.css';
+import { Piece } from '../../utils/pieces.types';
 
-export default function MovablePiece(props) {
+interface MovablePieceProps {
+  containingPiece: Piece;
+}
+
+const MovablePiece: React.FC<MovablePieceProps> = (props) => {
   const { containingPiece } = props;
   const [dragging, setDragging] = useState(false);
   const [staticPieceVisible, setStaticPieceVisible] = useState(true);
-  const [floatingPiecePosition, setFloatingPiecePosition] = useState({});
+  const [floatingPiecePosition, setFloatingPiecePosition] = useState<{ x?: number, y?: number}>({});
   const viewWidth = window.innerWidth;
 
-  function mouseDownHandler(event) {
+  function mouseDownHandler(event: React.MouseEvent) {
     setDragging(true);
     document.body.style.cursor = 'grabbing';
-    mouseMoveHandler(event);
+    mouseMoveHandler(event as unknown as Event);
   }
 
   function mouseUpHandler() {
@@ -21,8 +26,8 @@ export default function MovablePiece(props) {
     setDragging(false);
   }
 
-  function mouseMoveHandler(event) {
-    const { clientX, clientY } = event;
+  function mouseMoveHandler(event: Event) {
+    const { clientX, clientY } = event as unknown as React.MouseEvent;
     setFloatingPiecePosition({
       x: clientX - 0.5 * 0.04 * viewWidth,
       y: clientY - 0.5 * 0.04 * viewWidth,
@@ -48,10 +53,10 @@ export default function MovablePiece(props) {
   }, [dragging]);
 
   if (!containingPiece) return null;
-  const piece = <Piece {...{ containingPiece }} />;
-  const staticPieceStyle = { display: staticPieceVisible ? null : 'none' };
-  const floatingPieceStyle = {
-    display: staticPieceVisible ? 'none' : null,
+  const piece = <PieceUI {...{ containingPiece }} />;
+  const staticPieceStyle: CSSProperties = { display: staticPieceVisible ? 'inline' : 'none' };
+  const floatingPieceStyle: CSSProperties = {
+    display: staticPieceVisible ? 'none' : 'inline',
     top: floatingPiecePosition.y,
     left: floatingPiecePosition.x,
   };
@@ -72,3 +77,5 @@ export default function MovablePiece(props) {
     </>
   );
 }
+
+export default MovablePiece;
