@@ -15,7 +15,7 @@
       "plugin:react-hooks/recommended",
       "plugin:react-redux/recommended",
       "prettier",
-      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -47,7 +47,8 @@
       "unicorn/no-array-for-each": "off",
       "unicorn/no-null": "off",
       "unicorn/consistent-function-scoping": "off",
-      "react/prop-types": "off"
+      "react/prop-types": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off"
   },
   "settings": {
       "react": {
