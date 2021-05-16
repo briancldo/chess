@@ -96,7 +96,9 @@ export const attackingPiecesData = {
   b: { getMoves: bishopMove, pieces: ['b', 'q'] },
   n: { getMoves: knightMove, pieces: ['n'] },
   p: {
-    getMoves: (square: BoardSquare, color: PieceColor) => {
+    getMoves: (square: BoardSquare, color: PieceColor, position?: BoardPosition) => {
+      if (!position) return [];
+      
       const direction = getDirection(color);
       const pawnMoves = [];
       try {
