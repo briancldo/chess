@@ -47,7 +47,7 @@ export interface BoardState {
   result: GameResult | {}
 }
 
-type BoardFullRank = {
+export type BoardFullRank = {
   [file in BoardFile]?: Piece
 }
 

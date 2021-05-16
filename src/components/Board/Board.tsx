@@ -58,7 +58,7 @@ function BoardUI(props) {
         <React.Fragment key={`rank${rank}`}>
           <Rank
             number={rank}
-            rankPosition={board.position[rank]}
+            fullRank={board.position[rank]}
             checkedSquare={
               checkedSquare && checkedSquare.rank === rank
                 ? checkedSquare
