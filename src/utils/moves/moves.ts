@@ -1,4 +1,4 @@
-import { getPieceAtSquare, getCheckedSide } from '../board';
+import { getCheckedSide } from '../board';
 import {
   excludeNonCheckHandlingSquares,
   excludeCheckingSquares,
@@ -11,13 +11,18 @@ import rookMove from './rook';
 import bishopMove from './bishop';
 import knightMove from './knight';
 import pawnMove from './pawn';
+import { Board, BoardSquare } from '../board.types';
+import { Piece } from '../pieces.types';
 
 const piecesNeedExcludeLogic = new Set(['k', 'n', 'p']);
 
 export { default as makeMove } from './makeMoves';
-export function getPieceLegalMoves(board, square, piece) {
+export function getPieceLegalMoves(
+  board: Board,
+  square: BoardSquare,
+  piece: Piece
+) {
   const { state: boardState, position } = board;
-  if (!piece) piece = getPieceAtSquare(position, square);
 
   let candidates = computeCandidateSquares[piece.type](
     square,

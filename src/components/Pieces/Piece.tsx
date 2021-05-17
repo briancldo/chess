@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 
+import { Piece } from '../../utils/pieces.types';
 import './Piece.css';
 
 const colorMapping = { b: 'black', w: 'white' };
@@ -15,7 +16,7 @@ const typeMapping = {
 const piecesDirectoryPathRelativePublic = './assets/pieces';
 const pieceFileType = 'png';
 
-function Piece(props) {
+const PieceUI: React.FC<Piece> = (props) => {
   const { color, type } = props;
 
   const pieceImagePath = useMemo(
@@ -25,9 +26,13 @@ function Piece(props) {
   );
   const style = { backgroundImage: `url(${pieceImagePath})` };
   return <div className='piece-container' style={style}></div>;
+};
+
+export interface PieceWrapperProps {
+  containingPiece?: Piece;
 }
 
-export default function PieceWrapper(props) {
+const PieceWrapper: React.FC<PieceWrapperProps> = (props) => {
   const { containingPiece } = props;
   if (!containingPiece) return null;
   const { color, type } = containingPiece;
@@ -35,8 +40,10 @@ export default function PieceWrapper(props) {
   return (
     <div className='piece-wrapper-outer'>
       <div className='piece-wrapper-inner'>
-        <Piece {...{ type, color }} />
+        <PieceUI {...{ type, color }} />
       </div>
     </div>
   );
-}
+};
+
+export default PieceWrapper;

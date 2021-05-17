@@ -2,28 +2,31 @@ import React from 'react';
 
 import Square from './Square';
 import { files, matchingSquares } from '../../utils/board';
+import { RankProps } from './Rank.types';
+import { BoardSquare } from '../../utils/board.types';
 
-export default function Rank(props) {
-  const { number, rankPosition, checkedSquare, handlers, data } = props;
+const Rank: React.FC<RankProps> = (props) => {
+  const { number, fullRank, checkedSquare, handlers, data } = props;
   const lightSquareParity = number % 2;
 
   return (
     <div className='rank-wrapper'>
       {files.map((file, index) => {
         const square = { rank: number, file };
-        const highlighted = data.candidateSquares.some((candidateSquare) =>
-          matchingSquares(candidateSquare, square)
+        const highlighted = data.candidateSquares.some(
+          (candidateSquare: BoardSquare) =>
+            matchingSquares(candidateSquare, square)
         );
-        const isCurrentlyFocusedPiece = matchingSquares(
-          data.focusedPiece.square || {},
-          square
-        );
+        const isCurrentlyFocusedPiece =
+          'square' in data.focusedPiece
+            ? matchingSquares(data.focusedPiece.square, square)
+            : false;
 
         return (
           <Square
             key={`rank${number}-file${file}`}
             light={index % 2 === lightSquareParity}
-            containingPiece={rankPosition[file]}
+            containingPiece={fullRank[file]}
             square={square}
             highlighted={highlighted}
             isCurrentlyFocusedPiece={isCurrentlyFocusedPiece}
@@ -35,4 +38,6 @@ export default function Rank(props) {
       })}
     </div>
   );
-}
+};
+
+export default Rank;

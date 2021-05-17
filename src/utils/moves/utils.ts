@@ -2,14 +2,17 @@ import { getSquareAtOffset, getPieceAtSquare, ranks } from '../board';
 import rookMove from './rook';
 import bishopMove from './bishop';
 import knightMove from './knight';
+import { BoardDirection, BoardPosition, BoardSquare } from '../board.types';
+import { PieceColor } from '../pieces.types';
+import { CastleSide } from './moves.types';
 
 export function getLegalSquaresInDirection(
-  square,
-  position,
-  color,
-  offsetDirection
+  square: BoardSquare,
+  position: BoardPosition,
+  color: PieceColor,
+  offsetDirection: [number, number]
 ) {
-  const squares = [];
+  const squares: BoardSquare[] = [];
   let currentSquare = square;
   const [offsetX, offsetY] = offsetDirection;
   let done = false;
@@ -34,7 +37,12 @@ export function getLegalSquaresInDirection(
   return squares;
 }
 
-export function excludeOccupiedSquares(squares, position, color, options = {}) {
+export function excludeOccupiedSquares(
+  squares: BoardSquare[],
+  position: BoardPosition,
+  color: PieceColor,
+  options: { ignoreColor?: boolean } = {}
+) {
   return squares.filter((square) => {
     const piece = getPieceAtSquare(position, square);
 
@@ -46,7 +54,12 @@ export function excludeOccupiedSquares(squares, position, color, options = {}) {
   });
 }
 
-export const castlingPathSquares = {
+type CastlingPathSquaresData = {
+  [color in PieceColor]: {
+    [side in CastleSide]: BoardSquare[];
+  };
+};
+export const castlingPathSquares: CastlingPathSquaresData = {
   w: {
     q: [
       { rank: ranks.first, file: 'b' },
@@ -71,12 +84,16 @@ export const castlingPathSquares = {
   },
 };
 
-export function getDirection(color) {
+export function getDirection(color: PieceColor): BoardDirection {
   return color === 'w' ? 1 : -1;
 }
 
-export function isSquareAttacked(square, position, color) {
-  for (const pieceType of ['r', 'b', 'n', 'p']) {
+export function isSquareAttacked(
+  square: BoardSquare,
+  position: BoardPosition,
+  color: PieceColor
+) {
+  for (const pieceType of attackingPieceTypes) {
     const attacked = isSquareAttackedByPiece(
       pieceType,
       square,
@@ -94,7 +111,13 @@ export const attackingPiecesData = {
   b: { getMoves: bishopMove, pieces: ['b', 'q'] },
   n: { getMoves: knightMove, pieces: ['n'] },
   p: {
-    getMoves: (square, color) => {
+    getMoves: (
+      square: BoardSquare,
+      color: PieceColor,
+      position?: BoardPosition
+    ) => {
+      if (!position) return [];
+
       const direction = getDirection(color);
       const pawnMoves = [];
       try {
@@ -114,8 +137,15 @@ export const attackingPiecesData = {
     pieces: ['p'],
   },
 };
+type AttackingPieces = 'r' | 'b' | 'n' | 'p';
+const attackingPieceTypes = ['r', 'b', 'n', 'p'] as AttackingPieces[];
 
-function isSquareAttackedByPiece(pieceType, square, position, color) {
+function isSquareAttackedByPiece(
+  pieceType: AttackingPieces,
+  square: BoardSquare,
+  position: BoardPosition,
+  color: PieceColor
+) {
   const { getMoves, pieces } = attackingPiecesData[pieceType];
   const moves = getMoves(square, color, position);
   const movePieces = moves.map((move) => getPieceAtSquare(position, move));

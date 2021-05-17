@@ -14,14 +14,17 @@
       "plugin:jsx-a11y/recommended",
       "plugin:react-hooks/recommended",
       "plugin:react-redux/recommended",
-      "prettier"
+      "prettier",
+      "plugin:@typescript-eslint/recommended"
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
       "ecmaFeatures": {
           "jsx": true
       },
       "ecmaVersion": 12,
-      "sourceType": "module"
+      "sourceType": "module",
+      "project": "./tsconfig.json"
   },
   "plugins": [
       "react",
@@ -31,7 +34,8 @@
       "jsx-a11y",
       "react-hooks",
       "react-redux",
-      "prettier"
+      "prettier",
+      "@typescript-eslint"
   ],
   "rules": {
       "prettier/prettier": ["error", {
@@ -43,7 +47,8 @@
       "unicorn/no-array-for-each": "off",
       "unicorn/no-null": "off",
       "unicorn/consistent-function-scoping": "off",
-      "react/prop-types": "off"
+      "react/prop-types": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off"
   },
   "settings": {
       "react": {
