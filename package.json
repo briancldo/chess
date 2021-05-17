@@ -87,7 +87,9 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
+      "yarn format",
       "yarn lint",
+      "yarn typecheck",
       "yarn cruise-deps"
     ]
   },
