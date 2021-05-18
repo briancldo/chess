@@ -90,7 +90,8 @@
       "yarn format",
       "yarn lint",
       "yarn typecheck",
-      "yarn cruise-deps"
+      "yarn cruise-deps",
+      "yarn audit"
     ]
   },
   "config": {
