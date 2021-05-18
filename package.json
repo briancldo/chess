@@ -55,7 +55,6 @@
     "@types/react-dom": "17.0.5",
     "@typescript-eslint/eslint-plugin": "4.23.0",
     "@typescript-eslint/parser": "4.23.0",
-    "audit-ci": "4.0.0",
     "commitizen": "4.2.4",
     "cz-conventional-changelog": "3.3.0",
     "dependency-cruiser": "10.0.1",
@@ -90,8 +89,7 @@
     "*.{ts,tsx}": [
       "yarn format",
       "yarn lint",
-      "yarn cruise-deps",
-      "audit-ci --moderate -p yarn --report-type summary"
+      "yarn cruise-deps"
     ]
   },
   "config": {
