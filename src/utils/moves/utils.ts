@@ -5,6 +5,7 @@ import knightMove from './knight';
 import { BoardDirection, BoardPosition, BoardSquare } from '../board.types';
 import { PieceColor } from '../pieces.types';
 import { CastleSide } from './moves.types';
+import { computeRegularMoves as kingMoveRegular } from './king';
 
 export function getLegalSquaresInDirection(
   square: BoardSquare,
@@ -107,6 +108,7 @@ export function isSquareAttacked(
 }
 
 export const attackingPiecesData = {
+  k: { getMoves: kingMoveRegular, pieces: ['k'] },
   r: { getMoves: rookMove, pieces: ['r', 'q'] },
   b: { getMoves: bishopMove, pieces: ['b', 'q'] },
   n: { getMoves: knightMove, pieces: ['n'] },
@@ -137,8 +139,8 @@ export const attackingPiecesData = {
     pieces: ['p'],
   },
 };
-type AttackingPieces = 'r' | 'b' | 'n' | 'p';
-const attackingPieceTypes = ['r', 'b', 'n', 'p'] as AttackingPieces[];
+type AttackingPieces = 'k' | 'r' | 'b' | 'n' | 'p';
+const attackingPieceTypes = ['k', 'r', 'b', 'n', 'p'] as AttackingPieces[];
 
 function isSquareAttackedByPiece(
   pieceType: AttackingPieces,

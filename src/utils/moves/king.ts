@@ -27,7 +27,7 @@ const kingMove: PieceMoveHandler = (square, color, position, boardState) => {
 export default kingMove;
 
 const offsets = [0, 1, -1] as const;
-function computeRegularMoves(square: BoardSquare) {
+export function computeRegularMoves(square: BoardSquare) {
   const squares: BoardSquare[] = [];
 
   for (const offsetX of offsets) {
