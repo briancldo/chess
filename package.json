@@ -8,10 +8,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cm": "cz",
-    "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
-    "lint:fix": "eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
-    "cruise-deps": "depcruise \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,ts,tsx}\"",
+    "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
+    "cruise-deps": "depcruise \"src/**/*.{js,ts,tsx}\"",
     "release": "standard-version",
     "typecheck": "tsc"
   },
@@ -89,7 +89,6 @@
     "*.{ts,tsx}": [
       "yarn format",
       "yarn lint",
-      "yarn typecheck",
       "yarn cruise-deps",
       "yarn audit"
     ]
