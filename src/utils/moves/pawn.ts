@@ -13,7 +13,7 @@ const pawnMove: PieceMoveHandler = (square, color, position, boardState) => {
   const candidates: BoardSquare[] = [];
   candidates.push(
     ...moveStraight(square, color as PieceColor, position as BoardPosition),
-    ...attackDiagonally(
+    ...getAttackMoves(
       square,
       color as PieceColor,
       position as BoardPosition,
@@ -74,33 +74,26 @@ function moveStraightTwice(
   return [twoSquaresAhead];
 }
 
-function attackDiagonally(
+function getAttackMoves(
   square: BoardSquare,
   color: PieceColor,
   position: BoardPosition,
   boardState: BoardState
 ) {
+  const diagonalSquares = attackDiagonal(square, color, position);
+  const enPassantSquares = attackEnPassant(square, color, position, boardState);
+
+  return [...diagonalSquares, ...enPassantSquares];
+}
+
+export function attackDiagonal(
+  square: BoardSquare,
+  color: PieceColor,
+  position: BoardPosition
+) {
   const leftDiagonalSquare = attackLeftDiagonal(square, color, position);
   const rightDiagonalSquare = attackRightDiagonal(square, color, position);
-  const leftEnPassant = attackLeftEnPassant(
-    square,
-    color,
-    position,
-    boardState
-  );
-  const rightEnPassant = attackRightEnPassant(
-    square,
-    color,
-    position,
-    boardState
-  );
-
-  return [
-    ...leftDiagonalSquare,
-    ...rightDiagonalSquare,
-    ...leftEnPassant,
-    ...rightEnPassant,
-  ];
+  return [...leftDiagonalSquare, ...rightDiagonalSquare];
 }
 
 function attackLeftDiagonal(
@@ -137,6 +130,27 @@ function attackRightDiagonal(
   const rightDiagonalPiece = getPieceAtSquare(position, rightDiagonalSquare);
   if (!rightDiagonalPiece || rightDiagonalPiece.color === color) return [];
   return [rightDiagonalSquare];
+}
+
+function attackEnPassant(
+  square: BoardSquare,
+  color: PieceColor,
+  position: BoardPosition,
+  boardState: BoardState
+) {
+  const leftEnPassant = attackLeftEnPassant(
+    square,
+    color,
+    position,
+    boardState
+  );
+  const rightEnPassant = attackRightEnPassant(
+    square,
+    color,
+    position,
+    boardState
+  );
+  return [...leftEnPassant, ...rightEnPassant];
 }
 
 function attackLeftEnPassant(

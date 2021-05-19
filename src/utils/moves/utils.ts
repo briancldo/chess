@@ -2,10 +2,11 @@ import { getSquareAtOffset, getPieceAtSquare, ranks } from '../board';
 import rookMove from './rook';
 import bishopMove from './bishop';
 import knightMove from './knight';
+import { attackDiagonal as pawnAttack } from './pawn';
+import { computeRegularMoves as kingMoveRegular } from './king';
 import { BoardDirection, BoardPosition, BoardSquare } from '../board.types';
 import { PieceColor } from '../pieces.types';
 import { CastleSide } from './moves.types';
-import { computeRegularMoves as kingMoveRegular } from './king';
 
 export function getLegalSquaresInDirection(
   square: BoardSquare,
@@ -112,32 +113,7 @@ export const attackingPiecesData = {
   r: { getMoves: rookMove, pieces: ['r', 'q'] },
   b: { getMoves: bishopMove, pieces: ['b', 'q'] },
   n: { getMoves: knightMove, pieces: ['n'] },
-  p: {
-    getMoves: (
-      square: BoardSquare,
-      color: PieceColor,
-      position?: BoardPosition
-    ) => {
-      if (!position) return [];
-
-      const direction = getDirection(color);
-      const pawnMoves = [];
-      try {
-        const leftDiagonal = getSquareAtOffset(square, -direction, direction);
-        pawnMoves.push(leftDiagonal);
-      } catch {
-        0;
-      }
-      try {
-        const rightDiagonal = getSquareAtOffset(square, direction, direction);
-        pawnMoves.push(rightDiagonal);
-      } catch {
-        0;
-      }
-      return pawnMoves;
-    },
-    pieces: ['p'],
-  },
+  p: { getMoves: pawnAttack, pieces: ['p'] },
 };
 type AttackingPieces = 'k' | 'r' | 'b' | 'n' | 'p';
 const attackingPieceTypes = ['k', 'r', 'b', 'n', 'p'] as AttackingPieces[];
