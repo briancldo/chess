@@ -12,7 +12,8 @@ import bishopMove from './bishop';
 import knightMove from './knight';
 import pawnMove from './pawn';
 import { Board, BoardSquare } from '../board.types';
-import { Piece } from '../pieces.types';
+import { Piece, PieceType } from '../pieces.types';
+import { PieceMoveHandler } from './moves.types';
 
 const piecesNeedExcludeLogic = new Set(['k', 'n', 'p']);
 
@@ -40,7 +41,7 @@ export function getPieceLegalMoves(
   return excludeOccupiedSquares(candidates, position, piece.color);
 }
 
-const computeCandidateSquares = {
+const computeCandidateSquares: Record<PieceType, PieceMoveHandler> = {
   k: kingMove,
   q: queenMove,
   r: rookMove,

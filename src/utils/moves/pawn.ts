@@ -6,19 +6,18 @@ import {
   BoardState,
 } from '../board.types';
 import { PieceColor } from '../pieces.types';
-import { PieceMoveHandler } from './moves.types';
 import { getDirection } from './utils';
 
-const pawnMove: PieceMoveHandler = (square, color, position, boardState) => {
+const pawnMove = (
+  square: BoardSquare,
+  color: PieceColor,
+  position: BoardPosition,
+  boardState: BoardState
+) => {
   const candidates: BoardSquare[] = [];
   candidates.push(
     ...moveStraight(square, color as PieceColor, position as BoardPosition),
-    ...getAttackMoves(
-      square,
-      color as PieceColor,
-      position as BoardPosition,
-      boardState as BoardState
-    )
+    ...getAttackMoves(square, color, position, boardState)
   );
 
   return candidates;
