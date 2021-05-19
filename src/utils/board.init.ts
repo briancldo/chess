@@ -18,6 +18,7 @@ const board: Board = {
         threatSquares: [],
       },
     },
+    turn: 'w',
     result: undefined,
   },
   position: [
