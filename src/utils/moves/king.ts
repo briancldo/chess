@@ -6,6 +6,7 @@ import {
 } from '../board';
 import { Board, BoardPosition, BoardSquare, BoardState } from '../board.types';
 import { PieceColor } from '../pieces.types';
+import { excludeCheckingSquares } from './checks';
 import { CastleSide } from './moves.types';
 import {
   excludeOccupiedSquares,
@@ -17,8 +18,12 @@ const kingMove = (square: BoardSquare, color: PieceColor, board: Board) => {
   const { position } = board;
   const regularMoves = computeRegularMoves(square);
   const castlingMoves = computeCastlingMoves(color, position, board);
+  const totalMoves = [...regularMoves, ...castlingMoves];
 
-  return [...regularMoves, ...castlingMoves];
+  let candidates = excludeCheckingSquares(totalMoves, board, color);
+  candidates = excludeOccupiedSquares(candidates, position, color);
+
+  return candidates;
 };
 
 export default kingMove;
