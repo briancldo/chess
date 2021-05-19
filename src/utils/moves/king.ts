@@ -6,20 +6,21 @@ import {
 } from '../board';
 import { BoardPosition, BoardSquare, BoardState } from '../board.types';
 import { PieceColor } from '../pieces.types';
-import { CastleSide, PieceMoveHandler } from './moves.types';
+import { CastleSide } from './moves.types';
 import {
   excludeOccupiedSquares,
   castlingPathSquares,
   isSquareAttacked,
 } from './utils';
 
-const kingMove: PieceMoveHandler = (square, color, position, boardState) => {
+const kingMove = (
+  square: BoardSquare,
+  color: PieceColor,
+  position: BoardPosition,
+  boardState: BoardState
+) => {
   const regularMoves = computeRegularMoves(square);
-  const castlingMoves = computeCastlingMoves(
-    color as PieceColor,
-    position as BoardPosition,
-    boardState as BoardState
-  );
+  const castlingMoves = computeCastlingMoves(color, position, boardState);
 
   return [...regularMoves, ...castlingMoves];
 };

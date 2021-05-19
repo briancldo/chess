@@ -1,9 +1,8 @@
 import { getSquareAtOffset } from '../board';
 import { BoardSquare } from '../board.types';
-import { PieceMoveHandler } from './moves.types';
 
 const offsets = [1, -1, 2, -2];
-const knightMove: PieceMoveHandler = (square) => {
+const knightMove = (square: BoardSquare) => {
   const squares: BoardSquare[] = [];
 
   for (const offsetX of offsets) {
