@@ -4,7 +4,7 @@ import {
   getCastlingPosition,
   getPieceAtSquare,
 } from '../board';
-import { BoardPosition, BoardSquare, BoardState } from '../board.types';
+import { Board, BoardPosition, BoardSquare, BoardState } from '../board.types';
 import { PieceColor } from '../pieces.types';
 import { CastleSide } from './moves.types';
 import {
@@ -13,14 +13,10 @@ import {
   isSquareAttacked,
 } from './utils';
 
-const kingMove = (
-  square: BoardSquare,
-  color: PieceColor,
-  position: BoardPosition,
-  boardState: BoardState
-) => {
+const kingMove = (square: BoardSquare, color: PieceColor, board: Board) => {
+  const { position } = board;
   const regularMoves = computeRegularMoves(square);
-  const castlingMoves = computeCastlingMoves(color, position, boardState);
+  const castlingMoves = computeCastlingMoves(color, position, board);
 
   return [...regularMoves, ...castlingMoves];
 };
@@ -49,20 +45,10 @@ export function computeRegularMoves(square: BoardSquare) {
 function computeCastlingMoves(
   color: PieceColor,
   position: BoardPosition,
-  boardState: BoardState
+  board: Board
 ) {
-  const canQueensideCastle = computeCanCastleSide(
-    'q',
-    color,
-    position,
-    boardState
-  );
-  const canKingsideCastle = computeCanCastleSide(
-    'k',
-    color,
-    position,
-    boardState
-  );
+  const canQueensideCastle = computeCanCastleSide('q', color, board);
+  const canKingsideCastle = computeCanCastleSide('k', color, board);
   const castlingRank = getCastlingRank(color);
 
   const squares: BoardSquare[] = [];
@@ -74,13 +60,14 @@ function computeCastlingMoves(
 function computeCanCastleSide(
   side: CastleSide,
   color: PieceColor,
-  position: BoardPosition,
-  boardState: BoardState
+  board: Board
 ) {
+  const { position, state: boardState } = board;
+
   if (isRookGone(side, color, position)) return false;
   if (haveCastlingPiecesMoved(side, color, boardState)) return false;
   if (areCastlingSquaresOccupied(side, color, position)) return false;
-  if (areCastlingSquaresAttacked(side, color, position)) return false;
+  if (areCastlingSquaresAttacked(side, color, board)) return false;
 
   return true;
 }
@@ -105,12 +92,12 @@ function areCastlingSquaresOccupied(
 function areCastlingSquaresAttacked(
   side: CastleSide,
   color: PieceColor,
-  position: BoardPosition
+  board: Board
 ) {
   const castlingSquares = castlingPathSquares[color][side];
 
   for (const square of castlingSquares) {
-    if (isSquareAttacked(square, position, color)) return true;
+    if (isSquareAttacked(square, color, board)) return true;
   }
 
   return false;

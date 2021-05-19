@@ -23,22 +23,19 @@ export function getPieceLegalMoves(
   square: BoardSquare,
   piece: Piece
 ) {
-  const { state: boardState, position } = board;
-
   let candidates = computeCandidateSquares[piece.type](
     square,
     piece.color,
-    position,
-    boardState
+    board
   );
 
-  if (getCheckedSide(boardState))
-    candidates = excludeNonCheckHandlingSquares(candidates, boardState, piece);
+  if (getCheckedSide(board.state))
+    candidates = excludeNonCheckHandlingSquares(candidates, board.state, piece);
   if (!piecesNeedExcludeLogic.has(piece.type)) return candidates;
 
   if (piece.type === 'k')
     candidates = excludeCheckingSquares(candidates, board, piece.color);
-  return excludeOccupiedSquares(candidates, position, piece.color);
+  return excludeOccupiedSquares(candidates, board.position, piece.color);
 }
 
 const computeCandidateSquares: Record<PieceType, PieceMoveHandler> = {

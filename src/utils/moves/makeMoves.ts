@@ -180,7 +180,7 @@ function handleChecks(
   const kingColor = flipColor(enemyColor);
   const kingSquare = getKingSquare(boardState, kingColor);
 
-  const isKingChecked = isSquareAttacked(kingSquare, draft.position, kingColor);
+  const isKingChecked = isSquareAttacked(kingSquare, kingColor, draft);
   if (!isKingChecked) return handleUncheck(draft);
   draft.state.king.checkedSide = kingColor;
   setCheckDetails(draft, kingSquare, kingColor);

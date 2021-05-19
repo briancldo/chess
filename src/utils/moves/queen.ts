@@ -1,16 +1,12 @@
-import { BoardPosition, BoardSquare } from '../board.types';
+import { Board, BoardSquare } from '../board.types';
 import { PieceColor } from '../pieces.types';
 import bishopMove from './bishop';
 import rookMove from './rook';
 
-const queenMove = (
-  square: BoardSquare,
-  color: PieceColor,
-  position: BoardPosition
-) => {
+const queenMove = (square: BoardSquare, color: PieceColor, board: Board) => {
   return [
-    ...bishopMove(square, color, position),
-    ...rookMove(square, color, position),
+    ...bishopMove(square, color, board),
+    ...rookMove(square, color, board),
   ];
 };
 

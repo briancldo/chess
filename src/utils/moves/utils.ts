@@ -4,7 +4,12 @@ import bishopMove from './bishop';
 import knightMove from './knight';
 import { attackDiagonal as pawnAttack } from './pawn';
 import { computeRegularMoves as kingMoveRegular } from './king';
-import { BoardDirection, BoardPosition, BoardSquare } from '../board.types';
+import {
+  Board,
+  BoardDirection,
+  BoardPosition,
+  BoardSquare,
+} from '../board.types';
 import { PieceColor } from '../pieces.types';
 import { CastleSide } from './moves.types';
 
@@ -92,16 +97,11 @@ export function getDirection(color: PieceColor): BoardDirection {
 
 export function isSquareAttacked(
   square: BoardSquare,
-  position: BoardPosition,
-  color: PieceColor
+  color: PieceColor,
+  board: Board
 ) {
   for (const pieceType of attackingPieceTypes) {
-    const attacked = isSquareAttackedByPiece(
-      pieceType,
-      square,
-      position,
-      color
-    );
+    const attacked = isSquareAttackedByPiece(pieceType, square, color, board);
     if (attacked) return true;
   }
 
@@ -121,11 +121,12 @@ const attackingPieceTypes = ['k', 'r', 'b', 'n', 'p'] as AttackingPieces[];
 function isSquareAttackedByPiece(
   pieceType: AttackingPieces,
   square: BoardSquare,
-  position: BoardPosition,
-  color: PieceColor
+  color: PieceColor,
+  board: Board
 ) {
+  const { position } = board;
   const { getMoves, pieces } = attackingPiecesData[pieceType];
-  const moves = getMoves(square, color, position);
+  const moves = getMoves(square, color, board);
   const movePieces = moves.map((move) => getPieceAtSquare(position, move));
   for (const piece of movePieces) {
     if (!piece) continue;

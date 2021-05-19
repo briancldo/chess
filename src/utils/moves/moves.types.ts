@@ -1,11 +1,10 @@
-import { BoardPosition, BoardSquare, BoardState } from '../board.types';
+import { Board, BoardSquare } from '../board.types';
 import { PieceColor } from '../pieces.types';
 
 export type PieceMoveHandler = (
   square: BoardSquare,
   color: PieceColor,
-  position: BoardPosition,
-  boardState: BoardState
+  board: Board
 ) => BoardSquare[];
 
 export type CastleSide = 'q' | 'k';

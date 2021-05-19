@@ -8,7 +8,6 @@ import {
 import {
   Board,
   BoardFile,
-  BoardPosition,
   BoardRank,
   BoardSquare,
   BoardState,
@@ -73,14 +72,14 @@ export function excludeCheckingSquares(
   board: Board,
   pieceColor: PieceColor
 ) {
-  const { state: boardState, position } = board;
+  const { state: boardState } = board;
   const kingSquare = boardState.king[pieceColor].square;
-  const positionWithoutKing = produce(position, (draft) => {
-    draft[kingSquare.rank][kingSquare.file] = undefined;
+  const boardWithoutKing = produce(board, (draft) => {
+    draft.position[kingSquare.rank][kingSquare.file] = undefined;
   });
 
   return candidates.filter(
-    (candidate) => !isSquareAttacked(candidate, positionWithoutKing, pieceColor)
+    (candidate) => !isSquareAttacked(candidate, pieceColor, boardWithoutKing)
   );
 }
 
@@ -91,7 +90,7 @@ export function setCheckDetails(
   kingSquare: BoardSquare,
   color: PieceColor
 ) {
-  const threatPieces = getThreatPieces(draft.position, kingSquare, color);
+  const threatPieces = getThreatPieces(draft, kingSquare, color);
   const threatSquares = getThreatSquares(kingSquare, threatPieces);
 
   draft.state.king.checkDetails.threatPieces = threatPieces;
@@ -100,14 +99,15 @@ export function setCheckDetails(
 
 const attackingPieces = ['r', 'b', 'n', 'p'] as const;
 function getThreatPieces(
-  position: BoardPosition,
+  board: Board,
   square: BoardSquare,
   color: PieceColor
 ): ThreatPiece[] {
   const threatPieces = [];
   for (const pieceType of attackingPieces) {
+    const { position } = board;
     const { getMoves, pieces } = attackingPiecesData[pieceType];
-    const moves = getMoves(square, color, position);
+    const moves = getMoves(square, color, board);
     const movePieces = moves.map((move) => getPieceAtSquare(position, move));
 
     for (const [i, piece] of movePieces.entries()) {
