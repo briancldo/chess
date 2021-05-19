@@ -1,6 +1,5 @@
 import { getCheckedSide } from '../board';
 import { excludeNonCheckHandlingSquares } from './checks';
-import { excludeOccupiedSquares } from './utils';
 
 import kingMove from './king';
 import queenMove from './queen';
@@ -11,8 +10,6 @@ import pawnMove from './pawn';
 import { Board, BoardSquare } from '../board.types';
 import { Piece, PieceType } from '../pieces.types';
 import { PieceMoveHandler } from './moves.types';
-
-const piecesNeedExcludeLogic = new Set(['k', 'n', 'p']);
 
 export { default as makeMove } from './makeMoves';
 export function getPieceLegalMoves(
@@ -28,8 +25,7 @@ export function getPieceLegalMoves(
 
   if (getCheckedSide(board.state))
     candidates = excludeNonCheckHandlingSquares(candidates, board.state, piece);
-  if (!piecesNeedExcludeLogic.has(piece.type)) return candidates;
-  return excludeOccupiedSquares(candidates, board.position, piece.color);
+  return candidates;
 }
 
 const computeCandidateSquares: Record<PieceType, PieceMoveHandler> = {
