@@ -26,7 +26,8 @@ export default function Board() {
 
   const handlers: BoardHandlers = {
     setPieceFocus: (piece, square) => {
-      if (piece && square) setFocusedPiece({ piece, square });
+      if (piece && square && piece.color === board.state.turn)
+        setFocusedPiece({ piece, square });
     },
     removePieceFocus: () => {
       setFocusedPiece({});
