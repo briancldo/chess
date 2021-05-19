@@ -7,7 +7,7 @@ import {
   BoardState,
 } from '../board.types';
 import { PieceColor } from '../pieces.types';
-import { getDirection } from './utils';
+import { excludeOccupiedSquares, getDirection } from './utils';
 
 const pawnMove = (square: BoardSquare, color: PieceColor, board: Board) => {
   const { position } = board;
@@ -17,7 +17,7 @@ const pawnMove = (square: BoardSquare, color: PieceColor, board: Board) => {
     ...getAttackMoves(square, color, board)
   );
 
-  return candidates;
+  return excludeOccupiedSquares(candidates, position, color);
 };
 
 export default pawnMove;

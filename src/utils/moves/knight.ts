@@ -1,8 +1,10 @@
 import { getSquareAtOffset } from '../board';
-import { BoardSquare } from '../board.types';
+import { Board, BoardSquare } from '../board.types';
+import { PieceColor } from '../pieces.types';
+import { excludeOccupiedSquares } from './utils';
 
 const offsets = [1, -1, 2, -2];
-const knightMove = (square: BoardSquare) => {
+const knightMove = (square: BoardSquare, color: PieceColor, board: Board) => {
   const squares: BoardSquare[] = [];
 
   for (const offsetX of offsets) {
@@ -16,7 +18,7 @@ const knightMove = (square: BoardSquare) => {
     }
   }
 
-  return squares;
+  return excludeOccupiedSquares(squares, board.position, color);
 };
 
 export default knightMove;
