@@ -45,6 +45,8 @@ export default function makeMove(
     handleSpecialCases(board, draft, piece, { start, end });
     draft.position[start.rank][start.file] = undefined;
     handleChecks(board.state, draft, piece.color);
+    draft.state.turn = flipColor(draft.state.turn);
+
     handleGameOver(draft, piece.color);
   });
 }

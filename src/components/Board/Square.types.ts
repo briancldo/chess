@@ -1,5 +1,5 @@
 import { BoardSquare } from '../../utils/board.types';
-import { Piece } from '../../utils/pieces.types';
+import { Piece, PieceColor } from '../../utils/pieces.types';
 import { BoardHandlers } from './Board.types';
 
 export interface SquareProps {
@@ -10,6 +10,7 @@ export interface SquareProps {
   isCurrentlyFocusedPiece: boolean;
   isChecked?: boolean;
   isGameOver: boolean;
+  turn: PieceColor;
   handlers: BoardHandlers;
 }
 

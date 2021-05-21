@@ -32,6 +32,7 @@ const Rank: React.FC<RankProps> = (props) => {
             isCurrentlyFocusedPiece={isCurrentlyFocusedPiece}
             isChecked={checkedSquare && checkedSquare.file === file}
             isGameOver={data.gameOver}
+            turn={data.turn}
             handlers={handlers}
           />
         );

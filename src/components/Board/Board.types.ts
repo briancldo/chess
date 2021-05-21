@@ -1,5 +1,5 @@
 import { Board, BoardSquare } from '../../utils/board.types';
-import { Piece } from '../../utils/pieces.types';
+import { Piece, PieceColor } from '../../utils/pieces.types';
 
 export type FocusedPiece =
   | {
@@ -18,6 +18,7 @@ export interface BoardData {
   candidateSquares: BoardSquare[];
   focusedPiece: FocusedPiece;
   gameOver: boolean;
+  turn: PieceColor;
 }
 
 export interface BoardUIProps {

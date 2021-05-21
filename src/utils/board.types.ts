@@ -50,6 +50,7 @@ export interface BoardState {
       threatSquares: BoardSquare[];
     };
   };
+  turn: PieceColor;
   result?: GameResult;
 }
 
