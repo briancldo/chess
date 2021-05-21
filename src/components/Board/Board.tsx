@@ -13,6 +13,7 @@ export default function Board() {
   const [board, setBoard] = useState(initialBoard);
   const [focusedPiece, setFocusedPiece] = useState<FocusedPiece>({});
   const [candidateSquares, setCandidateSquares] = useState<BoardSquare[]>([]);
+  const turn = board.state.turn;
   const gameOver = board.state.result !== undefined;
   if (gameOver) tempHandleGameOver(board.state.result as GameResult);
 
@@ -26,8 +27,7 @@ export default function Board() {
 
   const handlers: BoardHandlers = {
     setPieceFocus: (piece, square) => {
-      if (piece && square && piece.color === board.state.turn)
-        setFocusedPiece({ piece, square });
+      if (piece && square) setFocusedPiece({ piece, square });
     },
     removePieceFocus: () => {
       setFocusedPiece({});
@@ -38,7 +38,7 @@ export default function Board() {
       handlers.removePieceFocus();
     },
   };
-  const data = { candidateSquares, focusedPiece, gameOver };
+  const data = { candidateSquares, focusedPiece, gameOver, turn };
   return (
     <>
       {process.env.NODE_ENV === 'development' && (
