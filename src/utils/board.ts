@@ -98,7 +98,10 @@ export function getCastlingPosition(color: PieceColor): CastlingPositionData {
   };
 }
 
-export function getKingSquare(boardState: BoardState, color: PieceColor) {
+export function getKingSquare(
+  boardState: BoardState,
+  color: PieceColor
+): BoardSquare {
   return boardState.king[color].square;
 }
 

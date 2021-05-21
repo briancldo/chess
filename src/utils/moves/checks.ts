@@ -4,10 +4,13 @@ import {
   matchingSquares,
   orderedRanks,
   files,
+  getCheckedSide,
+  getKingSquare,
 } from '../board';
 import {
   Board,
   BoardFile,
+  BoardPosition,
   BoardRank,
   BoardSquare,
   BoardState,
@@ -16,6 +19,21 @@ import {
 import { DevError } from '../errors';
 import { Piece, PieceColor } from '../pieces.types';
 import { isSquareAttacked, attackingPiecesData } from './utils';
+
+export function excludeIllegalSquares(
+  candidates: BoardSquare[],
+  board: Board,
+  piece: Piece,
+  square: BoardSquare
+) {
+  if (getCheckedSide(board.state))
+    candidates = excludeNonCheckHandlingSquares(candidates, board.state, piece);
+  candidates = excludeUnpinSquares(candidates, board, piece, square);
+
+  return candidates;
+}
+
+// -------------------------------------------------------------------
 
 export function excludeNonCheckHandlingSquares(
   candidates: BoardSquare[],
@@ -63,6 +81,33 @@ function excludeNonKingMoveSquares(
         matchingSquares(threatSquare, candidate)
       )
   );
+}
+
+// -------------------------------------------------------------------
+
+function excludeUnpinSquares(
+  candidates: BoardSquare[],
+  board: Board,
+  piece: Piece,
+  square: BoardSquare
+) {
+  if (piece.type === 'k') return candidates;
+  if (board.state.king.checkedSide) return candidates;
+
+  const boardWithoutPiece = produce(board, (draft) => {
+    draft.position[square.rank][square.file] = undefined;
+  });
+
+  const kingSquare = getKingSquare(board.state, piece.color);
+  const isKingCheckedWithoutPiece = isSquareAttacked(
+    kingSquare,
+    piece.color,
+    boardWithoutPiece
+  );
+  if (!isKingCheckedWithoutPiece) return candidates;
+
+  alert('Piece is pinned.');
+  return candidates;
 }
 
 // -------------------------------------------------------------------
