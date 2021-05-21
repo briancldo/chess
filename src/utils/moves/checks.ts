@@ -114,13 +114,13 @@ function excludeUnpinSquares(
     threatSquares,
   } = boardWithoutPiece.state.king.checkDetails;
   if (threatPieces.length > 1) return candidates;
-  const checkLineSquares = [
+  const pinLineSquares = [
     ...threatSquares,
     threatPieces[0]?.square as BoardSquare,
   ];
   return candidates.filter((square) =>
-    checkLineSquares.some((checkLineSquare) =>
-      matchingSquares(square, checkLineSquare)
+    pinLineSquares.some((pinLineSquare) =>
+      matchingSquares(square, pinLineSquare)
     )
   );
 }
@@ -179,29 +179,29 @@ function getThreatPieces(
   return threatPieces;
 }
 
-function getIntermediateRanks(startLine: BoardRank, endLine: BoardRank) {
-  const startLineIndex = orderedRanks.indexOf(startLine);
-  const endLineIndex = orderedRanks.indexOf(endLine);
-  const [loIndex, hiIndex] = [startLineIndex, endLineIndex].sort() as [
+function getIntermediateRanks(startRank: BoardRank, endRank: BoardRank) {
+  const startRankIndex = orderedRanks.indexOf(startRank);
+  const endRankIndex = orderedRanks.indexOf(endRank);
+  const [loIndex, hiIndex] = [startRankIndex, endRankIndex].sort() as [
     number,
     number
   ];
-  const intermediateLines = orderedRanks.slice(loIndex + 1, hiIndex);
+  const intermediateRanks = orderedRanks.slice(loIndex + 1, hiIndex);
 
-  if (startLine < endLine) return intermediateLines;
-  return [...intermediateLines].reverse();
+  if (startRank < endRank) return intermediateRanks;
+  return [...intermediateRanks].reverse();
 }
-function getIntermediateFiles(startLine: BoardFile, endLine: BoardFile) {
-  const startLineIndex = files.indexOf(startLine);
-  const endLineIndex = files.indexOf(endLine);
-  const [loIndex, hiIndex] = [startLineIndex, endLineIndex].sort() as [
+function getIntermediateFiles(startFile: BoardFile, endFile: BoardFile) {
+  const startFileIndex = files.indexOf(startFile);
+  const endFileIndex = files.indexOf(endFile);
+  const [loIndex, hiIndex] = [startFileIndex, endFileIndex].sort() as [
     number,
     number
   ];
-  const intermediateLines = files.slice(loIndex + 1, hiIndex);
+  const intermediateFiles = files.slice(loIndex + 1, hiIndex);
 
-  if (startLine < endLine) return intermediateLines;
-  return [...intermediateLines].reverse();
+  if (startFile < endFile) return intermediateFiles;
+  return [...intermediateFiles].reverse();
 }
 
 function getThreatSquares(
