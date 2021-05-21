@@ -94,7 +94,7 @@ function excludeUnpinSquares(
   if (piece.type === 'k') return candidates;
   if (board.state.king.checkedSide) return candidates;
 
-  const boardWithoutPiece = produce(board, (draft) => {
+  let boardWithoutPiece = produce(board, (draft) => {
     draft.position[square.rank][square.file] = undefined;
   });
 
@@ -106,8 +106,23 @@ function excludeUnpinSquares(
   );
   if (!isKingCheckedWithoutPiece) return candidates;
 
-  alert('Piece is pinned.');
-  return candidates;
+  boardWithoutPiece = produce(boardWithoutPiece, (draft) => {
+    setCheckDetails(draft, kingSquare, piece.color);
+  });
+  const {
+    threatPieces,
+    threatSquares,
+  } = boardWithoutPiece.state.king.checkDetails;
+  if (threatPieces.length > 1) return candidates;
+  const checkLineSquares = [
+    ...threatSquares,
+    threatPieces[0]?.square as BoardSquare,
+  ];
+  return candidates.filter((square) =>
+    checkLineSquares.some((checkLineSquare) =>
+      matchingSquares(square, checkLineSquare)
+    )
+  );
 }
 
 // -------------------------------------------------------------------
