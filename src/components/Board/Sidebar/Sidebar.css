@@ -1,6 +1,7 @@
 .board-sidebar {
   position: relative;
   left: -2vw;
+  right: -2vw;
   z-index: -10;
   border-top-right-radius: 1.3vw;
   border-bottom-right-radius: 1.3vw;
@@ -10,3 +11,12 @@
   justify-content: center;
   align-items: center;
 }
+
+.board-sidebar-spacer {
+  position: relative;
+  right: -2vw;
+  z-index: -10;
+  height: 40vw;
+  width: 20vw;
+}
+

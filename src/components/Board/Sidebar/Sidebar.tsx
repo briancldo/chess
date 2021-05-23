@@ -18,3 +18,7 @@ const Sidebar: React.FC = () => {
 };
 
 export default Sidebar;
+
+export const SidebarSpacer: React.FC = () => {
+  return <div className='board-sidebar-spacer' />;
+};

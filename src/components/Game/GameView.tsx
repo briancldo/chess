@@ -1,6 +1,6 @@
 import React from 'react';
 import Board from '../Board/Board/Board';
-import BoardSidebar from '../Board/Sidebar/Sidebar';
+import BoardSidebar, { SidebarSpacer } from '../Board/Sidebar/Sidebar';
 
 interface GameViewProps {
   any?: unknown;
@@ -9,6 +9,7 @@ interface GameViewProps {
 const GameView: React.FC<GameViewProps> = () => {
   return (
     <>
+      <SidebarSpacer />
       <Board />
       <BoardSidebar />
     </>
