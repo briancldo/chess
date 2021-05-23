@@ -46,7 +46,7 @@ export default function Board() {
           Print Board
         </button>
       )}
-      <BoardUI {...{ board, handlers, data }} />;
+      <BoardUI {...{ board, handlers, data }} />
     </>
   );
 }

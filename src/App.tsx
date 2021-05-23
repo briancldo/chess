@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Board from './components/Board/Board/Board';
+import GameView from './components/Game/GameView';
 
 export default function App() {
-  return <Board />;
+  return <GameView />;
 }
