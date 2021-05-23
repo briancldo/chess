@@ -1,0 +1,9 @@
+.board-sidebar-game-over {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: inherit;
+  border-radius: inherit;
+}
