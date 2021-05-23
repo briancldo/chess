@@ -10,7 +10,6 @@ import {
 import {
   Board,
   BoardFile,
-  BoardPosition,
   BoardRank,
   BoardSquare,
   BoardState,

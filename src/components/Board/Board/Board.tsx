@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import Rank from './Rank';
-import { ranks } from '../../utils/board';
-import { getPieceLegalMoves, makeMove } from '../../utils/moves/moves';
-import { tempHandleGameOver } from '../../utils/game';
-import initialBoard from '../../utils/board.init';
+import Rank from '../Rank/Rank';
+import { ranks } from '../../../utils/board';
+import { getPieceLegalMoves, makeMove } from '../../../utils/moves/moves';
+import { tempHandleGameOver } from '../../../utils/game';
+import initialBoard from '../../../utils/board.init';
 import './Board.css';
-import { BoardSquare, GameResult } from '../../utils/board.types';
+import { BoardSquare, GameResult } from '../../../utils/board.types';
 import { BoardHandlers, BoardUIProps, FocusedPiece } from './Board.types';
 
 export default function Board() {

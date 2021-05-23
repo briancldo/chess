@@ -1,5 +1,5 @@
-import { Board, BoardSquare } from '../../utils/board.types';
-import { Piece, PieceColor } from '../../utils/pieces.types';
+import { Board, BoardSquare } from '../../../utils/board.types';
+import { Piece, PieceColor } from '../../../utils/pieces.types';
 
 export type FocusedPiece =
   | {

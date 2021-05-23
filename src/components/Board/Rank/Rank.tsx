@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Square from './Square';
-import { files, matchingSquares } from '../../utils/board';
+import Square from '../Square/Square';
+import { files, matchingSquares } from '../../../utils/board';
 import { RankProps } from './Rank.types';
-import { BoardSquare } from '../../utils/board.types';
+import { BoardSquare } from '../../../utils/board.types';
 
 const Rank: React.FC<RankProps> = (props) => {
   const { number, fullRank, checkedSquare, handlers, data } = props;

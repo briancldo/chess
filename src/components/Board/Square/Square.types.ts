@@ -1,6 +1,6 @@
-import { BoardSquare } from '../../utils/board.types';
-import { Piece, PieceColor } from '../../utils/pieces.types';
-import { BoardHandlers } from './Board.types';
+import { BoardSquare } from '../../../utils/board.types';
+import { Piece, PieceColor } from '../../../utils/pieces.types';
+import { BoardHandlers } from '../Board/Board.types';
 
 export interface SquareProps {
   light: boolean;
