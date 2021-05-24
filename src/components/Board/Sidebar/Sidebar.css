@@ -5,7 +5,7 @@
   z-index: 0;
   border-top-right-radius: 1.3vw;
   border-bottom-right-radius: 1.3vw;
-  height: 40vw;
+  height: 20vw;
   width: 20vw;
   display: flex;
   justify-content: center;
@@ -16,7 +16,7 @@
   position: relative;
   right: -2vw;
   z-index: -10;
-  height: 40vw;
+  height: 20vw;
   width: 20vw;
 }
 
