@@ -2,9 +2,12 @@
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: end;
+  padding-left: 1vw;
+  padding-right: 1vw;
   background-color: inherit;
   border-radius: inherit;
 }

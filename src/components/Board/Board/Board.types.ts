@@ -1,5 +1,6 @@
 import { Board, BoardSquare } from '../../../utils/board.types';
 import { Piece, PieceColor } from '../../../utils/pieces.types';
+import { GameViewHandlers } from '../../Game/GameView.types';
 
 export type FocusedPiece =
   | {
@@ -19,6 +20,10 @@ export interface BoardData {
   focusedPiece: FocusedPiece;
   gameOver: boolean;
   turn: PieceColor;
+}
+
+export interface BoardProps {
+  handlers: GameViewHandlers;
 }
 
 export interface BoardUIProps {

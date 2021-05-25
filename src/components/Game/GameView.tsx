@@ -1,22 +1,32 @@
 import React, { useState, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { GameResult } from '../../utils/board.types';
+
 import Board from '../Board/Board/Board';
 import BoardSidebar, { SidebarSpacer } from '../Board/Sidebar/Sidebar';
-
-interface GameViewProps {
-  any?: unknown;
-}
+import {
+  GameViewProps,
+  GameViewHandlers,
+  GameOverHandler,
+} from './GameView.types';
 
 const GameView: React.FC<GameViewProps> = () => {
   const [boardId, setBoardId] = useState(uuidv4());
+  const [result, setResult] = useState<GameResult>();
 
-  function resetBoard() {
+  function handleNewGame() {
+    setResult(undefined);
     setBoardId(uuidv4());
   }
 
-  const handlers = useMemo(
+  const handleGameOver: GameOverHandler = (result) => {
+    setResult(result);
+  };
+
+  const handlers = useMemo<GameViewHandlers>(
     () => ({
-      resetBoard,
+      handleNewGame,
+      handleGameOver,
     }),
     []
   );
@@ -24,8 +34,8 @@ const GameView: React.FC<GameViewProps> = () => {
   return (
     <>
       <SidebarSpacer />
-      <Board key={boardId} />
-      <BoardSidebar handlers={handlers} />
+      <Board key={boardId} handlers={handlers} />
+      <BoardSidebar handlers={handlers} result={result} />
     </>
   );
 };
