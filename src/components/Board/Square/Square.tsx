@@ -2,9 +2,9 @@ import React, { CSSProperties } from 'react';
 import areObjectsEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 
-import MovablePiece from '../Pieces/MovablePiece';
-import config from '../../config/config';
-import { isCornerSquare, ranks, files } from '../../utils/board';
+import MovablePiece from '../../Pieces/MovablePiece';
+import config from '../../../config/config';
+import { isCornerSquare, ranks, files } from '../../../utils/board';
 import './Square.css';
 import {
   CornerSquareProps,

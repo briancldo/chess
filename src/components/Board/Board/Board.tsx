@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from 'react';
 
-import Rank from './Rank';
-import { ranks } from '../../utils/board';
-import { getPieceLegalMoves, makeMove } from '../../utils/moves/moves';
-import { tempHandleGameOver } from '../../utils/game';
-import initialBoard from '../../utils/board.init';
+import Rank from '../Rank/Rank';
+import { ranks } from '../../../utils/board';
+import { getPieceLegalMoves, makeMove } from '../../../utils/moves/moves';
+import initialBoard from '../../../utils/board.init';
 import './Board.css';
-import { BoardSquare, GameResult } from '../../utils/board.types';
-import { BoardHandlers, BoardUIProps, FocusedPiece } from './Board.types';
+import { BoardSquare, GameResult } from '../../../utils/board.types';
+import {
+  BoardProps,
+  BoardHandlers,
+  BoardUIProps,
+  FocusedPiece,
+} from './Board.types';
 
-export default function Board() {
+const Board: React.FC<BoardProps> = (props) => {
   const [board, setBoard] = useState(initialBoard);
   const [focusedPiece, setFocusedPiece] = useState<FocusedPiece>({});
   const [candidateSquares, setCandidateSquares] = useState<BoardSquare[]>([]);
   const turn = board.state.turn;
   const gameOver = board.state.result !== undefined;
-  if (gameOver) tempHandleGameOver(board.state.result as GameResult);
+
+  useEffect(() => {
+    if (gameOver)
+      props.handlers.handleGameOver(board.state.result as GameResult);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [board.state.result, gameOver]);
 
   useEffect(() => {
     if (!('square' in focusedPiece)) return setCandidateSquares([]);
@@ -46,10 +55,11 @@ export default function Board() {
           Print Board
         </button>
       )}
-      <BoardUI {...{ board, handlers, data }} />;
+      <BoardUI {...{ board, handlers, data }} />
     </>
   );
-}
+};
+export default Board;
 
 const BoardUI: React.FC<BoardUIProps> = (props) => {
   const { board, handlers, data } = props;

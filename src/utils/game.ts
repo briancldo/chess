@@ -14,19 +14,16 @@ function isGameDrawn(result: GameResult): result is GameDrawn {
   return result.value === GameResultValue.drawn;
 }
 
-let gameOverHandled = false;
-export function tempHandleGameOver(result: GameResult) {
-  if (gameOverHandled) return;
-
+export function createGameOverMessage(result: GameResult) {
   const _method = getMethodLonghand(result.method);
   if (isGameDrawn(result)) {
-    alert(`Draw by ${_method}.`);
+    return `Draw by ${_method}.`;
   }
   if (isGameWon(result)) {
     const sideLong = result.side === 'w' ? 'White' : 'Black';
-    alert(`${sideLong} wins by ${_method}.`);
+    return `${sideLong} wins by ${_method}.`;
   }
-  gameOverHandled = true;
+  return 'Game over.';
 }
 
 const methodMapping = {

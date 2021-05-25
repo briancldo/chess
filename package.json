@@ -10,7 +10,8 @@
     "cm": "cz",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,ts,tsx}\"",
-    "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
+    "format": "prettier \"src/**/*.{js,ts,tsx}\"",
+    "format:fix": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "cruise-deps": "depcruise \"src/**/*.{js,ts,tsx}\"",
     "release": "standard-version",
     "typecheck": "tsc"
@@ -43,6 +44,7 @@
     "react-dom": "17.0.2",
     "react-scripts": "4.0.3",
     "tslib": "2.2.0",
+    "uuid": "8.3.2",
     "web-vitals": "1.0.1"
   },
   "devDependencies": {
@@ -53,6 +55,7 @@
     "@types/node": "15.3.0",
     "@types/react": "17.0.5",
     "@types/react-dom": "17.0.5",
+    "@types/uuid": "8.3.0",
     "@typescript-eslint/eslint-plugin": "4.23.0",
     "@typescript-eslint/parser": "4.23.0",
     "commitizen": "4.2.4",
