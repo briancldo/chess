@@ -91,7 +91,6 @@ function excludeUnpinSquares(
   square: BoardSquare
 ) {
   if (piece.type === 'k') return candidates;
-  if (board.state.king.checkedSide) return candidates;
 
   let boardWithoutPiece = produce(board, (draft) => {
     draft.position[square.rank][square.file] = undefined;
@@ -112,11 +111,9 @@ function excludeUnpinSquares(
     threatPieces,
     threatSquares,
   } = boardWithoutPiece.state.king.checkDetails;
-  if (threatPieces.length > 1) return candidates;
-  const pinLineSquares = [
-    ...threatSquares,
-    threatPieces[0]?.square as BoardSquare,
-  ];
+  const pinLineSquares = [...threatSquares];
+  if (threatPieces.length === 1)
+    pinLineSquares.push(threatPieces[0]?.square as BoardSquare);
   return candidates.filter((square) =>
     pinLineSquares.some((pinLineSquare) =>
       matchingSquares(square, pinLineSquare)
