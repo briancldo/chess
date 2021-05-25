@@ -10,7 +10,8 @@
     "cm": "cz",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,ts,tsx}\"",
-    "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
+    "format": "prettier \"src/**/*.{js,ts,tsx}\"",
+    "format:fix": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "cruise-deps": "depcruise \"src/**/*.{js,ts,tsx}\"",
     "release": "standard-version",
     "typecheck": "tsc"
