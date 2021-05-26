@@ -1,0 +1,22 @@
+name: Pull Request CI
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  quality_assurance:
+    name: Quality Assurance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - name: Format
+        run: yarn format
+      - name: Lint
+        run: yarn lint
+      - name: Dependency Cruiser
+        run: yarn cruise-deps
+      - name: Tests
+        run: yarn test
