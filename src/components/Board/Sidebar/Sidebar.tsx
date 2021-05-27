@@ -16,6 +16,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   const sidebarContext = { result };
   const SidebarContent = getSidebarType(sidebarContext);
 
+  if (!SidebarContent) return null;
   return (
     <div className='board-sidebar' style={sidebarStyle}>
       <SidebarContent handlers={handlers} context={sidebarContext} />
@@ -25,11 +26,17 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
 
 export default Sidebar;
 
-export const SidebarSpacer: React.FC = () => {
+export const SidebarSpacer: React.FC<Partial<SidebarProps>> = (props) => {
+  const { result } = props;
+  const SidebarContent = getSidebarType({ result });
+
+  if (!SidebarContent) return null;
   return <div className='board-sidebar-spacer' />;
 };
 
-function getSidebarType(context: SidebarDeterminantContext): SidebarType {
+function getSidebarType(
+  context: SidebarDeterminantContext
+): SidebarType | null {
   if (context.result) return GameOver;
-  return GameOver; // temp default case
+  return null;
 }

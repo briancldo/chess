@@ -10,6 +10,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: 0.15s ease-out 0s 1 slideInFromLeft;
+}
+
+@keyframes slideInFromLeft {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
 }
 
 .board-sidebar-spacer {
