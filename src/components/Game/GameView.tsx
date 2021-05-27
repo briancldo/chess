@@ -33,7 +33,7 @@ const GameView: React.FC<GameViewProps> = () => {
 
   return (
     <>
-      <SidebarSpacer />
+      <SidebarSpacer result={result} />
       <Board key={boardId} handlers={handlers} />
       <BoardSidebar handlers={handlers} result={result} />
     </>
