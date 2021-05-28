@@ -13,15 +13,22 @@ export function createBoard(board: Partial<Board>) {
   });
 }
 
-export type PieceSquarePair = [PieceString, SquareString];
-export function createConcisePosition(pieceSquarePairs: PieceSquarePair[]) {
+export type PiecePlacements = {
+  [pieceString in PieceString]: SquareString[] | SquareString;
+};
+export function createConcisePosition(pieceSquarePairs: PiecePlacements) {
   return produce(EMPTY_POSITION, (draft) => {
-    for (const [pieceString, squareString] of pieceSquarePairs) {
-      const piece = pieceStringToObject(pieceString);
-      const square = squareStringToObject(squareString);
+    for (const pieceString in pieceSquarePairs) {
+      const piece = pieceStringToObject(pieceString as PieceString);
+      let squareStrings = pieceSquarePairs[pieceString as PieceString];
+      if (!Array.isArray(squareStrings)) squareStrings = [squareStrings];
 
-      const { rank, file } = square;
-      draft[rank][file] = piece;
+      for (const squareString of squareStrings) {
+        const square = squareStringToObject(squareString);
+
+        const { rank, file } = square;
+        draft[rank][file] = piece;
+      }
     }
   });
 }
