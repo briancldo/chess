@@ -12,6 +12,8 @@ export interface BoardSquare {
   file: BoardFile;
 }
 
+export type SquareString = `${BoardFile}${BoardRank}`;
+
 export enum GameResultValue {
   won = '+',
   drawn = '=',
