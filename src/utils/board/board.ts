@@ -1,5 +1,5 @@
-import { DevError } from './errors';
-import config from '../config/config';
+import { DevError } from '../errors';
+import config from '../../config/config';
 
 import {
   BoardFile,
@@ -10,8 +10,8 @@ import {
   BoardState,
   SquareString,
 } from './board.types';
-import { PieceColor } from './pieces.types';
-import { CastleSide } from './moves/moves.types';
+import { PieceColor } from '../pieces.types';
+import { CastleSide } from '../moves/moves.types';
 
 const { numberRanks, numberFiles } = config.get('board.dimensions');
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';

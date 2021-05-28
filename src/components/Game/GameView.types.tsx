@@ -1,4 +1,4 @@
-import { GameResult } from '../../utils/board.types';
+import { GameResult } from '../../utils/board/board.types';
 
 export interface GameViewProps {
   any?: unknown;

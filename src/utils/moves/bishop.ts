@@ -1,4 +1,4 @@
-import { Board, BoardSquare } from '../board.types';
+import { Board, BoardSquare } from '../board/board.types';
 import { PieceColor } from '../pieces.types';
 import { getLegalSquaresInDirection } from './utils';
 

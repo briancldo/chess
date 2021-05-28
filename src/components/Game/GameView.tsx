@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { GameResult } from '../../utils/board.types';
+import { GameResult } from '../../utils/board/board.types';
 
 import Board from '../Board/Board/Board';
 import BoardSidebar, { SidebarSpacer } from '../Board/Sidebar/Sidebar';

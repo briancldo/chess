@@ -1,4 +1,4 @@
-import { getSquareAtOffset, getPieceAtSquare, ranks } from '../board';
+import { getSquareAtOffset, getPieceAtSquare, ranks } from '../board/board';
 import rookMove from './rook';
 import bishopMove from './bishop';
 import knightMove from './knight';
@@ -9,7 +9,7 @@ import {
   BoardDirection,
   BoardPosition,
   BoardSquare,
-} from '../board.types';
+} from '../board/board.types';
 import { PieceColor } from '../pieces.types';
 import { CastleSide } from './moves.types';
 

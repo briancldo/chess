@@ -1,4 +1,4 @@
-import { Piece, PieceColor } from './pieces.types';
+import { Piece, PieceColor } from '../pieces.types';
 
 export type BoardAxis<T> = T[] & { first: T; last: T };
 

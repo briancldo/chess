@@ -3,8 +3,8 @@ import { squareStringToObject } from './board';
 import { EMPTY_POSITION } from './board.constants';
 import initialBoard from './board.init';
 import { Board, SquareString } from './board.types';
-import { pieceStringToObject } from './pieces';
-import { PieceString } from './pieces.types';
+import { pieceStringToObject } from '../pieces';
+import { PieceString } from '../pieces.types';
 
 export function createBoard(board: Partial<Board>) {
   return produce(initialBoard, (draft) => {

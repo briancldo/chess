@@ -3,8 +3,13 @@ import {
   getCastlingRank,
   getCastlingPosition,
   getPieceAtSquare,
-} from '../board';
-import { Board, BoardPosition, BoardSquare, BoardState } from '../board.types';
+} from '../board/board';
+import {
+  Board,
+  BoardPosition,
+  BoardSquare,
+  BoardState,
+} from '../board/board.types';
 import { PieceColor } from '../pieces.types';
 import { excludeCheckingSquares } from './checks';
 import { CastleSide } from './moves.types';

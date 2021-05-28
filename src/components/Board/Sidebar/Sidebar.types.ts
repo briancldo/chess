@@ -1,4 +1,4 @@
-import { GameResult } from '../../../utils/board.types';
+import { GameResult } from '../../../utils/board/board.types';
 import { GameViewHandlers } from '../../Game/GameView.types';
 
 export interface SidebarProps {
