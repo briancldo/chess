@@ -4,7 +4,7 @@ import data from './support/boardEditor.data';
 import {
   createConcisePosition,
   PiecePlacements,
-} from '../../../utils/boardEditor';
+} from '../../../utils/board/boardEditor';
 
 describe('#boardEditor', () => {
   describe('createConcisePosition()', () => {

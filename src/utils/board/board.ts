@@ -8,7 +8,7 @@ import {
   BoardRank,
   BoardSquare,
   BoardState,
-  SquareString,
+  Coordinate,
 } from './board.types';
 import { PieceColor } from '../pieces.types';
 import { CastleSide } from '../moves/moves.types';
@@ -110,8 +110,8 @@ export function getCheckedSide(boardState: BoardState) {
   return boardState.king.checkedSide;
 }
 
-export function squareStringToObject(squareString: SquareString): BoardSquare {
-  const [file, rank] = squareString.split('');
+export function coordinateToSquare(coordinate: Coordinate): BoardSquare {
+  const [file, rank] = coordinate.split('');
   return {
     rank: Number.parseInt(rank as string) as BoardRank,
     file: file as BoardFile,
