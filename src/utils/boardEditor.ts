@@ -13,8 +13,7 @@ export function createBoard(board: Partial<Board>) {
   });
 }
 
-type PieceSquarePair = [PieceString, SquareString];
-
+export type PieceSquarePair = [PieceString, SquareString];
 export function createConcisePosition(pieceSquarePairs: PieceSquarePair[]) {
   return produce(EMPTY_POSITION, (draft) => {
     for (const [pieceString, squareString] of pieceSquarePairs) {
