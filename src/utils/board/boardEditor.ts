@@ -1,16 +1,21 @@
 import { produce } from 'immer';
+import assign from 'lodash/assign';
 import { coordinateToSquare } from './board';
 import { EMPTY_POSITION } from './board.constants';
 import initialBoard from './board.init';
-import { Board, Coordinate } from './board.types';
+import { BoardPosition, BoardSubstate, Coordinate } from './board.types';
 import { pieceStringToObject } from '../pieces';
 import { PieceString } from '../pieces.types';
 
-export function createBoard(board: Partial<Board>) {
-  return produce(initialBoard, (draft) => {
-    if (board.position) draft.position = board.position;
-    if (board.state) draft.state = board.state;
-  });
+export function createBoard(board: {
+  position?: BoardPosition;
+  state?: BoardSubstate;
+}) {
+  const { position, state } = board;
+  return {
+    position: position ?? initialBoard.position,
+    state: state ? assign(initialBoard.state, state) : initialBoard.state,
+  };
 }
 
 export type PiecePlacements = {
