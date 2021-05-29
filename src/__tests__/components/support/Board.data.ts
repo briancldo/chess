@@ -17,3 +17,24 @@ export const emptyBoardHandlers: GameViewHandlers = {
   handleNewGame: () => undefined,
   handleGameOver: () => undefined,
 }
+
+export default {
+  pieceRenderConcisePositions: [
+    {
+      'wn': ['a1', 'e4'],
+      'wb': ['e1', 'd4'],
+      'bn': ['c7', 'd3'],
+      'bb': ['f1', 'h8'],
+    },
+    {
+      'bq': ['f2'],
+      'bk': ['h7', 'h8'],
+      'wp': ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8'],
+      'wk': ['b1', 'b2'],
+    },
+    {
+      'br': ['a7', 'b7', 'c7', 'd7', 'e7', 'f7', 'g7', 'h7'],
+      'wr': ['a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2'],
+    },
+  ],
+};

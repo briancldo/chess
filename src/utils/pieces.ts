@@ -32,3 +32,8 @@ export function pieceStringToObject(pieceString: PieceString): Piece {
   const [color, type] = pieceString.split('') as [PieceColor, PieceType];
   return { type, color };
 }
+
+export function pieceObjectToString(piece: Piece): PieceString {
+  const { type, color } = piece;
+  return `${color}${type}` as PieceString;
+}
