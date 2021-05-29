@@ -24,7 +24,15 @@ describe('#Board', () => {
       }
     });
 
-    // test('empty board contains no pieces');
+    test('empty board contains no pieces', () => {
+      const board = createBoard({ position: createConcisePosition({}) });
+      render(<Board initialBoard={board} handlers={emptyBoardHandlers} />);
+
+      for (const coordinate of coordinates) {
+        const squareMetadata = getSquareMetadata(coordinate);
+        expect(squareMetadata.containingPiece).toBeUndefined();
+      }
+    });
 
     // test('renders pieces');
 
