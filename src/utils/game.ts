@@ -4,7 +4,7 @@ import {
   GameWon,
   GameDrawn,
   GameResultMethod,
-} from './board.types';
+} from './board/board.types';
 
 function isGameWon(result: GameResult): result is GameWon {
   return result.value === GameResultValue.won;

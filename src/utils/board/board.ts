@@ -1,5 +1,5 @@
-import { DevError } from './errors';
-import config from '../config/config';
+import { DevError } from '../errors';
+import config from '../../config/config';
 
 import {
   BoardFile,
@@ -8,9 +8,10 @@ import {
   BoardRank,
   BoardSquare,
   BoardState,
+  Coordinate,
 } from './board.types';
-import { PieceColor } from './pieces.types';
-import { CastleSide } from './moves/moves.types';
+import { PieceColor } from '../pieces.types';
+import { CastleSide } from '../moves/moves.types';
 
 const { numberRanks, numberFiles } = config.get('board.dimensions');
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
@@ -107,4 +108,12 @@ export function getKingSquare(
 
 export function getCheckedSide(boardState: BoardState) {
   return boardState.king.checkedSide;
+}
+
+export function coordinateToSquare(coordinate: Coordinate): BoardSquare {
+  const [file, rank] = coordinate.split('');
+  return {
+    rank: Number.parseInt(rank as string) as BoardRank,
+    file: file as BoardFile,
+  };
 }

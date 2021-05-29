@@ -6,7 +6,7 @@ import {
   files,
   getCheckedSide,
   getKingSquare,
-} from '../board';
+} from '../board/board';
 import {
   Board,
   BoardFile,
@@ -14,7 +14,7 @@ import {
   BoardSquare,
   BoardState,
   ThreatPiece,
-} from '../board.types';
+} from '../board/board.types';
 import { DevError } from '../errors';
 import { Piece, PieceColor } from '../pieces.types';
 import { isSquareAttacked, attackingPiecesData } from './utils';

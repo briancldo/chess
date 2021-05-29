@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import Rank from '../Rank/Rank';
-import { ranks } from '../../../utils/board';
+import { ranks } from '../../../utils/board/board';
 import { getPieceLegalMoves, makeMove } from '../../../utils/moves/moves';
-import initialBoard from '../../../utils/board.init';
+import initialBoard from '../../../utils/board/board.init';
 import './Board.css';
-import { BoardSquare, GameResult } from '../../../utils/board.types';
+import { BoardSquare, GameResult } from '../../../utils/board/board.types';
 import {
   BoardProps,
   BoardHandlers,

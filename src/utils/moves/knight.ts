@@ -1,5 +1,5 @@
-import { getSquareAtOffset } from '../board';
-import { Board, BoardSquare } from '../board.types';
+import { getSquareAtOffset } from '../board/board';
+import { Board, BoardSquare } from '../board/board.types';
 import { PieceColor } from '../pieces.types';
 import { excludeOccupiedSquares } from './utils';
 

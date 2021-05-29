@@ -1,4 +1,4 @@
-import { Board, BoardSquare } from '../board.types';
+import { Board, BoardSquare } from '../board/board.types';
 import { PieceColor } from '../pieces.types';
 import bishopMove from './bishop';
 import rookMove from './rook';

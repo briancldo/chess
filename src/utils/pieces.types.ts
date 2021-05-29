@@ -5,3 +5,5 @@ export interface Piece {
   type: PieceType;
 }
 export type PieceSlot = Piece | undefined;
+
+export type PieceString = `${PieceColor}${PieceType}`;

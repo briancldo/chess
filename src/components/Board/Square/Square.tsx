@@ -4,7 +4,7 @@ import omit from 'lodash/omit';
 
 import MovablePiece from '../../Pieces/MovablePiece';
 import config from '../../../config/config';
-import { isCornerSquare, ranks, files } from '../../../utils/board';
+import { isCornerSquare, ranks, files } from '../../../utils/board/board';
 import './Square.css';
 import {
   CornerSquareProps,

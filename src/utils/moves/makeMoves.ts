@@ -6,7 +6,7 @@ import {
   getKingSquare,
   files,
   getCheckedSide,
-} from '../board';
+} from '../board/board';
 import { flipColor } from '../pieces';
 import { setCheckDetails } from './checks';
 import { isSquareAttacked } from './utils';
@@ -21,7 +21,7 @@ import {
   BoardSquare,
   BoardState,
   GameResult,
-} from '../board.types';
+} from '../board/board.types';
 import { Piece, PieceColor, PieceType } from '../pieces.types';
 
 const backRank = {

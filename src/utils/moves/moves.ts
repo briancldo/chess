@@ -5,7 +5,7 @@ import bishopMove from './bishop';
 import knightMove from './knight';
 import pawnMove from './pawn';
 import { excludeIllegalSquares } from './checks';
-import { Board, BoardSquare } from '../board.types';
+import { Board, BoardSquare } from '../board/board.types';
 import { Piece, PieceType } from '../pieces.types';
 import { PieceMoveHandler } from './moves.types';
 

@@ -1,4 +1,4 @@
-import { Board, BoardSquare } from '../../../utils/board.types';
+import { Board, BoardSquare } from '../../../utils/board/board.types';
 import { Piece, PieceColor } from '../../../utils/pieces.types';
 import { GameViewHandlers } from '../../Game/GameView.types';
 

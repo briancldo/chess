@@ -1,4 +1,5 @@
-import { Piece, PieceColor } from './pieces.types';
+import { DeepPartial } from '../object.types';
+import { Piece, PieceColor } from '../pieces.types';
 
 export type BoardAxis<T> = T[] & { first: T; last: T };
 
@@ -11,6 +12,8 @@ export interface BoardSquare {
   rank: BoardRank;
   file: BoardFile;
 }
+
+export type Coordinate = `${BoardFile}${BoardRank}`;
 
 export enum GameResultValue {
   won = '+',
@@ -53,6 +56,7 @@ export interface BoardState {
   turn: PieceColor;
   result?: GameResult;
 }
+export type BoardSubstate = DeepPartial<BoardState>;
 
 export type BoardFullRank = {
   [file in BoardFile]?: Piece;

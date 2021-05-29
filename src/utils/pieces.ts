@@ -1,5 +1,5 @@
 import { DevError } from './errors';
-import { Piece, PieceColor, PieceType } from './pieces.types';
+import { Piece, PieceColor, PieceString, PieceType } from './pieces.types';
 
 export const PIECES: {
   [side in PieceColor]: { [piece in PieceType]: Piece };
@@ -26,4 +26,9 @@ export function flipColor(color: PieceColor): PieceColor {
   if (color === 'w') return 'b';
   if (color === 'b') return 'w';
   throw new DevError(`No such color: ${color}`);
+}
+
+export function pieceStringToObject(pieceString: PieceString): Piece {
+  const [color, type] = pieceString.split('') as [PieceColor, PieceType];
+  return { type, color };
 }

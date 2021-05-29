@@ -1,5 +1,5 @@
 import { Board } from './board.types';
-import { PIECES } from './pieces';
+import { PIECES } from '../pieces';
 const { w, b } = PIECES;
 
 const board: Board = {

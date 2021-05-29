@@ -1,11 +1,15 @@
-import { getPieceAtSquare, getSquareAtOffset, matchingSquares } from '../board';
+import {
+  getPieceAtSquare,
+  getSquareAtOffset,
+  matchingSquares,
+} from '../board/board';
 import {
   Board,
   BoardDirection,
   BoardPosition,
   BoardSquare,
   BoardState,
-} from '../board.types';
+} from '../board/board.types';
 import { PieceColor } from '../pieces.types';
 import { excludeOccupiedSquares, getDirection } from './utils';
 
