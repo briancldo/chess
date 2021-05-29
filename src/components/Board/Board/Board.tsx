@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import Rank from '../Rank/Rank';
 import { ranks } from '../../../utils/board/board';
 import { getPieceLegalMoves, makeMove } from '../../../utils/moves/moves';
-import initialBoard from '../../../utils/board/board.init';
 import './Board.css';
 import { BoardSquare, GameResult } from '../../../utils/board/board.types';
 import {
@@ -14,7 +13,7 @@ import {
 } from './Board.types';
 
 const Board: React.FC<BoardProps> = (props) => {
-  const [board, setBoard] = useState(initialBoard);
+  const [board, setBoard] = useState(props.initialBoard);
   const [focusedPiece, setFocusedPiece] = useState<FocusedPiece>({});
   const [candidateSquares, setCandidateSquares] = useState<BoardSquare[]>([]);
   const turn = board.state.turn;
