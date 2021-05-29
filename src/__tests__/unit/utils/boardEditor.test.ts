@@ -6,7 +6,7 @@ import {
   createConcisePosition,
   PiecePlacements,
 } from '../../../utils/board/boardEditor';
-import { BoardPosition } from '../../../utils/board/board.types';
+import { BoardPosition, BoardSubstate } from '../../../utils/board/board.types';
 
 describe('#boardEditor', () => {
   describe('createBoard()', () => {
@@ -16,7 +16,14 @@ describe('#boardEditor', () => {
       expect(board.position).toEqual([...position]);
     });
 
-    // test('sets state as given');
+    test('fills state with subset of properties', () => {
+      const state: BoardSubstate = {
+        turn: 'b',
+        enPassantSquare: { rank: 4, file: 'e' },
+      };
+      const board = createBoard({ state });
+      expect(board.state).toEqual(data.stateModified);
+    });
 
     // test('sets default position if not given');
 

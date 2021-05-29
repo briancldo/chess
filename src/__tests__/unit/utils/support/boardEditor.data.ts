@@ -1,4 +1,22 @@
 export default {
+  stateModified: {
+    enPassantSquare: { file: 'e', rank: 4 },
+    castling: {
+      w: { k: true, side: { q: true, k: true } },
+      b: { k: true, side: { q: true, k: true } },
+    },
+    king: {
+      w: { square: { file: 'e', rank: 1 } },
+      b: { square: { file: 'e', rank: 8 } },
+      checkedSide: undefined,
+      checkDetails: {
+        threatPieces: [],
+        threatSquares: [],
+      },
+    },
+    turn: 'b',
+    result: undefined,
+  },
   concisePositions: [
     {},
     { bk: 'b4' },

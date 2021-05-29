@@ -1,3 +1,4 @@
+import { DeepPartial } from '../object.types';
 import { Piece, PieceColor } from '../pieces.types';
 
 export type BoardAxis<T> = T[] & { first: T; last: T };
@@ -55,6 +56,7 @@ export interface BoardState {
   turn: PieceColor;
   result?: GameResult;
 }
+export type BoardSubstate = DeepPartial<BoardState>;
 
 export type BoardFullRank = {
   [file in BoardFile]?: Piece;
