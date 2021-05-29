@@ -4,7 +4,12 @@ import omit from 'lodash/omit';
 
 import MovablePiece from '../../Pieces/MovablePiece';
 import config from '../../../config/config';
-import { isCornerSquare, ranks, files } from '../../../utils/board/board';
+import {
+  isCornerSquare,
+  ranks,
+  files,
+  squareToCoordinate,
+} from '../../../utils/board/board';
 import './Square.css';
 import {
   CornerSquareProps,
@@ -41,12 +46,16 @@ const Square: React.FC<SquareProps> = (props) => {
     if (containingPiece) handlers.setPieceFocus(containingPiece, square);
   }
 
+  const coordinate = squareToCoordinate(square);
+  const testData = { coordinate, containingPiece, highlighted, light };
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       className='square-wrapper'
       onMouseDown={handleSquareMouseDown}
       onMouseUp={handleSquareMouseUp}
+      data-testid={coordinate}
+      data-test={testData}
     >
       <SquareUI color={color} square={square} />
       <SquareHighlight
