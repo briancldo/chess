@@ -40,5 +40,17 @@ describe('#boardEditor', () => {
         expect(position).toEqual(data.concisePositionResults[i]);
       }
     });
+
+    test('can be used with createBoard', () => {
+      for (let i = 0; i < data.concisePositions.length; i++) {
+        const concisePosition = data.concisePositions[i] as PiecePlacements;
+        const position = createConcisePosition(concisePosition);
+        const board = createBoard({ position });
+        expect(board).toEqual({
+          position: data.concisePositionResults[i],
+          state: expect.anything(),
+        });
+      }
+    });
   });
 });
