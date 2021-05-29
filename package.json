@@ -83,7 +83,7 @@
     "typescript": "4.2.4"
   },
   "jest": {
-    "testMatch": ["**/__tests__/**/*.(spec|test).ts"]
+    "testMatch": ["**/__tests__/**/*.(spec|test).{ts,tsx}"]
   },
   "husky": {
     "hooks": {

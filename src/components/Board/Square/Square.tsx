@@ -17,6 +17,7 @@ import {
   SquareProps,
   SquareUIComponentProps,
 } from './Square.types';
+import { SquareMetadata } from '../../../__tests__/__utils__/squareInteraction';
 
 const colorScheme = config.get('square.colors.default');
 
@@ -47,7 +48,12 @@ const Square: React.FC<SquareProps> = (props) => {
   }
 
   const coordinate = squareToCoordinate(square);
-  const testData = { coordinate, containingPiece, highlighted, light };
+  const metadata: SquareMetadata = {
+    coordinate,
+    containingPiece,
+    highlighted,
+    light,
+  };
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -55,7 +61,7 @@ const Square: React.FC<SquareProps> = (props) => {
       onMouseDown={handleSquareMouseDown}
       onMouseUp={handleSquareMouseUp}
       data-testid={coordinate}
-      data-test={testData}
+      data-test={JSON.stringify(metadata)}
     >
       <SquareUI color={color} square={square} />
       <SquareHighlight
