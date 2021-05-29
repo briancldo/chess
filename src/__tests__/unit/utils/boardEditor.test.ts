@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 
 import data from './support/boardEditor.data';
+import initBoard from '../../../utils/board/board.init';
 import {
   createBoard,
   createConcisePosition,
@@ -25,9 +26,10 @@ describe('#boardEditor', () => {
       expect(board.state).toEqual(data.stateModified);
     });
 
-    // test('sets default position if not given');
-
-    // test('sets default state if not given');
+    test('sets default position and state if not given', () => {
+      const board = createBoard({});
+      expect(board).toEqual(initBoard);
+    });
   });
 
   describe('createConcisePosition()', () => {
