@@ -1,5 +1,6 @@
 export default {
   concisePositions: [
+    {},
     { bk: 'b4' },
     {
       wq: 'e2',
@@ -24,6 +25,7 @@ export default {
     },
   ],
   concisePositionResults: [
+    [undefined, {}, {}, {}, {}, {}, {}, {}, {}],
     [undefined, {}, {}, {}, { b: { type: 'k', color: 'b' } }, {}, {}, {}, {}],
     [
       undefined,
