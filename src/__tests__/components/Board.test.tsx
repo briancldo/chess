@@ -18,6 +18,7 @@ import data, { coordinates, emptyBoardHandlers } from './support/Board.data';
 import { Piece, PieceString } from '../../utils/pieces.types';
 import { Coordinate } from '../../utils/board/board.types';
 import { pieceObjectToString } from '../../utils/pieces';
+import { renderEmptyBoard } from '../__utils__/board.utils';
 
 describe('#Board', () => {
   describe('render', () => {
@@ -42,13 +43,7 @@ describe('#Board', () => {
     });
 
     test('correctly renders pieces', () => {
-      const { rerender } = render(
-        <Board
-          key={uuidv4()}
-          initialBoard={initBoard}
-          handlers={emptyBoardHandlers}
-        />
-      );
+      const { rerender } = renderEmptyBoard();
       const concisePositions = data.pieceRenderConcisePositions as PiecePlacements[];
 
       for (const concisePosition of concisePositions) {
@@ -91,6 +86,9 @@ describe('#Board', () => {
       }
     });
 
-    // test('renders square highlight when piece is clicked');
+    // test('renders square highlight when piece is clicked', () => {
+    //   const  = data.squareHighlightData;
+    //   const board = createBoard({ position });
+    // });
   });
 });
