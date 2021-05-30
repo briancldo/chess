@@ -11,7 +11,7 @@ import {
 } from '../__utils__/squareInteraction';
 import {
   createBoard,
-  createConcisePosition,
+  createFromConcisePosition,
   PiecePlacements,
 } from '../../utils/board/boardEditor';
 import data, { coordinates, emptyBoardHandlers } from './support/Board.data';
@@ -23,7 +23,7 @@ import { renderEmptyBoard } from '../__utils__/board.utils';
 describe('#Board', () => {
   describe('render', () => {
     test('square have correct, alternating colors', () => {
-      const board = createBoard({ position: createConcisePosition({}) });
+      const board = createBoard({ position: createFromConcisePosition({}) });
       render(<Board initialBoard={board} handlers={emptyBoardHandlers} />);
 
       for (const coordinate of coordinates) {
@@ -33,7 +33,7 @@ describe('#Board', () => {
     });
 
     test('empty board contains no pieces', () => {
-      const board = createBoard({ position: createConcisePosition({}) });
+      const board = createBoard({ position: createFromConcisePosition({}) });
       render(<Board initialBoard={board} handlers={emptyBoardHandlers} />);
 
       for (const coordinate of coordinates) {
@@ -47,7 +47,7 @@ describe('#Board', () => {
       const concisePositions = data.pieceRenderConcisePositions as PiecePlacements[];
 
       for (const concisePosition of concisePositions) {
-        const position = createConcisePosition(concisePosition);
+        const position = createFromConcisePosition(concisePosition);
         const board = createBoard({ position });
         rerender(
           <Board
@@ -93,7 +93,7 @@ describe('#Board', () => {
       let nonHighlightCoordinates = [...coordinates];
       for (const { concisePosition, highlightSquares } of squareHighlightData) {
         const board = createBoard({
-          position: createConcisePosition(concisePosition),
+          position: createFromConcisePosition(concisePosition),
         });
         rerender(
           <Board
