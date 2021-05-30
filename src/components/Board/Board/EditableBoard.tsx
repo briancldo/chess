@@ -6,11 +6,11 @@ import {
   createBoard,
   createFromConcisePosition,
 } from '../../../utils/board/boardEditor';
-
 import { BoardUI } from './Board';
 import { BoardData, BoardHandlers } from './Board.types';
 import { Piece } from '../../../utils/pieces.types';
 import PiecePalette, { PiecePaletteHandlers } from '../../Pieces/PiecePalette';
+import { allSquares } from '../../../utils/board/square/square.constants';
 
 interface EditableBoardProps {
   any?: never;
@@ -33,7 +33,6 @@ const EditableBoard: React.FC<EditableBoardProps> = () => {
           draft.position[rank][file] = selectedPiece;
         })
       );
-      setCandidateSquares([]);
     },
   };
   const boardData: BoardData = {
@@ -46,6 +45,7 @@ const EditableBoard: React.FC<EditableBoardProps> = () => {
   const piecePaletteHandlers: PiecePaletteHandlers = {
     selectPiece: (piece) => {
       setSelectedPiece(piece);
+      setCandidateSquares(allSquares);
     },
   };
 

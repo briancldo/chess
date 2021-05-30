@@ -78,7 +78,7 @@ const Square: React.FC<SquareProps> = (props) => {
     </div>
   );
 };
-const omitSquareProps = ['handlers', 'key', 'get', '__proto__'];
+const omitSquareProps = ['key', 'get', '__proto__'];
 export default React.memo(Square, shouldSquareUpdate);
 function shouldSquareUpdate(oldProps: SquareProps, newProps: SquareProps) {
   return areObjectsEqual(
