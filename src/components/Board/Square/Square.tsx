@@ -98,16 +98,15 @@ export const SquareUI: React.FC<SquareUIProps> = (props) => {
     containingPiece,
     className,
   } = props;
-  const Container = className ? 'div' : React.Fragment;
 
   return (
-    <Container className={className}>
+    <div className={className}>
       <LiteralSquare color={color} square={square} />
       <SquareHighlight
         {...{ highlighted, isCurrentlyFocusedPiece, isChecked, squareShade }}
       />
       <MovablePiece {...{ containingPiece }} />
-    </Container>
+    </div>
   );
 };
 

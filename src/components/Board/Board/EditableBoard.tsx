@@ -51,6 +51,11 @@ const EditableBoard: React.FC<EditableBoardProps> = () => {
 
   return (
     <>
+      <PiecePalette
+        side='b'
+        selectedPiece={selectedPiece}
+        handlers={piecePaletteHandlers}
+      />
       <BoardUI board={board} handlers={boardHandlers} data={boardData} />;
       <PiecePalette
         side='w'

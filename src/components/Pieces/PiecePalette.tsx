@@ -4,6 +4,7 @@ import { SquareUI } from '../Board/Square/Square';
 import { Piece, PieceColor } from '../../utils/pieces.types';
 import { matchingPieces, PIECES } from '../../utils/pieces';
 import config from '../../config/config';
+import './PiecePalette.css';
 
 const lightSquareColor = config.get('square.colors.default').light;
 const darkSquareColor = config.get('square.colors.default').dark;
@@ -23,7 +24,7 @@ const PiecePalette: React.FC<PiecePaletteProps> = (props) => {
   const pieces = PIECES[side];
 
   return (
-    <div>
+    <div className='piece-palette'>
       <SquareUI
         color={lightSquareColor}
         isCurrentlyFocusedPiece={matchingPieces(pieces.p, selectedPiece)}
