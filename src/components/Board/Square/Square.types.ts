@@ -22,6 +22,7 @@ export interface SquareUIProps {
   isChecked?: boolean;
   squareShade?: 'light' | 'dark';
   containingPiece?: Piece;
+  className?: string;
 }
 
 export interface LiteralSquareProps {

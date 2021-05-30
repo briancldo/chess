@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { produce } from 'immer';
+
 import { BoardSquare } from '../../../utils/board/board.types';
 import {
   createBoard,
@@ -7,29 +9,56 @@ import {
 
 import { BoardUI } from './Board';
 import { BoardData, BoardHandlers } from './Board.types';
+import { Piece } from '../../../utils/pieces.types';
+import PiecePalette, { PiecePaletteHandlers } from '../../Pieces/PiecePalette';
 
 interface EditableBoardProps {
   any?: never;
 }
 
-const board = createBoard({ position: createFromConcisePosition({}) });
+const emptyBoard = createBoard({ position: createFromConcisePosition({}) });
 const dummyHandler = () => undefined;
 const EditableBoard: React.FC<EditableBoardProps> = () => {
-  const [candidateSquares] = useState<BoardSquare[]>([]);
+  const [board, setBoard] = useState(emptyBoard);
+  const [candidateSquares, setCandidateSquares] = useState<BoardSquare[]>([]);
+  const [selectedPiece, setSelectedPiece] = useState<Piece | undefined>();
 
-  const handlers: BoardHandlers = {
+  const boardHandlers: BoardHandlers = {
     setPieceFocus: dummyHandler,
     removePieceFocus: dummyHandler,
-    movePiece: dummyHandler,
+    movePiece: (square) => {
+      setBoard((board) =>
+        produce(board, (draft) => {
+          const { rank, file } = square;
+          draft.position[rank][file] = selectedPiece;
+        })
+      );
+      setCandidateSquares([]);
+    },
   };
-  const data: BoardData = {
+  const boardData: BoardData = {
     candidateSquares,
     focusedPiece: {},
     gameOver: false,
     turn: 'w',
   };
 
-  return <BoardUI board={board} handlers={handlers} data={data} />;
+  const piecePaletteHandlers: PiecePaletteHandlers = {
+    selectPiece: (piece) => {
+      setSelectedPiece(piece);
+    },
+  };
+
+  return (
+    <>
+      <BoardUI board={board} handlers={boardHandlers} data={boardData} />;
+      <PiecePalette
+        side='w'
+        selectedPiece={selectedPiece}
+        handlers={piecePaletteHandlers}
+      />
+    </>
+  );
 };
 
 export default EditableBoard;
