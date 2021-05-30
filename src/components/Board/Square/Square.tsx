@@ -27,6 +27,7 @@ const Square: React.FC<SquareProps> = (props) => {
     light,
     containingPiece,
     square,
+    hideHighlights,
     highlighted,
     isCurrentlyFocusedPiece,
     isChecked,
@@ -68,6 +69,7 @@ const Square: React.FC<SquareProps> = (props) => {
         {...{
           color,
           square,
+          hideHighlights,
           highlighted,
           isCurrentlyFocusedPiece,
           isChecked,
@@ -91,6 +93,7 @@ export const SquareUI: React.FC<SquareUIProps> = (props) => {
   const {
     color,
     square,
+    hideHighlights,
     highlighted,
     isCurrentlyFocusedPiece,
     isChecked,
@@ -102,9 +105,11 @@ export const SquareUI: React.FC<SquareUIProps> = (props) => {
   return (
     <div className={className}>
       <LiteralSquare color={color} square={square} />
-      <SquareHighlight
-        {...{ highlighted, isCurrentlyFocusedPiece, isChecked, squareShade }}
-      />
+      {!hideHighlights && (
+        <SquareHighlight
+          {...{ highlighted, isCurrentlyFocusedPiece, isChecked, squareShade }}
+        />
+      )}
       <MovablePiece {...{ containingPiece }} />
     </div>
   );

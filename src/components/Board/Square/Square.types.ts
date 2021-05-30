@@ -6,6 +6,7 @@ export interface SquareProps {
   light: boolean;
   containingPiece?: Piece;
   square: BoardSquare;
+  hideHighlights?: boolean;
   highlighted: boolean;
   isCurrentlyFocusedPiece: boolean;
   isChecked?: boolean;
@@ -17,6 +18,7 @@ export interface SquareProps {
 export interface SquareUIProps {
   color: string;
   square?: BoardSquare;
+  hideHighlights?: boolean;
   highlighted?: boolean;
   isCurrentlyFocusedPiece: boolean;
   isChecked?: boolean;

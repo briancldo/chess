@@ -41,6 +41,7 @@ const EditableBoard: React.FC<EditableBoardProps> = () => {
     focusedPiece: {},
     gameOver: false,
     turn: 'w',
+    hideHighlights: true,
   };
 
   const piecePaletteHandlers: PiecePaletteHandlers = {

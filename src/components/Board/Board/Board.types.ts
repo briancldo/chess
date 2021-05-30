@@ -20,6 +20,7 @@ export interface BoardData {
   focusedPiece: FocusedPiece;
   gameOver: boolean;
   turn: PieceColor;
+  hideHighlights?: boolean;
 }
 
 export interface BoardProps {
