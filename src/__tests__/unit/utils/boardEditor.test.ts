@@ -4,7 +4,7 @@ import data from './support/boardEditor.data';
 import initBoard from '../../../utils/board/board.init';
 import {
   createBoard,
-  createConcisePosition,
+  createFromConcisePosition,
   PiecePlacements,
 } from '../../../utils/board/boardEditor';
 import { BoardPosition, BoardSubstate } from '../../../utils/board/board.types';
@@ -32,12 +32,24 @@ describe('#boardEditor', () => {
     });
   });
 
-  describe('createConcisePosition()', () => {
+  describe('createFromConcisePosition()', () => {
     test('correctly sets up position', () => {
       for (let i = 0; i < data.concisePositions.length; i++) {
         const concisePosition = data.concisePositions[i] as PiecePlacements;
-        const position = createConcisePosition(concisePosition);
+        const position = createFromConcisePosition(concisePosition);
         expect(position).toEqual(data.concisePositionResults[i]);
+      }
+    });
+
+    test('can be used with createBoard', () => {
+      for (let i = 0; i < data.concisePositions.length; i++) {
+        const concisePosition = data.concisePositions[i] as PiecePlacements;
+        const position = createFromConcisePosition(concisePosition);
+        const board = createBoard({ position });
+        expect(board).toEqual({
+          position: data.concisePositionResults[i],
+          state: expect.anything(),
+        });
       }
     });
   });

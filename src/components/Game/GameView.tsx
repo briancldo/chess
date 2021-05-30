@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { GameResult } from '../../utils/board/board.types';
 
 import Board from '../Board/Board/Board';
+import initialBoard from '../../utils/board/board.init';
 import BoardSidebar, { SidebarSpacer } from '../Board/Sidebar/Sidebar';
 import {
   GameViewProps,
@@ -34,7 +35,7 @@ const GameView: React.FC<GameViewProps> = () => {
   return (
     <>
       <SidebarSpacer result={result} />
-      <Board key={boardId} handlers={handlers} />
+      <Board key={boardId} initialBoard={initialBoard} handlers={handlers} />
       <BoardSidebar handlers={handlers} result={result} />
     </>
   );

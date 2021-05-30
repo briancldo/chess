@@ -117,3 +117,7 @@ export function coordinateToSquare(coordinate: Coordinate): BoardSquare {
     file: file as BoardFile,
   };
 }
+
+export function squareToCoordinate(square: BoardSquare): Coordinate {
+  return `${square.file}${square.rank}` as Coordinate;
+}

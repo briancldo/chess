@@ -19,13 +19,14 @@ export function createBoard(board: {
 }
 
 export type PiecePlacements = {
-  [pieceString in PieceString]: Coordinate[] | Coordinate;
+  [pieceString in PieceString]?: Coordinate[] | Coordinate;
 };
-export function createConcisePosition(pieceSquarePairs: PiecePlacements) {
+export function createFromConcisePosition(pieceSquarePairs: PiecePlacements) {
   return produce(EMPTY_POSITION, (draft) => {
     for (const pieceString in pieceSquarePairs) {
       const piece = pieceStringToObject(pieceString as PieceString);
       let coordinates = pieceSquarePairs[pieceString as PieceString];
+      if (!coordinates) continue;
       if (!Array.isArray(coordinates)) coordinates = [coordinates];
 
       for (const coordinate of coordinates) {

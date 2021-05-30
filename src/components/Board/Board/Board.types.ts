@@ -23,6 +23,7 @@ export interface BoardData {
 }
 
 export interface BoardProps {
+  initialBoard: Board;
   handlers: GameViewHandlers;
 }
 
