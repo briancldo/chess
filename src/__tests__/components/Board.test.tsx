@@ -4,8 +4,8 @@ import '@testing-library/jest-dom/extend-expect';
 import { v4 as uuidv4 } from 'uuid';
 
 import Board from '../../components/Board/Board/Board';
-import initBoard from '../../utils/board/board.init';
 import {
+  clickSquare,
   getSquareMetadata,
   shouldSquareBeLight,
 } from '../__utils__/squareInteraction';
@@ -86,9 +86,41 @@ describe('#Board', () => {
       }
     });
 
-    // test('renders square highlight when piece is clicked', () => {
-    //   const  = data.squareHighlightData;
-    //   const board = createBoard({ position });
-    // });
+    test('renders square highlight when piece is clicked', () => {
+      const { squareHighlightData } = data;
+      const { rerender } = renderEmptyBoard();
+
+      let nonHighlightCoordinates = [...coordinates];
+      for (const { concisePosition, highlightSquares } of squareHighlightData) {
+        const board = createBoard({
+          position: createConcisePosition(concisePosition),
+        });
+        rerender(
+          <Board
+            key={uuidv4()}
+            initialBoard={board}
+            handlers={emptyBoardHandlers}
+          />
+        );
+        const squareToClick = Object.values(
+          concisePosition
+        ).pop() as Coordinate;
+        clickSquare(squareToClick);
+
+        for (const highlightSquare of highlightSquares) {
+          const squareMetadata = getSquareMetadata(highlightSquare);
+          expect(squareMetadata.highlighted).toBe(true);
+        }
+
+        nonHighlightCoordinates = nonHighlightCoordinates.filter(
+          (coordinate) => !highlightSquares.includes(coordinate)
+        );
+      }
+
+      for (const nonHighlightCoordinate of nonHighlightCoordinates) {
+        const squareMetadata = getSquareMetadata(nonHighlightCoordinate);
+        expect(squareMetadata.highlighted).toBe(false);
+      }
+    });
   });
 });

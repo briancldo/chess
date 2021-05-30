@@ -1,5 +1,6 @@
 import { GameViewHandlers } from '../../../components/Game/GameView.types';
 import { Coordinate } from '../../../utils/board/board.types';
+import { PiecePlacements } from '../../../utils/board/boardEditor';
 
 /* eslint-disable prettier/prettier */
 export const coordinates: Coordinate[] = [
@@ -37,4 +38,11 @@ export default {
       'wr': ['a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2'],
     },
   ],
+  squareHighlightData: [
+    // in this case, concisePosition must have only one piece and one square
+    {
+      concisePosition: { 'wk': 'e4' },
+      highlightSquares: ['d3', 'e3', 'f3', 'd4', 'f4', 'd5', 'e5', 'f5'],
+    }
+  ] as { concisePosition: PiecePlacements, highlightSquares: Coordinate[] }[],
 };
