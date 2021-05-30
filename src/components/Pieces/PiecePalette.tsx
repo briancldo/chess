@@ -12,6 +12,8 @@ const darkSquareColor = config.get('square.colors.default').dark;
 
 export interface PiecePaletteHandlers {
   selectPiece: (piece: Piece) => void;
+  activateDeleteMode: () => void;
+  deactivateDeleteMode: () => void;
 }
 
 interface PiecePaletteProps {
@@ -27,6 +29,13 @@ const PiecePalette: React.FC<PiecePaletteProps> = (props) => {
 
   return (
     <div className='piece-palette'>
+      <button
+        className='square-wrapper'
+        style={{ backgroundColor: darkSquareColor }}
+        onClick={handlers.activateDeleteMode}
+      >
+        Delete
+      </button>
       {pieces.map((piece, index) => {
         const color = index % 2 === 0 ? lightSquareColor : darkSquareColor;
 

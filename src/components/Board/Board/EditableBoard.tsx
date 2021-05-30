@@ -22,6 +22,7 @@ const EditableBoard: React.FC<EditableBoardProps> = () => {
   const [board, setBoard] = useState(emptyBoard);
   const [candidateSquares, setCandidateSquares] = useState<BoardSquare[]>([]);
   const [selectedPiece, setSelectedPiece] = useState<Piece | undefined>();
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
 
   const boardHandlers: BoardHandlers = {
     setPieceFocus: dummyHandler,
@@ -30,7 +31,7 @@ const EditableBoard: React.FC<EditableBoardProps> = () => {
       setBoard((board) =>
         produce(board, (draft) => {
           const { rank, file } = square;
-          draft.position[rank][file] = selectedPiece;
+          draft.position[rank][file] = isDeleteMode ? undefined : selectedPiece;
         })
       );
     },
@@ -46,7 +47,13 @@ const EditableBoard: React.FC<EditableBoardProps> = () => {
     selectPiece: (piece) => {
       setSelectedPiece(piece);
       setCandidateSquares(allSquares);
+      piecePaletteHandlers.deactivateDeleteMode();
     },
+    activateDeleteMode: () => {
+      setIsDeleteMode(true);
+      setSelectedPiece(undefined);
+    },
+    deactivateDeleteMode: () => setIsDeleteMode(false),
   };
 
   return (
