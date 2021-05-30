@@ -85,35 +85,31 @@ describe('#Board', () => {
     });
 
     test('renders square highlight when piece is clicked', () => {
-      const { squareHighlightData } = data;
+      const { concisePosition, highlightSquares } = data.squareHighlightData;
       const { rerender } = renderEmptyBoard();
 
       let nonHighlightCoordinates = [...coordinates];
-      for (const { concisePosition, highlightSquares } of squareHighlightData) {
-        const board = createBoard({
-          position: createFromConcisePosition(concisePosition),
-        });
-        rerender(
-          <Board
-            key={uuidv4()}
-            initialBoard={board}
-            handlers={emptyBoardHandlers}
-          />
-        );
-        const squareToClick = Object.values(
-          concisePosition
-        ).pop() as Coordinate;
-        clickSquare(squareToClick);
+      const board = createBoard({
+        position: createFromConcisePosition(concisePosition),
+      });
+      rerender(
+        <Board
+          key={uuidv4()}
+          initialBoard={board}
+          handlers={emptyBoardHandlers}
+        />
+      );
+      const squareToClick = Object.values(concisePosition).pop() as Coordinate;
+      clickSquare(squareToClick);
 
-        for (const highlightSquare of highlightSquares) {
-          const squareMetadata = getSquareMetadata(highlightSquare);
-          expect(squareMetadata.highlighted).toBe(true);
-        }
-
-        nonHighlightCoordinates = nonHighlightCoordinates.filter(
-          (coordinate) => !highlightSquares.includes(coordinate)
-        );
+      for (const highlightSquare of highlightSquares) {
+        const squareMetadata = getSquareMetadata(highlightSquare);
+        expect(squareMetadata.highlighted).toBe(true);
       }
+
+      nonHighlightCoordinates = nonHighlightCoordinates.filter(
+        (coordinate) => !highlightSquares.includes(coordinate)
+      );
 
       for (const nonHighlightCoordinate of nonHighlightCoordinates) {
         const squareMetadata = getSquareMetadata(nonHighlightCoordinate);

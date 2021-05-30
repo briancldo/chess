@@ -38,11 +38,8 @@ export default {
       'wr': ['a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2'],
     },
   ],
-  squareHighlightData: [
-    // in this case, concisePosition must have only one piece and one square
-    {
+  squareHighlightData: {
       concisePosition: { 'wk': 'e4' },
       highlightSquares: ['d3', 'e3', 'f3', 'd4', 'f4', 'd5', 'e5', 'f5'],
-    }
-  ] as { concisePosition: PiecePlacements, highlightSquares: Coordinate[] }[],
+    } as { concisePosition: PiecePlacements, highlightSquares: Coordinate[] },
 };
