@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { v4 as uuidv4 } from 'uuid';
 
