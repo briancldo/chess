@@ -23,8 +23,7 @@ import { renderEmptyBoard } from '../__utils__/board.utils';
 describe('#Board', () => {
   describe('render', () => {
     test('square have correct, alternating colors', () => {
-      const board = createBoard({ position: createFromConcisePosition({}) });
-      render(<Board initialBoard={board} handlers={emptyBoardHandlers} />);
+      renderEmptyBoard();
 
       for (const coordinate of coordinates) {
         const squareMetadata = getSquareMetadata(coordinate);
@@ -33,8 +32,7 @@ describe('#Board', () => {
     });
 
     test('empty board contains no pieces', () => {
-      const board = createBoard({ position: createFromConcisePosition({}) });
-      render(<Board initialBoard={board} handlers={emptyBoardHandlers} />);
+      renderEmptyBoard();
 
       for (const coordinate of coordinates) {
         const squareMetadata = getSquareMetadata(coordinate);
