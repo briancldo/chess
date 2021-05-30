@@ -14,9 +14,19 @@ export interface SquareProps {
   handlers: BoardHandlers;
 }
 
-export interface SquareUIComponentProps {
+export interface SquareUIProps {
   color: string;
-  square: BoardSquare;
+  square?: BoardSquare;
+  highlighted?: boolean;
+  isCurrentlyFocusedPiece: boolean;
+  isChecked?: boolean;
+  squareShade?: 'light' | 'dark';
+  containingPiece?: Piece;
+}
+
+export interface LiteralSquareProps {
+  color: string;
+  square?: BoardSquare;
 }
 
 export interface CornerSquareProps {
@@ -24,7 +34,7 @@ export interface CornerSquareProps {
 }
 
 export interface SquareHighlightProps {
-  highlighted: boolean;
+  highlighted?: boolean;
   isCurrentlyFocusedPiece: boolean;
   isChecked?: boolean;
 }
