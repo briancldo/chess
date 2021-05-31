@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import GameView from '../components/Game/GameView';
-import EditableBoard from '../components/Board/Board/EditableBoard';
+import PositionGenerator from '../components/Board/Board/PositionGenerator';
 
 const RouterComponent: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const RouterComponent: React.FC = () => {
           <GameView />
         </Route>
         <Route exact path='/editor'>
-          <EditableBoard />
+          <PositionGenerator />
         </Route>
       </Switch>
     </Router>
