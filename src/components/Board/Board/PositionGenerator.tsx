@@ -21,7 +21,9 @@ const PositionGenerator: React.FC = () => {
         <EditableBoard {...{ board, setBoard }} />
       </div>
       <div className='position-generator-side-column'>
-        <GeneratorSection board={board} />
+        {process.env.NODE_ENV === 'development' && (
+          <GeneratorSection board={board} />
+        )}
       </div>
     </div>
   );
