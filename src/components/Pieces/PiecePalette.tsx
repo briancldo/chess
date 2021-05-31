@@ -31,7 +31,10 @@ const PiecePalette: React.FC<PiecePaletteProps> = (props) => {
     <div className='piece-palette'>
       <button
         className='square-wrapper'
-        style={{ backgroundColor: darkSquareColor }}
+        style={{
+          backgroundColor: darkSquareColor,
+          borderColor: selectedPiece ? '' : 'red',
+        }}
         onClick={handlers.activateDeleteMode}
       >
         Delete
