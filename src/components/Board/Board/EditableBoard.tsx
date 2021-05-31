@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { produce } from 'immer';
 
-import { BoardSquare } from '../../../utils/board/board.types';
-import {
-  createBoard,
-  createFromConcisePosition,
-} from '../../../utils/board/boardEditor';
+import { Board, BoardSquare } from '../../../utils/board/board.types';
 import { BoardUI } from './Board';
 import { BoardData, BoardHandlers } from './Board.types';
 import { Piece } from '../../../utils/pieces.types';
@@ -13,13 +9,13 @@ import PiecePalette, { PiecePaletteHandlers } from '../../Pieces/PiecePalette';
 import { allSquares } from '../../../utils/board/square/square.constants';
 
 interface EditableBoardProps {
-  any?: never;
+  board: Board;
+  setBoard: React.Dispatch<React.SetStateAction<Board>>;
 }
 
-const emptyBoard = createBoard({ position: createFromConcisePosition({}) });
 const dummyHandler = () => undefined;
-const EditableBoard: React.FC<EditableBoardProps> = () => {
-  const [board, setBoard] = useState(emptyBoard);
+const EditableBoard: React.FC<EditableBoardProps> = (props) => {
+  const { board, setBoard } = props;
   const [candidateSquares, setCandidateSquares] = useState<BoardSquare[]>([]);
   const [selectedPiece, setSelectedPiece] = useState<Piece | undefined>();
   const [isDeleteMode, setIsDeleteMode] = useState(false);
