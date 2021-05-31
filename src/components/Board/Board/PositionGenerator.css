@@ -1,0 +1,20 @@
+.position-generator {
+  width: 100%;
+  display: flex;
+}
+
+.position-generator-center-column {
+  display: flex;
+  flex: 5;
+  flex-grow: 1;
+}
+
+.position-generator-side-column {
+  display: flex;
+  flex: 1;
+}
+
+.position-generator-textarea {
+  height: 50%;
+  width: 50%;
+}

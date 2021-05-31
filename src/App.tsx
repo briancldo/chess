@@ -1,7 +1,7 @@
 import React from 'react';
 
-import GameView from './components/Game/GameView';
+import Router from './pages/Router';
 
 export default function App() {
-  return <GameView />;
+  return <Router />;
 }

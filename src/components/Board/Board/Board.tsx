@@ -60,7 +60,7 @@ const Board: React.FC<BoardProps> = (props) => {
 };
 export default Board;
 
-const BoardUI: React.FC<BoardUIProps> = (props) => {
+export const BoardUI: React.FC<BoardUIProps> = (props) => {
   const { board, handlers, data } = props;
   const checkedSide = board.state.king.checkedSide;
   const checkedSquare = checkedSide

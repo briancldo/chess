@@ -37,3 +37,9 @@ export function pieceObjectToString(piece: Piece): PieceString {
   const { type, color } = piece;
   return `${color}${type}` as PieceString;
 }
+
+export function matchingPieces(piece1?: Piece, piece2?: Piece) {
+  if (!piece1 || !piece2) return false;
+
+  return piece1.color === piece2.color && piece1.type === piece2.type;
+}

@@ -28,6 +28,7 @@ const Rank: React.FC<RankProps> = (props) => {
             light={index % 2 === lightSquareParity}
             containingPiece={fullRank[file]}
             square={square}
+            hideHighlights={data.hideHighlights}
             highlighted={highlighted}
             isCurrentlyFocusedPiece={isCurrentlyFocusedPiece}
             isChecked={checkedSquare && checkedSquare.file === file}

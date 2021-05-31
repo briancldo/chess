@@ -1,11 +1,17 @@
 import { produce } from 'immer';
 import assign from 'lodash/assign';
-import { coordinateToSquare } from './board';
+import { coordinateToSquare, ranks, squareToCoordinate } from './board';
 import { EMPTY_POSITION } from './board.constants';
 import initialBoard from './board.init';
-import { BoardPosition, BoardSubstate, Coordinate } from './board.types';
-import { pieceStringToObject } from '../pieces';
-import { PieceString } from '../pieces.types';
+import {
+  BoardFile,
+  BoardPosition,
+  BoardRank,
+  BoardSubstate,
+  Coordinate,
+} from './board.types';
+import { pieceObjectToString, pieceStringToObject } from '../pieces';
+import { Piece, PieceString } from '../pieces.types';
 
 export function createBoard(board: {
   position?: BoardPosition;
@@ -37,4 +43,28 @@ export function createFromConcisePosition(pieceSquarePairs: PiecePlacements) {
       }
     }
   });
+}
+
+export function createConciseFromPosition(position: BoardPosition) {
+  const concisePosition: PiecePlacements = {};
+
+  for (let rank = 1; rank < ranks.length; rank++) {
+    const fullRank = position[rank];
+    for (const file in fullRank) {
+      const piece = fullRank[file as BoardFile];
+      if (!piece) continue;
+
+      const pieceString = pieceObjectToString(piece);
+      const coordinate = squareToCoordinate({
+        rank: rank as BoardRank,
+        file: file as BoardFile,
+      });
+      concisePosition[pieceString] = [
+        ...((concisePosition[pieceString] as Coordinate[]) ?? []),
+        coordinate,
+      ];
+    }
+  }
+
+  return concisePosition;
 }

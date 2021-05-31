@@ -13,9 +13,10 @@ import {
 import './Square.css';
 import {
   CornerSquareProps,
+  SquareUIProps,
   SquareHighlightProps,
   SquareProps,
-  SquareUIComponentProps,
+  LiteralSquareProps,
 } from './Square.types';
 import { SquareMetadata } from '../../../__tests__/__utils__/squareInteraction';
 
@@ -26,6 +27,7 @@ const Square: React.FC<SquareProps> = (props) => {
     light,
     containingPiece,
     square,
+    hideHighlights,
     highlighted,
     isCurrentlyFocusedPiece,
     isChecked,
@@ -34,7 +36,7 @@ const Square: React.FC<SquareProps> = (props) => {
     handlers,
   } = props;
   const squareShade = light ? 'light' : 'dark';
-  const color = colorScheme[squareShade];
+  const color: string = colorScheme[squareShade];
 
   function handleSquareMouseUp() {
     if (highlighted) return handlers.movePiece(square);
@@ -63,15 +65,22 @@ const Square: React.FC<SquareProps> = (props) => {
       data-testid={coordinate}
       data-test={JSON.stringify(metadata)}
     >
-      <SquareUI color={color} square={square} />
-      <SquareHighlight
-        {...{ highlighted, isCurrentlyFocusedPiece, isChecked, squareShade }}
+      <SquareUI
+        {...{
+          color,
+          square,
+          hideHighlights,
+          highlighted,
+          isCurrentlyFocusedPiece,
+          isChecked,
+          squareShade,
+          containingPiece,
+        }}
       />
-      <MovablePiece {...{ containingPiece }} />
     </div>
   );
 };
-const omitSquareProps = ['handlers', 'key', 'get', '__proto__'];
+const omitSquareProps = ['key', 'get', '__proto__'];
 export default React.memo(Square, shouldSquareUpdate);
 function shouldSquareUpdate(oldProps: SquareProps, newProps: SquareProps) {
   return areObjectsEqual(
@@ -80,11 +89,37 @@ function shouldSquareUpdate(oldProps: SquareProps, newProps: SquareProps) {
   );
 }
 
-const SquareUIComponent: React.FC<SquareUIComponentProps> = (props) => {
+export const SquareUI: React.FC<SquareUIProps> = (props) => {
+  const {
+    color,
+    square,
+    hideHighlights,
+    highlighted,
+    isCurrentlyFocusedPiece,
+    isChecked,
+    squareShade,
+    containingPiece,
+    className,
+  } = props;
+
+  return (
+    <div className={className}>
+      <LiteralSquare color={color} square={square} />
+      {!hideHighlights && (
+        <SquareHighlight
+          {...{ highlighted, isCurrentlyFocusedPiece, isChecked, squareShade }}
+        />
+      )}
+      <MovablePiece {...{ containingPiece }} />
+    </div>
+  );
+};
+
+const LiteralSquareComponent: React.FC<LiteralSquareProps> = (props) => {
   const { color, square } = props;
   const squareStyle = { fill: color };
 
-  if (isCornerSquare(square)) return <CornerSquare square={square} />;
+  if (square && isCornerSquare(square)) return <CornerSquare square={square} />;
 
   return (
     <svg width='5vw' height='5vw' className='square-svg'>
@@ -92,7 +127,7 @@ const SquareUIComponent: React.FC<SquareUIComponentProps> = (props) => {
     </svg>
   );
 };
-const SquareUI = React.memo(SquareUIComponent, () => true);
+export const LiteralSquare = React.memo(LiteralSquareComponent, () => true);
 
 const CornerSquare: React.FC<CornerSquareProps> = (props) => {
   const { square } = props;
@@ -115,7 +150,7 @@ const CornerSquare: React.FC<CornerSquareProps> = (props) => {
   return <div style={cornerSquareStyle} />;
 };
 
-const SquareHighlight: React.FC<SquareHighlightProps> = (props) => {
+export const SquareHighlight: React.FC<SquareHighlightProps> = (props) => {
   const { highlighted, isCurrentlyFocusedPiece, isChecked } = props;
   if (!highlighted && !isCurrentlyFocusedPiece && !isChecked) return null;
 
