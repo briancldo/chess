@@ -26,6 +26,19 @@ describe('#boardEditor', () => {
       expect(board.state).toEqual(data.stateModified);
     });
 
+    test('given position and state', () => {
+      const position = [undefined, {}, {}, {}, {}, {}, {}, {}, {}];
+      const state: BoardSubstate = {
+        turn: 'b',
+        enPassantSquare: { rank: 4, file: 'e' },
+      };
+      const board = createBoard({ position: position as BoardPosition, state });
+      expect(board).toEqual({
+        position: [...position],
+        state: data.stateModified,
+      });
+    });
+
     test('sets default position and state if not given', () => {
       const board = createBoard({});
       expect(board).toEqual(initBoard);
