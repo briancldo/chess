@@ -13,7 +13,7 @@ import {
   createFromConcisePosition,
   PiecePlacements,
 } from '../../utils/board/boardEditor';
-import data, { coordinates, emptyBoardHandlers } from './support/Board.data';
+import data, { allCoordinates, emptyBoardHandlers } from './support/Board.data';
 import { Piece, PieceString } from '../../utils/pieces.types';
 import { Coordinate } from '../../utils/board/board.types';
 import { pieceObjectToString } from '../../utils/pieces';
@@ -24,7 +24,7 @@ describe('#Board', () => {
     test('square have correct, alternating colors', () => {
       renderEmptyBoard();
 
-      for (const coordinate of coordinates) {
+      for (const coordinate of allCoordinates) {
         const squareMetadata = getSquareMetadata(coordinate);
         expect(squareMetadata.light).toBe(shouldSquareBeLight(coordinate));
       }
@@ -33,7 +33,7 @@ describe('#Board', () => {
     test('empty board contains no pieces', () => {
       renderEmptyBoard();
 
-      for (const coordinate of coordinates) {
+      for (const coordinate of allCoordinates) {
         const squareMetadata = getSquareMetadata(coordinate);
         expect(squareMetadata.containingPiece).toBeUndefined();
       }
@@ -54,7 +54,7 @@ describe('#Board', () => {
           />
         );
 
-        let emptyCoordinates = [...coordinates];
+        let emptyCoordinates = [...allCoordinates];
         for (const pieceString in concisePosition) {
           const coordinates = concisePosition[
             pieceString as PieceString
@@ -87,7 +87,7 @@ describe('#Board', () => {
       const { concisePosition, highlightSquares } = data.squareHighlightData;
       const { rerender } = renderEmptyBoard();
 
-      let nonHighlightCoordinates = [...coordinates];
+      let nonHighlightCoordinates = [...allCoordinates];
       const board = createBoard({
         position: createFromConcisePosition(concisePosition),
       });

@@ -1,4 +1,5 @@
 import { produce } from 'immer';
+import cloneDeep from 'lodash/cloneDeep';
 import assign from 'lodash/assign';
 import { coordinateToSquare, ranks, squareToCoordinate } from './board';
 import { EMPTY_POSITION } from './board.constants';
@@ -11,7 +12,7 @@ import {
   Coordinate,
 } from './board.types';
 import { pieceObjectToString, pieceStringToObject } from '../pieces';
-import { Piece, PieceString } from '../pieces.types';
+import { PieceString } from '../pieces.types';
 
 export function createBoard(board: {
   position?: BoardPosition;
@@ -20,7 +21,9 @@ export function createBoard(board: {
   const { position, state } = board;
   return {
     position: position ?? initialBoard.position,
-    state: state ? assign(initialBoard.state, state) : initialBoard.state,
+    state: state
+      ? assign(cloneDeep(initialBoard.state), state)
+      : initialBoard.state,
   };
 }
 
