@@ -19,4 +19,8 @@ describe('#knight.moves', () => {
   test('cannot move to squares off side of board', () => {
     assertCorrectMoves(data.offsideMoves);
   });
+
+  test('can hop over other pieces', () => {
+    assertCorrectMoves(data.hopOverOthersPositionAndMoves);
+  });
 });

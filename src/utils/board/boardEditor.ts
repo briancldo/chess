@@ -19,7 +19,6 @@ export function createBoard(board: {
   state?: BoardSubstate;
 }) {
   const { position, state } = board;
-  console.log({ st: initialBoard.state });
   return {
     position: position ?? initialBoard.position,
     state: state
