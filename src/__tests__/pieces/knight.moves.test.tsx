@@ -4,10 +4,6 @@ import * as data from './support/knight.moves.data';
 import { assertCorrectMoves } from './common.test.utils';
 
 describe('#knight.moves', () => {
-  beforeEach(() => {
-    expect.hasAssertions();
-  });
-
   test('pure knight moves', () => {
     assertCorrectMoves(data.happyPositionsAndMoves);
   });
