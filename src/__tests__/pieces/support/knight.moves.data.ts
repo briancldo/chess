@@ -93,4 +93,36 @@ export default {
       expectedMoves: ['c2', 'e2', 'b3', 'f3', 'b5', 'f5', 'c6', 'e6'],
     },
   ] as BoardAndMoves[],
+  offsideMoves: [
+    {
+      board: createBoard({
+        position: createFromConcisePosition({ wn: ['g7'] }),
+      }),
+      testPieceSquare: 'g7',
+      expectedMoves: ['f5', 'h5', 'e6', 'e8'],
+    },
+    {
+      board: createBoard({
+        position: createFromConcisePosition({ bn: ['g7'] }),
+        state: { turn: 'b' },
+      }),
+      testPieceSquare: 'g7',
+      expectedMoves: ['f5', 'h5', 'e6', 'e8'],
+    },
+    {
+      board: createBoard({
+        position: createFromConcisePosition({ wn: ['h1'] }),
+      }),
+      testPieceSquare: 'h1',
+      expectedMoves: ['f2', 'g3'],
+    },
+    {
+      board: createBoard({
+        position: createFromConcisePosition({ bn: ['h1'] }),
+        state: { turn: 'b' },
+      }),
+      testPieceSquare: 'h1',
+      expectedMoves: ['f2', 'g3'],
+    },
+  ] as BoardAndMoves[],
 };

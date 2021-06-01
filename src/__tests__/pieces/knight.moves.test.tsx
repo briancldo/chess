@@ -15,4 +15,8 @@ describe('#knight.moves', () => {
   test('cannot move to ally piece square, can move to enemy piece square', () => {
     assertCorrectMoves(data.otherPieceOccupyPositionsAndMoves);
   });
+
+  test('cannot move to squares off side of board', () => {
+    assertCorrectMoves(data.offsideMoves);
+  });
 });
