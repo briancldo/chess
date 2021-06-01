@@ -39,6 +39,19 @@ describe('#boardEditor', () => {
       });
     });
 
+    test('successive calls do not affect each other', () => {
+      for (const {
+        board,
+        resultingPosition,
+        resultingState,
+      } of data.successiveCalls) {
+        expect(board).toEqual({
+          position: resultingPosition,
+          state: resultingState,
+        });
+      }
+    });
+
     test('sets default position and state if not given', () => {
       const board = createBoard({});
       expect(board).toEqual(initBoard);

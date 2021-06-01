@@ -1,3 +1,15 @@
+import {
+  Board,
+  BoardPosition,
+  BoardState,
+} from '../../../../utils/board/board.types';
+import {
+  createBoard,
+  createFromConcisePosition,
+  PiecePlacements,
+} from '../../../../utils/board/boardEditor';
+import { PieceColor } from '../../../../utils/pieces.types';
+
 export default {
   stateModified: {
     enPassantSquare: { file: 'e', rank: 4 },
@@ -104,4 +116,83 @@ export default {
       },
     ],
   ],
+  successiveCalls: [
+    {
+      board: createBoard({
+        position: createFromConcisePosition({
+          wn: ['d5'],
+        }),
+      }),
+      resultingPosition: [
+        undefined,
+        {},
+        {},
+        {},
+        {},
+        { d: { type: 'n', color: 'w' } },
+        {},
+        {},
+        {},
+      ],
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: { file: 'e', rank: 8 } },
+          checkedSide: undefined,
+          checkDetails: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      board: createBoard({
+        position: createFromConcisePosition({
+          bn: ['c4'],
+        }),
+        state: { turn: 'b' },
+      }),
+      resultingPosition: [
+        undefined,
+        {},
+        {},
+        {},
+        { c: { type: 'n', color: 'b' } },
+        {},
+        {},
+        {},
+        {},
+      ],
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: { file: 'e', rank: 8 } },
+          checkedSide: undefined,
+          checkDetails: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'b',
+        result: undefined,
+      },
+    },
+  ] as {
+    board: Board;
+    resultingPosition: BoardPosition;
+    resultingState: BoardState;
+  }[],
 };
