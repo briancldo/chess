@@ -11,6 +11,7 @@ import {
 } from '../components/support/Board.data';
 import { renderEmptyBoard } from '../__utils__/board.utils';
 import { clickSquare, getSquareMetadata } from '../__utils__/squareInteraction';
+import { assertCorrectMoves } from './common.test.utils';
 
 describe('#knight.moves', () => {
   beforeEach(() => {
@@ -18,34 +19,6 @@ describe('#knight.moves', () => {
   });
 
   test('pure knight moves', () => {
-    const { rerender } = renderEmptyBoard();
-
-    console.log(
-      JSON.stringify(
-        data.happyPositionsAndMoves.map((e) => e.board.state),
-        null,
-        2
-      )
-    );
-    for (const {
-      board,
-      testPieceSquare,
-      expectedMoves,
-    } of data.happyPositionsAndMoves) {
-      rerender(
-        <Board
-          key={uuidv4()}
-          initialBoard={board}
-          handlers={emptyBoardHandlers}
-        />
-      );
-      clickSquare(testPieceSquare);
-
-      for (const coordinate of allCoordinates) {
-        const shouldBeHighlighted = expectedMoves.includes(coordinate);
-        const squareMetadata = getSquareMetadata(coordinate);
-        expect(squareMetadata.highlighted).toBe(shouldBeHighlighted);
-      }
-    }
+    assertCorrectMoves(data.happyPositionsAndMoves);
   });
 });

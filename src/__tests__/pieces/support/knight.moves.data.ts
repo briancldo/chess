@@ -1,8 +1,8 @@
-import { Board, Coordinate } from '../../../utils/board/board.types';
 import {
   createBoard,
   createFromConcisePosition,
 } from '../../../utils/board/boardEditor';
+import { BoardAndMoves } from '../common.test.utils';
 
 export default {
   happyPositionsAndMoves: [
@@ -25,9 +25,19 @@ export default {
       testPieceSquare: 'c4',
       expectedMoves: ['d2', 'b2', 'e3', 'a3', 'e5', 'a5', 'd6', 'b6'],
     },
-  ] as {
-    board: Board;
-    testPieceSquare: Coordinate;
-    expectedMoves: Coordinate[];
-  }[],
+  ] as BoardAndMoves[],
+  otherPieceOccupyPositionsAndMoves: [
+    {
+      board: createBoard({
+        position: createFromConcisePosition({
+          bp: ['e2', 'b3', 'f5', 'c6'],
+          wp: ['c2', 'f3', 'b5', 'e6'],
+          bn: ['d4'],
+        }),
+        state: { turn: 'b' },
+      }),
+      testPieceSquare: 'd4',
+      expectedMoves: ['c2', 'f3', 'b5', 'e6'],
+    },
+  ] as BoardAndMoves[],
 };
