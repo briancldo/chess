@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 
-import data from './support/knight.moves.data';
+import * as data from './support/knight.moves.data';
 import { assertCorrectMoves } from './common.test.utils';
 
 describe('#knight.moves', () => {
