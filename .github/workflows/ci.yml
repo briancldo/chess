@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  quality_assurance:
-    name: Quality Assurance
+  install:
+    name: Install Packages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,12 +16,56 @@ jobs:
           always-auth: true
           node-version: 14.x
           registry-url: https://registry.npmjs.org
-      - run: yarn
-      - name: Format
-        run: yarn format
-      - name: Lint
-        run: yarn lint
-      - name: Dependency Cruiser
-        run: yarn cruise-deps
-      - name: Tests
-        run: yarn test
+      - run: yarn install --frozen-lockfile
+
+  format:
+    needs: install
+    name: Checks Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          always-auth: true
+          node-version: 14.x
+          registry-url: https://registry.npmjs.org
+      - run: yarn format
+        
+  lint:
+    needs: install
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          always-auth: true
+          node-version: 14.x
+          registry-url: https://registry.npmjs.org
+      - run: yarn lint
+
+  cruise-deps:
+    needs: install
+    name: Cruise Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          always-auth: true
+          node-version: 14.x
+          registry-url: https://registry.npmjs.org
+      - run: yarn cruise-deps
+      
+  test:
+    needs: install
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          always-auth: true
+          node-version: 14.x
+          registry-url: https://registry.npmjs.org
+      - run: yarn test
