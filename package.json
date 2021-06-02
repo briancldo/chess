@@ -91,17 +91,9 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-push": "CURRENT_BRANCH=$(git branch | grep \"* master\"); if [ $CURRENT_BRANCH = '* master' ]; then echo 'Error: you are not allowed to push to the master branch'; (exit 1) ; fi"
     }
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "yarn format",
-      "yarn lint",
-      "yarn cruise-deps"
-    ]
   },
   "config": {
     "commitizen": {
