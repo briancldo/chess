@@ -36,3 +36,8 @@ export function shouldSquareBeLight(coordinate: Coordinate) {
 export function clickSquare(coordinate: Coordinate) {
   userEvent.click(getSquareElement(coordinate));
 }
+
+export function movePiece(origin: Coordinate, destination: Coordinate) {
+  clickSquare(origin);
+  clickSquare(destination);
+}
