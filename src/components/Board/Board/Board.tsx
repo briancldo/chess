@@ -11,6 +11,7 @@ import {
   BoardUIProps,
   FocusedPiece,
 } from './Board.types';
+import { BoardTestData } from '../../../__tests__/__utils__/board.utils';
 
 const Board: React.FC<BoardProps> = (props) => {
   const [board, setBoard] = useState(props.initialBoard);
@@ -67,8 +68,13 @@ export const BoardUI: React.FC<BoardUIProps> = (props) => {
     ? board.state.king[checkedSide].square
     : undefined;
 
+  const boardTestData: BoardTestData = { board };
   return (
-    <div className='board'>
+    <div
+      data-testid='board'
+      data-test={JSON.stringify(boardTestData)}
+      className='board'
+    >
       {ranks.map((rank) => (
         <React.Fragment key={`rank${rank}`}>
           <Rank

@@ -1,22 +1,36 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import Board from '../../components/Board/Board/Board';
+import { produce } from 'immer';
 
-import { Board as BoardType, Coordinate } from '../../utils/board/board.types';
+import Board from '../../components/Board/Board/Board';
+import {
+  Board as BoardType,
+  BoardPosition,
+  Coordinate,
+} from '../../utils/board/board.types';
 import {
   allCoordinates,
   emptyBoardHandlers,
 } from '../components/support/Board.data';
-import { renderEmptyBoard } from '../__utils__/board.utils';
-import { clickSquare, getSquareMetadata } from '../__utils__/squareInteraction';
+import { getBoardTestData, renderEmptyBoard } from '../__utils__/board.utils';
+import {
+  clickSquare,
+  getSquareMetadata,
+  movePiece,
+} from '../__utils__/squareInteraction';
+import { coordinateToSquare } from '../../utils/board/board';
 
 export interface BoardAndMoves {
   board: BoardType;
   testPieceSquare: Coordinate;
   expectedMoves: Coordinate[];
 }
+interface MoveCoordinates {
+  origin: Coordinate;
+  destination: Coordinate;
+}
 
-export function assertCorrectMoves(positionsAndMoves: BoardAndMoves[]) {
+export function assertCandidateMoves(positionsAndMoves: BoardAndMoves[]) {
   const { rerender } = renderEmptyBoard();
 
   for (const { board, testPieceSquare, expectedMoves } of positionsAndMoves) {
@@ -35,4 +49,45 @@ export function assertCorrectMoves(positionsAndMoves: BoardAndMoves[]) {
       expect(squareMetadata.highlighted).toBe(shouldBeHighlighted);
     }
   }
+}
+
+export function assertMadeMoves(positionsAndMoves: BoardAndMoves[]) {
+  const { rerender } = renderEmptyBoard();
+
+  for (const { board, testPieceSquare, expectedMoves } of positionsAndMoves) {
+    for (const destination of expectedMoves) {
+      rerender(
+        <Board
+          key={uuidv4()}
+          initialBoard={board}
+          handlers={emptyBoardHandlers}
+        />
+      );
+      movePiece(testPieceSquare, destination);
+
+      const { board: simulatedBoard } = getBoardTestData();
+      const expectedPosition = simulatedBoard.position;
+      const actualPosition = getPositionAfterMove(board.position, {
+        origin: testPieceSquare,
+        destination,
+      });
+      expect(actualPosition).toEqual(expectedPosition);
+    }
+  }
+}
+
+function getPositionAfterMove(
+  position: BoardPosition,
+  moveCoordinates: MoveCoordinates
+): BoardPosition {
+  const { origin, destination } = moveCoordinates;
+  const { file: originFile, rank: originRank } = coordinateToSquare(origin);
+  const { file: destFile, rank: destRank } = coordinateToSquare(destination);
+  const piece = position[originRank][originFile];
+  if (!piece) throw new Error('Move piece - no piece in origin square!');
+
+  return produce(position, (draft) => {
+    delete draft[originRank][originFile];
+    draft[destRank][destFile] = piece;
+  });
 }
