@@ -16,7 +16,15 @@ jobs:
           always-auth: true
           node-version: 14.x
           registry-url: https://registry.npmjs.org
-      - run: yarn install --frozen-lockfile
+      - name: Install Packages
+        run: yarn install --frozen-lockfile
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        env:
+          CACHE_NAME: node-modules-cache
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ hashFiles('**/yarn.lock.json') }}
 
   format:
     needs: install
