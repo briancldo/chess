@@ -11,6 +11,7 @@ import {
   BoardUIProps,
   FocusedPiece,
 } from './Board.types';
+import { BoardTestData } from '../../../__tests__/__utils__/board.utils';
 
 const Board: React.FC<BoardProps> = (props) => {
   const [board, setBoard] = useState(props.initialBoard);
@@ -47,6 +48,7 @@ const Board: React.FC<BoardProps> = (props) => {
     },
   };
   const data = { candidateSquares, focusedPiece, gameOver, turn };
+  const boardTestData: BoardTestData = { board };
   return (
     <>
       {process.env.NODE_ENV === 'development' && (
@@ -54,7 +56,11 @@ const Board: React.FC<BoardProps> = (props) => {
           Print Board
         </button>
       )}
-      <BoardUI {...{ board, handlers, data }} />
+      <BoardUI
+        data-testid='board'
+        data-test={JSON.stringify(boardTestData)}
+        {...{ board, handlers, data }}
+      />
     </>
   );
 };
