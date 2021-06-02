@@ -51,7 +51,7 @@ export function createFromConcisePosition(pieceSquarePairs: PiecePlacements) {
 export function createConciseFromPosition(position: BoardPosition) {
   const concisePosition: PiecePlacements = {};
 
-  for (let rank = 1; rank < ranks.length; rank++) {
+  for (let rank = 1; rank <= ranks.length; rank++) {
     const fullRank = position[rank];
     for (const file in fullRank) {
       const piece = fullRank[file as BoardFile];
