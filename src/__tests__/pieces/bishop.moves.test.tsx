@@ -18,5 +18,9 @@ describe('#bishop.moves', () => {
     test('pure bishop moves', () => {
       assertMadeMoves(data.pureBishopPositionsAndMoves);
     });
+
+    test('range blocked by other pieces', () => {
+      assertMadeMoves(data.rangeBlockedPositionsAndMoves);
+    });
   });
 });
