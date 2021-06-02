@@ -6,9 +6,7 @@ import {
 import {
   createBoard,
   createFromConcisePosition,
-  PiecePlacements,
 } from '../../../../utils/board/boardEditor';
-import { PieceColor } from '../../../../utils/pieces.types';
 
 export default {
   stateModified: {
@@ -55,10 +53,10 @@ export default {
     },
   ],
   concisePositionResults: [
-    [undefined, {}, {}, {}, {}, {}, {}, {}, {}],
-    [undefined, {}, {}, {}, { b: { type: 'k', color: 'b' } }, {}, {}, {}, {}],
+    [null, {}, {}, {}, {}, {}, {}, {}, {}],
+    [null, {}, {}, {}, { b: { type: 'k', color: 'b' } }, {}, {}, {}, {}],
     [
-      undefined,
+      null,
       {},
       { e: { type: 'q', color: 'w' }, f: { type: 'k', color: 'w' } },
       {},
@@ -69,7 +67,7 @@ export default {
       { h: { type: 'q', color: 'b' } },
     ],
     [
-      undefined,
+      null,
       {
         a: { type: 'r', color: 'w' },
         b: { type: 'n', color: 'w' },
@@ -124,7 +122,7 @@ export default {
         }),
       }),
       resultingPosition: [
-        undefined,
+        null,
         {},
         {},
         {},
@@ -161,7 +159,7 @@ export default {
         state: { turn: 'b' },
       }),
       resultingPosition: [
-        undefined,
+        null,
         {},
         {},
         {},

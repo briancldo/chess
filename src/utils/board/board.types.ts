@@ -63,7 +63,7 @@ export type BoardFullRank = {
 };
 
 export type BoardPosition = [
-  undefined,
+  null,
   BoardFullRank,
   BoardFullRank,
   BoardFullRank,

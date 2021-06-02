@@ -22,7 +22,7 @@ const board: Board = {
     result: undefined,
   },
   position: [
-    undefined,
+    null,
     {
       a: w.r,
       b: w.n,
