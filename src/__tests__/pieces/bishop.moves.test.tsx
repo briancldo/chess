@@ -7,4 +7,8 @@ describe('#bishop.moves', () => {
   test('pure bishop moves', () => {
     assertCorrectMoves(data.pureBishopPositionsAndMoves);
   });
+
+  test('range blocked by other pieces', () => {
+    assertCorrectMoves(data.rangeBlockedPositionsAndMoves);
+  });
 });

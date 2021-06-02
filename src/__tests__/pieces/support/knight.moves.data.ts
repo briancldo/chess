@@ -148,26 +148,4 @@ export const hopOverOthersPositionAndMoves: BoardAndMoves[] = [
     testPieceSquare: 'd4',
     expectedMoves: ['c2', 'e2', 'b3', 'f3', 'b5', 'f5', 'c6', 'e6'],
   },
-  {
-    board: createBoard({
-      position: createFromConcisePosition({
-        wp: ['e3', 'd3', 'c3', 'e4', 'c4', 'c5', 'd5', 'e5'],
-        bn: ['d4'],
-      }),
-      state: { turn: 'b' },
-    }),
-    testPieceSquare: 'd4',
-    expectedMoves: ['c2', 'e2', 'b3', 'f3', 'b5', 'f5', 'c6', 'e6'],
-  },
-  {
-    board: createBoard({
-      position: createFromConcisePosition({
-        bp: ['e3', 'd3', 'c3', 'e4', 'c4', 'c5', 'd5', 'e5'],
-        bn: ['d4'],
-      }),
-      state: { turn: 'b' },
-    }),
-    testPieceSquare: 'd4',
-    expectedMoves: ['c2', 'e2', 'b3', 'f3', 'b5', 'f5', 'c6', 'e6'],
-  },
 ];

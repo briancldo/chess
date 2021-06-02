@@ -91,3 +91,37 @@ export const pureBishopPositionsAndMoves: BoardAndMoves[] = [
     expectedMoves: ['c2', 'e2', 'b3', 'f3', 'a4', 'g4', 'h5'],
   },
 ];
+
+export const rangeBlockedPositionsAndMoves: BoardAndMoves[] = [
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        bp: ['h1', 'a2', 'e6', 'b7'],
+        wb: ['d5'],
+      }),
+    }),
+    testPieceSquare: 'd5',
+    expectedMoves: ['h1', 'a2', 'g2', 'b3', 'f3', 'c4', 'e4', 'c6', 'e6', 'b7'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['h1', 'a2', 'e6', 'b7'],
+        bb: ['d5'],
+      }),
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'd5',
+    expectedMoves: ['h1', 'a2', 'g2', 'b3', 'f3', 'c4', 'e4', 'c6', 'e6', 'b7'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['a1', 'h2', 'd6', 'g7'],
+        wb: ['e5'],
+      }),
+    }),
+    testPieceSquare: 'e5',
+    expectedMoves: ['b2', 'g3', 'c3', 'f4', 'd4', 'f6'],
+  },
+];
