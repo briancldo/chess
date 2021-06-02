@@ -28,7 +28,7 @@ export interface BoardTestData {
 export function getBoardTestData() {
   const boardTestDataString = screen
     .getByTestId('board')
-    .getAttribute('test-data');
+    .getAttribute('data-test');
   if (!boardTestDataString) throw new Error('No board test data.');
   return JSON.parse(boardTestDataString) as BoardTestData;
 }

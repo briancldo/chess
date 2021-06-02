@@ -48,7 +48,6 @@ const Board: React.FC<BoardProps> = (props) => {
     },
   };
   const data = { candidateSquares, focusedPiece, gameOver, turn };
-  const boardTestData: BoardTestData = { board };
   return (
     <>
       {process.env.NODE_ENV === 'development' && (
@@ -56,11 +55,7 @@ const Board: React.FC<BoardProps> = (props) => {
           Print Board
         </button>
       )}
-      <BoardUI
-        data-testid='board'
-        data-test={JSON.stringify(boardTestData)}
-        {...{ board, handlers, data }}
-      />
+      <BoardUI {...{ board, handlers, data }} />
     </>
   );
 };
@@ -73,8 +68,13 @@ export const BoardUI: React.FC<BoardUIProps> = (props) => {
     ? board.state.king[checkedSide].square
     : undefined;
 
+  const boardTestData: BoardTestData = { board };
   return (
-    <div className='board'>
+    <div
+      data-testid='board'
+      data-test={JSON.stringify(boardTestData)}
+      className='board'
+    >
       {ranks.map((rank) => (
         <React.Fragment key={`rank${rank}`}>
           <Rank
