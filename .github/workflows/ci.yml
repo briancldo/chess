@@ -5,6 +5,10 @@ on:
     branches:
       - master
 
+env:
+  PACKAGE_CACHE_NAME: node-modules-cache
+
+
 jobs:
   install:
     name: Install Packages
@@ -20,8 +24,6 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Cache node_modules
         uses: actions/cache@v2
-        env:
-          CACHE_NAME: node-modules-cache
         with:
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ hashFiles('**/yarn.lock.json') }}
@@ -37,6 +39,11 @@ jobs:
           always-auth: true
           node-version: 14.x
           registry-url: https://registry.npmjs.org
+      - name: Restore node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ hashFiles('**/yarn.lock.json') }}
       - run: yarn format
         
   lint:
@@ -50,6 +57,11 @@ jobs:
           always-auth: true
           node-version: 14.x
           registry-url: https://registry.npmjs.org
+      - name: Restore node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ hashFiles('**/yarn.lock.json') }}
       - run: yarn lint
 
   cruise-deps:
@@ -63,6 +75,11 @@ jobs:
           always-auth: true
           node-version: 14.x
           registry-url: https://registry.npmjs.org
+      - name: Restore node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ hashFiles('**/yarn.lock.json') }}
       - run: yarn cruise-deps
       
   test:
@@ -76,4 +93,9 @@ jobs:
           always-auth: true
           node-version: 14.x
           registry-url: https://registry.npmjs.org
+      - name: Restore node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ hashFiles('**/yarn.lock.json') }}
       - run: yarn test
