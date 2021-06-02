@@ -16,7 +16,7 @@ export interface BoardAndMoves {
   expectedMoves: Coordinate[];
 }
 
-export function assertCorrectMoves(positionsAndMoves: BoardAndMoves[]) {
+export function assertCandidateMoves(positionsAndMoves: BoardAndMoves[]) {
   const { rerender } = renderEmptyBoard();
 
   for (const { board, testPieceSquare, expectedMoves } of positionsAndMoves) {

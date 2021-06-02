@@ -1,22 +1,22 @@
 import '@testing-library/jest-dom/extend-expect';
 
 import * as data from './support/knight.moves.data';
-import { assertCorrectMoves } from './common.test.utils';
+import { assertCandidateMoves } from './common.test.utils';
 
 describe('#knight.moves', () => {
   test('pure knight moves', () => {
-    assertCorrectMoves(data.happyPositionsAndMoves);
+    assertCandidateMoves(data.happyPositionsAndMoves);
   });
 
   test('cannot move to ally piece square, can move to enemy piece square', () => {
-    assertCorrectMoves(data.otherPieceOccupyPositionsAndMoves);
+    assertCandidateMoves(data.otherPieceOccupyPositionsAndMoves);
   });
 
   test('cannot move to squares off side of board', () => {
-    assertCorrectMoves(data.offsideMoves);
+    assertCandidateMoves(data.offsideMoves);
   });
 
   test('can hop over other pieces', () => {
-    assertCorrectMoves(data.hopOverOthersPositionAndMoves);
+    assertCandidateMoves(data.hopOverOthersPositionAndMoves);
   });
 });
