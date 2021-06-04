@@ -8,11 +8,19 @@ describe('#queen.moves', () => {
     test('pure moves', () => {
       assertCandidateMoves(data.pureQueenPositionAndMoves);
     });
+
+    test('range blocked by other pieces', () => {
+      assertCandidateMoves(data.rangeBlockedPositionsAndMoves);
+    });
   });
 
   describe('actual moves', () => {
     test('pure moves', () => {
       assertMadeMoves(data.pureQueenPositionAndMoves);
+    });
+
+    test('range blocked by other pieces', () => {
+      assertMadeMoves(data.rangeBlockedPositionsAndMoves);
     });
   });
 });

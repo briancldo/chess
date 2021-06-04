@@ -81,3 +81,88 @@ export const pureQueenPositionAndMoves: BoardAndMoves[] = [
     ],
   },
 ];
+
+export const rangeBlockedPositionsAndMoves: BoardAndMoves[] = [
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        bp: ['b1', 'd1', 'e2', 'c3', 'g3', 'a6', 'h7', 'd6'],
+        wq: ['d3'],
+      }),
+    }),
+    testPieceSquare: 'd3',
+    expectedMoves: [
+      'b1',
+      'd1',
+      'e2',
+      'c2',
+      'd2',
+      'c3',
+      'g3',
+      'e3',
+      'f3',
+      'c4',
+      'e4',
+      'd4',
+      'b5',
+      'f5',
+      'd5',
+      'a6',
+      'g6',
+      'd6',
+      'h7',
+    ],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['b1', 'd1', 'e2', 'c3', 'g3', 'a6', 'h7', 'd6'],
+        bq: ['d3'],
+      }),
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'd3',
+    expectedMoves: [
+      'b1',
+      'd1',
+      'e2',
+      'c2',
+      'd2',
+      'c3',
+      'g3',
+      'e3',
+      'f3',
+      'c4',
+      'e4',
+      'd4',
+      'b5',
+      'f5',
+      'd5',
+      'a6',
+      'g6',
+      'd6',
+      'h7',
+    ],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['f1', 'c2', 'd2', 'b3', 'g3', 'c4', 'd6', 'g6'],
+        wq: ['d3'],
+      }),
+    }),
+    testPieceSquare: 'd3',
+    expectedMoves: ['e2', 'c3', 'e3', 'f3', 'd4', 'e4', 'd5', 'f5'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        bp: ['f1', 'c2', 'd2', 'b3', 'g3', 'c4', 'd6', 'g6'],
+        bq: ['d3'],
+      }),
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'd3',
+    expectedMoves: ['e2', 'c3', 'e3', 'f3', 'd4', 'e4', 'd5', 'f5'],
+  },
+];
