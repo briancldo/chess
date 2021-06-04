@@ -8,11 +8,19 @@ describe('#rook.moves', () => {
     test('pure rook moves', () => {
       assertCandidateMoves(data.pureRookPositionsAndMoves);
     });
+
+    test('range blocked by other pieces', () => {
+      assertCandidateMoves(data.rangeBlockedPositionsAndMoves);
+    });
   });
 
   describe('actual moves', () => {
     test('pure rook moves', () => {
       assertMadeMoves(data.pureRookPositionsAndMoves);
+    });
+
+    test('range blocked by other pieces', () => {
+      assertMadeMoves(data.rangeBlockedPositionsAndMoves);
     });
   });
 });

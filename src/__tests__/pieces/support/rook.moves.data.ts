@@ -55,3 +55,76 @@ export const pureRookPositionsAndMoves: BoardAndMoves[] = [
     ],
   },
 ];
+
+export const rangeBlockedPositionsAndMoves: BoardAndMoves[] = [
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        bp: ['c1', 'b5', 'h5', 'c8'],
+        wr: ['c5'],
+      }),
+    }),
+    testPieceSquare: 'c5',
+    expectedMoves: [
+      'c1',
+      'c2',
+      'c3',
+      'c4',
+      'b5',
+      'h5',
+      'd5',
+      'e5',
+      'f5',
+      'g5',
+      'c6',
+      'c7',
+      'c8',
+    ],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['c1', 'b5', 'h5', 'c8'],
+        br: ['c5'],
+      }),
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'c5',
+    expectedMoves: [
+      'c1',
+      'c2',
+      'c3',
+      'c4',
+      'b5',
+      'h5',
+      'd5',
+      'e5',
+      'f5',
+      'g5',
+      'c6',
+      'c7',
+      'c8',
+    ],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['c1', 'a5', 'h5', 'c8'],
+        wr: ['c5'],
+      }),
+    }),
+    testPieceSquare: 'c5',
+    expectedMoves: ['c2', 'c3', 'c4', 'b5', 'd5', 'e5', 'f5', 'g5', 'c6', 'c7'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        bp: ['c1', 'a5', 'h5', 'c8'],
+        br: ['c5'],
+      }),
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'c5',
+    expectedMoves: ['c2', 'c3', 'c4', 'b5', 'd5', 'e5', 'f5', 'g5', 'c6', 'c7'],
+  },
+];
