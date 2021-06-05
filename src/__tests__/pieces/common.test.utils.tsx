@@ -17,7 +17,8 @@ import { getBoardTestData, renderEmptyBoard } from '../__utils__/board.utils';
 import {
   clickSquare,
   getSquareMetadata,
-  movePiece,
+  makeMove,
+  MoveCoordinates,
 } from '../__utils__/squareInteraction';
 import { coordinateToSquare } from '../../utils/board/board';
 
@@ -25,10 +26,6 @@ export interface BoardAndMoves {
   board: BoardType;
   testPieceSquare: Coordinate;
   expectedMoves: Coordinate[];
-}
-interface MoveCoordinates {
-  origin: Coordinate;
-  destination: Coordinate;
 }
 
 export function assertCandidateMoves(positionsAndMoves: BoardAndMoves[]) {
@@ -66,7 +63,7 @@ export function assertMadeMoves(positionsAndMoves: BoardAndMoves[]) {
           handlers={emptyBoardHandlers}
         />
       );
-      movePiece(testPieceSquare, destination);
+      makeMove(testPieceSquare, destination);
 
       const { board: simulatedBoard } = getBoardTestData();
       const expectedPosition = simulatedBoard.position;

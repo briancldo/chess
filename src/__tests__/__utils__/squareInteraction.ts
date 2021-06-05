@@ -37,7 +37,18 @@ export function clickSquare(coordinate: Coordinate) {
   userEvent.click(getSquareElement(coordinate));
 }
 
-export function movePiece(origin: Coordinate, destination: Coordinate) {
+export interface MoveCoordinates {
+  origin: Coordinate;
+  destination: Coordinate;
+}
+
+export function makeMove(origin: Coordinate, destination: Coordinate) {
   clickSquare(origin);
   clickSquare(destination);
+}
+
+export function makeMoves(moves: MoveCoordinates[]) {
+  for (const move of moves) {
+    makeMove(move.origin, move.destination);
+  }
 }
