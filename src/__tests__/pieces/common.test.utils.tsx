@@ -1,4 +1,5 @@
 import React from 'react';
+import { cleanup } from '@testing-library/react';
 import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
 
@@ -49,6 +50,8 @@ export function assertCandidateMoves(positionsAndMoves: BoardAndMoves[]) {
       expect(squareMetadata.highlighted).toBe(shouldBeHighlighted);
     }
   }
+
+  cleanup();
 }
 
 export function assertMadeMoves(positionsAndMoves: BoardAndMoves[]) {
@@ -74,6 +77,8 @@ export function assertMadeMoves(positionsAndMoves: BoardAndMoves[]) {
       expect(actualPosition).toEqual(expectedPosition);
     }
   }
+
+  cleanup();
 }
 
 function getPositionAfterMove(
