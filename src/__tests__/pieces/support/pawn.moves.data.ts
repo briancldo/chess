@@ -1,7 +1,9 @@
+import { Coordinate } from '../../../utils/board/board.types';
 import {
   createBoard,
   createFromConcisePosition,
 } from '../../../utils/board/boardEditor';
+import { allCoordinates } from '../../components/support/Board.data';
 import { BoardAndMoves } from '../common.test.utils';
 
 export const firstMovePositionsAndMoves: BoardAndMoves[] = [
@@ -36,3 +38,11 @@ export const firstMovePositionsAndMoves: BoardAndMoves[] = [
     expectedMoves: ['f6', 'f5'],
   },
 ];
+
+export const oneSquareForwardCoordinates: Coordinate[] = allCoordinates.filter(
+  (coordinate) =>
+    !coordinate.endsWith('1') &&
+    !coordinate.endsWith('8') &&
+    !coordinate.endsWith('2') &&
+    !coordinate.endsWith('7')
+);
