@@ -6,24 +6,41 @@ import {
   createConciseFromPosition,
   createFromConcisePosition,
 } from '../../../utils/board/boardEditor';
+import { useRedirect } from '../../../pages/utils/navigation';
+import Button from '../../ui/Button';
 
 import EditableBoard from './EditableBoard';
 import './PositionGenerator.css';
+import { GameLocationState } from '../../../pages/utils/routes';
 
 const emptyBoard = createBoard({ position: createFromConcisePosition({}) });
 const PositionGenerator: React.FC = () => {
   const [board, setBoard] = useState(emptyBoard);
+  const navigateToGame = useRedirect('game');
+
+  function startGameWithBoard() {
+    const side = prompt('Side? w/b')?.toLowerCase();
+    if (side === 'w' || side === 'b')
+      navigateToGame({}, {
+        board: createBoard({
+          position: board.position,
+          state: { turn: side },
+        }),
+      } as GameLocationState);
+  }
 
   return (
     <div className='position-generator'>
-      <div className='position-generator-side-column'></div>
-      <div className='position-generator-center-column'>
-        <EditableBoard {...{ board, setBoard }} />
-      </div>
-      <div className='position-generator-side-column'>
+      <div className='position-generator-left-column'>
         {process.env.NODE_ENV === 'development' && (
           <GeneratorSection board={board} />
         )}
+      </div>
+      <div className='position-generator-center-column'>
+        <EditableBoard {...{ board, setBoard }} />
+      </div>
+      <div className='position-generator-right-column'>
+        <Button onClick={startGameWithBoard}>Play from position</Button>
       </div>
     </div>
   );

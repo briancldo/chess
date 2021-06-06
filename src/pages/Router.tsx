@@ -1,15 +1,21 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation,
+} from 'react-router-dom';
 
 import GameView from '../components/Game/GameView';
 import PositionGenerator from '../components/Board/Board/PositionGenerator';
+import { GameLocationState } from './utils/routes';
 
 const RouterComponent: React.FC = () => {
   return (
     <Router>
       <Switch>
         <Route exact path='/'>
-          <GameView />
+          <GameViewRoute />
         </Route>
         <Route exact path='/editor'>
           <PositionGenerator />
@@ -20,3 +26,10 @@ const RouterComponent: React.FC = () => {
 };
 
 export default RouterComponent;
+
+const GameViewRoute: React.FC = () => {
+  const location = useLocation() as { state?: GameLocationState };
+  const initialBoard = location.state?.board;
+
+  return <GameView initialBoard={initialBoard} />;
+};

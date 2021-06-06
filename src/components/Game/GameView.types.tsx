@@ -1,7 +1,7 @@
-import { GameResult } from '../../utils/board/board.types';
+import { Board, GameResult } from '../../utils/board/board.types';
 
 export interface GameViewProps {
-  any?: unknown;
+  initialBoard?: Board;
 }
 
 export type GameOverHandler = (result: GameResult) => void;
