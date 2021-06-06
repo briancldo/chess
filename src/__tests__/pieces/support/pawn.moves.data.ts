@@ -3,7 +3,6 @@ import {
   createBoard,
   createFromConcisePosition,
 } from '../../../utils/board/boardEditor';
-import { allCoordinates } from '../../components/support/Board.data';
 import { BoardAndMoves } from '../common.test.utils';
 
 export const firstMovePositionsAndMoves: BoardAndMoves[] = [
@@ -72,6 +71,72 @@ export const oneSquareForwardCoordinates: Coordinate[] = [
   'h4',
   'h5',
   'h6',
+];
+
+export const rangeBlockedPositionsAndMoves: BoardAndMoves[] = [
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['d2'],
+        bp: ['d3'],
+      }),
+    }),
+    testPieceSquare: 'd2',
+    expectedMoves: [],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['d2'],
+        bp: ['d4'],
+      }),
+    }),
+    testPieceSquare: 'd2',
+    expectedMoves: ['d3'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['d4'],
+        bp: ['d5'],
+      }),
+    }),
+    testPieceSquare: 'd4',
+    expectedMoves: [],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['d6'],
+        bp: ['d7'],
+      }),
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'd7',
+    expectedMoves: [],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['d5'],
+        bp: ['d7'],
+      }),
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'd7',
+    expectedMoves: ['d6'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['d4'],
+        bp: ['d5'],
+      }),
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'd7',
+    expectedMoves: [],
+  },
 ];
 
 export const enPassantPositionAndMoves: BoardAndMoves[] = [
