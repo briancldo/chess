@@ -19,7 +19,14 @@ const PositionGenerator: React.FC = () => {
   const navigateToGame = useRedirect('game');
 
   function startGameWithBoard() {
-    navigateToGame({}, { board } as GameLocationState);
+    const side = prompt('Side? w/b')?.toLowerCase();
+    if (side === 'w' || side === 'b')
+      navigateToGame({}, {
+        board: createBoard({
+          position: board.position,
+          state: { turn: side },
+        }),
+      } as GameLocationState);
   }
 
   return (
