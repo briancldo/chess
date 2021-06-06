@@ -16,15 +16,15 @@ const PositionGenerator: React.FC = () => {
 
   return (
     <div className='position-generator'>
-      <div className='position-generator-side-column'></div>
-      <div className='position-generator-center-column'>
-        <EditableBoard {...{ board, setBoard }} />
-      </div>
-      <div className='position-generator-side-column'>
+      <div className='position-generator-left-column'>
         {process.env.NODE_ENV === 'development' && (
           <GeneratorSection board={board} />
         )}
       </div>
+      <div className='position-generator-center-column'>
+        <EditableBoard {...{ board, setBoard }} />
+      </div>
+      <div className='position-generator-right-column'></div>
     </div>
   );
 };
