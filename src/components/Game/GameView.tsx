@@ -3,17 +3,20 @@ import { v4 as uuidv4 } from 'uuid';
 import { GameResult } from '../../utils/board/board.types';
 
 import Board from '../Board/Board/Board';
-import initialBoard from '../../utils/board/board.init';
+import initialBoardClassic from '../../utils/board/board.init';
 import BoardSidebar, { SidebarSpacer } from '../Board/Sidebar/Sidebar';
 import {
   GameViewProps,
   GameViewHandlers,
   GameOverHandler,
 } from './GameView.types';
+import { useLocation } from 'react-router';
 
-const GameView: React.FC<GameViewProps> = () => {
+const GameView: React.FC<GameViewProps> = (props) => {
+  console.log({ location: useLocation() });
   const [boardId, setBoardId] = useState(uuidv4());
   const [result, setResult] = useState<GameResult>();
+  const initialBoard = props.initialBoard ?? initialBoardClassic;
 
   function handleNewGame() {
     setResult(undefined);
