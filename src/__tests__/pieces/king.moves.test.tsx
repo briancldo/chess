@@ -16,6 +16,10 @@ describe('#king.moves', () => {
     test('move out of check', () => {
       assertCandidateMoves(data.moveOutOfCheckPositionsAndMoves);
     });
+
+    test('cannot move to attacked squares', () => {
+      assertCandidateMoves(data.moveSafeSquaresPositionsAndMoves);
+    });
   });
 
   describe('actual moves', () => {
@@ -29,6 +33,10 @@ describe('#king.moves', () => {
 
     test('move out of check', () => {
       assertMadeMoves(data.moveOutOfCheckPositionsAndMoves);
+    });
+
+    test('cannot move to attacked squares', () => {
+      assertMadeMoves(data.moveSafeSquaresPositionsAndMoves);
     });
   });
 });

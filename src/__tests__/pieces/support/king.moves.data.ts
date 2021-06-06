@@ -186,3 +186,52 @@ export const moveOutOfCheckPositionsAndMoves: BoardAndMoves[] = [
     expectedMoves: ['e3', 'd3', 'c3', 'e4', 'c4', 'c5', 'd5', 'e5'],
   },
 ];
+
+export const moveSafeSquaresPositionsAndMoves: BoardAndMoves[] = [
+  {
+    board: createBoard({
+      position: {
+        wk: ['c4'],
+        bq: ['h5'],
+        bb: ['a7'],
+      },
+    }),
+    testPieceSquare: 'c4',
+    expectedMoves: ['b3', 'c3', 'd3', 'b4'],
+  },
+  {
+    board: createBoard({
+      position: {
+        bk: ['c4'],
+        wq: ['h5'],
+        wb: ['a7'],
+      },
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'c4',
+    expectedMoves: ['b3', 'c3', 'd3', 'b4'],
+  },
+  {
+    board: createBoard({
+      position: {
+        wk: ['d4'],
+        bn: ['f4'],
+        br: ['c8'],
+      },
+    }),
+    testPieceSquare: 'd4',
+    expectedMoves: ['e3', 'e4', 'e5'],
+  },
+  {
+    board: createBoard({
+      position: {
+        bk: ['d4'],
+        wn: ['f4'],
+        wr: ['c8'],
+      },
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'd4',
+    expectedMoves: ['e3', 'e4', 'e5'],
+  },
+];
