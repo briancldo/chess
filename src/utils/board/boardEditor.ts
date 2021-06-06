@@ -6,35 +6,82 @@ import { EMPTY_POSITION } from './board.constants';
 import initialBoard from './board.init';
 import {
   BoardFile,
+  BoardKingState,
   BoardPosition,
   BoardRank,
+  BoardSquare,
   BoardSubstate,
   Coordinate,
 } from './board.types';
 import { pieceObjectToString, pieceStringToObject } from '../pieces';
 import { PieceString } from '../pieces.types';
+import { DevError } from '../errors';
 
 export function createBoard(board: {
-  position?: BoardPosition;
+  position?: ConcisePosition;
   state?: BoardSubstate;
 }) {
   const { position, state } = board;
+  const syncedState = synchronizeState(position, state);
   return {
-    position: position ?? initialBoard.position,
-    state: state
-      ? assign(cloneDeep(initialBoard.state), state)
-      : initialBoard.state,
+    position: position
+      ? createFromConcisePosition(position)
+      : initialBoard.position,
+    state: syncedState,
   };
 }
 
-export type PiecePlacements = {
+function synchronizeState(position?: ConcisePosition, state?: BoardSubstate) {
+  const kingState = synchronizeKingState(position, state);
+  const syncedState = state
+    ? assign({}, initialBoard.state, state)
+    : initialBoard.state;
+  return assign({}, syncedState, { king: kingState });
+}
+
+function synchronizeKingState(
+  position?: ConcisePosition,
+  state?: BoardSubstate
+): BoardKingState {
+  const priorKingState: BoardKingState = produce(
+    initialBoard.state.king,
+    (draft) => {
+      if (state?.king?.w?.square)
+        draft.w.square = state.king.w.square as BoardSquare;
+      if (state?.king?.b?.square)
+        draft.b.square = state.king.b.square as BoardSquare;
+    }
+  );
+
+  return produce(priorKingState, (draft) => {
+    if (!position) return;
+    if (Array.isArray(position.wk) && position.wk.length !== 1)
+      throw new DevError('Only one white king.');
+    if (Array.isArray(position.bk) && position.bk.length !== 1)
+      throw new DevError('Only one black king.');
+
+    const whiteKingCoordinate = Array.isArray(position.wk)
+      ? position.wk.pop()
+      : position.wk;
+    const blackKingCoordinate = Array.isArray(position.bk)
+      ? position.bk.pop()
+      : position.bk;
+
+    if (position.wk)
+      draft.w.square = coordinateToSquare(whiteKingCoordinate as Coordinate);
+    if (position.bk)
+      draft.b.square = coordinateToSquare(blackKingCoordinate as Coordinate);
+  });
+}
+
+export type ConcisePosition = {
   [pieceString in PieceString]?: Coordinate[] | Coordinate;
 };
-export function createFromConcisePosition(pieceSquarePairs: PiecePlacements) {
+export function createFromConcisePosition(concisePosition: ConcisePosition) {
   return produce(EMPTY_POSITION, (draft) => {
-    for (const pieceString in pieceSquarePairs) {
+    for (const pieceString in concisePosition) {
       const piece = pieceStringToObject(pieceString as PieceString);
-      let coordinates = pieceSquarePairs[pieceString as PieceString];
+      let coordinates = concisePosition[pieceString as PieceString];
       if (!coordinates) continue;
       if (!Array.isArray(coordinates)) coordinates = [coordinates];
 
@@ -49,7 +96,7 @@ export function createFromConcisePosition(pieceSquarePairs: PiecePlacements) {
 }
 
 export function createConciseFromPosition(position: BoardPosition) {
-  const concisePosition: PiecePlacements = {};
+  const concisePosition: ConcisePosition = {};
 
   for (let rank = 1; rank <= ranks.length; rank++) {
     const fullRank = position[rank];

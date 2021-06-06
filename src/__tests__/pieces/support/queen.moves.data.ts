@@ -1,15 +1,12 @@
-import {
-  createBoard,
-  createFromConcisePosition,
-} from '../../../utils/board/boardEditor';
+import { createBoard } from '../../../utils/board/boardEditor';
 import { BoardAndMoves } from '../common.test.utils';
 
 export const pureQueenPositionAndMoves: BoardAndMoves[] = [
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wq: ['d5'],
-      }),
+      },
     }),
     testPieceSquare: 'd5',
     expectedMoves: [
@@ -44,9 +41,9 @@ export const pureQueenPositionAndMoves: BoardAndMoves[] = [
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         bq: ['d5'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'd5',
@@ -85,10 +82,10 @@ export const pureQueenPositionAndMoves: BoardAndMoves[] = [
 export const rangeBlockedPositionsAndMoves: BoardAndMoves[] = [
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         bp: ['b1', 'd1', 'e2', 'c3', 'g3', 'a6', 'h7', 'd6'],
         wq: ['d3'],
-      }),
+      },
     }),
     testPieceSquare: 'd3',
     expectedMoves: [
@@ -115,10 +112,10 @@ export const rangeBlockedPositionsAndMoves: BoardAndMoves[] = [
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wp: ['b1', 'd1', 'e2', 'c3', 'g3', 'a6', 'h7', 'd6'],
         bq: ['d3'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'd3',
@@ -146,20 +143,20 @@ export const rangeBlockedPositionsAndMoves: BoardAndMoves[] = [
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wp: ['f1', 'c2', 'd2', 'b3', 'g3', 'c4', 'd6', 'g6'],
         wq: ['d3'],
-      }),
+      },
     }),
     testPieceSquare: 'd3',
     expectedMoves: ['e2', 'c3', 'e3', 'f3', 'd4', 'e4', 'd5', 'f5'],
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         bp: ['f1', 'c2', 'd2', 'b3', 'g3', 'c4', 'd6', 'g6'],
         bq: ['d3'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'd3',

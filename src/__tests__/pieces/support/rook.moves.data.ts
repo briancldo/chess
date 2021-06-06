@@ -1,15 +1,12 @@
-import {
-  createBoard,
-  createFromConcisePosition,
-} from '../../../utils/board/boardEditor';
+import { createBoard } from '../../../utils/board/boardEditor';
 import { BoardAndMoves } from '../common.test.utils';
 
 export const pureRookPositionsAndMoves: BoardAndMoves[] = [
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wr: ['d5'],
-      }),
+      },
     }),
     testPieceSquare: 'd5',
     expectedMoves: [
@@ -31,9 +28,9 @@ export const pureRookPositionsAndMoves: BoardAndMoves[] = [
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         br: ['d5'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'd5',
@@ -59,10 +56,10 @@ export const pureRookPositionsAndMoves: BoardAndMoves[] = [
 export const rangeBlockedPositionsAndMoves: BoardAndMoves[] = [
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         bp: ['c1', 'b5', 'h5', 'c8'],
         wr: ['c5'],
-      }),
+      },
     }),
     testPieceSquare: 'c5',
     expectedMoves: [
@@ -83,10 +80,10 @@ export const rangeBlockedPositionsAndMoves: BoardAndMoves[] = [
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wp: ['c1', 'b5', 'h5', 'c8'],
         br: ['c5'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'c5',
@@ -108,20 +105,20 @@ export const rangeBlockedPositionsAndMoves: BoardAndMoves[] = [
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wp: ['c1', 'a5', 'h5', 'c8'],
         wr: ['c5'],
-      }),
+      },
     }),
     testPieceSquare: 'c5',
     expectedMoves: ['c2', 'c3', 'c4', 'b5', 'd5', 'e5', 'f5', 'g5', 'c6', 'c7'],
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         bp: ['c1', 'a5', 'h5', 'c8'],
         br: ['c5'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'c5',

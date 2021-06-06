@@ -4,7 +4,6 @@ import { Board } from '../../../utils/board/board.types';
 import {
   createBoard,
   createConciseFromPosition,
-  createFromConcisePosition,
 } from '../../../utils/board/boardEditor';
 import { useRedirect } from '../../../pages/utils/navigation';
 import Button from '../../ui/Button';
@@ -13,7 +12,7 @@ import EditableBoard from './EditableBoard';
 import './PositionGenerator.css';
 import { GameLocationState } from '../../../pages/utils/routes';
 
-const emptyBoard = createBoard({ position: createFromConcisePosition({}) });
+const emptyBoard = createBoard({ position: {} });
 const PositionGenerator: React.FC = () => {
   const [board, setBoard] = useState(emptyBoard);
   const navigateToGame = useRedirect('game');
@@ -23,7 +22,7 @@ const PositionGenerator: React.FC = () => {
     if (side === 'w' || side === 'b')
       navigateToGame({}, {
         board: createBoard({
-          position: board.position,
+          position: createConciseFromPosition(board.position),
           state: { turn: side },
         }),
       } as GameLocationState);

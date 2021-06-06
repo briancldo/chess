@@ -38,21 +38,22 @@ export type GameDrawn = {
 export type GameResult = GameWon | GameDrawn;
 
 export type ThreatPiece = { piece: Piece; square: BoardSquare };
+export interface BoardKingState {
+  w: { square: { file: BoardFile; rank: BoardRank } };
+  b: { square: { file: BoardFile; rank: BoardRank } };
+  checkedSide?: PieceColor;
+  checkDetails: {
+    threatPieces: ThreatPiece[];
+    threatSquares: BoardSquare[];
+  };
+}
 export interface BoardState {
   enPassantSquare?: BoardSquare;
   castling: {
     w: { k: boolean; side: { q: boolean; k: boolean } };
     b: { k: boolean; side: { q: boolean; k: boolean } };
   };
-  king: {
-    w: { square: { file: BoardFile; rank: BoardRank } };
-    b: { square: { file: BoardFile; rank: BoardRank } };
-    checkedSide?: PieceColor;
-    checkDetails: {
-      threatPieces: ThreatPiece[];
-      threatSquares: BoardSquare[];
-    };
-  };
+  king: BoardKingState;
   turn: PieceColor;
   result?: GameResult;
 }
