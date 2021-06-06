@@ -44,8 +44,7 @@ describe('#Board', () => {
       const concisePositions = data.pieceRenderConcisePositions as ConcisePosition[];
 
       for (const concisePosition of concisePositions) {
-        const position = createFromConcisePosition(concisePosition);
-        const board = createBoard({ position });
+        const board = createBoard({ position: concisePosition });
         rerender(
           <Board
             key={uuidv4()}
@@ -88,9 +87,7 @@ describe('#Board', () => {
       const { rerender } = renderEmptyBoard();
 
       let nonHighlightCoordinates = [...allCoordinates];
-      const board = createBoard({
-        position: createFromConcisePosition(concisePosition),
-      });
+      const board = createBoard({ position: concisePosition });
       rerender(
         <Board
           key={uuidv4()}

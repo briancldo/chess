@@ -117,9 +117,7 @@ export default {
   successiveCalls: [
     {
       board: createBoard({
-        position: createFromConcisePosition({
-          wn: ['d5'],
-        }),
+        position: { wn: ['d5'] },
       }),
       resultingPosition: [
         null,
@@ -153,9 +151,7 @@ export default {
     },
     {
       board: createBoard({
-        position: createFromConcisePosition({
-          bn: ['c4'],
-        }),
+        position: { bn: ['c4'] },
         state: { turn: 'b' },
       }),
       resultingPosition: [

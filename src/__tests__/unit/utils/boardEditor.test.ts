@@ -6,14 +6,15 @@ import {
   createBoard,
   createFromConcisePosition,
   ConcisePosition,
+  createConciseFromPosition,
 } from '../../../utils/board/boardEditor';
 import { BoardPosition, BoardSubstate } from '../../../utils/board/board.types';
 
 describe('#boardEditor', () => {
   describe('createBoard()', () => {
     test('sets position as given', () => {
-      const position = [undefined, {}, {}, {}, {}, {}, {}, {}, {}];
-      const board = createBoard({ position: position as BoardPosition });
+      const position = [null, {}, {}, {}, {}, {}, {}, {}, {}];
+      const board = createBoard({ position: {} });
       expect(board.position).toEqual([...position]);
     });
 
@@ -27,12 +28,12 @@ describe('#boardEditor', () => {
     });
 
     test('given position and state', () => {
-      const position = [undefined, {}, {}, {}, {}, {}, {}, {}, {}];
+      const position = [null, {}, {}, {}, {}, {}, {}, {}, {}];
       const state: BoardSubstate = {
         turn: 'b',
         enPassantSquare: { rank: 4, file: 'e' },
       };
-      const board = createBoard({ position: position as BoardPosition, state });
+      const board = createBoard({ position: {}, state });
       expect(board).toEqual({
         position: [...position],
         state: data.stateModified,
@@ -64,18 +65,6 @@ describe('#boardEditor', () => {
         const concisePosition = data.concisePositions[i] as ConcisePosition;
         const position = createFromConcisePosition(concisePosition);
         expect(position).toEqual(data.concisePositionResults[i]);
-      }
-    });
-
-    test('can be used with createBoard', () => {
-      for (let i = 0; i < data.concisePositions.length; i++) {
-        const concisePosition = data.concisePositions[i] as ConcisePosition;
-        const position = createFromConcisePosition(concisePosition);
-        const board = createBoard({ position });
-        expect(board).toEqual({
-          position: data.concisePositionResults[i],
-          state: expect.anything(),
-        });
       }
     });
   });

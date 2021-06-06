@@ -25,9 +25,7 @@ describe('#pawn.moves', () => {
         for (const coordinate of data.oneSquareForwardCoordinates) {
           const boardAndMoves: BoardAndMoves = {
             board: createBoard({
-              position: createFromConcisePosition({
-                [`${color}p`]: [coordinate],
-              }),
+              position: { [`${color}p`]: [coordinate] },
               state: { turn: color },
             }),
             testPieceSquare: coordinate,
@@ -58,9 +56,7 @@ describe('#pawn.moves', () => {
         for (const coordinate of data.oneSquareForwardCoordinates) {
           const boardAndMoves: BoardAndMoves = {
             board: createBoard({
-              position: createFromConcisePosition({
-                [`${color}p`]: [coordinate],
-              }),
+              position: { [`${color}p`]: [coordinate] },
               state: { turn: color },
             }),
             testPieceSquare: coordinate,

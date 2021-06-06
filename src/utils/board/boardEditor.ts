@@ -15,12 +15,14 @@ import { pieceObjectToString, pieceStringToObject } from '../pieces';
 import { PieceString } from '../pieces.types';
 
 export function createBoard(board: {
-  position?: BoardPosition;
+  position?: ConcisePosition;
   state?: BoardSubstate;
 }) {
   const { position, state } = board;
   return {
-    position: position ?? initialBoard.position,
+    position: position
+      ? createFromConcisePosition(position)
+      : initialBoard.position,
     state: state
       ? assign(cloneDeep(initialBoard.state), state)
       : initialBoard.state,
