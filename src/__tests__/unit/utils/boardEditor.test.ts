@@ -6,9 +6,8 @@ import {
   createBoard,
   createFromConcisePosition,
   ConcisePosition,
-  createConciseFromPosition,
 } from '../../../utils/board/boardEditor';
-import { BoardPosition, BoardSubstate } from '../../../utils/board/board.types';
+import { BoardSubstate } from '../../../utils/board/board.types';
 
 describe('#boardEditor', () => {
   describe('createBoard()', () => {
@@ -25,6 +24,17 @@ describe('#boardEditor', () => {
       };
       const board = createBoard({ state });
       expect(board.state).toEqual(data.stateModified);
+    });
+
+    test('computes king state based on position', () => {
+      for (const {
+        board,
+        resultingPosition,
+        resultingState,
+      } of data.kingStateSync) {
+        expect(board.position).toEqual(resultingPosition);
+        expect(board.state).toEqual(resultingState);
+      }
     });
 
     test('given position and state', () => {

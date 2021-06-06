@@ -189,4 +189,126 @@ export default {
     resultingPosition: BoardPosition;
     resultingState: BoardState;
   }[],
+  kingStateSync: [
+    {
+      board: createBoard({ position: { bk: 'd4' } }),
+      resultingPosition: createFromConcisePosition({ bk: 'd4' }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: { file: 'd', rank: 4 } },
+          checkedSide: undefined,
+          checkDetails: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      board: createBoard({ position: { wk: 'd4' } }),
+      resultingPosition: createFromConcisePosition({ wk: 'd4' }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'd', rank: 4 } },
+          b: { square: { file: 'e', rank: 8 } },
+          checkedSide: undefined,
+          checkDetails: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      board: createBoard({ position: { wk: 'd4', bk: 'g3' } }),
+      resultingPosition: createFromConcisePosition({ wk: 'd4', bk: 'g3' }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'd', rank: 4 } },
+          b: { square: { file: 'g', rank: 3 } },
+          checkedSide: undefined,
+          checkDetails: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      board: createBoard({
+        position: { wk: 'd4', bk: 'g3' },
+        state: { turn: 'b' },
+      }),
+      resultingPosition: createFromConcisePosition({ wk: 'd4', bk: 'g3' }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'd', rank: 4 } },
+          b: { square: { file: 'g', rank: 3 } },
+          checkedSide: undefined,
+          checkDetails: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'b',
+        result: undefined,
+      },
+    },
+    {
+      board: createBoard({
+        position: { wk: 'd4', bk: 'g3' },
+        state: { king: { w: { square: { rank: 1, file: 'h' } } }, turn: 'b' },
+      }),
+      resultingPosition: createFromConcisePosition({ wk: 'd4', bk: 'g3' }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'd', rank: 4 } },
+          b: { square: { file: 'g', rank: 3 } },
+          checkedSide: undefined,
+          checkDetails: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'b',
+        result: undefined,
+      },
+    },
+  ] as {
+    board: Board;
+    resultingPosition: BoardPosition;
+    resultingState: BoardState;
+  }[],
 };
