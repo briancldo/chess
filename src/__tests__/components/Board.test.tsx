@@ -11,7 +11,7 @@ import {
 import {
   createBoard,
   createFromConcisePosition,
-  PiecePlacements,
+  ConcisePosition,
 } from '../../utils/board/boardEditor';
 import data, { allCoordinates, emptyBoardHandlers } from './support/Board.data';
 import { Piece, PieceString } from '../../utils/pieces.types';
@@ -41,7 +41,7 @@ describe('#Board', () => {
 
     test('correctly renders pieces', () => {
       const { rerender } = renderEmptyBoard();
-      const concisePositions = data.pieceRenderConcisePositions as PiecePlacements[];
+      const concisePositions = data.pieceRenderConcisePositions as ConcisePosition[];
 
       for (const concisePosition of concisePositions) {
         const position = createFromConcisePosition(concisePosition);

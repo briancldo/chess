@@ -27,14 +27,14 @@ export function createBoard(board: {
   };
 }
 
-export type PiecePlacements = {
+export type ConcisePosition = {
   [pieceString in PieceString]?: Coordinate[] | Coordinate;
 };
-export function createFromConcisePosition(pieceSquarePairs: PiecePlacements) {
+export function createFromConcisePosition(concisePosition: ConcisePosition) {
   return produce(EMPTY_POSITION, (draft) => {
-    for (const pieceString in pieceSquarePairs) {
+    for (const pieceString in concisePosition) {
       const piece = pieceStringToObject(pieceString as PieceString);
-      let coordinates = pieceSquarePairs[pieceString as PieceString];
+      let coordinates = concisePosition[pieceString as PieceString];
       if (!coordinates) continue;
       if (!Array.isArray(coordinates)) coordinates = [coordinates];
 
@@ -49,7 +49,7 @@ export function createFromConcisePosition(pieceSquarePairs: PiecePlacements) {
 }
 
 export function createConciseFromPosition(position: BoardPosition) {
-  const concisePosition: PiecePlacements = {};
+  const concisePosition: ConcisePosition = {};
 
   for (let rank = 1; rank <= ranks.length; rank++) {
     const fullRank = position[rank];
