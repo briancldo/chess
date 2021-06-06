@@ -24,7 +24,6 @@ import {
   MoveCoordinates,
 } from '../__utils__/squareInteraction';
 import { coordinateToSquare } from '../../utils/board/board';
-import { Piece } from '../../utils/pieces.types';
 
 export interface BoardAndMoves {
   board: BoardType;
