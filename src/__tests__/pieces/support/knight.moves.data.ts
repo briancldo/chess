@@ -1,24 +1,21 @@
-import {
-  createBoard,
-  createFromConcisePosition,
-} from '../../../utils/board/boardEditor';
+import { createBoard } from '../../../utils/board/boardEditor';
 import { BoardAndMoves } from '../common.test.utils';
 
 export const happyPositionsAndMoves: BoardAndMoves[] = [
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wn: ['d5'],
-      }),
+      },
     }),
     testPieceSquare: 'd5',
     expectedMoves: ['e3', 'c3', 'f4', 'b4', 'b6', 'f6', 'c7', 'e7'],
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         bn: ['c4'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'c4',
@@ -29,11 +26,11 @@ export const happyPositionsAndMoves: BoardAndMoves[] = [
 export const otherPieceOccupyPositionsAndMoves: BoardAndMoves[] = [
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         bp: ['e2', 'b3', 'f5', 'c6'],
         wp: ['c2', 'f3', 'b5', 'e6'],
         bn: ['d4'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'd4',
@@ -41,21 +38,21 @@ export const otherPieceOccupyPositionsAndMoves: BoardAndMoves[] = [
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wp: ['e2', 'b3', 'f5', 'c6'],
         bp: ['c2', 'f3', 'b5', 'e6'],
         wn: ['d4'],
-      }),
+      },
     }),
     testPieceSquare: 'd4',
     expectedMoves: ['c2', 'f3', 'b5', 'e6'],
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         bp: ['c2', 'e2', 'b3', 'f3', 'b5', 'f5', 'c6', 'e6'],
         bn: ['d4'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'd4',
@@ -63,30 +60,30 @@ export const otherPieceOccupyPositionsAndMoves: BoardAndMoves[] = [
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wp: ['c2', 'e2', 'b3', 'f3', 'b5', 'f5', 'c6', 'e6'],
         wn: ['d4'],
-      }),
+      },
     }),
     testPieceSquare: 'd4',
     expectedMoves: [],
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         bp: ['c2', 'e2', 'b3', 'f3', 'b5', 'f5', 'c6', 'e6'],
         wn: ['d4'],
-      }),
+      },
     }),
     testPieceSquare: 'd4',
     expectedMoves: ['c2', 'e2', 'b3', 'f3', 'b5', 'f5', 'c6', 'e6'],
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wp: ['c2', 'e2', 'b3', 'f3', 'b5', 'f5', 'c6', 'e6'],
         bn: ['d4'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'd4',
@@ -97,14 +94,14 @@ export const otherPieceOccupyPositionsAndMoves: BoardAndMoves[] = [
 export const offsideMoves: BoardAndMoves[] = [
   {
     board: createBoard({
-      position: createFromConcisePosition({ wn: ['g7'] }),
+      position: { wn: ['g7'] },
     }),
     testPieceSquare: 'g7',
     expectedMoves: ['f5', 'h5', 'e6', 'e8'],
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({ bn: ['g7'] }),
+      position: { bn: ['g7'] },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'g7',
@@ -112,14 +109,14 @@ export const offsideMoves: BoardAndMoves[] = [
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({ wn: ['h1'] }),
+      position: { wn: ['h1'] },
     }),
     testPieceSquare: 'h1',
     expectedMoves: ['f2', 'g3'],
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({ bn: ['h1'] }),
+      position: { bn: ['h1'] },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'h1',
@@ -130,30 +127,30 @@ export const offsideMoves: BoardAndMoves[] = [
 export const hopOverOthersPositionAndMoves: BoardAndMoves[] = [
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         bp: ['e3', 'd3', 'c3', 'e4', 'c4', 'c5', 'd5', 'e5'],
         wn: ['d4'],
-      }),
+      },
     }),
     testPieceSquare: 'd4',
     expectedMoves: ['c2', 'e2', 'b3', 'f3', 'b5', 'f5', 'c6', 'e6'],
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wp: ['e3', 'd3', 'c3', 'e4', 'c4', 'c5', 'd5', 'e5'],
         wn: ['d4'],
-      }),
+      },
     }),
     testPieceSquare: 'd4',
     expectedMoves: ['c2', 'e2', 'b3', 'f3', 'b5', 'f5', 'c6', 'e6'],
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         wp: ['e3', 'd3', 'c3', 'e4', 'c4', 'c5', 'd5', 'e5'],
         bn: ['d4'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'd4',
@@ -161,10 +158,10 @@ export const hopOverOthersPositionAndMoves: BoardAndMoves[] = [
   },
   {
     board: createBoard({
-      position: createFromConcisePosition({
+      position: {
         bp: ['e3', 'd3', 'c3', 'e4', 'c4', 'c5', 'd5', 'e5'],
         bn: ['d4'],
-      }),
+      },
       state: { turn: 'b' },
     }),
     testPieceSquare: 'd4',
