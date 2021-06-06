@@ -18,12 +18,14 @@ import {
   clickSquare,
   getSquareMetadata,
   makeMove,
+  makeMoves,
   MoveCoordinates,
 } from '../__utils__/squareInteraction';
 import { coordinateToSquare } from '../../utils/board/board';
 
 export interface BoardAndMoves {
   board: BoardType;
+  preTestMoves?: MoveCoordinates[];
   testPieceSquare: Coordinate;
   expectedMoves: Coordinate[];
 }
@@ -31,7 +33,12 @@ export interface BoardAndMoves {
 export function assertCandidateMoves(positionsAndMoves: BoardAndMoves[]) {
   const { rerender } = renderEmptyBoard();
 
-  for (const { board, testPieceSquare, expectedMoves } of positionsAndMoves) {
+  for (const {
+    board,
+    preTestMoves,
+    testPieceSquare,
+    expectedMoves,
+  } of positionsAndMoves) {
     rerender(
       <Board
         key={uuidv4()}
@@ -39,6 +46,7 @@ export function assertCandidateMoves(positionsAndMoves: BoardAndMoves[]) {
         handlers={emptyBoardHandlers}
       />
     );
+    if (preTestMoves) makeMoves(preTestMoves);
     clickSquare(testPieceSquare);
 
     for (const coordinate of allCoordinates) {
@@ -54,7 +62,12 @@ export function assertCandidateMoves(positionsAndMoves: BoardAndMoves[]) {
 export function assertMadeMoves(positionsAndMoves: BoardAndMoves[]) {
   const { rerender } = renderEmptyBoard();
 
-  for (const { board, testPieceSquare, expectedMoves } of positionsAndMoves) {
+  for (const {
+    board,
+    preTestMoves,
+    testPieceSquare,
+    expectedMoves,
+  } of positionsAndMoves) {
     for (const destination of expectedMoves) {
       rerender(
         <Board
@@ -63,6 +76,7 @@ export function assertMadeMoves(positionsAndMoves: BoardAndMoves[]) {
           handlers={emptyBoardHandlers}
         />
       );
+      if (preTestMoves) makeMoves(preTestMoves);
       makeMove(testPieceSquare, destination);
 
       const { board: simulatedBoard } = getBoardTestData();
