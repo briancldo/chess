@@ -1,0 +1,48 @@
+import '@testing-library/jest-dom/extend-expect';
+import { Coordinate } from '../../utils/board/board.types';
+import {
+  createBoard,
+  createFromConcisePosition,
+} from '../../utils/board/boardEditor';
+import { PieceColor } from '../../utils/pieces.types';
+import { assertCandidateMoves, BoardAndMoves } from './common.test.utils';
+
+import * as data from './support/pawn.moves.data';
+
+describe('#pawn.moves', () => {
+  describe('candidate moves', () => {
+    test('move one or two squares on first move', () => {
+      assertCandidateMoves(data.firstMovePositionsAndMoves);
+    });
+
+    test('moves one space otherwise', () => {
+      const sides: PieceColor[] = ['w', 'b'];
+      for (const color of sides) {
+        for (const coordinate of data.oneSquareForwardCoordinates) {
+          const boardAndMoves: BoardAndMoves = {
+            board: createBoard({
+              position: createFromConcisePosition({
+                [`${color}p`]: [coordinate],
+              }),
+              state: { turn: color },
+            }),
+            testPieceSquare: coordinate,
+            expectedMoves: [getOneCoordinateForward(coordinate, color)],
+          };
+          assertCandidateMoves([boardAndMoves]);
+        }
+      }
+    });
+
+    test('en passant', () => {
+      assertCandidateMoves(data.enPassantPositionAndMoves);
+    });
+  });
+});
+
+function getOneCoordinateForward(coordinate: Coordinate, color: PieceColor) {
+  const [file, rankString] = coordinate.split('') as [string, string];
+  const rankNumber = Number.parseInt(rankString);
+  const offset = color === 'w' ? 1 : -1;
+  return `${file}${rankNumber + offset}` as Coordinate;
+}
