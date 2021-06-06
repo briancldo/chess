@@ -39,10 +39,152 @@ export const firstMovePositionsAndMoves: BoardAndMoves[] = [
   },
 ];
 
-export const oneSquareForwardCoordinates: Coordinate[] = allCoordinates.filter(
-  (coordinate) =>
-    !coordinate.endsWith('1') &&
-    !coordinate.endsWith('8') &&
-    !coordinate.endsWith('2') &&
-    !coordinate.endsWith('7')
-);
+export const oneSquareForwardCoordinates: Coordinate[] = [
+  'a3',
+  'a4',
+  'a5',
+  'a6',
+  'b3',
+  'b4',
+  'b5',
+  'b6',
+  'c3',
+  'c4',
+  'c5',
+  'c6',
+  'd3',
+  'd4',
+  'd5',
+  'd6',
+  'e3',
+  'e4',
+  'e5',
+  'e6',
+  'f3',
+  'f4',
+  'f5',
+  'f6',
+  'g3',
+  'g4',
+  'g5',
+  'g6',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+];
+
+export const enPassantPositionAndMoves: BoardAndMoves[] = [
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['d5'],
+        bp: ['e7'],
+      }),
+      state: { turn: 'b' },
+    }),
+    preTestMoves: [{ origin: 'e7', destination: 'e5' }],
+    testPieceSquare: 'd5',
+    expectedMoves: ['d6', 'e6'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['d5'],
+        bp: ['c7'],
+      }),
+      state: { turn: 'b' },
+    }),
+    preTestMoves: [{ origin: 'c7', destination: 'c5' }],
+    testPieceSquare: 'd5',
+    expectedMoves: ['d6', 'c6'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['g2', 'd5'],
+        bp: ['e7', 'c7'],
+      }),
+      state: { turn: 'b' },
+    }),
+    preTestMoves: [
+      { origin: 'e7', destination: 'e5' },
+      { origin: 'g2', destination: 'g3' },
+      { origin: 'c7', destination: 'c5' },
+    ],
+    testPieceSquare: 'd5',
+    expectedMoves: ['d6', 'c6'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['a2', 'd5'],
+        bp: ['e7'],
+      }),
+      state: { turn: 'b' },
+    }),
+    preTestMoves: [
+      { origin: 'e7', destination: 'e5' },
+      { origin: 'a2', destination: 'a3' },
+      { origin: 'e5', destination: 'e4' },
+    ],
+    testPieceSquare: 'd5',
+    expectedMoves: ['d6'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['e2'],
+        bp: ['d4'],
+      }),
+      state: { turn: 'w' },
+    }),
+    preTestMoves: [{ origin: 'e2', destination: 'e4' }],
+    testPieceSquare: 'd4',
+    expectedMoves: ['d3', 'e3'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['c2'],
+        bp: ['d4'],
+      }),
+      state: { turn: 'w' },
+    }),
+    preTestMoves: [{ origin: 'c2', destination: 'c4' }],
+    testPieceSquare: 'd4',
+    expectedMoves: ['d3', 'c3'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['e2', 'c2'],
+        bp: ['d4', 'h7'],
+      }),
+      state: { turn: 'w' },
+    }),
+    preTestMoves: [
+      { origin: 'c2', destination: 'c4' },
+      { origin: 'h7', destination: 'h6' },
+      { origin: 'e2', destination: 'e4' },
+    ],
+    testPieceSquare: 'd4',
+    expectedMoves: ['d3', 'e3'],
+  },
+  {
+    board: createBoard({
+      position: createFromConcisePosition({
+        wp: ['e2'],
+        bp: ['d4', 'a7'],
+      }),
+      state: { turn: 'w' },
+    }),
+    preTestMoves: [
+      { origin: 'e2', destination: 'e4' },
+      { origin: 'a7', destination: 'a6' },
+      { origin: 'e4', destination: 'e5' },
+    ],
+    testPieceSquare: 'd4',
+    expectedMoves: ['d3'],
+  },
+];

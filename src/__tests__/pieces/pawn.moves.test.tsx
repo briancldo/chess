@@ -33,6 +33,10 @@ describe('#pawn.moves', () => {
         }
       }
     });
+
+    test('en passant', () => {
+      assertCandidateMoves(data.enPassantPositionAndMoves);
+    });
   });
 });
 
