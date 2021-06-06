@@ -12,6 +12,10 @@ describe('#king.moves', () => {
     test('range blocked by other pieces', () => {
       assertCandidateMoves(data.rangeBlockedPositionsAndMoves);
     });
+
+    test('move out of check', () => {
+      assertCandidateMoves(data.moveOutOfCheckPositionsAndMoves);
+    });
   });
 
   describe('actual moves', () => {
@@ -21,6 +25,10 @@ describe('#king.moves', () => {
 
     test('range blocked by other pieces', () => {
       assertMadeMoves(data.rangeBlockedPositionsAndMoves);
+    });
+
+    test('move out of check', () => {
+      assertMadeMoves(data.moveOutOfCheckPositionsAndMoves);
     });
   });
 });
