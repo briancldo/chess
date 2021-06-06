@@ -1,12 +1,14 @@
 import React from 'react';
 import { cleanup } from '@testing-library/react';
 import { v4 as uuidv4 } from 'uuid';
-import { produce } from 'immer';
+import { Draft, produce } from 'immer';
 
 import Board from '../../components/Board/Board/Board';
 import {
   Board as BoardType,
+  BoardFullRank,
   BoardPosition,
+  BoardSquare,
   Coordinate,
 } from '../../utils/board/board.types';
 import {
@@ -22,6 +24,7 @@ import {
   MoveCoordinates,
 } from '../__utils__/squareInteraction';
 import { coordinateToSquare } from '../../utils/board/board';
+import { Piece } from '../../utils/pieces.types';
 
 export interface BoardAndMoves {
   board: BoardType;
@@ -80,16 +83,30 @@ export function assertMadeMoves(positionsAndMoves: BoardAndMoves[]) {
       makeMove(testPieceSquare, destination);
 
       const { board: simulatedBoard } = getBoardTestData();
-      const expectedPosition = simulatedBoard.position;
-      const actualPosition = getPositionAfterMove(board.position, {
-        origin: testPieceSquare,
-        destination,
-      });
-      expect(actualPosition).toEqual(expectedPosition);
+      const actualPosition = simulatedBoard.position;
+      const expectedPosition = getPositionAfterMoves(board.position, [
+        ...(preTestMoves ?? []),
+        {
+          origin: testPieceSquare,
+          destination,
+        },
+      ]);
+      expect(expectedPosition).toEqual(actualPosition);
     }
   }
 
   cleanup();
+}
+
+function getPositionAfterMoves(
+  position: BoardPosition,
+  movesCoordinates: MoveCoordinates[]
+) {
+  let newPosition = position;
+  for (const move of movesCoordinates) {
+    newPosition = getPositionAfterMove(newPosition, move);
+  }
+  return newPosition;
 }
 
 function getPositionAfterMove(
@@ -103,7 +120,29 @@ function getPositionAfterMove(
   if (!piece) throw new Error('Move piece - no piece in origin square!');
 
   return produce(position, (draft) => {
+    handleEnPassant(
+      draft,
+      { file: originFile, rank: originRank },
+      { file: destFile, rank: destRank }
+    );
     delete draft[originRank][originFile];
     draft[destRank][destFile] = piece;
   });
+}
+
+function handleEnPassant(
+  draft: Draft<BoardPosition>,
+  originSquare: BoardSquare,
+  destSquare: BoardSquare
+) {
+  const originPiece = draft[originSquare.rank][originSquare.file];
+  if (!originPiece || originPiece.type !== 'p') return;
+  if (originSquare.file === destSquare.file) return;
+
+  const destPiece = draft[destSquare.rank][destSquare.file];
+  if (destPiece) return;
+
+  const originPieceColor = originPiece.color;
+  const offset = originPieceColor === 'w' ? -1 : 1;
+  delete (draft[destSquare.rank + offset] as BoardFullRank)[destSquare.file];
 }
