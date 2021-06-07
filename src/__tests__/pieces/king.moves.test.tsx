@@ -20,6 +20,12 @@ describe('#king.moves', () => {
     test('cannot move to attacked squares', () => {
       assertCandidateMoves(data.moveSafeSquaresPositionsAndMoves);
     });
+
+    describe('castling', () => {
+      test('pure castling', () => {
+        assertCandidateMoves(data.pureCastlingPositionsAndMoves);
+      });
+    });
   });
 
   describe('actual moves', () => {
@@ -37,6 +43,12 @@ describe('#king.moves', () => {
 
     test('cannot move to attacked squares', () => {
       assertMadeMoves(data.moveSafeSquaresPositionsAndMoves);
+    });
+
+    describe('castling', () => {
+      test('pure castling', () => {
+        assertMadeMoves(data.pureCastlingPositionsAndMoves);
+      });
     });
   });
 });

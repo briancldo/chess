@@ -235,3 +235,37 @@ export const moveSafeSquaresPositionsAndMoves: BoardAndMoves[] = [
     expectedMoves: ['e3', 'e4', 'e5'],
   },
 ];
+
+export const pureCastlingPositionsAndMoves: BoardAndMoves[] = [
+  {
+    board: createBoard({
+      position: {
+        wk: ['e1'],
+        wr: ['h1', 'a1'],
+      },
+    }),
+    testPieceSquare: 'e1',
+    expectedMoves: ['d1', 'c1', 'f1', 'g1', 'd2', 'e2', 'f2'],
+  },
+  {
+    board: createBoard({
+      position: {
+        wk: ['e1'],
+        wr: ['h1', 'a1'],
+      },
+    }),
+    testPieceSquare: 'e1',
+    expectedMoves: ['d1', 'c1', 'f1', 'g1', 'd2', 'e2', 'f2'],
+  },
+  {
+    board: createBoard({
+      position: {
+        bk: ['e8'],
+        br: ['a8', 'h8'],
+      },
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'e8',
+    expectedMoves: ['d8', 'c8', 'f8', 'g8', 'd7', 'e7', 'f7'],
+  },
+];
