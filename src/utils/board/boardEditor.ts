@@ -1,5 +1,4 @@
 import { produce } from 'immer';
-import cloneDeep from 'lodash/cloneDeep';
 import assign from 'lodash/assign';
 import { coordinateToSquare, ranks, squareToCoordinate } from './board';
 import { EMPTY_POSITION } from './board.constants';
@@ -61,10 +60,10 @@ function synchronizeKingState(
       throw new DevError('Only one black king.');
 
     const whiteKingCoordinate = Array.isArray(position.wk)
-      ? position.wk.pop()
+      ? position.wk[0]
       : position.wk;
     const blackKingCoordinate = Array.isArray(position.bk)
-      ? position.bk.pop()
+      ? position.bk[0]
       : position.bk;
 
     if (position.wk)

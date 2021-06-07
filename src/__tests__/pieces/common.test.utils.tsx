@@ -124,6 +124,11 @@ function getPositionAfterMove(
       { file: originFile, rank: originRank },
       { file: destFile, rank: destRank }
     );
+    handleCastle(
+      draft,
+      { file: originFile, rank: originRank },
+      { file: destFile, rank: destRank }
+    );
     delete draft[originRank][originFile];
     draft[destRank][destFile] = piece;
   });
@@ -144,4 +149,27 @@ function handleEnPassant(
   const originPieceColor = originPiece.color;
   const offset = originPieceColor === 'w' ? -1 : 1;
   delete (draft[destSquare.rank + offset] as BoardFullRank)[destSquare.file];
+}
+
+function handleCastle(
+  draft: Draft<BoardPosition>,
+  originSquare: BoardSquare,
+  destSquare: BoardSquare
+) {
+  const originPiece = draft[originSquare.rank][originSquare.file];
+  if (!originPiece || originPiece.type !== 'k') return;
+  if (
+    Math.abs(originSquare.file.charCodeAt(0) - destSquare.file.charCodeAt(0)) <
+    2
+  )
+    return;
+
+  if (destSquare.file === 'c') {
+    draft[destSquare.rank].d = { type: 'r', color: originPiece.color };
+    delete draft[destSquare.rank].a;
+  }
+  if (destSquare.file === 'g') {
+    draft[destSquare.rank].f = { type: 'r', color: originPiece.color };
+    delete draft[destSquare.rank].h;
+  }
 }
