@@ -16,7 +16,11 @@ jobs:
           always-auth: true
           node-version: 14.x
           registry-url: https://registry.npmjs.org
-      - run: yarn
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install --frozen-lockfile
       - name: Format
         run: yarn format
       - name: Lint
