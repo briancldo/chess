@@ -318,3 +318,111 @@ export const castlingSquaresAttackedPositionsAndMoves: BoardAndMoves[] = [
     expectedMoves: ['d8', 'f8', 'd7', 'e7', 'f7'],
   },
 ];
+
+export const castlingPiecesMovedPositionsAndMoves: BoardAndMoves[] = [
+  {
+    board: createBoard({
+      position: {
+        wk: ['e1'],
+        wr: ['h1', 'a1'],
+        bp: ['b7'],
+      },
+    }),
+    testPieceSquare: 'e1',
+    preTestMoves: [
+      { origin: 'e1', destination: 'e2' },
+      { origin: 'b7', destination: 'b6' },
+      { origin: 'e2', destination: 'e1' },
+      { origin: 'b6', destination: 'b5' },
+    ],
+    expectedMoves: ['d1', 'f1', 'd2', 'e2', 'f2'],
+  },
+  {
+    board: createBoard({
+      position: {
+        wk: ['e1'],
+        wr: ['h1', 'a1'],
+        bp: ['b7'],
+      },
+    }),
+    testPieceSquare: 'e1',
+    preTestMoves: [
+      { origin: 'h1', destination: 'h2' },
+      { origin: 'b7', destination: 'b6' },
+      { origin: 'h2', destination: 'h1' },
+      { origin: 'b6', destination: 'b5' },
+    ],
+    expectedMoves: ['d1', 'c1', 'f1', 'd2', 'e2', 'f2'],
+  },
+  {
+    board: createBoard({
+      position: {
+        wk: ['e1'],
+        wr: ['h1', 'a1'],
+        bp: ['b7'],
+      },
+    }),
+    testPieceSquare: 'e1',
+    preTestMoves: [
+      { origin: 'a1', destination: 'a2' },
+      { origin: 'b7', destination: 'b6' },
+      { origin: 'a2', destination: 'a1' },
+      { origin: 'b6', destination: 'b5' },
+    ],
+    expectedMoves: ['d1', 'f1', 'g1', 'd2', 'e2', 'f2'],
+  },
+  {
+    board: createBoard({
+      position: {
+        bk: ['e8'],
+        br: ['h8', 'a8'],
+        wp: ['b2'],
+      },
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'e8',
+    preTestMoves: [
+      { origin: 'e8', destination: 'e7' },
+      { origin: 'b2', destination: 'b3' },
+      { origin: 'e7', destination: 'e8' },
+      { origin: 'b3', destination: 'b4' },
+    ],
+    expectedMoves: ['d8', 'f8', 'd7', 'e7', 'f7'],
+  },
+  {
+    board: createBoard({
+      position: {
+        bk: ['e8'],
+        br: ['h8', 'a8'],
+        wp: ['b2'],
+      },
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'e8',
+    preTestMoves: [
+      { origin: 'h8', destination: 'h7' },
+      { origin: 'b2', destination: 'b3' },
+      { origin: 'h7', destination: 'h8' },
+      { origin: 'b3', destination: 'b4' },
+    ],
+    expectedMoves: ['d8', 'c8', 'f8', 'd7', 'e7', 'f7'],
+  },
+  {
+    board: createBoard({
+      position: {
+        bk: ['e8'],
+        br: ['h8', 'a8'],
+        wp: ['b2'],
+      },
+      state: { turn: 'b' },
+    }),
+    testPieceSquare: 'e8',
+    preTestMoves: [
+      { origin: 'a8', destination: 'a7' },
+      { origin: 'b2', destination: 'b3' },
+      { origin: 'a7', destination: 'a8' },
+      { origin: 'b3', destination: 'b4' },
+    ],
+    expectedMoves: ['d8', 'f8', 'g8', 'd7', 'e7', 'f7'],
+  },
+];

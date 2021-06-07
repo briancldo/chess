@@ -21,13 +21,17 @@ describe('#king.moves', () => {
       assertCandidateMoves(data.moveSafeSquaresPositionsAndMoves);
     });
 
-    describe.only('castling', () => {
+    describe('castling', () => {
       test('pure castling', () => {
         assertCandidateMoves(data.pureCastlingPositionsAndMoves);
       });
 
       test('castling squares attacked', () => {
         assertCandidateMoves(data.castlingSquaresAttackedPositionsAndMoves);
+      });
+
+      test('castling pieces moved', () => {
+        assertCandidateMoves(data.castlingPiecesMovedPositionsAndMoves);
       });
     });
   });
@@ -49,13 +53,17 @@ describe('#king.moves', () => {
       assertMadeMoves(data.moveSafeSquaresPositionsAndMoves);
     });
 
-    describe.only('castling', () => {
+    describe('castling', () => {
       test('pure castling', () => {
         assertMadeMoves(data.pureCastlingPositionsAndMoves);
       });
 
       test('castling squares attacked', () => {
         assertMadeMoves(data.castlingSquaresAttackedPositionsAndMoves);
+      });
+
+      test('castling pieces moved', () => {
+        assertMadeMoves(data.castlingPiecesMovedPositionsAndMoves);
       });
     });
   });
