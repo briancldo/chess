@@ -33,6 +33,10 @@ describe('#king.moves', () => {
       test('castling pieces moved', () => {
         assertCandidateMoves(data.castlingPiecesMovedPositionsAndMoves);
       });
+
+      test('cannot castle when checked', () => {
+        assertCandidateMoves(data.castlingCheckPositionsAndMoves);
+      });
     });
   });
 
@@ -64,6 +68,10 @@ describe('#king.moves', () => {
 
       test('castling pieces moved', () => {
         assertMadeMoves(data.castlingPiecesMovedPositionsAndMoves);
+      });
+
+      test('cannot castle when checked', () => {
+        assertMadeMoves(data.castlingCheckPositionsAndMoves);
       });
     });
   });
