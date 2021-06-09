@@ -12,7 +12,7 @@ import {
   createBoard,
   createFromConcisePosition,
   ConcisePosition,
-} from '../../utils/board/boardEditor';
+} from '../../utils/board/editor/boardEditor';
 import data, { allCoordinates, emptyBoardHandlers } from './support/Board.data';
 import { Piece, PieceString } from '../../utils/pieces.types';
 import { Coordinate } from '../../utils/board/board.types';

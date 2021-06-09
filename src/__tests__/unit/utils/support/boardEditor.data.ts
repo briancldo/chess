@@ -6,7 +6,7 @@ import {
 import {
   createBoard,
   createFromConcisePosition,
-} from '../../../../utils/board/boardEditor';
+} from '../../../../utils/board/editor/boardEditor';
 
 export default {
   stateModified: {

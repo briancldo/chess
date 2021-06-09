@@ -6,7 +6,7 @@ import {
   createBoard,
   createFromConcisePosition,
   ConcisePosition,
-} from '../../../utils/board/boardEditor';
+} from '../../../utils/board/editor/boardEditor';
 import { BoardSubstate } from '../../../utils/board/board.types';
 
 describe('#boardEditor', () => {

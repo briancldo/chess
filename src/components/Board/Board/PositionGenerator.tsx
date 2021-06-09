@@ -4,7 +4,7 @@ import { Board } from '../../../utils/board/board.types';
 import {
   createBoard,
   createConciseFromPosition,
-} from '../../../utils/board/boardEditor';
+} from '../../../utils/board/editor/boardEditor';
 import { useRedirect } from '../../../pages/utils/navigation';
 import Button from '../../ui/Button';
 

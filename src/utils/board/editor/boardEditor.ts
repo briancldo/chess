@@ -1,8 +1,8 @@
 import { produce } from 'immer';
 import assign from 'lodash/assign';
-import { coordinateToSquare, ranks, squareToCoordinate } from './board';
-import { EMPTY_POSITION } from './board.constants';
-import initialBoard from './board.init';
+import { coordinateToSquare, ranks, squareToCoordinate } from '../board';
+import { EMPTY_POSITION } from '../board.constants';
+import initialBoard from '../board.init';
 import {
   BoardFile,
   BoardKingState,
@@ -11,10 +11,10 @@ import {
   BoardSquare,
   BoardSubstate,
   Coordinate,
-} from './board.types';
-import { pieceObjectToString, pieceStringToObject } from '../pieces';
-import { PieceString } from '../pieces.types';
-import { DevError } from '../errors';
+} from '../board.types';
+import { pieceObjectToString, pieceStringToObject } from '../../pieces';
+import { PieceString } from '../../pieces.types';
+import { DevError } from '../../errors';
 
 export function createBoard(board: {
   position?: ConcisePosition;
