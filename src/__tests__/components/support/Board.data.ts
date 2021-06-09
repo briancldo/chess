@@ -1,6 +1,6 @@
 import { GameViewHandlers } from '../../../components/Game/GameView.types';
 import { Coordinate } from '../../../utils/board/board.types';
-import { ConcisePosition } from '../../../utils/board/editor/boardEditor';
+import { ConcisePosition } from '../../../utils/board/editor/boardEditor.types';
 
 export const allCoordinates: Coordinate[] = [
   'a1',

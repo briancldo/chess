@@ -1,9 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { Coordinate } from '../../utils/board/board.types';
-import {
-  createBoard,
-  createFromConcisePosition,
-} from '../../utils/board/editor/boardEditor';
+import { createBoard } from '../../utils/board/editor/boardEditor';
 import { PieceColor } from '../../utils/pieces.types';
 import {
   assertCandidateMoves,
