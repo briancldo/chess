@@ -41,8 +41,10 @@ export type ThreatPiece = { piece: Piece; square: BoardSquare };
 export interface BoardKingState {
   w: { square: { file: BoardFile; rank: BoardRank } };
   b: { square: { file: BoardFile; rank: BoardRank } };
-  checkedSide?: PieceColor;
-  checkDetails: {
+}
+export interface BoardCheckState {
+  side?: PieceColor;
+  details: {
     threatPieces: ThreatPiece[];
     threatSquares: BoardSquare[];
   };
@@ -54,6 +56,7 @@ export interface BoardState {
     b: { k: boolean; side: { q: boolean; k: boolean } };
   };
   king: BoardKingState;
+  check: BoardCheckState;
   turn: PieceColor;
   result?: GameResult;
 }

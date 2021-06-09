@@ -63,7 +63,7 @@ export default Board;
 
 export const BoardUI: React.FC<BoardUIProps> = (props) => {
   const { board, handlers, data } = props;
-  const checkedSide = board.state.king.checkedSide;
+  const checkedSide = board.state.check.side;
   const checkedSquare = checkedSide
     ? board.state.king[checkedSide].square
     : undefined;

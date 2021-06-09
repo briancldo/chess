@@ -18,15 +18,17 @@ export default {
     king: {
       w: { square: { file: 'e', rank: 1 } },
       b: { square: { file: 'e', rank: 8 } },
-      checkedSide: undefined,
-      checkDetails: {
+    },
+    check: {
+      side: undefined,
+      details: {
         threatPieces: [],
         threatSquares: [],
       },
     },
     turn: 'b',
     result: undefined,
-  },
+  } as BoardState,
   concisePositions: [
     {},
     { bk: 'b4' },
@@ -139,8 +141,10 @@ export default {
         king: {
           w: { square: { file: 'e', rank: 1 } },
           b: { square: { file: 'e', rank: 8 } },
-          checkedSide: undefined,
-          checkDetails: {
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -174,8 +178,10 @@ export default {
         king: {
           w: { square: { file: 'e', rank: 1 } },
           b: { square: { file: 'e', rank: 8 } },
-          checkedSide: undefined,
-          checkDetails: {
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -202,8 +208,10 @@ export default {
         king: {
           w: { square: { file: 'e', rank: 1 } },
           b: { square: { file: 'd', rank: 4 } },
-          checkedSide: undefined,
-          checkDetails: {
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -224,8 +232,10 @@ export default {
         king: {
           w: { square: { file: 'd', rank: 4 } },
           b: { square: { file: 'e', rank: 8 } },
-          checkedSide: undefined,
-          checkDetails: {
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -246,8 +256,10 @@ export default {
         king: {
           w: { square: { file: 'd', rank: 4 } },
           b: { square: { file: 'g', rank: 3 } },
-          checkedSide: undefined,
-          checkDetails: {
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -271,8 +283,10 @@ export default {
         king: {
           w: { square: { file: 'd', rank: 4 } },
           b: { square: { file: 'g', rank: 3 } },
-          checkedSide: undefined,
-          checkDetails: {
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -296,8 +310,10 @@ export default {
         king: {
           w: { square: { file: 'd', rank: 4 } },
           b: { square: { file: 'g', rank: 3 } },
-          checkedSide: undefined,
-          checkDetails: {
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },

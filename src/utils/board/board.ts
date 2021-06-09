@@ -107,7 +107,7 @@ export function getKingSquare(
 }
 
 export function getCheckedSide(boardState: BoardState) {
-  return boardState.king.checkedSide;
+  return boardState.check.side;
 }
 
 export function coordinateToSquare(coordinate: Coordinate): BoardSquare {

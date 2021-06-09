@@ -52,7 +52,7 @@ function excludeNonBlockOrCaptureSquares(
   boardState: BoardState,
   piece: Piece
 ) {
-  const { threatPieces, threatSquares } = boardState.king.checkDetails;
+  const { threatPieces, threatSquares } = boardState.check.details;
   if (piece.type === 'k') return [];
   if (threatPieces.length > 1) return [];
   if (!threatPieces[0])
@@ -73,7 +73,7 @@ function excludeNonKingMoveSquares(
 ) {
   if (piece.type !== 'k') return [];
 
-  const threatSquares = boardState.king.checkDetails.threatSquares;
+  const threatSquares = boardState.check.details.threatSquares;
   return candidates.filter(
     (candidate) =>
       !threatSquares.some((threatSquare) =>
@@ -107,10 +107,7 @@ function excludeUnpinSquares(
   boardWithoutPiece = produce(boardWithoutPiece, (draft) => {
     setCheckDetails(draft, kingSquare, piece.color);
   });
-  const {
-    threatPieces,
-    threatSquares,
-  } = boardWithoutPiece.state.king.checkDetails;
+  const { threatPieces, threatSquares } = boardWithoutPiece.state.check.details;
   const pinLineSquares = [...threatSquares];
   if (threatPieces.length === 1)
     pinLineSquares.push(threatPieces[0]?.square as BoardSquare);
@@ -149,8 +146,8 @@ export function setCheckDetails(
   const threatPieces = getThreatPieces(draft, kingSquare, color);
   const threatSquares = getThreatSquares(kingSquare, threatPieces);
 
-  draft.state.king.checkDetails.threatPieces = threatPieces;
-  draft.state.king.checkDetails.threatSquares = threatSquares;
+  draft.state.check.details.threatPieces = threatPieces;
+  draft.state.check.details.threatSquares = threatSquares;
 }
 
 const attackingPieces = ['r', 'b', 'n', 'p'] as const;

@@ -37,6 +37,8 @@ describe('#boardEditor', () => {
       }
     });
 
+    test.todo('computes check details based on position');
+
     test('given position and state', () => {
       const position = [null, {}, {}, {}, {}, {}, {}, {}, {}];
       const state: BoardSubstate = {

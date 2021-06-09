@@ -184,14 +184,14 @@ function handleChecks(
 
   const isKingChecked = isSquareAttacked(kingSquare, kingColor, draft);
   if (!isKingChecked) return handleUncheck(draft);
-  draft.state.king.checkedSide = kingColor;
+  draft.state.check.side = kingColor;
   setCheckDetails(draft, kingSquare, kingColor);
 }
 
 function handleUncheck(draft: Draft<Board>) {
-  draft.state.king.checkedSide = undefined;
-  draft.state.king.checkDetails.threatPieces = [];
-  draft.state.king.checkDetails.threatSquares = [];
+  draft.state.check.side = undefined;
+  draft.state.check.details.threatPieces = [];
+  draft.state.check.details.threatSquares = [];
 }
 
 function handleGameOver(draft: Draft<Board>, color: PieceColor) {

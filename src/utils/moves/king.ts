@@ -57,7 +57,7 @@ function computeCastlingMoves(
   position: BoardPosition,
   board: Board
 ) {
-  if (board.state.king.checkedSide === color) return [];
+  if (board.state.check.side === color) return [];
 
   const canQueensideCastle = computeCanCastleSide('q', color, board);
   const canKingsideCastle = computeCanCastleSide('k', color, board);
