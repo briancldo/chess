@@ -327,4 +327,171 @@ export default {
     resultingPosition: BoardPosition;
     resultingState: BoardState;
   }[],
+  checkStateSync: [
+    {
+      board: createBoard({
+        position: {
+          wk: ['e1'],
+          bq: ['e7'],
+          bk: ['e8'],
+        },
+        state: { turn: 'b' },
+      }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: { file: 'e', rank: 8 } },
+        },
+        check: {
+          side: 'w',
+          details: {
+            threatPieces: [
+              {
+                piece: { color: 'b', type: 'q' },
+                square: { file: 'e', rank: 7 },
+              },
+            ],
+            threatSquares: [
+              { file: 'e', rank: 2 },
+              { file: 'e', rank: 3 },
+              { file: 'e', rank: 4 },
+              { file: 'e', rank: 5 },
+              { file: 'e', rank: 6 },
+            ],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      board: createBoard({
+        position: {
+          wk: ['e1'],
+          wq: ['e2'],
+          bk: ['e8'],
+        },
+        state: { turn: 'w' },
+      }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: { file: 'e', rank: 8 } },
+        },
+        check: {
+          side: 'b',
+          details: {
+            threatPieces: [
+              {
+                piece: { color: 'w', type: 'q' },
+                square: { file: 'e', rank: 2 },
+              },
+            ],
+            threatSquares: [
+              { file: 'e', rank: 3 },
+              { file: 'e', rank: 4 },
+              { file: 'e', rank: 5 },
+              { file: 'e', rank: 6 },
+              { file: 'e', rank: 7 },
+            ],
+          },
+        },
+        turn: 'b',
+        result: undefined,
+      },
+    },
+    {
+      board: createBoard({
+        position: {
+          wk: ['e1'],
+          bb: ['c3'],
+          br: ['e7'],
+          bk: ['e8'],
+        },
+        state: { turn: 'b' },
+      }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: { file: 'e', rank: 8 } },
+        },
+        check: {
+          side: 'w',
+          details: {
+            threatPieces: [
+              {
+                piece: { color: 'b', type: 'b' },
+                square: { file: 'c', rank: 3 },
+              },
+              {
+                piece: { color: 'b', type: 'r' },
+                square: { file: 'e', rank: 7 },
+              },
+            ],
+            threatSquares: ['d2', 'e2', 'e3', 'e4', 'e5', 'e6'],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      board: createBoard({
+        position: {
+          wk: ['e1'],
+          bb: ['c6'],
+          br: ['e2'],
+          bk: ['e8'],
+        },
+        state: { turn: 'w' },
+      }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: { file: 'e', rank: 8 } },
+        },
+        check: {
+          side: 'b',
+          details: {
+            threatPieces: [
+              {
+                piece: { color: 'w', type: 'b' },
+                square: { file: 'c', rank: 6 },
+              },
+              {
+                piece: { color: 'w', type: 'r' },
+                square: { file: 'e', rank: 2 },
+              },
+            ],
+            threatSquares: ['d7', 'e3', 'e4', 'e5', 'e6', 'e7'],
+          },
+        },
+        turn: 'b',
+        result: undefined,
+      },
+    },
+  ] as {
+    board: Board;
+    resultingState: BoardState;
+  }[],
 };

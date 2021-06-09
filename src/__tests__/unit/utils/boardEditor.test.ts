@@ -37,7 +37,11 @@ describe('#boardEditor', () => {
       }
     });
 
-    test.todo('computes check details based on position');
+    test('computes check details based on position', () => {
+      for (const { board, resultingState } of data.checkStateSync) {
+        expect(board.state).toEqual(resultingState);
+      }
+    });
 
     test('given position and state', () => {
       const position = [null, {}, {}, {}, {}, {}, {}, {}, {}];
