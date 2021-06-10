@@ -39,9 +39,11 @@ export function synchronizeKingState(
       ? position.bk[0]
       : position.bk;
 
-    if (position.wk)
-      draft.w.square = coordinateToSquare(whiteKingCoordinate as Coordinate);
-    if (position.bk)
-      draft.b.square = coordinateToSquare(blackKingCoordinate as Coordinate);
+    draft.w.square = whiteKingCoordinate
+      ? coordinateToSquare(whiteKingCoordinate)
+      : undefined;
+    draft.b.square = blackKingCoordinate
+      ? coordinateToSquare(blackKingCoordinate)
+      : undefined;
   });
 }

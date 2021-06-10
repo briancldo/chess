@@ -97,6 +97,7 @@ function excludeUnpinSquares(
   });
 
   const kingSquare = getKingSquare(board.state, piece.color);
+  if (!kingSquare) return candidates;
   const isKingCheckedWithoutPiece = isSquareAttacked(
     kingSquare,
     piece.color,
@@ -127,6 +128,7 @@ export function excludeCheckingSquares(
 ) {
   const { state: boardState } = board;
   const kingSquare = boardState.king[pieceColor].square;
+  if (!kingSquare) return candidates;
   const boardWithoutKing = produce(board, (draft) => {
     draft.position[kingSquare.rank][kingSquare.file] = undefined;
   });

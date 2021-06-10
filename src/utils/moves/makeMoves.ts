@@ -47,7 +47,7 @@ export default function makeMove(
     handleChecks(board.state, draft, piece.color);
     draft.state.turn = flipColor(draft.state.turn);
 
-    handleGameOver(draft, piece.color);
+    handleDetermineGameOver(draft, piece.color);
   });
 }
 
@@ -181,6 +181,7 @@ function handleChecks(
 ) {
   const kingColor = flipColor(enemyColor);
   const kingSquare = getKingSquare(boardState, kingColor);
+  if (!kingSquare) return;
 
   const isKingChecked = isSquareAttacked(kingSquare, kingColor, draft);
   if (!isKingChecked) return handleUncheck(draft);
@@ -194,9 +195,10 @@ function handleUncheck(draft: Draft<Board>) {
   draft.state.check.details.threatSquares = [];
 }
 
-function handleGameOver(draft: Draft<Board>, color: PieceColor) {
+function handleDetermineGameOver(draft: Draft<Board>, color: PieceColor) {
   const enemyColor = flipColor(color);
   const enemyKingSquare = getKingSquare(draft.state, enemyColor);
+  if (!enemyKingSquare) return;
   const kingMoves = getPieceLegalMoves(draft, enemyKingSquare, {
     type: 'k',
     color: enemyColor,

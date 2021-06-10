@@ -102,7 +102,7 @@ export function getCastlingPosition(color: PieceColor): CastlingPositionData {
 export function getKingSquare(
   boardState: BoardState,
   color: PieceColor
-): BoardSquare {
+): BoardSquare | undefined {
   return boardState.king[color].square;
 }
 

@@ -39,8 +39,8 @@ export type GameResult = GameWon | GameDrawn;
 
 export type ThreatPiece = { piece: Piece; square: BoardSquare };
 export interface BoardKingState {
-  w: { square: { file: BoardFile; rank: BoardRank } };
-  b: { square: { file: BoardFile; rank: BoardRank } };
+  w: { square?: { file: BoardFile; rank: BoardRank } };
+  b: { square?: { file: BoardFile; rank: BoardRank } };
 }
 export interface BoardCheckState {
   side?: PieceColor;
