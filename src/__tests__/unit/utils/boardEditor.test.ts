@@ -7,6 +7,7 @@ import {
   createFromConcisePosition,
 } from '../../../utils/board/editor/boardEditor';
 import { BoardSubstate } from '../../../utils/board/board.types';
+import { ConcisePosition } from '../../../utils/board/editor/boardEditor.types';
 
 describe('#boardEditor', () => {
   describe('createBoard()', () => {
@@ -25,23 +26,6 @@ describe('#boardEditor', () => {
       expect(board.state).toEqual(data.stateModified);
     });
 
-    test('computes king state based on position', () => {
-      for (const {
-        board,
-        resultingPosition,
-        resultingState,
-      } of data.kingStateSync) {
-        expect(board.position).toEqual(resultingPosition);
-        expect(board.state).toEqual(resultingState);
-      }
-    });
-
-    test('computes check details based on position', () => {
-      for (const { board, resultingState } of data.checkStateSync) {
-        expect(board.state).toEqual(resultingState);
-      }
-    });
-
     test('given position and state', () => {
       const position = [null, {}, {}, {}, {}, {}, {}, {}, {}];
       const state: BoardSubstate = {
@@ -51,7 +35,7 @@ describe('#boardEditor', () => {
       const board = createBoard({ position: {}, state });
       expect(board).toEqual({
         position: [...position],
-        state: data.stateModified,
+        state: data.stateGivenPosAndState,
       });
     });
 
@@ -80,6 +64,25 @@ describe('#boardEditor', () => {
         const concisePosition = data.concisePositions[i] as ConcisePosition;
         const position = createFromConcisePosition(concisePosition);
         expect(position).toEqual(data.concisePositionResults[i]);
+      }
+    });
+  });
+
+  describe('synchronizeState', () => {
+    test('syncs king state based on position', () => {
+      for (const {
+        board,
+        resultingPosition,
+        resultingState,
+      } of data.kingStateSync) {
+        expect(board.position).toEqual(resultingPosition);
+        expect(board.state).toEqual(resultingState);
+      }
+    });
+
+    test('syncs check details based on position', () => {
+      for (const { board, resultingState } of data.checkStateSync) {
+        expect(board.state).toEqual(resultingState);
       }
     });
   });
