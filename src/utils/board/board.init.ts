@@ -12,8 +12,10 @@ const board: Board = {
     king: {
       w: { square: { file: 'e', rank: 1 } },
       b: { square: { file: 'e', rank: 8 } },
-      checkedSide: undefined,
-      checkDetails: {
+    },
+    check: {
+      side: undefined,
+      details: {
         threatPieces: [],
         threatSquares: [],
       },

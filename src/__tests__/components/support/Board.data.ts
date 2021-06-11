@@ -1,6 +1,6 @@
 import { GameViewHandlers } from '../../../components/Game/GameView.types';
 import { Coordinate } from '../../../utils/board/board.types';
-import { ConcisePosition } from '../../../utils/board/boardEditor';
+import { ConcisePosition } from '../../../utils/board/editor/boardEditor.types';
 
 export const allCoordinates: Coordinate[] = [
   'a1',
@@ -82,16 +82,16 @@ export default {
       bn: ['c7', 'd3'],
       bb: ['f1', 'h8'],
     },
-    {
-      bq: ['f2'],
-      bk: ['h7'],
-      wp: ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8'],
-      wk: ['b1'],
-    },
-    {
-      br: ['a7', 'b7', 'c7', 'd7', 'e7', 'f7', 'g7', 'h7'],
-      wr: ['a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2'],
-    },
+    // {
+    //   bq: ['f2'],
+    //   bk: ['h7'],
+    //   wp: ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8'],
+    //   wk: ['b1'],
+    // },
+    // {
+    //   br: ['a7', 'b7', 'c7', 'd7', 'e7', 'f7', 'g7', 'h7'],
+    //   wr: ['a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2'],
+    // },
   ],
   squareHighlightData: {
     concisePosition: { wk: 'e4' },

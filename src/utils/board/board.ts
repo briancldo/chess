@@ -102,12 +102,12 @@ export function getCastlingPosition(color: PieceColor): CastlingPositionData {
 export function getKingSquare(
   boardState: BoardState,
   color: PieceColor
-): BoardSquare {
+): BoardSquare | undefined {
   return boardState.king[color].square;
 }
 
 export function getCheckedSide(boardState: BoardState) {
-  return boardState.king.checkedSide;
+  return boardState.check.side;
 }
 
 export function coordinateToSquare(coordinate: Coordinate): BoardSquare {

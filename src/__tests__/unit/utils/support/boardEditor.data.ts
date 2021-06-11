@@ -6,7 +6,7 @@ import {
 import {
   createBoard,
   createFromConcisePosition,
-} from '../../../../utils/board/boardEditor';
+} from '../../../../utils/board/editor/boardEditor';
 
 export default {
   stateModified: {
@@ -18,15 +18,17 @@ export default {
     king: {
       w: { square: { file: 'e', rank: 1 } },
       b: { square: { file: 'e', rank: 8 } },
-      checkedSide: undefined,
-      checkDetails: {
+    },
+    check: {
+      side: undefined,
+      details: {
         threatPieces: [],
         threatSquares: [],
       },
     },
     turn: 'b',
     result: undefined,
-  },
+  } as BoardState,
   concisePositions: [
     {},
     { bk: 'b4' },
@@ -137,10 +139,12 @@ export default {
           b: { k: true, side: { q: true, k: true } },
         },
         king: {
-          w: { square: { file: 'e', rank: 1 } },
-          b: { square: { file: 'e', rank: 8 } },
-          checkedSide: undefined,
-          checkDetails: {
+          w: { square: undefined },
+          b: { square: undefined },
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -172,10 +176,12 @@ export default {
           b: { k: true, side: { q: true, k: true } },
         },
         king: {
-          w: { square: { file: 'e', rank: 1 } },
-          b: { square: { file: 'e', rank: 8 } },
-          checkedSide: undefined,
-          checkDetails: {
+          w: { square: undefined },
+          b: { square: undefined },
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -200,10 +206,12 @@ export default {
           b: { k: true, side: { q: true, k: true } },
         },
         king: {
-          w: { square: { file: 'e', rank: 1 } },
+          w: { square: undefined },
           b: { square: { file: 'd', rank: 4 } },
-          checkedSide: undefined,
-          checkDetails: {
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -223,9 +231,11 @@ export default {
         },
         king: {
           w: { square: { file: 'd', rank: 4 } },
-          b: { square: { file: 'e', rank: 8 } },
-          checkedSide: undefined,
-          checkDetails: {
+          b: { square: undefined },
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -246,8 +256,10 @@ export default {
         king: {
           w: { square: { file: 'd', rank: 4 } },
           b: { square: { file: 'g', rank: 3 } },
-          checkedSide: undefined,
-          checkDetails: {
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -271,8 +283,10 @@ export default {
         king: {
           w: { square: { file: 'd', rank: 4 } },
           b: { square: { file: 'g', rank: 3 } },
-          checkedSide: undefined,
-          checkDetails: {
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -296,8 +310,10 @@ export default {
         king: {
           w: { square: { file: 'd', rank: 4 } },
           b: { square: { file: 'g', rank: 3 } },
-          checkedSide: undefined,
-          checkDetails: {
+        },
+        check: {
+          side: undefined,
+          details: {
             threatPieces: [],
             threatSquares: [],
           },
@@ -306,9 +322,291 @@ export default {
         result: undefined,
       },
     },
+    {
+      // king square is undefined if no king provided - both kings
+      board: createBoard({
+        position: {},
+      }),
+      resultingPosition: createFromConcisePosition({}),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: undefined },
+          b: { square: undefined },
+        },
+        check: {
+          side: undefined,
+          details: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      // king square is undefined if no king provided - no white king
+      board: createBoard({
+        position: { bk: 'e8' },
+      }),
+      resultingPosition: createFromConcisePosition({ bk: 'e8' }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: undefined },
+          b: { square: { file: 'e', rank: 8 } },
+        },
+        check: {
+          side: undefined,
+          details: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      // king square is undefined if no king provided - no black king
+      board: createBoard({
+        position: { wk: 'e1' },
+      }),
+      resultingPosition: createFromConcisePosition({ wk: 'e1' }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: undefined },
+        },
+        check: {
+          side: undefined,
+          details: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
   ] as {
     board: Board;
     resultingPosition: BoardPosition;
+    resultingState: BoardState;
+  }[],
+  stateGivenPosAndState: {
+    enPassantSquare: { file: 'e', rank: 4 },
+    castling: {
+      w: { k: true, side: { q: true, k: true } },
+      b: { k: true, side: { q: true, k: true } },
+    },
+    king: {
+      w: { square: undefined },
+      b: { square: undefined },
+    },
+    check: {
+      side: undefined,
+      details: {
+        threatPieces: [],
+        threatSquares: [],
+      },
+    },
+    turn: 'b',
+    result: undefined,
+  } as BoardState,
+  checkStateSync: [
+    {
+      board: createBoard({
+        position: {
+          wk: ['e1'],
+          bq: ['e7'],
+          bk: ['e8'],
+        },
+        state: { turn: 'b' },
+      }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: { file: 'e', rank: 8 } },
+        },
+        check: {
+          side: 'w',
+          details: {
+            threatPieces: [
+              {
+                piece: { color: 'b', type: 'q' },
+                square: { file: 'e', rank: 7 },
+              },
+            ],
+            threatSquares: [
+              { file: 'e', rank: 6 },
+              { file: 'e', rank: 5 },
+              { file: 'e', rank: 4 },
+              { file: 'e', rank: 3 },
+              { file: 'e', rank: 2 },
+            ],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      board: createBoard({
+        position: {
+          wk: ['e1'],
+          wq: ['e2'],
+          bk: ['e8'],
+        },
+        state: { turn: 'w' },
+      }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: { file: 'e', rank: 8 } },
+        },
+        check: {
+          side: 'b',
+          details: {
+            threatPieces: [
+              {
+                piece: { color: 'w', type: 'q' },
+                square: { file: 'e', rank: 2 },
+              },
+            ],
+            threatSquares: [
+              { file: 'e', rank: 3 },
+              { file: 'e', rank: 4 },
+              { file: 'e', rank: 5 },
+              { file: 'e', rank: 6 },
+              { file: 'e', rank: 7 },
+            ],
+          },
+        },
+        turn: 'b',
+        result: undefined,
+      },
+    },
+    {
+      board: createBoard({
+        position: {
+          wk: ['e1'],
+          bb: ['c3'],
+          br: ['e7'],
+          bk: ['e8'],
+        },
+        state: { turn: 'b' },
+      }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: { file: 'e', rank: 8 } },
+        },
+        check: {
+          side: 'w',
+          details: {
+            threatPieces: [
+              {
+                piece: { color: 'b', type: 'r' },
+                square: { file: 'e', rank: 7 },
+              },
+              {
+                piece: { color: 'b', type: 'b' },
+                square: { file: 'c', rank: 3 },
+              },
+            ],
+            threatSquares: [
+              { file: 'e', rank: 6 },
+              { file: 'e', rank: 5 },
+              { file: 'e', rank: 4 },
+              { file: 'e', rank: 3 },
+              { file: 'e', rank: 2 },
+              { file: 'd', rank: 2 },
+            ],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      board: createBoard({
+        position: {
+          wk: ['e1'],
+          wb: ['c6'],
+          wr: ['e2'],
+          bk: ['e8'],
+        },
+        state: { turn: 'w' },
+      }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: { file: 'e', rank: 8 } },
+        },
+        check: {
+          side: 'b',
+          details: {
+            threatPieces: [
+              {
+                piece: { color: 'w', type: 'r' },
+                square: { file: 'e', rank: 2 },
+              },
+              {
+                piece: { color: 'w', type: 'b' },
+                square: { file: 'c', rank: 6 },
+              },
+            ],
+            threatSquares: [
+              { file: 'e', rank: 3 },
+              { file: 'e', rank: 4 },
+              { file: 'e', rank: 5 },
+              { file: 'e', rank: 6 },
+              { file: 'e', rank: 7 },
+              { file: 'd', rank: 7 },
+            ],
+          },
+        },
+        turn: 'b',
+        result: undefined,
+      },
+    },
+  ] as {
+    board: Board;
     resultingState: BoardState;
   }[],
 };

@@ -8,11 +8,8 @@ import {
   getSquareMetadata,
   shouldSquareBeLight,
 } from '../__utils__/squareInteraction';
-import {
-  createBoard,
-  createFromConcisePosition,
-  ConcisePosition,
-} from '../../utils/board/boardEditor';
+import { createBoard } from '../../utils/board/editor/boardEditor';
+import { ConcisePosition } from '../../utils/board/editor/boardEditor.types';
 import data, { allCoordinates, emptyBoardHandlers } from './support/Board.data';
 import { Piece, PieceString } from '../../utils/pieces.types';
 import { Coordinate } from '../../utils/board/board.types';

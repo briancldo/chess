@@ -1,5 +1,5 @@
 import { Coordinate } from '../../../utils/board/board.types';
-import { createBoard } from '../../../utils/board/boardEditor';
+import { createBoard } from '../../../utils/board/editor/boardEditor';
 import { BoardAndMoves } from '../common.test.utils';
 
 export const firstMovePositionsAndMoves: BoardAndMoves[] = [

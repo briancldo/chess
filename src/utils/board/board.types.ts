@@ -39,13 +39,16 @@ export type GameResult = GameWon | GameDrawn;
 
 export type ThreatPiece = { piece: Piece; square: BoardSquare };
 export interface BoardKingState {
-  w: { square: { file: BoardFile; rank: BoardRank } };
-  b: { square: { file: BoardFile; rank: BoardRank } };
-  checkedSide?: PieceColor;
-  checkDetails: {
-    threatPieces: ThreatPiece[];
-    threatSquares: BoardSquare[];
-  };
+  w: { square?: { file: BoardFile; rank: BoardRank } };
+  b: { square?: { file: BoardFile; rank: BoardRank } };
+}
+export interface BoardCheckDetails {
+  threatPieces: ThreatPiece[];
+  threatSquares: BoardSquare[];
+}
+export interface BoardCheckState {
+  side?: PieceColor;
+  details: BoardCheckDetails;
 }
 export interface BoardState {
   enPassantSquare?: BoardSquare;
@@ -54,6 +57,7 @@ export interface BoardState {
     b: { k: boolean; side: { q: boolean; k: boolean } };
   };
   king: BoardKingState;
+  check: BoardCheckState;
   turn: PieceColor;
   result?: GameResult;
 }

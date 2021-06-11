@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Board from '../../components/Board/Board/Board';
-import { createBoard } from '../../utils/board/boardEditor';
+import { createBoard } from '../../utils/board/editor/boardEditor';
 import { emptyBoardHandlers } from '../components/support/Board.data';
 import { Board as BoardType } from '../../utils/board/board.types';
 
