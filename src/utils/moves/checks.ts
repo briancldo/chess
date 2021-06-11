@@ -153,7 +153,7 @@ export function setCheckDetails(
 }
 
 const attackingPieces = ['r', 'b', 'n', 'p'] as const;
-function getThreatPieces(
+export function getThreatPieces(
   board: Board,
   square: BoardSquare,
   color: PieceColor
@@ -199,7 +199,7 @@ function getIntermediateFiles(startFile: BoardFile, endFile: BoardFile) {
   return [...intermediateFiles].reverse();
 }
 
-function getThreatSquares(
+export function getThreatSquares(
   attackedSquare: BoardSquare,
   threatPieces: ThreatPiece[]
 ) {

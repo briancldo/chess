@@ -42,12 +42,13 @@ export interface BoardKingState {
   w: { square?: { file: BoardFile; rank: BoardRank } };
   b: { square?: { file: BoardFile; rank: BoardRank } };
 }
+export interface BoardCheckDetails {
+  threatPieces: ThreatPiece[];
+  threatSquares: BoardSquare[];
+}
 export interface BoardCheckState {
   side?: PieceColor;
-  details: {
-    threatPieces: ThreatPiece[];
-    threatSquares: BoardSquare[];
-  };
+  details: BoardCheckDetails;
 }
 export interface BoardState {
   enPassantSquare?: BoardSquare;

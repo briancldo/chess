@@ -13,7 +13,7 @@ import {
 import { pieceObjectToString, pieceStringToObject } from '../../pieces';
 import { PieceString } from '../../pieces.types';
 import { ConcisePosition } from './boardEditor.types';
-import { synchronizeKingState } from './syncState';
+import { synchronizeCheckState, synchronizeKingState } from './syncState';
 
 export function createBoard(board: {
   position?: ConcisePosition;
@@ -31,10 +31,20 @@ export function createBoard(board: {
 
 function synchronizeState(position?: ConcisePosition, state?: BoardSubstate) {
   const kingState = synchronizeKingState(position, state);
+  const { checkState, turnState } = synchronizeCheckState(
+    assign({}, state, { king: kingState }),
+    position
+  );
   const syncedState = state
     ? assign({}, initialBoard.state, state)
     : initialBoard.state;
-  return assign({}, syncedState, { king: kingState });
+  return assign(
+    {},
+    syncedState,
+    { king: kingState },
+    { check: checkState },
+    { turn: turnState }
+  );
 }
 
 export function createFromConcisePosition(concisePosition: ConcisePosition) {

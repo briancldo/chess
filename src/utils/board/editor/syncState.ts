@@ -6,10 +6,17 @@ import {
   BoardSubstate,
   BoardKingState,
   BoardSquare,
-  Coordinate,
+  BoardCheckState,
+  BoardCheckDetails,
+  Board,
+  BoardState,
 } from '../board.types';
 import { ConcisePosition } from './boardEditor.types';
 import { DevError } from '../../errors';
+import { isSquareAttacked } from '../../moves/utils';
+import { createFromConcisePosition } from './boardEditor';
+import { PieceColor } from '../../pieces.types';
+import { getThreatPieces, getThreatSquares } from '../../moves/checks';
 
 export function synchronizeKingState(
   position?: ConcisePosition,
@@ -46,4 +53,75 @@ export function synchronizeKingState(
       ? coordinateToSquare(blackKingCoordinate)
       : undefined;
   });
+}
+
+export function synchronizeCheckState(
+  state: BoardSubstate & { king: BoardKingState },
+  position?: ConcisePosition
+): { checkState: BoardCheckState; turnState: PieceColor } {
+  const priorCheckState: BoardCheckState = produce(
+    initialBoard.state.check,
+    (draft) => {
+      if (state?.check?.side) draft.side = state.check.side;
+      if (state?.check?.details)
+        draft.details = state.check.details as BoardCheckDetails;
+    }
+  );
+
+  if (!position)
+    return {
+      checkState: priorCheckState,
+      turnState: state?.turn || initialBoard.state.turn,
+    };
+
+  const board: Board = {
+    position: createFromConcisePosition(position),
+    state: state as BoardState,
+  };
+  const isWhiteChecked = isSquareAttacked(
+    state?.king.w.square as BoardSquare,
+    'w',
+    board
+  );
+  const isBlackChecked = isSquareAttacked(
+    state?.king.w.square as BoardSquare,
+    'b',
+    board
+  );
+  const checkedSide: PieceColor = isWhiteChecked ? 'w' : 'b';
+
+  if (isWhiteChecked && isBlackChecked)
+    throw new Error('Both kings cannot be checked.');
+  if (!isWhiteChecked && !isBlackChecked)
+    return {
+      checkState: priorCheckState,
+      turnState: state?.turn || initialBoard.state.turn,
+    };
+
+  const checkState = produce(priorCheckState, (draft) => {
+    /*
+      white_king_checked = ...
+      black_king_checked = ...
+
+      if (white & black king checked) throw error
+      if (neither king checked) return;
+
+      check.side = white_king_checked ? 'w' : 'b'
+      check.details = {
+        threatPieces: ...,
+        threatSquares: ...,
+      }
+      turn: white_king_checked: ? 'w' : 'b'
+    */
+
+    draft.side = checkedSide;
+    const kingSquare = state.king[checkedSide].square as BoardSquare;
+    const threatPieces = getThreatPieces(board, kingSquare, checkedSide);
+    const threatSquares = getThreatSquares(kingSquare, threatPieces);
+    draft.details = { threatPieces, threatSquares };
+  });
+
+  const turnState = checkedSide;
+
+  return { checkState, turnState };
 }
