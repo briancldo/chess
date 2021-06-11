@@ -78,16 +78,12 @@ export function synchronizeCheckState(
     position: createFromConcisePosition(position),
     state: state as BoardState,
   };
-  const isWhiteChecked = isSquareAttacked(
-    state?.king.w.square as BoardSquare,
-    'w',
-    board
-  );
-  const isBlackChecked = isSquareAttacked(
-    state?.king.w.square as BoardSquare,
-    'b',
-    board
-  );
+  const isWhiteChecked = state?.king.w.square
+    ? isSquareAttacked(state?.king.w.square as BoardSquare, 'w', board)
+    : false;
+  const isBlackChecked = state?.king.b.square
+    ? isSquareAttacked(state?.king.b.square as BoardSquare, 'b', board)
+    : false;
   const checkedSide: PieceColor = isWhiteChecked ? 'w' : 'b';
 
   if (isWhiteChecked && isBlackChecked)
