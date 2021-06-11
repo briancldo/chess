@@ -206,7 +206,7 @@ export default {
           b: { k: true, side: { q: true, k: true } },
         },
         king: {
-          w: { square: { file: 'e', rank: 1 } },
+          w: { square: undefined },
           b: { square: { file: 'd', rank: 4 } },
         },
         check: {
@@ -231,7 +231,7 @@ export default {
         },
         king: {
           w: { square: { file: 'd', rank: 4 } },
-          b: { square: { file: 'e', rank: 8 } },
+          b: { square: undefined },
         },
         check: {
           side: undefined,

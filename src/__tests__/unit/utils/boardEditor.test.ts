@@ -5,7 +5,6 @@ import initBoard from '../../../utils/board/board.init';
 import {
   createBoard,
   createFromConcisePosition,
-  ConcisePosition,
 } from '../../../utils/board/editor/boardEditor';
 import { BoardSubstate } from '../../../utils/board/board.types';
 
