@@ -19,32 +19,32 @@ import { PieceColor } from '../../pieces.types';
 import { getThreatPieces, getThreatSquares } from '../../moves/checks';
 
 export function synchronizeKingState(
-  position?: ConcisePosition,
-  state?: BoardSubstate
+  customPosition?: ConcisePosition,
+  customState?: BoardSubstate
 ): BoardKingState {
   const priorKingState: BoardKingState = produce(
     initialBoard.state.king,
     (draft) => {
-      if (state?.king?.w?.square)
-        draft.w.square = state.king.w.square as BoardSquare;
-      if (state?.king?.b?.square)
-        draft.b.square = state.king.b.square as BoardSquare;
+      if (customState?.king?.w?.square)
+        draft.w.square = customState.king.w.square as BoardSquare;
+      if (customState?.king?.b?.square)
+        draft.b.square = customState.king.b.square as BoardSquare;
     }
   );
 
   return produce(priorKingState, (draft) => {
-    if (!position) return;
-    if (Array.isArray(position.wk) && position.wk.length !== 1)
+    if (!customPosition) return;
+    if (Array.isArray(customPosition.wk) && customPosition.wk.length !== 1)
       throw new DevError('Only one white king.');
-    if (Array.isArray(position.bk) && position.bk.length !== 1)
+    if (Array.isArray(customPosition.bk) && customPosition.bk.length !== 1)
       throw new DevError('Only one black king.');
 
-    const whiteKingCoordinate = Array.isArray(position.wk)
-      ? position.wk[0]
-      : position.wk;
-    const blackKingCoordinate = Array.isArray(position.bk)
-      ? position.bk[0]
-      : position.bk;
+    const whiteKingCoordinate = Array.isArray(customPosition.wk)
+      ? customPosition.wk[0]
+      : customPosition.wk;
+    const blackKingCoordinate = Array.isArray(customPosition.bk)
+      ? customPosition.bk[0]
+      : customPosition.bk;
 
     draft.w.square = whiteKingCoordinate
       ? coordinateToSquare(whiteKingCoordinate)
@@ -56,33 +56,33 @@ export function synchronizeKingState(
 }
 
 export function synchronizeCheckState(
-  state: BoardSubstate & { king: BoardKingState },
-  position?: ConcisePosition
+  customState: BoardSubstate & { king: BoardKingState },
+  customPosition?: ConcisePosition
 ): { checkState: BoardCheckState; turnState: PieceColor } {
   const priorCheckState: BoardCheckState = produce(
     initialBoard.state.check,
     (draft) => {
-      if (state?.check?.side) draft.side = state.check.side;
-      if (state?.check?.details)
-        draft.details = state.check.details as BoardCheckDetails;
+      if (customState?.check?.side) draft.side = customState.check.side;
+      if (customState?.check?.details)
+        draft.details = customState.check.details as BoardCheckDetails;
     }
   );
 
-  if (!position)
+  if (!customPosition)
     return {
       checkState: priorCheckState,
-      turnState: state?.turn || initialBoard.state.turn,
+      turnState: customState?.turn || initialBoard.state.turn,
     };
 
   const board: Board = {
-    position: createFromConcisePosition(position),
-    state: state as BoardState,
+    position: createFromConcisePosition(customPosition),
+    state: customState as BoardState,
   };
-  const isWhiteChecked = state?.king.w.square
-    ? isSquareAttacked(state?.king.w.square as BoardSquare, 'w', board)
+  const isWhiteChecked = customState?.king.w.square
+    ? isSquareAttacked(customState?.king.w.square as BoardSquare, 'w', board)
     : false;
-  const isBlackChecked = state?.king.b.square
-    ? isSquareAttacked(state?.king.b.square as BoardSquare, 'b', board)
+  const isBlackChecked = customState?.king.b.square
+    ? isSquareAttacked(customState?.king.b.square as BoardSquare, 'b', board)
     : false;
   const checkedSide: PieceColor = isWhiteChecked ? 'w' : 'b';
 
@@ -91,33 +91,31 @@ export function synchronizeCheckState(
   if (!isWhiteChecked && !isBlackChecked)
     return {
       checkState: priorCheckState,
-      turnState: state?.turn || initialBoard.state.turn,
+      turnState: customState?.turn || initialBoard.state.turn,
     };
 
-  const checkState = produce(priorCheckState, (draft) => {
-    /*
-      white_king_checked = ...
-      black_king_checked = ...
+  return {
+    checkState: computeCheckState(
+      board,
+      priorCheckState,
+      customState,
+      checkedSide
+    ),
+    turnState: checkedSide,
+  };
+}
 
-      if (white & black king checked) throw error
-      if (neither king checked) return;
-
-      check.side = white_king_checked ? 'w' : 'b'
-      check.details = {
-        threatPieces: ...,
-        threatSquares: ...,
-      }
-      turn: white_king_checked: ? 'w' : 'b'
-    */
-
+function computeCheckState(
+  board: Board,
+  priorCheckState: BoardCheckState,
+  customState: BoardSubstate & { king: BoardKingState },
+  checkedSide: PieceColor
+): BoardCheckState {
+  const kingSquare = customState.king[checkedSide].square as BoardSquare;
+  const threatPieces = getThreatPieces(board, kingSquare, checkedSide);
+  const threatSquares = getThreatSquares(kingSquare, threatPieces);
+  return produce(priorCheckState, (draft) => {
     draft.side = checkedSide;
-    const kingSquare = state.king[checkedSide].square as BoardSquare;
-    const threatPieces = getThreatPieces(board, kingSquare, checkedSide);
-    const threatSquares = getThreatSquares(kingSquare, threatPieces);
     draft.details = { threatPieces, threatSquares };
   });
-
-  const turnState = checkedSide;
-
-  return { checkState, turnState };
 }
