@@ -322,6 +322,87 @@ export default {
         result: undefined,
       },
     },
+    {
+      // king square is undefined if no king provided - both kings
+      board: createBoard({
+        position: {},
+      }),
+      resultingPosition: createFromConcisePosition({}),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: undefined },
+          b: { square: undefined },
+        },
+        check: {
+          side: undefined,
+          details: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      // king square is undefined if no king provided - no white king
+      board: createBoard({
+        position: { bk: 'e8' },
+      }),
+      resultingPosition: createFromConcisePosition({ bk: 'e8' }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: undefined },
+          b: { square: { file: 'e', rank: 8 } },
+        },
+        check: {
+          side: undefined,
+          details: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
+    {
+      // king square is undefined if no king provided - no black king
+      board: createBoard({
+        position: { wk: 'e1' },
+      }),
+      resultingPosition: createFromConcisePosition({ wk: 'e1' }),
+      resultingState: {
+        enPassantSquare: undefined,
+        castling: {
+          w: { k: true, side: { q: true, k: true } },
+          b: { k: true, side: { q: true, k: true } },
+        },
+        king: {
+          w: { square: { file: 'e', rank: 1 } },
+          b: { square: undefined },
+        },
+        check: {
+          side: undefined,
+          details: {
+            threatPieces: [],
+            threatSquares: [],
+          },
+        },
+        turn: 'w',
+        result: undefined,
+      },
+    },
   ] as {
     board: Board;
     resultingPosition: BoardPosition;
