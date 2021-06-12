@@ -144,3 +144,50 @@ export const singleCheckKingMove = [
     },
   },
 ] as BoardAndManyMoves[];
+
+export const doubleChecks = [
+  {
+    board: createBoard({
+      position: {
+        wk: ['e2'],
+        wn: ['d2'],
+        wr: ['g3'],
+        wq: ['d4'],
+        bb: ['b5'],
+        wb: ['d5'],
+        br: ['e7'],
+      },
+    }),
+    expectedMovesByCoordinate: {
+      e2: ['d1', 'f2', 'f3'],
+      d2: [],
+      g3: [],
+      d4: [],
+      b5: [],
+      d5: [],
+      e7: [],
+    },
+  },
+  {
+    board: createBoard({
+      position: {
+        bk: ['e2'],
+        bn: ['d2'],
+        br: ['g3'],
+        bq: ['d4'],
+        wb: ['b5'],
+        bb: ['d5'],
+        wr: ['e7'],
+      },
+    }),
+    expectedMovesByCoordinate: {
+      e2: ['d1', 'f2', 'f3'],
+      d2: [],
+      g3: [],
+      d4: [],
+      b5: [],
+      d5: [],
+      e7: [],
+    },
+  },
+] as BoardAndManyMoves[];

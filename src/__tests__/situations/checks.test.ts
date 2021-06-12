@@ -27,6 +27,14 @@ describe('checks', () => {
       }
     });
   });
+
+  describe('double-check handling', () => {
+    test('only option is moving king', () => {
+      for (const dataPoint of data.doubleChecks) {
+        assertCandidateMoves(transformToBoardAndMovesArray(dataPoint));
+      }
+    });
+  });
 });
 
 function transformToBoardAndMovesArray(
