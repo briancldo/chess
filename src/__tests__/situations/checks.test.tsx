@@ -1,9 +1,16 @@
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
+import { v4 as uuidv4 } from 'uuid';
+
+import Board from '../../components/Board/Board/Board';
 import { Coordinate } from '../../utils/board/board.types';
+import { emptyBoardHandlers } from '../components/support/Board.data';
 import {
   assertCandidateMoves,
   BoardAndMoves,
 } from '../pieces/common.test.utils';
+import { getBoardTestData, renderEmptyBoard } from '../__utils__/board.utils';
+import { makeMoves } from '../__utils__/squareInteraction';
 
 import * as data from './support/checks.data';
 
@@ -40,6 +47,35 @@ describe('checks', () => {
     test('pinned pieces cannot reveal the king', () => {
       for (const dataPoint of data.pins) {
         assertCandidateMoves(transformToBoardAndMovesArray(dataPoint));
+      }
+    });
+  });
+
+  describe('checkmate', () => {
+    test('no pieces can move', () => {
+      for (const dataPoint of data.checkmate) {
+        assertCandidateMoves(transformToBoardAndMovesArray(dataPoint));
+      }
+    });
+
+    test('state is correct', () => {
+      const { rerender } = renderEmptyBoard();
+
+      for (const dataPoint of data.checkmate) {
+        if (!dataPoint.preTestMoves) throw new Error('Need preTestMoves!');
+        rerender(
+          <Board
+            key={uuidv4()}
+            initialBoard={dataPoint.board}
+            handlers={emptyBoardHandlers}
+          />
+        );
+        makeMoves(dataPoint.preTestMoves);
+        const result = getBoardTestData().board.state.result;
+        console.log(getBoardTestData().board.state);
+        expect(result).toBeDefined();
+        expect(result?.value).toBe('+');
+        expect(result?.method).toBe('c');
       }
     });
   });

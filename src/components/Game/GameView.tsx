@@ -13,7 +13,6 @@ import {
 import { useLocation } from 'react-router';
 
 const GameView: React.FC<GameViewProps> = (props) => {
-  console.log({ location: useLocation() });
   const [boardId, setBoardId] = useState(uuidv4());
   const [result, setResult] = useState<GameResult>();
   const initialBoard = props.initialBoard ?? initialBoardClassic;
