@@ -35,6 +35,14 @@ describe('checks', () => {
       }
     });
   });
+
+  describe('pins', () => {
+    test('pinned pieces cannot reveal the king', () => {
+      for (const dataPoint of data.pins) {
+        assertCandidateMoves(transformToBoardAndMovesArray(dataPoint));
+      }
+    });
+  });
 });
 
 function transformToBoardAndMovesArray(

@@ -191,3 +191,35 @@ export const doubleChecks = [
     },
   },
 ] as BoardAndManyMoves[];
+
+export const pins = [
+  {
+    board: createBoard({
+      position: {
+        wk: ['e3'],
+        wn: ['d4'],
+        wr: ['e4'],
+        bq: ['b6', 'e8'],
+      },
+    }),
+    expectedMovesByCoordinate: {
+      d4: [],
+      e4: ['e5', 'e6', 'e7', 'e8'],
+    },
+  },
+  {
+    board: createBoard({
+      position: {
+        bk: ['e3'],
+        bn: ['d4'],
+        br: ['e4'],
+        wq: ['b6', 'e8'],
+      },
+      state: { turn: 'b' },
+    }),
+    expectedMovesByCoordinate: {
+      d4: [],
+      e4: ['e5', 'e6', 'e7', 'e8'],
+    },
+  },
+] as BoardAndManyMoves[];
