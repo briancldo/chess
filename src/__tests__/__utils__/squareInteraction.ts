@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { coordinateToSquare } from '../../utils/board/board';
+import { coordinateToSquare } from '../../utils/board/square/square';
 import { Coordinate } from '../../utils/board/board.types';
 import { DevError } from '../../utils/errors';
 import { Piece, PieceType } from '../../utils/pieces.types';

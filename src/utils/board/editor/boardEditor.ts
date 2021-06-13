@@ -1,6 +1,7 @@
 import { produce } from 'immer';
 import assign from 'lodash/assign';
-import { coordinateToSquare, ranks, squareToCoordinate } from '../board';
+import { ranks } from '../board';
+import { squareToCoordinate, coordinateToSquare } from '../square/square';
 import { EMPTY_POSITION } from '../board.constants';
 import initialBoard from '../board.init';
 import {

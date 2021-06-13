@@ -1,8 +1,5 @@
-import {
-  getPieceAtSquare,
-  getSquareAtOffset,
-  matchingSquares,
-} from '../board/board';
+import { getPieceAtSquare, getSquareAtOffset } from '../board/board';
+import { matchingSquares } from '../board/square/square';
 import {
   Board,
   BoardDirection,

@@ -1,7 +1,7 @@
 import produce from 'immer';
 
 import initialBoard from '../board.init';
-import { coordinateToSquare } from '../board';
+import { coordinateToSquare } from '../square/square';
 import {
   BoardSubstate,
   BoardKingState,

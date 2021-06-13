@@ -1,7 +1,8 @@
 import React from 'react';
 
 import Square from '../Square/Square';
-import { files, matchingSquares } from '../../../utils/board/board';
+import { files } from '../../../utils/board/board';
+import { matchingSquares } from '../../../utils/board/square/square';
 import { RankProps } from './Rank.types';
 import { BoardSquare } from '../../../utils/board/board.types';
 
