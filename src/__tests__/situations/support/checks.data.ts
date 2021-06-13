@@ -1,10 +1,10 @@
 import { Board, Coordinate } from '../../../utils/board/board.types';
 import { createBoard } from '../../../utils/board/editor/boardEditor';
-import { MoveCoordinates } from '../../__utils__/squareInteraction';
+import { MoveCoordinate } from '../../__utils__/squareInteraction';
 
 export interface BoardAndManyMoves {
   board: Board;
-  preTestMoves?: MoveCoordinates[];
+  preTestMoves?: MoveCoordinate[];
   expectedMovesByCoordinate: { [coordinate in Coordinate]?: Coordinate[] };
 }
 

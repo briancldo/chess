@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { coordinateToSquare } from '../../utils/board/board';
 import { Coordinate } from '../../utils/board/board.types';
 import { DevError } from '../../utils/errors';
-import { Piece } from '../../utils/pieces.types';
+import { Piece, PieceType } from '../../utils/pieces.types';
 
 function getSquareElement(coordinate: Coordinate) {
   return screen.getByTestId(coordinate);
@@ -37,9 +37,10 @@ export function clickSquare(coordinate: Coordinate) {
   userEvent.click(getSquareElement(coordinate));
 }
 
-export interface MoveCoordinates {
+export interface MoveCoordinate {
   origin: Coordinate;
   destination: Coordinate;
+  promotionPiece?: PieceType;
 }
 
 export function makeMove(origin: Coordinate, destination: Coordinate) {
@@ -47,8 +48,12 @@ export function makeMove(origin: Coordinate, destination: Coordinate) {
   clickSquare(destination);
 }
 
-export function makeMoves(moves: MoveCoordinates[]) {
+export function makeMoves(moves: MoveCoordinate[]) {
   for (const move of moves) {
     makeMove(move.origin, move.destination);
   }
+}
+
+export function choosePromotionPiece(pieceType: PieceType) {
+  jest.spyOn(window, 'prompt').mockReturnValueOnce(pieceType);
 }
