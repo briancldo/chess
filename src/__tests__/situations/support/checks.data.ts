@@ -281,3 +281,73 @@ export const checkmate = [
     },
   },
 ] as BoardAndManyMoves[];
+
+export const stalemateNoMoves = [
+  {
+    board: createBoard({
+      position: {
+        wk: ['h1'],
+        bq: ['e2'],
+        wp: ['c5', 'h6'],
+        bp: ['c6', 'h7'],
+      },
+      state: { turn: 'b' },
+    }),
+    preTestMoves: [{ origin: 'e2', destination: 'f2' }],
+    expectedMovesByCoordinate: {
+      h1: [],
+      c5: [],
+      h6: [],
+    },
+  },
+  {
+    board: createBoard({
+      position: {
+        bk: ['h1'],
+        wq: ['e2'],
+        wp: ['c5', 'h6'],
+        bp: ['c6', 'h7'],
+      },
+    }),
+    preTestMoves: [{ origin: 'e2', destination: 'f2' }],
+    expectedMovesByCoordinate: {
+      h1: [],
+      c6: [],
+      h7: [],
+    },
+  },
+] as BoardAndManyMoves[];
+
+export const notStalemateAlliesMove: BoardAndManyMoves[] = [
+  {
+    board: createBoard({
+      position: {
+        wk: ['h1'],
+        bq: ['e2'],
+        wp: ['f4'],
+        bp: ['f6'],
+      },
+      state: { turn: 'b' },
+    }),
+    preTestMoves: [{ origin: 'e2', destination: 'f2' }],
+    expectedMovesByCoordinate: {
+      h1: [],
+      f4: ['f5'],
+    },
+  },
+  {
+    board: createBoard({
+      position: {
+        bk: ['h1'],
+        wq: ['e2'],
+        wp: ['f4'],
+        bp: ['f6'],
+      },
+    }),
+    preTestMoves: [{ origin: 'e2', destination: 'f2' }],
+    expectedMovesByCoordinate: {
+      h1: [],
+      f6: ['f5'],
+    },
+  },
+];

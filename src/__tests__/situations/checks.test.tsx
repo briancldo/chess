@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,6 +14,7 @@ import { getBoardTestData, renderEmptyBoard } from '../__utils__/board.utils';
 import { makeMoves } from '../__utils__/squareInteraction';
 
 import * as data from './support/checks.data';
+import { cleanup } from '@testing-library/react';
 
 describe('checks', () => {
   describe('single-check handling', () => {
@@ -71,11 +73,64 @@ describe('checks', () => {
           />
         );
         makeMoves(dataPoint.preTestMoves);
+        const state = getBoardTestData().board.state;
+        expect(state.result).toEqual({
+          value: '+',
+          side: state.turn === 'w' ? 'b' : 'w',
+          method: 'c',
+        });
+      }
+    });
+  });
+
+  describe('stalemate', () => {
+    test('no pieces can move', () => {
+      for (const dataPoint of data.stalemateNoMoves) {
+        assertCandidateMoves(transformToBoardAndMovesArray(dataPoint));
+      }
+    });
+
+    test('not stalemate if ally pieces can move', () => {
+      const { rerender } = renderEmptyBoard();
+
+      for (const dataPoint of data.notStalemateAlliesMove) {
+        if (!dataPoint.preTestMoves) throw new Error('Need preTestMoves!');
+        rerender(
+          <Board
+            key={uuidv4()}
+            initialBoard={dataPoint.board}
+            handlers={emptyBoardHandlers}
+          />
+        );
+        makeMoves(dataPoint.preTestMoves);
         const result = getBoardTestData().board.state.result;
-        console.log(getBoardTestData().board.state);
-        expect(result).toBeDefined();
-        expect(result?.value).toBe('+');
-        expect(result?.method).toBe('c');
+        expect(result).toBeUndefined();
+      }
+      cleanup();
+
+      for (const dataPoint of data.notStalemateAlliesMove) {
+        assertCandidateMoves(transformToBoardAndMovesArray(dataPoint));
+      }
+    });
+
+    test('state is correct', () => {
+      const { rerender } = renderEmptyBoard();
+
+      for (const dataPoint of data.stalemateNoMoves) {
+        if (!dataPoint.preTestMoves) throw new Error('Need preTestMoves!');
+        rerender(
+          <Board
+            key={uuidv4()}
+            initialBoard={dataPoint.board}
+            handlers={emptyBoardHandlers}
+          />
+        );
+        makeMoves(dataPoint.preTestMoves);
+        const result = getBoardTestData().board.state.result;
+        expect(result).toEqual({
+          value: '=',
+          method: 's',
+        });
       }
     });
   });
