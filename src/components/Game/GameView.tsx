@@ -10,7 +10,6 @@ import {
   GameViewHandlers,
   GameOverHandler,
 } from './GameView.types';
-import { useLocation } from 'react-router';
 
 const GameView: React.FC<GameViewProps> = (props) => {
   const [boardId, setBoardId] = useState(uuidv4());
