@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SquareUI } from '../Board/Square/Square';
+import { SquareUI } from '../Board/Square/SquareUI';
 import { Piece, PieceColor } from '../../utils/pieces.types';
 import { matchingPieces, PIECES } from '../../utils/pieces';
 import config from '../../config/config';
