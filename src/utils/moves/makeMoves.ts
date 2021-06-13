@@ -2,17 +2,10 @@ import { produce, Draft } from 'immer';
 import {
   getCastlingPosition,
   getPieceAtSquare,
-  matchingSquares,
   getKingSquare,
   files,
   getCheckedSide,
 } from '../board/board';
-import { flipColor } from '../pieces';
-import { setCheckDetails } from './checks';
-import { isSquareAttacked } from './utils';
-import { getPieceLegalMoves } from './moves';
-import { DevError } from '../errors';
-import config from '../../config/config';
 import {
   Board,
   BoardFile,
@@ -22,6 +15,13 @@ import {
   BoardState,
   GameResult,
 } from '../board/board.types';
+import { matchingSquares } from '../board/square/square';
+import { flipColor } from '../pieces';
+import { setCheckDetails } from './checks';
+import { isSquareAttacked } from './utils';
+import { getPieceLegalMoves } from './moves';
+import { DevError } from '../errors';
+import config from '../../config/config';
 import { Piece, PieceColor, PieceType } from '../pieces.types';
 
 const backRank = {

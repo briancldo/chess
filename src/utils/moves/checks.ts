@@ -1,7 +1,6 @@
 import { Draft, produce } from 'immer';
 import {
   getPieceAtSquare,
-  matchingSquares,
   orderedRanks,
   files,
   getCheckedSide,
@@ -15,6 +14,7 @@ import {
   BoardState,
   ThreatPiece,
 } from '../board/board.types';
+import { matchingSquares } from '../board/square/square';
 import { DevError } from '../errors';
 import { Piece, PieceColor } from '../pieces.types';
 import { isSquareAttacked, attackingPiecesData } from './utils';

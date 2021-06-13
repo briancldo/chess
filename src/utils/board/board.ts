@@ -8,7 +8,6 @@ import {
   BoardRank,
   BoardSquare,
   BoardState,
-  Coordinate,
 } from './board.types';
 import { PieceColor } from '../pieces.types';
 import { CastleSide } from '../moves/moves.types';
@@ -40,10 +39,6 @@ export const orderedRanks: BoardAxis<BoardRank> = [
 Object.freeze(files);
 Object.freeze(ranks);
 Object.freeze(orderedRanks);
-
-export function matchingSquares(square1: BoardSquare, square2: BoardSquare) {
-  return square1.rank === square2.rank && square1.file === square2.file;
-}
 
 export function getPieceAtSquare(position: BoardPosition, square: BoardSquare) {
   return position[square.rank][square.file];
@@ -108,16 +103,4 @@ export function getKingSquare(
 
 export function getCheckedSide(boardState: BoardState) {
   return boardState.check.side;
-}
-
-export function coordinateToSquare(coordinate: Coordinate): BoardSquare {
-  const [file, rank] = coordinate.split('');
-  return {
-    rank: Number.parseInt(rank as string) as BoardRank,
-    file: file as BoardFile,
-  };
-}
-
-export function squareToCoordinate(square: BoardSquare): Coordinate {
-  return `${square.file}${square.rank}` as Coordinate;
 }

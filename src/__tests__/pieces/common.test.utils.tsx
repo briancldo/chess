@@ -23,7 +23,7 @@ import {
   makeMoves,
   MoveCoordinate,
 } from '../__utils__/squareInteraction';
-import { coordinateToSquare } from '../../utils/board/board';
+import { coordinateToSquare } from '../../utils/board/square/square';
 
 export interface BoardAndMoves {
   board: BoardType;
