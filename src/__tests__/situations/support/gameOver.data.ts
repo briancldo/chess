@@ -1,10 +1,10 @@
 import { Board } from '../../../utils/board/board.types';
 import { createBoard } from '../../../utils/board/editor/boardEditor';
-import { MoveCoordinates } from '../../__utils__/squareInteraction';
+import { MoveCoordinate } from '../../__utils__/squareInteraction';
 
 interface GameOverSetup {
   initialBoard: Board;
-  moves: MoveCoordinates[];
+  moves: MoveCoordinate[];
   resultText: string;
 }
 

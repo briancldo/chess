@@ -21,13 +21,13 @@ import {
   getSquareMetadata,
   makeMove,
   makeMoves,
-  MoveCoordinates,
+  MoveCoordinate,
 } from '../__utils__/squareInteraction';
 import { coordinateToSquare } from '../../utils/board/board';
 
 export interface BoardAndMoves {
   board: BoardType;
-  preTestMoves?: MoveCoordinates[];
+  preTestMoves?: MoveCoordinate[];
   testPieceSquare: Coordinate;
   expectedMoves: Coordinate[];
 }
@@ -99,7 +99,7 @@ export function assertMadeMoves(positionsAndMoves: BoardAndMoves[]) {
 
 function getPositionAfterMoves(
   position: BoardPosition,
-  movesCoordinates: MoveCoordinates[]
+  movesCoordinates: MoveCoordinate[]
 ) {
   let newPosition = position;
   for (const move of movesCoordinates) {
@@ -110,9 +110,9 @@ function getPositionAfterMoves(
 
 function getPositionAfterMove(
   position: BoardPosition,
-  moveCoordinates: MoveCoordinates
+  MoveCoordinate: MoveCoordinate
 ): BoardPosition {
-  const { origin, destination } = moveCoordinates;
+  const { origin, destination } = MoveCoordinate;
   const { file: originFile, rank: originRank } = coordinateToSquare(origin);
   const { file: destFile, rank: destRank } = coordinateToSquare(destination);
   const piece = position[originRank][originFile];

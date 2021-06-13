@@ -1,7 +1,14 @@
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
+import { cleanup, render } from '@testing-library/react';
+import { v4 as uuidv4 } from 'uuid';
+
+import Board from '../../components/Board/Board/Board';
 import { Coordinate } from '../../utils/board/board.types';
 import { createBoard } from '../../utils/board/editor/boardEditor';
 import { PieceColor } from '../../utils/pieces.types';
+import { emptyBoardHandlers } from '../components/support/Board.data';
+import { getBoardTestData, renderEmptyBoard } from '../__utils__/board.utils';
 import {
   assertCandidateMoves,
   assertMadeMoves,
@@ -9,6 +16,7 @@ import {
 } from './common.test.utils';
 
 import * as data from './support/pawn.moves.data';
+import { choosePromotionPiece, makeMove } from '../__utils__/squareInteraction';
 
 describe('#pawn.moves', () => {
   describe('candidate moves', () => {
@@ -70,6 +78,37 @@ describe('#pawn.moves', () => {
 
     test('en passant', () => {
       assertMadeMoves(data.enPassantPositionAndMoves);
+    });
+  });
+
+  describe('promotion', () => {
+    test('promotes to selected piece', () => {
+      for (const promotionData of data.promotion) {
+        render(
+          <Board
+            key={uuidv4()}
+            initialBoard={promotionData.board}
+            handlers={emptyBoardHandlers}
+          />
+        );
+        choosePromotionPiece(promotionData.promotingMove.promotionPiece);
+        makeMove(
+          promotionData.promotingMove.origin,
+          promotionData.promotingMove.destination
+        );
+
+        const position = getBoardTestData().board.position;
+        expect(position).toEqual(promotionData.postPromotionBoard.position);
+        cleanup();
+
+        assertCandidateMoves([
+          {
+            board: promotionData.postPromotionBoard,
+            expectedMoves: promotionData.promotedPieceMoves,
+            testPieceSquare: promotionData.promotingMove.destination,
+          },
+        ]);
+      }
     });
   });
 });
