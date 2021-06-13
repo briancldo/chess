@@ -14,10 +14,13 @@ import {
 const GameView: React.FC<GameViewProps> = (props) => {
   const [boardId, setBoardId] = useState(uuidv4());
   const [result, setResult] = useState<GameResult>();
-  const initialBoard = props.initialBoard ?? initialBoardClassic;
+  const [initialBoard, setInitialBoard] = useState(
+    props.initialBoard ?? initialBoardClassic
+  );
 
   function handleNewGame() {
     setResult(undefined);
+    setInitialBoard(initialBoardClassic);
     setBoardId(uuidv4());
   }
 
