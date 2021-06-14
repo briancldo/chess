@@ -41,7 +41,11 @@ const PromotionSquare: React.FC<PromotionSquareProps> = (props) => {
               key={`promotionSquareAt${square.file}${square.rank}`}
             >
               {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-              <div className='promotion-square-wrapper' onMouseUp={selectPiece}>
+              <div
+                className='promotion-square-wrapper'
+                onMouseUp={selectPiece}
+                data-testid={`promo-piece-${piece.type}`}
+              >
                 <LiteralSquare color={promotionSquareColor} square={square} />
                 <PieceUI containingPiece={piece} />
               </div>

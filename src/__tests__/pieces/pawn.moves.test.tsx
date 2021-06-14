@@ -8,7 +8,7 @@ import { Coordinate } from '../../utils/board/board.types';
 import { createBoard } from '../../utils/board/editor/boardEditor';
 import { PieceColor } from '../../utils/pieces.types';
 import { emptyBoardHandlers } from '../components/support/Board.data';
-import { getBoardTestData, renderEmptyBoard } from '../__utils__/board.utils';
+import { getBoardTestData } from '../__utils__/board.utils';
 import {
   assertCandidateMoves,
   assertMadeMoves,
@@ -91,11 +91,11 @@ describe('#pawn.moves', () => {
             handlers={emptyBoardHandlers}
           />
         );
-        choosePromotionPiece(promotionData.promotingMove.promotionPiece);
         makeMove(
           promotionData.promotingMove.origin,
           promotionData.promotingMove.destination
         );
+        choosePromotionPiece(promotionData.promotingMove.promotionPiece);
 
         const position = getBoardTestData().board.position;
         expect(position).toEqual(promotionData.postPromotionBoard.position);
