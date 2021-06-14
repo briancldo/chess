@@ -22,7 +22,7 @@ import { isSquareAttacked } from './utils';
 import { getPieceLegalMoves } from './moves';
 import { DevError } from '../errors';
 import config from '../../config/config';
-import { Piece, PieceColor, PieceType } from '../pieces.types';
+import { Piece, PieceColor } from '../pieces.types';
 
 const backRank = {
   w: config.get('board.dimensions.numberRanks'),
@@ -59,8 +59,10 @@ function handleSpecialCases(
   squares: StartEndSquares
 ) {
   const { state: boardState, position } = board;
+  const isPromotion = handlePawnPromotion(draft, piece, squares.end);
+  if (isPromotion) return;
+
   handleEnPassant(position, draft, piece, squares);
-  handlePawnPromotion(draft, piece, squares.end);
   handleCastling(boardState, draft, piece, squares.end);
   handleCastlingPiecesMoved(boardState, draft, piece, squares.start);
   handleKingMoved(draft, piece, squares.end);
@@ -96,24 +98,13 @@ function handlePawnPromotion(
 ) {
   if (piece.type !== 'p') return;
 
-  if (end.rank === backRank[piece.color])
-    draft.position[end.rank][end.file] = promotePawn(piece.color);
-}
-
-function isValidPromotionPieceType(
-  pieceTypeString: string | null
-): pieceTypeString is PieceType {
-  if (pieceTypeString === null) return false;
-  return promotionPieces.includes(pieceTypeString);
-}
-
-function promotePawn(color: PieceColor) {
-  let promotionPieceType;
-  do {
-    promotionPieceType = prompt(`Promote to: (${promotionPieces.join(', ')})`);
-  } while (!isValidPromotionPieceType(promotionPieceType));
-
-  return { type: promotionPieceType, color };
+  if (end.rank === backRank[piece.color]) {
+    draft.state.promotion = {
+      active: true,
+      square: end,
+    };
+  }
+  return true;
 }
 
 function handleCastling(

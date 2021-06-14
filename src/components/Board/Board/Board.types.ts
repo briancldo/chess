@@ -1,4 +1,4 @@
-import { Board, BoardSquare } from '../../../utils/board/board.types';
+import { Board, BoardPromotionState, BoardSquare } from '../../../utils/board/board.types';
 import { Piece, PieceColor } from '../../../utils/pieces.types';
 import { GameViewHandlers } from '../../Game/GameView.types';
 
@@ -20,6 +20,7 @@ export interface BoardData {
   focusedPiece: FocusedPiece;
   gameOver: boolean;
   turn: PieceColor;
+  promotion: BoardPromotionState;
   hideHighlights?: boolean;
 }
 

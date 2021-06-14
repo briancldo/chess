@@ -5,13 +5,17 @@ import omit from 'lodash/omit';
 import config from '../../../config/config';
 import { SquareUI } from './SquareUI';
 import PromotionSquare from './PromotionSquare';
-import { squareToCoordinate } from '../../../utils/board/square/square';
+import {
+  matchingSquares,
+  squareToCoordinate,
+} from '../../../utils/board/square/square';
 import './Square.css';
 import { SquareProps } from './Square.types';
 import { SquareMetadata } from '../../../__tests__/__utils__/squareInteraction';
 
 const colorScheme = config.get('square.colors.default');
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const Square: React.FC<SquareProps> = (props) => {
   const {
     light,
@@ -23,10 +27,14 @@ const Square: React.FC<SquareProps> = (props) => {
     isChecked,
     isGameOver,
     turn,
+    promotion,
     handlers,
   } = props;
   const squareShade = light ? 'light' : 'dark';
   const color: string = colorScheme[squareShade];
+
+  if (promotion.active && matchingSquares(square, promotion.square))
+    return <PromotionSquare square={square} />;
 
   function handleSquareMouseUp() {
     if (highlighted) return handlers.movePiece(square);
@@ -34,6 +42,7 @@ const Square: React.FC<SquareProps> = (props) => {
 
   function handleSquareMouseDown() {
     if (isGameOver) return;
+    if (promotion.active) return;
     if (!containingPiece && !highlighted) return handlers.removePieceFocus();
     if (turn !== containingPiece?.color) return;
     if (containingPiece) handlers.setPieceFocus(containingPiece, square);

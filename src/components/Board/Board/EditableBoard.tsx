@@ -37,6 +37,7 @@ const EditableBoard: React.FC<EditableBoardProps> = (props) => {
     focusedPiece: {},
     gameOver: false,
     turn: 'w',
+    promotion: { active: false },
     hideHighlights: true,
   };
 

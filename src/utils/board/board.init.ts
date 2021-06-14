@@ -20,6 +20,7 @@ const board: Board = {
         threatSquares: [],
       },
     },
+    promotion: { active: false },
     turn: 'w',
     result: undefined,
   },

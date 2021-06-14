@@ -47,7 +47,13 @@ const Board: React.FC<BoardProps> = (props) => {
       handlers.removePieceFocus();
     },
   };
-  const data = { candidateSquares, focusedPiece, gameOver, turn };
+  const data = {
+    candidateSquares,
+    focusedPiece,
+    gameOver,
+    turn,
+    promotion: board.state.promotion,
+  };
   return (
     <>
       {process.env.NODE_ENV === 'development' && (
