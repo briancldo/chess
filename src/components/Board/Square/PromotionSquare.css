@@ -1,21 +1,16 @@
-.promotion-squares-wrapper {
-  position: absolute;
-  height: 20vw;
-  width: 5vw;
-  z-index: 110;
-}
-
 .promotion-squares-wrapper-top {
   position: relative;
-  height: inherit;
-  width: inherit;
+  height: 5vw;
+  width: 5vw;
+  z-index: 110;
 }
 
 .promotion-squares-wrapper-bottom {
   position: relative;
   top: -15vw;
-  height: inherit;
-  width: inherit;
+  height: 5vw;
+  width: 5vw;
+  z-index: 110;
 }
 
 .promotion-square-wrapper {

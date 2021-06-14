@@ -31,27 +31,21 @@ const PromotionSquare: React.FC<PromotionSquareProps> = (props) => {
 
   return (
     <>
-      <div className='square-wrapper' /> {/* for spacing */}
-      <div className='promotion-squares-wrapper'>
-        <div className={`promotion-squares-wrapper-${topOrBottom}`}>
-          {promotionSquares.map(({ square, piece }) => {
-            const selectPiece = () => selectPromotionPiece(piece.type);
-            return (
-              <React.Fragment
-                key={`promotionSquareAt${square.file}${square.rank}`}
-              >
-                {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-                <div
-                  className='promotion-square-wrapper'
-                  onMouseUp={selectPiece}
-                >
-                  <LiteralSquare color={promotionSquareColor} square={square} />
-                  <PieceUI containingPiece={piece} />
-                </div>
-              </React.Fragment>
-            );
-          })}
-        </div>
+      <div className={`promotion-squares-wrapper-${topOrBottom}`}>
+        {promotionSquares.map(({ square, piece }) => {
+          const selectPiece = () => selectPromotionPiece(piece.type);
+          return (
+            <React.Fragment
+              key={`promotionSquareAt${square.file}${square.rank}`}
+            >
+              {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+              <div className='promotion-square-wrapper' onMouseUp={selectPiece}>
+                <LiteralSquare color={promotionSquareColor} square={square} />
+                <PieceUI containingPiece={piece} />
+              </div>
+            </React.Fragment>
+          );
+        })}
       </div>
     </>
   );
