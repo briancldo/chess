@@ -55,5 +55,6 @@ export function makeMoves(moves: MoveCoordinate[]) {
 }
 
 export function choosePromotionPiece(pieceType: PieceType) {
-  jest.spyOn(window, 'prompt').mockReturnValueOnce(pieceType);
+  const promotionPieceSquare = screen.getByTestId(`promo-piece-${pieceType}`);
+  userEvent.click(promotionPieceSquare);
 }

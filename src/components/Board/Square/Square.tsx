@@ -1,23 +1,21 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import areObjectsEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 
-import MovablePiece from '../../Pieces/MovablePiece';
 import config from '../../../config/config';
-import { isCornerSquare, ranks, files } from '../../../utils/board/board';
-import { squareToCoordinate } from '../../../utils/board/square/square';
-import './Square.css';
+import { SquareUI } from './SquareUI';
+import PromotionSquare from './PromotionSquare';
 import {
-  CornerSquareProps,
-  SquareUIProps,
-  SquareHighlightProps,
-  SquareProps,
-  LiteralSquareProps,
-} from './Square.types';
+  matchingSquares,
+  squareToCoordinate,
+} from '../../../utils/board/square/square';
+import './Square.css';
+import { SquareProps } from './Square.types';
 import { SquareMetadata } from '../../../__tests__/__utils__/squareInteraction';
 
 const colorScheme = config.get('square.colors.default');
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const Square: React.FC<SquareProps> = (props) => {
   const {
     light,
@@ -29,10 +27,19 @@ const Square: React.FC<SquareProps> = (props) => {
     isChecked,
     isGameOver,
     turn,
+    promotion,
     handlers,
   } = props;
   const squareShade = light ? 'light' : 'dark';
   const color: string = colorScheme[squareShade];
+
+  if (promotion.active && matchingSquares(square, promotion.square))
+    return (
+      <PromotionSquare
+        square={square}
+        selectPromotionPiece={handlers.selectPromotionPiece}
+      />
+    );
 
   function handleSquareMouseUp() {
     if (highlighted) return handlers.movePiece(square);
@@ -40,6 +47,7 @@ const Square: React.FC<SquareProps> = (props) => {
 
   function handleSquareMouseDown() {
     if (isGameOver) return;
+    if (promotion.active) return;
     if (!containingPiece && !highlighted) return handlers.removePieceFocus();
     if (turn !== containingPiece?.color) return;
     if (containingPiece) handlers.setPieceFocus(containingPiece, square);
@@ -83,102 +91,4 @@ function shouldSquareUpdate(oldProps: SquareProps, newProps: SquareProps) {
     omit(oldProps, omitSquareProps),
     omit(newProps, omitSquareProps)
   );
-}
-
-export const SquareUI: React.FC<SquareUIProps> = (props) => {
-  const {
-    color,
-    square,
-    hideHighlights,
-    highlighted,
-    isCurrentlyFocusedPiece,
-    isChecked,
-    squareShade,
-    containingPiece,
-    className,
-  } = props;
-
-  return (
-    <div className={className}>
-      <LiteralSquare color={color} square={square} />
-      {!hideHighlights && (
-        <SquareHighlight
-          {...{ highlighted, isCurrentlyFocusedPiece, isChecked, squareShade }}
-        />
-      )}
-      <MovablePiece {...{ containingPiece }} />
-    </div>
-  );
-};
-
-const LiteralSquareComponent: React.FC<LiteralSquareProps> = (props) => {
-  const { color, square } = props;
-  const squareStyle = { fill: color };
-
-  if (square && isCornerSquare(square)) return <CornerSquare square={square} />;
-
-  return (
-    <svg width='5vw' height='5vw' className='square-svg'>
-      <rect width='5vw' height='5vw' style={squareStyle} />
-    </svg>
-  );
-};
-export const LiteralSquare = React.memo(LiteralSquareComponent, () => true);
-
-const CornerSquare: React.FC<CornerSquareProps> = (props) => {
-  const { square } = props;
-  const { rank, file } = square;
-
-  const isLastRank = rank === ranks.last;
-  const isLastFile = file === files.last;
-  const corner = `${isLastRank ? 'Top' : 'Bottom'}${
-    isLastFile ? 'Right' : 'Left'
-  }`;
-  const squareShade = isLastRank === isLastFile ? 'dark' : 'light';
-  const color = colorScheme[squareShade];
-  const cornerSquareStyle: CSSProperties = {
-    height: '5vw',
-    width: '5vw',
-    [`border${corner}Radius`]: '1.3vw',
-    backgroundColor: color,
-    position: 'absolute',
-  };
-  return <div style={cornerSquareStyle} />;
-};
-
-export const SquareHighlight: React.FC<SquareHighlightProps> = (props) => {
-  const { highlighted, isCurrentlyFocusedPiece, isChecked } = props;
-  if (!highlighted && !isCurrentlyFocusedPiece && !isChecked) return null;
-
-  const strokeColor = getSquareHighlightColor({
-    isCurrentlyFocusedPiece,
-    isChecked,
-  });
-
-  return (
-    <div className='square-highlight-wrapper'>
-      <svg height='4.5vw' width='4.5vw'>
-        <rect
-          height='4.5vw'
-          width='4.5vw'
-          stroke={strokeColor}
-          strokeWidth='0.25vw'
-          fill='transparent'
-        />
-      </svg>
-    </div>
-  );
-};
-
-const highlightColors = {
-  candidate: 'white',
-  focused: colorScheme.lightComplement,
-  checked: 'red',
-};
-function getSquareHighlightColor(conditions: Partial<SquareHighlightProps>) {
-  const { isCurrentlyFocusedPiece, isChecked } = conditions;
-
-  if (isCurrentlyFocusedPiece) return highlightColors.focused;
-  if (isChecked) return highlightColors.checked;
-  return highlightColors.candidate;
 }

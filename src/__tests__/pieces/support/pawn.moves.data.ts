@@ -261,6 +261,7 @@ export interface PromotionBoardAndMoves {
 }
 
 export const promotion: PromotionBoardAndMoves[] = [
+  // promotes to correct piece w/ proper functions - white
   {
     board: createBoard({
       position: {
@@ -354,6 +355,7 @@ export const promotion: PromotionBoardAndMoves[] = [
     promotingMove: { origin: 'c7', destination: 'c8', promotionPiece: 'n' },
     promotedPieceMoves: ['b6', 'd6', 'a7', 'e7'],
   },
+  // promotes to correct piece w/ proper functions - black
   {
     board: createBoard({
       position: {
@@ -454,5 +456,34 @@ export const promotion: PromotionBoardAndMoves[] = [
     }),
     promotingMove: { origin: 'c2', destination: 'c1', promotionPiece: 'n' },
     promotedPieceMoves: ['a2', 'e2', 'b3', 'd3'],
+  },
+  // can move diagonally into promotion square
+  {
+    board: createBoard({
+      position: {
+        wp: ['e7'],
+        br: ['d8'],
+      },
+    }),
+    postPromotionBoard: createBoard({
+      position: { wn: ['d8'] },
+    }),
+    promotingMove: { origin: 'e7', destination: 'd8', promotionPiece: 'n' },
+    promotedPieceMoves: ['c6', 'e6', 'b7', 'f7'],
+  },
+  {
+    board: createBoard({
+      position: {
+        bp: ['e2'],
+        wr: ['d1'],
+      },
+      state: { turn: 'b' },
+    }),
+    postPromotionBoard: createBoard({
+      position: { bn: ['d1'] },
+      state: { turn: 'b' },
+    }),
+    promotingMove: { origin: 'e2', destination: 'd1', promotionPiece: 'n' },
+    promotedPieceMoves: ['c3', 'e3', 'b2', 'f2'],
   },
 ];

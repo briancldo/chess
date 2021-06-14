@@ -1,4 +1,7 @@
-import { BoardSquare } from '../../../utils/board/board.types';
+import {
+  BoardPromotionState,
+  BoardSquare,
+} from '../../../utils/board/board.types';
 import { Piece, PieceColor } from '../../../utils/pieces.types';
 import { BoardHandlers } from '../Board/Board.types';
 
@@ -12,6 +15,7 @@ export interface SquareProps {
   isChecked?: boolean;
   isGameOver: boolean;
   turn: PieceColor;
+  promotion: BoardPromotionState;
   handlers: BoardHandlers;
 }
 
@@ -33,6 +37,7 @@ export interface LiteralSquareProps {
 }
 
 export interface CornerSquareProps {
+  color?: string;
   square: BoardSquare;
 }
 

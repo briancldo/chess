@@ -50,6 +50,14 @@ export interface BoardCheckState {
   side?: PieceColor;
   details: BoardCheckDetails;
 }
+export type BoardPromotionState =
+  | {
+      active: false;
+    }
+  | {
+      active: true;
+      square: BoardSquare;
+    };
 export interface BoardState {
   enPassantSquare?: BoardSquare;
   castling: {
@@ -58,6 +66,7 @@ export interface BoardState {
   };
   king: BoardKingState;
   check: BoardCheckState;
+  promotion: BoardPromotionState;
   turn: PieceColor;
   result?: GameResult;
 }

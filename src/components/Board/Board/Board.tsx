@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { produce } from 'immer';
 
 import Rank from '../Rank/Rank';
 import { ranks } from '../../../utils/board/board';
@@ -46,8 +47,21 @@ const Board: React.FC<BoardProps> = (props) => {
       setBoard((board) => makeMove(board, focusedPiece.square, destination));
       handlers.removePieceFocus();
     },
+    selectPromotionPiece(piece, promotionSquare) {
+      const boardPrePromo = produce(board, (draft) => {
+        const { file, rank } = promotionSquare;
+        draft.position[rank][file] = piece;
+      });
+      setBoard(makeMove(boardPrePromo, promotionSquare, promotionSquare));
+    },
   };
-  const data = { candidateSquares, focusedPiece, gameOver, turn };
+  const data = {
+    candidateSquares,
+    focusedPiece,
+    gameOver,
+    turn,
+    promotion: board.state.promotion,
+  };
   return (
     <>
       {process.env.NODE_ENV === 'development' && (

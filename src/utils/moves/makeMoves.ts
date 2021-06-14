@@ -22,13 +22,13 @@ import { isSquareAttacked } from './utils';
 import { getPieceLegalMoves } from './moves';
 import { DevError } from '../errors';
 import config from '../../config/config';
-import { Piece, PieceColor, PieceType } from '../pieces.types';
+import { Piece, PieceColor } from '../pieces.types';
 
 const backRank = {
   w: config.get('board.dimensions.numberRanks'),
   b: 1,
 };
-const promotionPieces = ['q', 'r', 'b', 'n'];
+
 export default function makeMove(
   board: Board,
   start: BoardSquare,
@@ -41,9 +41,15 @@ export default function makeMove(
       throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
 
     // this order is neccessary
-    draft.position[end.rank][end.file] = piece;
-    handleSpecialCases(board, draft, piece, { start, end });
+    const pieceDestinationSquare = draft.position[end.rank][end.file];
     draft.position[start.rank][start.file] = undefined;
+    const isPromotion = handleSpecialCases(board, draft, piece, { start, end });
+    if (isPromotion) {
+      draft.position[end.rank][end.file] = pieceDestinationSquare;
+      return;
+    }
+
+    draft.position[end.rank][end.file] = piece;
     handleChecks(board.state, draft, piece.color);
     draft.state.turn = flipColor(draft.state.turn);
 
@@ -59,11 +65,14 @@ function handleSpecialCases(
   squares: StartEndSquares
 ) {
   const { state: boardState, position } = board;
+  const isPromotion = handlePawnPromotion(draft, piece, squares.end);
+  if (isPromotion) return true;
+
   handleEnPassant(position, draft, piece, squares);
-  handlePawnPromotion(draft, piece, squares.end);
   handleCastling(boardState, draft, piece, squares.end);
   handleCastlingPiecesMoved(boardState, draft, piece, squares.start);
   handleKingMoved(draft, piece, squares.end);
+  return false;
 }
 
 function handleEnPassant(
@@ -94,26 +103,21 @@ function handlePawnPromotion(
   piece: Piece,
   end: BoardSquare
 ) {
+  if (draft.state.promotion.active) {
+    draft.state.promotion = { active: false };
+    return false;
+  }
+
   if (piece.type !== 'p') return;
 
-  if (end.rank === backRank[piece.color])
-    draft.position[end.rank][end.file] = promotePawn(piece.color);
-}
-
-function isValidPromotionPieceType(
-  pieceTypeString: string | null
-): pieceTypeString is PieceType {
-  if (pieceTypeString === null) return false;
-  return promotionPieces.includes(pieceTypeString);
-}
-
-function promotePawn(color: PieceColor) {
-  let promotionPieceType;
-  do {
-    promotionPieceType = prompt(`Promote to: (${promotionPieces.join(', ')})`);
-  } while (!isValidPromotionPieceType(promotionPieceType));
-
-  return { type: promotionPieceType, color };
+  if (end.rank === backRank[piece.color]) {
+    draft.state.promotion = {
+      active: true,
+      square: end,
+    };
+    return true;
+  }
+  return false;
 }
 
 function handleCastling(
