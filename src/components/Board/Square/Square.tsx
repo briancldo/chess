@@ -28,9 +28,6 @@ const Square: React.FC<SquareProps> = (props) => {
   const squareShade = light ? 'light' : 'dark';
   const color: string = colorScheme[squareShade];
 
-  if (square?.file === 'a' && square.rank === 1)
-    return <PromotionSquare square={square} />;
-
   function handleSquareMouseUp() {
     if (highlighted) return handlers.movePiece(square);
   }
