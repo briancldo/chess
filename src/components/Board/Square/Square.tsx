@@ -34,7 +34,12 @@ const Square: React.FC<SquareProps> = (props) => {
   const color: string = colorScheme[squareShade];
 
   if (promotion.active && matchingSquares(square, promotion.square))
-    return <PromotionSquare square={square} />;
+    return (
+      <PromotionSquare
+        square={square}
+        selectPromotionPiece={handlers.selectPromotionPiece}
+      />
+    );
 
   function handleSquareMouseUp() {
     if (highlighted) return handlers.movePiece(square);

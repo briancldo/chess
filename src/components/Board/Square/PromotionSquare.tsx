@@ -6,12 +6,14 @@ import PieceUI from '../../Pieces/Piece';
 import './PromotionSquare.css';
 import { Piece, PieceColor, PieceType } from '../../../utils/pieces.types';
 import config from '../../../config/config';
+import { SelectPromotionPiece } from '../Board/Board.types';
 
 const colorScheme = config.get('square.colors.default');
 const promotionSquareColor = colorScheme.lightComplement;
 
 interface PromotionSquareProps {
   square: BoardSquare;
+  selectPromotionPiece: SelectPromotionPiece;
 }
 
 const PromotionSquare: React.FC<PromotionSquareProps> = (props) => {
@@ -25,15 +27,15 @@ const PromotionSquare: React.FC<PromotionSquareProps> = (props) => {
     topOrBottom
   );
 
-  function selectPromotionPiece(type: PieceType) {
-    console.log('promo piece:', type);
+  function selectPromotionPiece(piece: Piece) {
+    props.selectPromotionPiece(piece, square);
   }
 
   return (
     <>
       <div className={`promotion-squares-wrapper-${topOrBottom}`}>
         {promotionSquares.map(({ square, piece }) => {
-          const selectPiece = () => selectPromotionPiece(piece.type);
+          const selectPiece = () => selectPromotionPiece(piece);
           return (
             <React.Fragment
               key={`promotionSquareAt${square.file}${square.rank}`}

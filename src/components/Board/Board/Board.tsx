@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { produce } from 'immer';
 
 import Rank from '../Rank/Rank';
-import { ranks } from '../../../utils/board/board';
+import { getSquareAtOffset, ranks } from '../../../utils/board/board';
 import { getPieceLegalMoves, makeMove } from '../../../utils/moves/moves';
 import './Board.css';
 import { BoardSquare, GameResult } from '../../../utils/board/board.types';
@@ -12,6 +13,7 @@ import {
   FocusedPiece,
 } from './Board.types';
 import { BoardTestData } from '../../../__tests__/__utils__/board.utils';
+import { getDirection } from '../../../utils/moves/utils';
 
 const Board: React.FC<BoardProps> = (props) => {
   const [board, setBoard] = useState(props.initialBoard);
@@ -45,6 +47,14 @@ const Board: React.FC<BoardProps> = (props) => {
       if (!('square' in focusedPiece)) return;
       setBoard((board) => makeMove(board, focusedPiece.square, destination));
       handlers.removePieceFocus();
+    },
+    selectPromotionPiece(piece, promotionSquare) {
+      const direction = getDirection(piece.color);
+      const boardPrePromo = produce(board, (draft) => {
+        const { file, rank } = promotionSquare;
+        draft.position[rank][file] = piece;
+      });
+      setBoard(makeMove(boardPrePromo, promotionSquare, promotionSquare));
     },
   };
   const data = {

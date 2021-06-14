@@ -41,9 +41,15 @@ export default function makeMove(
       throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
 
     // this order is neccessary
-    draft.position[end.rank][end.file] = piece;
-    handleSpecialCases(board, draft, piece, { start, end });
+    const pieceDestinationSquare = draft.position[end.rank][end.file];
     draft.position[start.rank][start.file] = undefined;
+    const isPromotion = handleSpecialCases(board, draft, piece, { start, end });
+    if (isPromotion) {
+      draft.position[end.rank][end.file] = pieceDestinationSquare;
+      return;
+    }
+
+    draft.position[end.rank][end.file] = piece;
     handleChecks(board.state, draft, piece.color);
     draft.state.turn = flipColor(draft.state.turn);
 
@@ -60,12 +66,13 @@ function handleSpecialCases(
 ) {
   const { state: boardState, position } = board;
   const isPromotion = handlePawnPromotion(draft, piece, squares.end);
-  if (isPromotion) return;
+  if (isPromotion) return true;
 
   handleEnPassant(position, draft, piece, squares);
   handleCastling(boardState, draft, piece, squares.end);
   handleCastlingPiecesMoved(boardState, draft, piece, squares.start);
   handleKingMoved(draft, piece, squares.end);
+  return false;
 }
 
 function handleEnPassant(
@@ -96,6 +103,11 @@ function handlePawnPromotion(
   piece: Piece,
   end: BoardSquare
 ) {
+  if (draft.state.promotion.active) {
+    draft.state.promotion = { active: false };
+    return false;
+  }
+
   if (piece.type !== 'p') return;
 
   if (end.rank === backRank[piece.color]) {
@@ -103,8 +115,9 @@ function handlePawnPromotion(
       active: true,
       square: end,
     };
+    return true;
   }
-  return true;
+  return false;
 }
 
 function handleCastling(
