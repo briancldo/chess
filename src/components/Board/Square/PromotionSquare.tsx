@@ -5,6 +5,10 @@ import { LiteralSquare } from './SquareUI';
 import PieceUI from '../../Pieces/Piece';
 import './PromotionSquare.css';
 import { Piece, PieceColor, PieceType } from '../../../utils/pieces.types';
+import config from '../../../config/config';
+
+const colorScheme = config.get('square.colors.default');
+const promotionSquareColor = colorScheme.lightComplement;
 
 interface PromotionSquareProps {
   square: BoardSquare;
@@ -31,7 +35,7 @@ const PromotionSquare: React.FC<PromotionSquareProps> = (props) => {
               key={`promotionSquareAt${square.file}${square.rank}`}
             >
               <div className='promotion-square-wrapper'>
-                <LiteralSquare color='white' square={square} />
+                <LiteralSquare color={promotionSquareColor} square={square} />
                 <PieceUI containingPiece={piece} />
               </div>
             </React.Fragment>

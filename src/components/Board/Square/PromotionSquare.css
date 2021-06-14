@@ -22,4 +22,21 @@
   position: relative;
   height: 5vw;
   width: 5vw;
+  transition: 0.1s;
+}
+
+.promotion-square-wrapper:hover {
+  position: relative;
+  height: 5vw;
+  width: 5vw;
+  transform: scale(1.1);
+  transition: 0.1s;
+}
+
+.promotion-square-wrapper:active {
+  position: relative;
+  height: 5vw;
+  width: 5vw;
+  transform: scale(0.95);
+  transition: 0.1s;
 }
