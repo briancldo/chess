@@ -42,7 +42,8 @@ const LiteralSquareComponent: React.FC<LiteralSquareProps> = (props) => {
   const { color, square } = props;
   const squareStyle = { fill: color };
 
-  if (square && isCornerSquare(square)) return <CornerSquare square={square} />;
+  if (square && isCornerSquare(square))
+    return <CornerSquare color={color} square={square} />;
 
   return (
     <svg width='5vw' height='5vw' className='square-svg'>
@@ -53,7 +54,7 @@ const LiteralSquareComponent: React.FC<LiteralSquareProps> = (props) => {
 export const LiteralSquare = React.memo(LiteralSquareComponent, () => true);
 
 const CornerSquare: React.FC<CornerSquareProps> = (props) => {
-  const { square } = props;
+  const { color: colorProp, square } = props;
   const { rank, file } = square;
 
   const isLastRank = rank === ranks.last;
@@ -62,7 +63,7 @@ const CornerSquare: React.FC<CornerSquareProps> = (props) => {
     isLastFile ? 'Right' : 'Left'
   }`;
   const squareShade = isLastRank === isLastFile ? 'dark' : 'light';
-  const color = colorScheme[squareShade];
+  const color = colorProp || colorScheme[squareShade];
   const cornerSquareStyle: CSSProperties = {
     height: '5vw',
     width: '5vw',

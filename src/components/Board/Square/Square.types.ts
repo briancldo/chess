@@ -33,6 +33,7 @@ export interface LiteralSquareProps {
 }
 
 export interface CornerSquareProps {
+  color?: string;
   square: BoardSquare;
 }
 

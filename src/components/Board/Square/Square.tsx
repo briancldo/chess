@@ -4,6 +4,7 @@ import omit from 'lodash/omit';
 
 import config from '../../../config/config';
 import { SquareUI } from './SquareUI';
+import PromotionSquare from './PromotionSquare';
 import { squareToCoordinate } from '../../../utils/board/square/square';
 import './Square.css';
 import { SquareProps } from './Square.types';
@@ -26,6 +27,9 @@ const Square: React.FC<SquareProps> = (props) => {
   } = props;
   const squareShade = light ? 'light' : 'dark';
   const color: string = colorScheme[squareShade];
+
+  if (square?.file === 'a' && square.rank === 1)
+    return <PromotionSquare square={square} />;
 
   function handleSquareMouseUp() {
     if (highlighted) return handlers.movePiece(square);
