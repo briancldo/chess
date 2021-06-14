@@ -28,7 +28,7 @@ const backRank = {
   w: config.get('board.dimensions.numberRanks'),
   b: 1,
 };
-const promotionPieces = ['q', 'r', 'b', 'n'];
+
 export default function makeMove(
   board: Board,
   start: BoardSquare,

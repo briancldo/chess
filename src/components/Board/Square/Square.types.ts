@@ -1,4 +1,7 @@
-import { BoardPromotionState, BoardSquare } from '../../../utils/board/board.types';
+import {
+  BoardPromotionState,
+  BoardSquare,
+} from '../../../utils/board/board.types';
 import { Piece, PieceColor } from '../../../utils/pieces.types';
 import { BoardHandlers } from '../Board/Board.types';
 
