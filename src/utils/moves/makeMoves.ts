@@ -41,13 +41,9 @@ export default function makeMove(
       throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
 
     // this order is neccessary
-    const pieceDestinationSquare = draft.position[end.rank][end.file];
     draft.position[start.rank][start.file] = undefined;
     const isPromotion = handleSpecialCases(board, draft, piece, { start, end });
-    if (isPromotion) {
-      draft.position[end.rank][end.file] = pieceDestinationSquare;
-      return;
-    }
+    if (isPromotion) return;
 
     draft.position[end.rank][end.file] = piece;
     handleChecks(board.state, draft, piece.color);
