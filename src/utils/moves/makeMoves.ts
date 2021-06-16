@@ -41,13 +41,12 @@ export default function makeMove(
       throw new DevError(`No piece at start square ${JSON.stringify(start)}`);
 
     // this order is neccessary
-    const pieceDestinationSquare = draft.position[end.rank][end.file];
     draft.position[start.rank][start.file] = undefined;
-    const isPromotion = handleSpecialCases(board, draft, piece, { start, end });
-    if (isPromotion) {
-      draft.position[end.rank][end.file] = pieceDestinationSquare;
-      return;
-    }
+    const { isPromotionTurn } = handleSpecialCases(board, draft, piece, {
+      start,
+      end,
+    });
+    if (isPromotionTurn) return;
 
     draft.position[end.rank][end.file] = piece;
     handleChecks(board.state, draft, piece.color);
@@ -58,21 +57,22 @@ export default function makeMove(
 }
 
 type StartEndSquares = { start: BoardSquare; end: BoardSquare };
+type SpecialCasesReturn = { isPromotionTurn: IsPromotionTurn };
 function handleSpecialCases(
   board: Board,
   draft: Draft<Board>,
   piece: Piece,
   squares: StartEndSquares
-) {
+): SpecialCasesReturn {
   const { state: boardState, position } = board;
   const isPromotion = handlePawnPromotion(draft, piece, squares.end);
-  if (isPromotion) return true;
+  if (isPromotion) return { isPromotionTurn: true };
 
   handleEnPassant(position, draft, piece, squares);
   handleCastling(boardState, draft, piece, squares.end);
   handleCastlingPiecesMoved(boardState, draft, piece, squares.start);
   handleKingMoved(draft, piece, squares.end);
-  return false;
+  return { isPromotionTurn: false };
 }
 
 function handleEnPassant(
@@ -98,17 +98,18 @@ function handleEnPassant(
   draft.state.enPassantSquare = isEnPassantSquare ? end : undefined;
 }
 
+type IsPromotionTurn = boolean;
 function handlePawnPromotion(
   draft: Draft<Board>,
   piece: Piece,
   end: BoardSquare
-) {
+): IsPromotionTurn {
   if (draft.state.promotion.active) {
     draft.state.promotion = { active: false };
     return false;
   }
 
-  if (piece.type !== 'p') return;
+  if (piece.type !== 'p') return false;
 
   if (end.rank === backRank[piece.color]) {
     draft.state.promotion = {
