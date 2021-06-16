@@ -67,6 +67,10 @@ export interface BoardState {
   king: BoardKingState;
   check: BoardCheckState;
   promotion: BoardPromotionState;
+  capturedPieces: {
+    w: Piece[];
+    b: Piece[];
+  };
   turn: PieceColor;
   result?: GameResult;
 }

@@ -21,6 +21,10 @@ const board: Board = {
       },
     },
     promotion: { active: false },
+    capturedPieces: {
+      w: [],
+      b: [],
+    },
     turn: 'w',
     result: undefined,
   },
