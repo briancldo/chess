@@ -1,4 +1,4 @@
-import { original, produce, Draft } from 'immer';
+import { produce, Draft } from 'immer';
 import {
   getCastlingPosition,
   getPieceAtSquare,
@@ -188,9 +188,11 @@ function handleKingMoved(
 }
 
 function handleCapturedPiece(draft: Draft<Board>, end: BoardSquare) {
-  console.log({
-    capturedPiece: (original(draft) as Board).position[end.rank][end.file],
-  });
+  const piece = draft.position[end.rank][end.file];
+  if (!piece) return;
+
+  draft.state.capturedPieces[piece.color].push(piece.type);
+  draft.state.capturedPieces[piece.color].sort(); // TODO: custom "piece-sorting" algorithm
 }
 
 function handleChecks(

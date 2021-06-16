@@ -1,5 +1,5 @@
 import { DeepPartial } from '../object.types';
-import { Piece, PieceColor } from '../pieces.types';
+import { Piece, PieceColor, PieceType } from '../pieces.types';
 
 export type BoardAxis<T> = T[] & { first: T; last: T };
 
@@ -69,8 +69,8 @@ export interface BoardState {
   check: BoardCheckState;
   promotion: BoardPromotionState;
   capturedPieces: {
-    w: Piece[];
-    b: Piece[];
+    w: PieceType[];
+    b: PieceType[];
   };
   turn: PieceColor;
   result?: GameResult;
