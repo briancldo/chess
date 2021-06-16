@@ -13,6 +13,7 @@ import {
   FocusedPiece,
 } from './Board.types';
 import { BoardTestData } from '../../../__tests__/__utils__/board.utils';
+import { PromotionPiece } from '../../../utils/pieces.types';
 
 const Board: React.FC<BoardProps> = (props) => {
   const [board, setBoard] = useState(props.initialBoard);
@@ -47,12 +48,12 @@ const Board: React.FC<BoardProps> = (props) => {
       setBoard((board) => makeMove(board, focusedPiece.square, destination));
       handlers.removePieceFocus();
     },
-    selectPromotionPiece(piece) {
+    selectPromotionPiece(piece: PromotionPiece) {
       if (!board.state.promotion.active) throw new Error('Not promotion.');
       const boardPrePromo = produce(board, (draft) => {
         if (!board.state.promotion.active) throw new Error('Not promotion.');
         const { file, rank } = board.state.promotion.prePromoSquare;
-        draft.position[rank][file] = piece;
+        draft.position[rank][file] = { ...piece, promoted: true };
       });
       setBoard(
         makeMove(

@@ -3,7 +3,7 @@ import {
   BoardPromotionState,
   BoardSquare,
 } from '../../../utils/board/board.types';
-import { Piece, PieceColor } from '../../../utils/pieces.types';
+import { Piece, PieceColor, PromotionPiece } from '../../../utils/pieces.types';
 import { GameViewHandlers } from '../../Game/GameView.types';
 
 export type FocusedPiece =
@@ -13,7 +13,7 @@ export type FocusedPiece =
     }
   | Record<string, never>;
 
-export type SelectPromotionPiece = (piece: Piece) => void;
+export type SelectPromotionPiece = (piece: PromotionPiece) => void;
 export interface BoardHandlers {
   setPieceFocus: (piece: Piece, square: BoardSquare) => void;
   removePieceFocus: () => void;

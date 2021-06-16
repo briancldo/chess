@@ -4,7 +4,11 @@ import { BoardRank, BoardSquare } from '../../../utils/board/board.types';
 import { LiteralSquare } from './SquareUI';
 import PieceUI from '../../Pieces/Piece';
 import './PromotionSquare.css';
-import { Piece, PieceColor, PieceType } from '../../../utils/pieces.types';
+import {
+  PieceColor,
+  PromotionPiece,
+  PromotionPieceType,
+} from '../../../utils/pieces.types';
 import config from '../../../config/config';
 import { SelectPromotionPiece } from '../Board/Board.types';
 
@@ -27,7 +31,7 @@ const PromotionSquare: React.FC<PromotionSquareProps> = (props) => {
     topOrBottom
   );
 
-  function selectPromotionPiece(piece: Piece) {
+  function selectPromotionPiece(piece: PromotionPiece) {
     props.selectPromotionPiece(piece);
   }
 
@@ -72,19 +76,22 @@ function getNBelowSquares(square: BoardSquare, n: number): BoardSquare[] {
 }
 
 const promotionPieceTypes = {
-  top: ['q', 'r', 'b', 'n'] as PieceColor[],
-  bottom: ['n', 'b', 'r', 'q'] as PieceColor[],
+  top: ['q', 'r', 'b', 'n'] as PromotionPieceType[],
+  bottom: ['n', 'b', 'r', 'q'] as PromotionPieceType[],
 };
 function producePromotionSquares(
   promoSquares: BoardSquare[],
   topOrBottom: 'top' | 'bottom'
-): { square: BoardSquare; piece: Piece }[] {
+): { square: BoardSquare; piece: PromotionPiece }[] {
   const squares = sortPromoSquares(promoSquares);
   const piecesTypes = promotionPieceTypes[topOrBottom];
   const pieceColor: PieceColor = topOrBottom === 'top' ? 'w' : 'b';
   return squares.map((square, index) => ({
     square,
-    piece: { type: piecesTypes[index] as PieceType, color: pieceColor },
+    piece: {
+      type: piecesTypes[index] as PromotionPieceType,
+      color: pieceColor,
+    },
   }));
 }
 
