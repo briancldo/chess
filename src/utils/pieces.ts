@@ -60,3 +60,15 @@ export function isPromotedPiece(piece: Piece) {
   if (!isPromotionPiece(piece)) return false;
   return piece.promoted === true;
 }
+
+const pieceOrdering = {
+  k: 0,
+  p: 1,
+  n: 2,
+  b: 3,
+  r: 4,
+  q: 5,
+};
+export function comparePieceTypes(type1: PieceType, type2: PieceType) {
+  return pieceOrdering[type1] > pieceOrdering[type2] ? 1 : -1;
+}
