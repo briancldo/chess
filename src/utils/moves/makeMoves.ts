@@ -16,7 +16,7 @@ import {
   GameResult,
 } from '../board/board.types';
 import { matchingSquares } from '../board/square/square';
-import { flipColor } from '../pieces';
+import { flipColor, isPromotedPiece, isPromotionPiece } from '../pieces';
 import { setCheckDetails } from './checks';
 import { isSquareAttacked } from './utils';
 import { getPieceLegalMoves } from './moves';
@@ -191,8 +191,9 @@ function handleCapturedPiece(draft: Draft<Board>, end: BoardSquare) {
   const piece = draft.position[end.rank][end.file];
   if (!piece) return;
 
-  draft.state.capturedPieces[piece.color].push(piece.type);
-  draft.state.capturedPieces[piece.color].sort(); // TODO: custom "piece-sorting" algorithm
+  const pieceType = isPromotedPiece(piece) ? 'p' : piece.type;
+  draft.state.capturedPieces[piece.color].push(pieceType);
+  draft.state.capturedPieces[piece.color].sort();
 }
 
 function handleChecks(
