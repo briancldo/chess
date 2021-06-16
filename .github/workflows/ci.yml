@@ -20,7 +20,7 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
+      - run: yarn
       - name: Format
         run: yarn format
       - name: Lint
