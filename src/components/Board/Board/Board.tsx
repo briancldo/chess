@@ -47,12 +47,20 @@ const Board: React.FC<BoardProps> = (props) => {
       setBoard((board) => makeMove(board, focusedPiece.square, destination));
       handlers.removePieceFocus();
     },
-    selectPromotionPiece(piece, promotionSquare) {
+    selectPromotionPiece(piece) {
+      if (!board.state.promotion.active) throw new Error('Not promotion.');
       const boardPrePromo = produce(board, (draft) => {
-        const { file, rank } = promotionSquare;
+        if (!board.state.promotion.active) throw new Error('Not promotion.');
+        const { file, rank } = board.state.promotion.prePromoSquare;
         draft.position[rank][file] = piece;
       });
-      setBoard(makeMove(boardPrePromo, promotionSquare, promotionSquare));
+      setBoard(
+        makeMove(
+          boardPrePromo,
+          board.state.promotion.prePromoSquare,
+          board.state.promotion.square
+        )
+      );
     },
   };
   const data = {

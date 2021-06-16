@@ -13,10 +13,7 @@ export type FocusedPiece =
     }
   | Record<string, never>;
 
-export type SelectPromotionPiece = (
-  piece: Piece,
-  promotionSquare: BoardSquare
-) => void;
+export type SelectPromotionPiece = (piece: Piece) => void;
 export interface BoardHandlers {
   setPieceFocus: (piece: Piece, square: BoardSquare) => void;
   removePieceFocus: () => void;

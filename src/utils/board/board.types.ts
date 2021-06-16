@@ -57,6 +57,7 @@ export type BoardPromotionState =
   | {
       active: true;
       square: BoardSquare;
+      prePromoSquare: BoardSquare;
     };
 export interface BoardState {
   enPassantSquare?: BoardSquare;

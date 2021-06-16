@@ -1,4 +1,4 @@
-import { produce, Draft } from 'immer';
+import { original, produce, Draft } from 'immer';
 import {
   getCastlingPosition,
   getPieceAtSquare,
@@ -48,6 +48,7 @@ export default function makeMove(
     });
     if (isPromotionTurn) return;
 
+    handleCapturedPiece(draft, end);
     draft.position[end.rank][end.file] = piece;
     handleChecks(board.state, draft, piece.color);
     draft.state.turn = flipColor(draft.state.turn);
@@ -65,7 +66,12 @@ function handleSpecialCases(
   squares: StartEndSquares
 ): SpecialCasesReturn {
   const { state: boardState, position } = board;
-  const isPromotion = handlePawnPromotion(draft, piece, squares.end);
+  const isPromotion = handlePawnPromotion(
+    draft,
+    piece,
+    squares.start,
+    squares.end
+  );
   if (isPromotion) return { isPromotionTurn: true };
 
   handleEnPassant(position, draft, piece, squares);
@@ -102,6 +108,7 @@ type IsPromotionTurn = boolean;
 function handlePawnPromotion(
   draft: Draft<Board>,
   piece: Piece,
+  start: BoardSquare,
   end: BoardSquare
 ): IsPromotionTurn {
   if (draft.state.promotion.active) {
@@ -114,6 +121,7 @@ function handlePawnPromotion(
   if (end.rank === backRank[piece.color]) {
     draft.state.promotion = {
       active: true,
+      prePromoSquare: start,
       square: end,
     };
     return true;
@@ -177,6 +185,12 @@ function handleKingMoved(
 ) {
   if (piece.type !== 'k') return;
   draft.state.king[piece.color].square = endSquare;
+}
+
+function handleCapturedPiece(draft: Draft<Board>, end: BoardSquare) {
+  console.log({
+    capturedPiece: (original(draft) as Board).position[end.rank][end.file],
+  });
 }
 
 function handleChecks(

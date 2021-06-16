@@ -28,7 +28,7 @@ const PromotionSquare: React.FC<PromotionSquareProps> = (props) => {
   );
 
   function selectPromotionPiece(piece: Piece) {
-    props.selectPromotionPiece(piece, square);
+    props.selectPromotionPiece(piece);
   }
 
   return (
