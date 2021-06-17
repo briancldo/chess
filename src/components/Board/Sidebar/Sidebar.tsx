@@ -2,41 +2,34 @@ import React from 'react';
 
 import GameOver from './content/GameOver';
 import config from '../../../config/config';
-import { SidebarProps } from './Sidebar.types';
+import { SidebarProps, SidebarSpacerProps, SidebarType } from './Sidebar.types';
 import './Sidebar.css';
-import { SidebarDeterminantContext, SidebarType } from './Sidebar.types';
 
 const colors = config.get('square.colors')['default'];
 const sidebarStyle = {
   backgroundColor: colors.lightComplement,
 };
+const sidebarsByType: { [type in SidebarType]: React.FC<SidebarProps> } = {
+  'game-over': GameOver as React.FC<SidebarProps>,
+  'game-active': GameOver as React.FC<SidebarProps>, // TODO: update to GameActive
+};
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
-  const { result, handlers } = props;
-  const sidebarContext = { result };
-  const SidebarContent = getSidebarType(sidebarContext);
+  const { type } = props;
+  const SidebarContent = sidebarsByType[type];
 
-  if (!SidebarContent) return null;
   return (
     <div className='board-sidebar' style={sidebarStyle}>
-      <SidebarContent handlers={handlers} context={sidebarContext} />
+      <SidebarContent {...props} />
     </div>
   );
 };
 
 export default Sidebar;
 
-export const SidebarSpacer: React.FC<Partial<SidebarProps>> = (props) => {
-  const { result } = props;
-  const SidebarContent = getSidebarType({ result });
+export const SidebarSpacer: React.FC<SidebarSpacerProps> = (props) => {
+  const { active } = props;
 
-  if (!SidebarContent) return null;
+  if (!active) return null;
   return <div className='board-sidebar-spacer' />;
 };
-
-function getSidebarType(
-  context: SidebarDeterminantContext
-): SidebarType | null {
-  if (context.result) return GameOver;
-  return null;
-}

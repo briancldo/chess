@@ -10,6 +10,7 @@ import {
   GameViewHandlers,
   GameOverHandler,
 } from './GameView.types';
+import { SidebarProps, SidebarType } from '../Board/Sidebar/Sidebar.types';
 
 const GameView: React.FC<GameViewProps> = (props) => {
   const [boardId, setBoardId] = useState(uuidv4());
@@ -36,13 +37,31 @@ const GameView: React.FC<GameViewProps> = (props) => {
     []
   );
 
+  const RenderedSidebar = getSidebarByContext({ result }, { handlers });
   return (
     <>
-      <SidebarSpacer result={result} />
+      <SidebarSpacer active />
       <Board key={boardId} initialBoard={initialBoard} handlers={handlers} />
-      <BoardSidebar handlers={handlers} result={result} />
+      {RenderedSidebar}
     </>
   );
 };
 
 export default GameView;
+
+interface SidebarContext {
+  result?: GameResult;
+}
+interface SomeSidebarProps {
+  handlers: GameViewHandlers;
+}
+function getSidebarByContext(
+  context: SidebarContext,
+  someProps: SomeSidebarProps
+): JSX.Element {
+  const { result } = context;
+  const { handlers } = someProps;
+  if (result)
+    return <BoardSidebar type='game-over' {...{ result, handlers }} />;
+  return <BoardSidebar type='game-active' />;
+}
