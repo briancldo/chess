@@ -5,7 +5,11 @@ import Rank from '../Rank/Rank';
 import { ranks } from '../../../utils/board/board';
 import { getPieceLegalMoves, makeMove } from '../../../utils/moves/moves';
 import './Board.css';
-import { BoardSquare, GameResult } from '../../../utils/board/board.types';
+import {
+  Board as BoardType,
+  BoardSquare,
+  GameResult,
+} from '../../../utils/board/board.types';
 import {
   BoardProps,
   BoardHandlers,
@@ -21,6 +25,11 @@ const Board: React.FC<BoardProps> = (props) => {
   const [candidateSquares, setCandidateSquares] = useState<BoardSquare[]>([]);
   const turn = board.state.turn;
   const gameOver = board.state.result !== undefined;
+
+  function updateBoard(update: React.SetStateAction<BoardType>) {
+    setBoard(update);
+    props.handlers.setBoardMirror(update);
+  }
 
   useEffect(() => {
     if (gameOver)
@@ -45,7 +54,7 @@ const Board: React.FC<BoardProps> = (props) => {
     },
     movePiece: (destination) => {
       if (!('square' in focusedPiece)) return;
-      setBoard((board) => makeMove(board, focusedPiece.square, destination));
+      updateBoard((board) => makeMove(board, focusedPiece.square, destination));
       handlers.removePieceFocus();
     },
     selectPromotionPiece(piece: PromotionPiece) {
@@ -55,7 +64,7 @@ const Board: React.FC<BoardProps> = (props) => {
         const { file, rank } = board.state.promotion.prePromoSquare;
         draft.position[rank][file] = { ...piece, promoted: true };
       });
-      setBoard(
+      updateBoard(
         makeMove(
           boardPrePromo,
           board.state.promotion.prePromoSquare,

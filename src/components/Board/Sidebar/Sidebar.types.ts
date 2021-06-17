@@ -1,5 +1,6 @@
 import { GameResult } from '../../../utils/board/board.types';
 import { GameViewHandlers } from '../../Game/GameView.types';
+import { Board } from '../../../utils/board/board.types';
 
 // SidebarTypes temporarily hardcoded
 export type SidebarType = 'game-over' | 'game-active';
@@ -11,7 +12,7 @@ export interface GameOverSidebarProps {
 
 export interface GameActiveSidebarProps {
   type: 'game-active';
-  message: string;
+  board: Board;
 }
 
 export type SidebarProps = GameOverSidebarProps | GameActiveSidebarProps;

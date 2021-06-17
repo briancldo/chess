@@ -8,4 +8,5 @@ export type GameOverHandler = (result: GameResult) => void;
 export interface GameViewHandlers {
   handleNewGame: () => void;
   handleGameOver: GameOverHandler;
+  setBoardMirror: React.Dispatch<React.SetStateAction<Board>>;
 }
