@@ -51,7 +51,9 @@ const PromotionSquare: React.FC<PromotionSquareProps> = (props) => {
                 data-testid={`promo-piece-${piece.type}`}
               >
                 <LiteralSquare color={promotionSquareColor} square={square} />
-                <PieceUI containingPiece={piece} />
+                <div className='promotion-square-containing-piece'>
+                  <PieceUI containingPiece={piece} />
+                </div>
               </div>
             </React.Fragment>
           );
