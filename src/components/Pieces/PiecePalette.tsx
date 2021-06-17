@@ -73,7 +73,7 @@ const PaletteSquare: React.FC<PaletteSquareProps> = (props) => {
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div onMouseDown={handleMouseDown}>
+    <div onMouseDown={handleMouseDown} className='piece-palette-square'>
       <SquareUI {...props} />
     </div>
   );

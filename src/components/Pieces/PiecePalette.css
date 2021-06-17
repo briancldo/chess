@@ -2,3 +2,11 @@
   margin-left: 0.5vw;
   margin-right: 0.5vw;
 }
+
+.piece-palette-square {
+  height: inherit;
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
