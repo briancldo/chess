@@ -23,6 +23,7 @@ const GameView: React.FC<GameViewProps> = (props) => {
   function handleNewGame() {
     setResult(undefined);
     setInitialBoard(initialBoardClassic);
+    setBoardMirror(initialBoardClassic);
     setBoardId(uuidv4());
   }
 
