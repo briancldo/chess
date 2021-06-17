@@ -1,7 +1,7 @@
 .board-sidebar {
   position: relative;
   left: -2vw;
-  right: -2vw;
+  padding-left: 2vw;
   z-index: 0;
   border-top-right-radius: 1.3vw;
   border-bottom-right-radius: 1.3vw;

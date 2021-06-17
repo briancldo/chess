@@ -11,6 +11,7 @@ export interface GameOverSidebarProps {
 
 export interface GameActiveSidebarProps {
   type: 'game-active';
+  message: string;
 }
 
 export type SidebarProps = GameOverSidebarProps | GameActiveSidebarProps;

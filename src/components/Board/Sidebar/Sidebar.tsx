@@ -1,6 +1,7 @@
 import React from 'react';
 
 import GameOver from './content/GameOver';
+import GameActive from './content/GameActive';
 import config from '../../../config/config';
 import { SidebarProps, SidebarSpacerProps, SidebarType } from './Sidebar.types';
 import './Sidebar.css';
@@ -11,7 +12,7 @@ const sidebarStyle = {
 };
 const sidebarsByType: { [type in SidebarType]: React.FC<SidebarProps> } = {
   'game-over': GameOver as React.FC<SidebarProps>,
-  'game-active': GameOver as React.FC<SidebarProps>, // TODO: update to GameActive
+  'game-active': GameActive as React.FC<SidebarProps>, // TODO: update to GameActive
 };
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
