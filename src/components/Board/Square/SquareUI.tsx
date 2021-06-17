@@ -33,7 +33,9 @@ export const SquareUI: React.FC<SquareUIProps> = (props) => {
           {...{ highlighted, isCurrentlyFocusedPiece, isChecked, squareShade }}
         />
       )}
-      <MovablePiece {...{ containingPiece }} />
+      <div className='square-containing-piece'>
+        <MovablePiece {...{ containingPiece }} />
+      </div>
     </div>
   );
 };

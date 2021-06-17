@@ -79,6 +79,7 @@ const Square: React.FC<SquareProps> = (props) => {
           isChecked,
           squareShade,
           containingPiece,
+          className: 'square-ui-wrapper',
         }}
       />
     </div>

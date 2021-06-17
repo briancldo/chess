@@ -16,3 +16,18 @@
   justify-content: center;
   align-items: center;
 }
+
+.square-containing-piece {
+  height: 4vw;
+  width: 4vw;
+  background-color: red;
+  display: flex;
+}
+
+.square-ui-wrapper {
+  height: inherit;
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

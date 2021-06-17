@@ -1,15 +1,15 @@
 .movable-piece-static {
   position: absolute;
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
   z-index: 100;
   cursor: grab;
 }
 
 .movable-piece-static:active {
   position: absolute;
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
   z-index: 100;
   cursor: grabbing;
 }
