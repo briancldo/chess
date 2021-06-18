@@ -72,6 +72,7 @@ export const allCoordinates: Coordinate[] = [
 export const emptyBoardHandlers: GameViewHandlers = {
   handleNewGame: () => undefined,
   handleGameOver: () => undefined,
+  setBoardMirror: () => undefined,
 };
 
 export default {

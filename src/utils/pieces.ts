@@ -56,7 +56,7 @@ export function isPromotionPiece(piece: Piece): piece is PromotionPiece {
   return (promotionPieceTypes as PieceType[]).includes(piece.type);
 }
 
-export function isPromotedPiece(piece: Piece) {
+export function isPromotedPiece(piece: Piece): piece is PromotionPiece {
   if (!isPromotionPiece(piece)) return false;
   return piece.promoted === true;
 }

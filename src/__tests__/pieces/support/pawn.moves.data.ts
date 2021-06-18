@@ -268,11 +268,16 @@ export const promotion: PromotionBoardAndMoves[] = [
         wp: ['c7'],
       },
     }),
-    postPromotionBoard: createBoard({
-      position: {
-        wq: ['c8'],
+    postPromotionBoard: createBoard(
+      {
+        position: {
+          wq: ['c8'],
+        },
       },
-    }),
+      {
+        squaresPromotedPieces: ['c8'],
+      }
+    ),
     promotingMove: { origin: 'c7', destination: 'c8', promotionPiece: 'q' },
     promotedPieceMoves: [
       'c1',
@@ -304,11 +309,14 @@ export const promotion: PromotionBoardAndMoves[] = [
         wp: ['c7'],
       },
     }),
-    postPromotionBoard: createBoard({
-      position: {
-        wr: ['c8'],
+    postPromotionBoard: createBoard(
+      {
+        position: {
+          wr: ['c8'],
+        },
       },
-    }),
+      { squaresPromotedPieces: ['c8'] }
+    ),
     promotingMove: { origin: 'c7', destination: 'c8', promotionPiece: 'r' },
     promotedPieceMoves: [
       'c1',
@@ -333,11 +341,16 @@ export const promotion: PromotionBoardAndMoves[] = [
         wp: ['c7'],
       },
     }),
-    postPromotionBoard: createBoard({
-      position: {
-        wb: ['c8'],
+    postPromotionBoard: createBoard(
+      {
+        position: {
+          wb: ['c8'],
+        },
       },
-    }),
+      {
+        squaresPromotedPieces: ['c8'],
+      }
+    ),
     promotingMove: { origin: 'c7', destination: 'c8', promotionPiece: 'b' },
     promotedPieceMoves: ['h3', 'g4', 'f5', 'a6', 'e6', 'b7', 'd7'],
   },
@@ -347,11 +360,14 @@ export const promotion: PromotionBoardAndMoves[] = [
         wp: ['c7'],
       },
     }),
-    postPromotionBoard: createBoard({
-      position: {
-        wn: ['c8'],
+    postPromotionBoard: createBoard(
+      {
+        position: {
+          wn: ['c8'],
+        },
       },
-    }),
+      { squaresPromotedPieces: ['c8'] }
+    ),
     promotingMove: { origin: 'c7', destination: 'c8', promotionPiece: 'n' },
     promotedPieceMoves: ['b6', 'd6', 'a7', 'e7'],
   },
@@ -363,12 +379,15 @@ export const promotion: PromotionBoardAndMoves[] = [
       },
       state: { turn: 'b' },
     }),
-    postPromotionBoard: createBoard({
-      position: {
-        bq: ['c1'],
+    postPromotionBoard: createBoard(
+      {
+        position: {
+          bq: ['c1'],
+        },
+        state: { turn: 'b' },
       },
-      state: { turn: 'b' },
-    }),
+      { squaresPromotedPieces: ['c1'] }
+    ),
     promotingMove: { origin: 'c2', destination: 'c1', promotionPiece: 'q' },
     promotedPieceMoves: [
       'b1',
@@ -401,12 +420,15 @@ export const promotion: PromotionBoardAndMoves[] = [
       },
       state: { turn: 'b' },
     }),
-    postPromotionBoard: createBoard({
-      position: {
-        br: ['c1'],
+    postPromotionBoard: createBoard(
+      {
+        position: {
+          br: ['c1'],
+        },
+        state: { turn: 'b' },
       },
-      state: { turn: 'b' },
-    }),
+      { squaresPromotedPieces: ['c1'] }
+    ),
     promotingMove: { origin: 'c2', destination: 'c1', promotionPiece: 'r' },
     promotedPieceMoves: [
       'b1',
@@ -432,12 +454,15 @@ export const promotion: PromotionBoardAndMoves[] = [
       },
       state: { turn: 'b' },
     }),
-    postPromotionBoard: createBoard({
-      position: {
-        bb: ['c1'],
+    postPromotionBoard: createBoard(
+      {
+        position: {
+          bb: ['c1'],
+        },
+        state: { turn: 'b' },
       },
-      state: { turn: 'b' },
-    }),
+      { squaresPromotedPieces: ['c1'] }
+    ),
     promotingMove: { origin: 'c2', destination: 'c1', promotionPiece: 'b' },
     promotedPieceMoves: ['b2', 'd2', 'a3', 'e3', 'f4', 'g5', 'h6'],
   },
@@ -448,12 +473,15 @@ export const promotion: PromotionBoardAndMoves[] = [
       },
       state: { turn: 'b' },
     }),
-    postPromotionBoard: createBoard({
-      position: {
-        bn: ['c1'],
+    postPromotionBoard: createBoard(
+      {
+        position: {
+          bn: ['c1'],
+        },
+        state: { turn: 'b' },
       },
-      state: { turn: 'b' },
-    }),
+      { squaresPromotedPieces: ['c1'] }
+    ),
     promotingMove: { origin: 'c2', destination: 'c1', promotionPiece: 'n' },
     promotedPieceMoves: ['a2', 'e2', 'b3', 'd3'],
   },
@@ -465,9 +493,12 @@ export const promotion: PromotionBoardAndMoves[] = [
         br: ['d8'],
       },
     }),
-    postPromotionBoard: createBoard({
-      position: { wn: ['d8'] },
-    }),
+    postPromotionBoard: createBoard(
+      {
+        position: { wn: ['d8'] },
+      },
+      { squaresPromotedPieces: ['d8'] }
+    ),
     promotingMove: { origin: 'e7', destination: 'd8', promotionPiece: 'n' },
     promotedPieceMoves: ['c6', 'e6', 'b7', 'f7'],
   },
@@ -479,10 +510,13 @@ export const promotion: PromotionBoardAndMoves[] = [
       },
       state: { turn: 'b' },
     }),
-    postPromotionBoard: createBoard({
-      position: { bn: ['d1'] },
-      state: { turn: 'b' },
-    }),
+    postPromotionBoard: createBoard(
+      {
+        position: { bn: ['d1'] },
+        state: { turn: 'b' },
+      },
+      { squaresPromotedPieces: ['d1'] }
+    ),
     promotingMove: { origin: 'e2', destination: 'd1', promotionPiece: 'n' },
     promotedPieceMoves: ['c3', 'e3', 'b2', 'f2'],
   },
