@@ -26,6 +26,7 @@ export const displaysCorrectPieces: CapturedPiecesData[] = [
     movesAndAssertions: [
       {
         move: { origin: 'e2', destination: 'e6' },
+        // keep all captured pieces lists in the proper order; some tests depend on that
         expectedCapturedPieces: {
           w: [],
           b: ['q'],

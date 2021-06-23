@@ -31,7 +31,19 @@ describe('capturedPieces', () => {
     }
   });
 
-  test.todo('pieces are sorted');
+  test('pieces are sorted', () => {
+    const { rerender } = renderEmptyBoard();
+
+    for (const { board, movesAndAssertions } of data.displaysCorrectPieces) {
+      rerender(<GameView key={uuidv4()} initialBoard={board} />);
+
+      for (const { move, expectedCapturedPieces } of movesAndAssertions) {
+        makeMove(move.origin, move.destination);
+        const capturedPieces = getCapturedPieces();
+        expect(capturedPieces).toEqual(expectedCapturedPieces);
+      }
+    }
+  });
 
   test.todo('no captures means captured list does not change');
 
