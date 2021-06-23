@@ -118,3 +118,72 @@ export const noCaptures: CapturedPiecesData[] = [
     ],
   },
 ];
+
+export const capturePromoted: CapturedPiecesData[] = [
+  {
+    board: createBoard({
+      position: {
+        wp: ['d7', 'e7', 'f7', 'g7'],
+        br: ['a8'],
+      },
+    }),
+    movesAndAssertions: [
+      {
+        move: { origin: 'd7', destination: 'd8', promotionPiece: 'q' },
+        expectedCapturedPieces: {
+          w: [],
+          b: [],
+        },
+      },
+      {
+        move: { origin: 'a8', destination: 'd8' },
+        expectedCapturedPieces: {
+          w: ['p'],
+          b: [],
+        },
+      },
+      {
+        move: { origin: 'e7', destination: 'e8', promotionPiece: 'r' },
+        expectedCapturedPieces: {
+          w: ['p'],
+          b: [],
+        },
+      },
+      {
+        move: { origin: 'd8', destination: 'e8' },
+        expectedCapturedPieces: {
+          w: ['p', 'p'],
+          b: [],
+        },
+      },
+      {
+        move: { origin: 'f7', destination: 'f8', promotionPiece: 'b' },
+        expectedCapturedPieces: {
+          w: ['p', 'p'],
+          b: [],
+        },
+      },
+      {
+        move: { origin: 'e8', destination: 'f8' },
+        expectedCapturedPieces: {
+          w: ['p', 'p', 'p'],
+          b: [],
+        },
+      },
+      {
+        move: { origin: 'g7', destination: 'g8', promotionPiece: 'n' },
+        expectedCapturedPieces: {
+          w: ['p', 'p', 'p'],
+          b: [],
+        },
+      },
+      {
+        move: { origin: 'f8', destination: 'g8' },
+        expectedCapturedPieces: {
+          w: ['p', 'p', 'p', 'p'],
+          b: [],
+        },
+      },
+    ],
+  },
+];

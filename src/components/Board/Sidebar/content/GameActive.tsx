@@ -31,9 +31,9 @@ const CapturedPiecesList: React.FC<CapturedPiecesProps> = (props) => {
 
   return (
     <div className='sidebar-game-active-captured-piece-row'>
-      {capturedPieces[color].map((pieceType) => (
+      {capturedPieces[color].map((pieceType, index) => (
         <div
-          key={`captured-${color}-${pieceType}`}
+          key={`captured-${color}-${pieceType}-${index}`}
           className='sidebar-game-active-captured-piece'
           data-testid={`captured-${color}-${pieceType}`}
         >
