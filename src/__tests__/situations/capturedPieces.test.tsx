@@ -58,8 +58,9 @@ describe('capturedPieces', () => {
   });
 
   // edge case
-  // rename this...
-  test.todo('capture on promotion');
+  test('counts capture correctly on promotion move', () => {
+    assertCaptures(data.capturePromoted);
+  });
 });
 
 function assertCaptures(data: data.CapturedPiecesData[]) {

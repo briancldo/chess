@@ -212,3 +212,40 @@ export const gameOverMoves = {
     b: ['b', 'r'],
   } as CapturedPieces,
 };
+
+export const promotionCapture: CapturedPiecesData[] = [
+  {
+    board: createBoard({
+      position: {
+        wp: ['d7'],
+        bn: ['c8'],
+      },
+    }),
+    movesAndAssertions: [
+      {
+        move: { origin: 'd7', destination: 'c8', promotionPiece: 'q' },
+        expectedCapturedPieces: {
+          w: [],
+          b: ['n'],
+        },
+      },
+    ],
+  },
+  {
+    board: createBoard({
+      position: {
+        bp: ['d2'],
+        wr: ['c1'],
+      },
+    }),
+    movesAndAssertions: [
+      {
+        move: { origin: 'd2', destination: 'c1', promotionPiece: 'b' },
+        expectedCapturedPieces: {
+          w: [],
+          b: ['r'],
+        },
+      },
+    ],
+  },
+];
