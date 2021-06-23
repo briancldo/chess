@@ -59,6 +59,10 @@ export type BoardPromotionState =
       square: BoardSquare;
       prePromoSquare: BoardSquare;
     };
+export interface CapturedPieces {
+  w: PieceType[];
+  b: PieceType[];
+}
 export interface BoardState {
   enPassantSquare?: BoardSquare;
   castling: {
@@ -68,10 +72,7 @@ export interface BoardState {
   king: BoardKingState;
   check: BoardCheckState;
   promotion: BoardPromotionState;
-  capturedPieces: {
-    w: PieceType[];
-    b: PieceType[];
-  };
+  capturedPieces: CapturedPieces;
   turn: PieceColor;
   result?: GameResult;
 }
