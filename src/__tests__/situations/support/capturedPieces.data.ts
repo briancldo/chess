@@ -2,7 +2,7 @@ import { Board, CapturedPieces } from '../../../utils/board/board.types';
 import { createBoard } from '../../../utils/board/editor/boardEditor';
 import { MoveCoordinate } from '../../__utils__/squareInteraction';
 
-interface CapturedPiecesData {
+export interface CapturedPiecesData {
   board: Board;
   movesAndAssertions: {
     move: MoveCoordinate;
@@ -65,6 +65,54 @@ export const displaysCorrectPieces: CapturedPiecesData[] = [
         expectedCapturedPieces: {
           w: ['p', 'b', 'q'],
           b: ['n', 'r', 'q'],
+        },
+      },
+    ],
+  },
+];
+
+export const noCaptures: CapturedPiecesData[] = [
+  {
+    board: createBoard({
+      position: {
+        bp: ['f5', 'a7'],
+        wr: ['c5'],
+      },
+    }),
+    movesAndAssertions: [
+      {
+        move: { origin: 'c5', destination: 'd5' },
+        expectedCapturedPieces: {
+          w: [],
+          b: [],
+        },
+      },
+      {
+        move: { origin: 'a7', destination: 'a6' },
+        expectedCapturedPieces: {
+          w: [],
+          b: [],
+        },
+      },
+      {
+        move: { origin: 'd5', destination: 'f5' },
+        expectedCapturedPieces: {
+          w: [],
+          b: ['p'],
+        },
+      },
+      {
+        move: { origin: 'a6', destination: 'a5' },
+        expectedCapturedPieces: {
+          w: [],
+          b: ['p'],
+        },
+      },
+      {
+        move: { origin: 'f5', destination: 'f6' },
+        expectedCapturedPieces: {
+          w: [],
+          b: ['p'],
         },
       },
     ],

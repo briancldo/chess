@@ -32,20 +32,12 @@ describe('capturedPieces', () => {
   });
 
   test('pieces are sorted', () => {
-    const { rerender } = renderEmptyBoard();
-
-    for (const { board, movesAndAssertions } of data.displaysCorrectPieces) {
-      rerender(<GameView key={uuidv4()} initialBoard={board} />);
-
-      for (const { move, expectedCapturedPieces } of movesAndAssertions) {
-        makeMove(move.origin, move.destination);
-        const capturedPieces = getCapturedPieces();
-        expect(capturedPieces).toEqual(expectedCapturedPieces);
-      }
-    }
+    assertCaptures(data.displaysCorrectPieces);
   });
 
-  test.todo('no captures means captured list does not change');
+  test('no captures means captured list does not change', () => {
+    assertCaptures(data.noCaptures);
+  });
 
   test.todo('captured promoted piece counts as pawn');
 
@@ -54,3 +46,17 @@ describe('capturedPieces', () => {
   // edge case
   test.todo('capture on promotion');
 });
+
+function assertCaptures(data: data.CapturedPiecesData[]) {
+  const { rerender } = renderEmptyBoard();
+
+  for (const { board, movesAndAssertions } of data) {
+    rerender(<GameView key={uuidv4()} initialBoard={board} />);
+
+    for (const { move, expectedCapturedPieces } of movesAndAssertions) {
+      makeMove(move.origin, move.destination);
+      const capturedPieces = getCapturedPieces();
+      expect(capturedPieces).toEqual(expectedCapturedPieces);
+    }
+  }
+}
