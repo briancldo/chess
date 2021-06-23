@@ -2,6 +2,7 @@ import { screen } from '@testing-library/react';
 
 import { getBoardTestData } from '../../__utils__/board.utils';
 import initialBoard from '../../../utils/board/board.init';
+import { startNewGame } from '../../__utils__/game.utils';
 
 interface GameOverContext {
   resultText: string;
@@ -26,8 +27,7 @@ function assertNewGameButtonVisible() {
 }
 
 function assertNewGameButtonClick() {
-  const newGameButton = screen.getByRole('button', { name: 'New Game' });
-  newGameButton.click();
+  startNewGame();
 
   const board = getBoardTestData().board;
   expect(board).toEqual(initialBoard);

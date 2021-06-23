@@ -187,3 +187,28 @@ export const capturePromoted: CapturedPiecesData[] = [
     ],
   },
 ];
+
+export const gameOverMoves = {
+  board: createBoard({
+    position: {
+      bb: ['c1'],
+      wn: ['f2'],
+      br: ['d3', 'a7'],
+      bq: ['d5'],
+      wp: ['c6', 'd7'],
+      wk: ['h8'],
+    },
+  }),
+  moves: [
+    { origin: 'f2', destination: 'd3' },
+    { origin: 'd5', destination: 'c6' },
+    { origin: 'd3', destination: 'c1' },
+    { origin: 'c6', destination: 'd7' },
+    { origin: 'c1', destination: 'b3' },
+    { origin: 'd7', destination: 'd8' },
+  ] as MoveCoordinate[],
+  expectedCapturedPieces: {
+    w: ['p', 'p'],
+    b: ['b', 'r'],
+  } as CapturedPieces,
+};

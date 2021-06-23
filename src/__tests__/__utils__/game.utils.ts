@@ -2,6 +2,11 @@ import { screen } from '@testing-library/react';
 import { CapturedPieces } from '../../utils/board/board.types';
 import { PieceColor, PieceType } from '../../utils/pieces.types';
 
+export function startNewGame() {
+  const newGameButton = screen.getByRole('button', { name: 'New Game' });
+  newGameButton.click();
+}
+
 export function getCapturedPieces(): CapturedPieces;
 export function getCapturedPieces(color: PieceColor): Partial<CapturedPieces>;
 export function getCapturedPieces(color?: PieceColor): Partial<CapturedPieces> {

@@ -5,10 +5,15 @@ import { v4 as uuidv4 } from 'uuid';
 
 import GameView from '../../components/Game/GameView';
 import * as data from './support/capturedPieces.data';
-import { choosePromotionPiece, makeMove } from '../__utils__/squareInteraction';
+import {
+  choosePromotionPiece,
+  makeMove,
+  makeMoves,
+} from '../__utils__/squareInteraction';
 import {
   createCapturedPiecesAggregation,
   getCapturedPieces,
+  startNewGame,
 } from '../__utils__/game.utils';
 
 describe('capturedPieces', () => {
@@ -43,9 +48,17 @@ describe('capturedPieces', () => {
     assertCaptures(data.capturePromoted);
   });
 
-  test.todo('captured list reset on new game');
+  test('captured list resets on new game', () => {
+    render(<GameView initialBoard={data.gameOverMoves.board} />);
+
+    makeMoves(data.gameOverMoves.moves);
+    startNewGame();
+    const capturedPieces = getCapturedPieces();
+    expect(capturedPieces).toEqual({ w: [], b: [] });
+  });
 
   // edge case
+  // rename this...
   test.todo('capture on promotion');
 });
 
