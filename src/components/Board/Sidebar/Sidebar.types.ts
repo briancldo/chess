@@ -1,17 +1,27 @@
 import { GameResult } from '../../../utils/board/board.types';
 import { GameViewHandlers } from '../../Game/GameView.types';
+import { Board } from '../../../utils/board/board.types';
 
-export interface SidebarProps {
+// SidebarTypes temporarily hardcoded
+export type SidebarType = 'game-over' | 'game-active';
+export interface GameOverSidebarProps {
+  type: 'game-over';
+  result: GameResult;
   handlers: GameViewHandlers;
-  result?: GameResult;
 }
 
-export interface SidebarContentProps {
-  handlers: GameViewHandlers;
-  context: SidebarDeterminantContext;
+export interface GameActiveSidebarProps {
+  type: 'game-active';
+  board: Board;
 }
 
-export type SidebarType = React.FC<SidebarContentProps>; // | OtherSideOverProps, etc.
+export type SidebarProps = GameOverSidebarProps | GameActiveSidebarProps;
+
+export interface SidebarSpacerProps {
+  active?: boolean;
+}
+
+export type SidebarContent = React.FC<SidebarProps>; // | OtherSideOverProps, etc.
 export interface SidebarDeterminantContext {
   result?: GameResult;
 }

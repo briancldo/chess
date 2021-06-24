@@ -2,13 +2,12 @@ import React from 'react';
 import { createGameOverMessage } from '../../../../utils/game';
 
 import Button from '../../../ui/Button';
-import { SidebarContentProps } from '../Sidebar.types';
+import { GameOverSidebarProps } from '../Sidebar.types';
 import './GameOver.css';
 
-const SidebarGameOver: React.FC<SidebarContentProps> = (props) => {
-  const { context, handlers } = props;
-  if (!context.result) return null;
-  const { result } = context;
+const SidebarGameOver: React.FC<GameOverSidebarProps> = (props) => {
+  const { result, handlers } = props;
+  if (!result) return null;
 
   return (
     <div className='board-sidebar-game-over'>

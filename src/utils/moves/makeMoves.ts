@@ -16,7 +16,7 @@ import {
   GameResult,
 } from '../board/board.types';
 import { matchingSquares } from '../board/square/square';
-import { flipColor } from '../pieces';
+import { comparePieceTypes, flipColor, isPromotedPiece } from '../pieces';
 import { setCheckDetails } from './checks';
 import { isSquareAttacked } from './utils';
 import { getPieceLegalMoves } from './moves';
@@ -48,6 +48,7 @@ export default function makeMove(
     });
     if (isPromotionTurn) return;
 
+    handleCapturedPiece(draft, end);
     draft.position[end.rank][end.file] = piece;
     handleChecks(board.state, draft, piece.color);
     draft.state.turn = flipColor(draft.state.turn);
@@ -65,7 +66,12 @@ function handleSpecialCases(
   squares: StartEndSquares
 ): SpecialCasesReturn {
   const { state: boardState, position } = board;
-  const isPromotion = handlePawnPromotion(draft, piece, squares.end);
+  const isPromotion = handlePawnPromotion(
+    draft,
+    piece,
+    squares.start,
+    squares.end
+  );
   if (isPromotion) return { isPromotionTurn: true };
 
   handleEnPassant(position, draft, piece, squares);
@@ -102,6 +108,7 @@ type IsPromotionTurn = boolean;
 function handlePawnPromotion(
   draft: Draft<Board>,
   piece: Piece,
+  start: BoardSquare,
   end: BoardSquare
 ): IsPromotionTurn {
   if (draft.state.promotion.active) {
@@ -114,6 +121,7 @@ function handlePawnPromotion(
   if (end.rank === backRank[piece.color]) {
     draft.state.promotion = {
       active: true,
+      prePromoSquare: start,
       square: end,
     };
     return true;
@@ -177,6 +185,15 @@ function handleKingMoved(
 ) {
   if (piece.type !== 'k') return;
   draft.state.king[piece.color].square = endSquare;
+}
+
+function handleCapturedPiece(draft: Draft<Board>, end: BoardSquare) {
+  const piece = draft.position[end.rank][end.file];
+  if (!piece) return;
+
+  const pieceType = isPromotedPiece(piece) ? 'p' : piece.type;
+  draft.state.capturedPieces[piece.color].push(pieceType);
+  draft.state.capturedPieces[piece.color].sort(comparePieceTypes);
 }
 
 function handleChecks(

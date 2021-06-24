@@ -13,21 +13,28 @@ import {
 } from '../board.types';
 import { pieceObjectToString, pieceStringToObject } from '../../pieces';
 import { PieceString } from '../../pieces.types';
-import { ConcisePosition } from './boardEditor.types';
+import { ConcisePosition, CreateBoardOptions } from './boardEditor.types';
 import { synchronizeCheckState, synchronizeKingState } from './syncState';
+import { applyPostProcessing } from './postProcessing.boardEditor';
 
-export function createBoard(board: {
-  position?: ConcisePosition;
-  state?: BoardSubstate;
-}) {
+export function createBoard(
+  board: {
+    position?: ConcisePosition;
+    state?: BoardSubstate;
+  },
+  options?: CreateBoardOptions
+) {
   const { position, state } = board;
   const syncedState = synchronizeState(position, state);
-  return {
-    position: position
-      ? createFromConcisePosition(position)
-      : initialBoard.position,
-    state: syncedState,
-  };
+  return applyPostProcessing(
+    {
+      position: position
+        ? createFromConcisePosition(position)
+        : initialBoard.position,
+      state: syncedState,
+    },
+    options
+  );
 }
 
 function synchronizeState(position?: ConcisePosition, state?: BoardSubstate) {

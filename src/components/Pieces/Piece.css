@@ -1,28 +1,30 @@
 .piece-wrapper-outer {
   position: absolute;
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
 }
 
 .piece-wrapper-outer:active {
   position: absolute;
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
 }
 
 .piece-wrapper-inner {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
 }
 
 .piece-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 4vw;
-  width: 4vw;
+  /* height: 4vw;
+  width: 4vw; */
+  height: inherit;
+  width: inherit;
   background-size: cover;
 }

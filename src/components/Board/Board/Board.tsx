@@ -5,7 +5,11 @@ import Rank from '../Rank/Rank';
 import { ranks } from '../../../utils/board/board';
 import { getPieceLegalMoves, makeMove } from '../../../utils/moves/moves';
 import './Board.css';
-import { BoardSquare, GameResult } from '../../../utils/board/board.types';
+import {
+  Board as BoardType,
+  BoardSquare,
+  GameResult,
+} from '../../../utils/board/board.types';
 import {
   BoardProps,
   BoardHandlers,
@@ -13,6 +17,7 @@ import {
   FocusedPiece,
 } from './Board.types';
 import { BoardTestData } from '../../../__tests__/__utils__/board.utils';
+import { PromotionPiece } from '../../../utils/pieces.types';
 
 const Board: React.FC<BoardProps> = (props) => {
   const [board, setBoard] = useState(props.initialBoard);
@@ -20,6 +25,11 @@ const Board: React.FC<BoardProps> = (props) => {
   const [candidateSquares, setCandidateSquares] = useState<BoardSquare[]>([]);
   const turn = board.state.turn;
   const gameOver = board.state.result !== undefined;
+
+  function updateBoard(update: React.SetStateAction<BoardType>) {
+    setBoard(update);
+    props.handlers.setBoardMirror(update);
+  }
 
   useEffect(() => {
     if (gameOver)
@@ -44,15 +54,23 @@ const Board: React.FC<BoardProps> = (props) => {
     },
     movePiece: (destination) => {
       if (!('square' in focusedPiece)) return;
-      setBoard((board) => makeMove(board, focusedPiece.square, destination));
+      updateBoard((board) => makeMove(board, focusedPiece.square, destination));
       handlers.removePieceFocus();
     },
-    selectPromotionPiece(piece, promotionSquare) {
+    selectPromotionPiece(piece: PromotionPiece) {
+      if (!board.state.promotion.active) throw new Error('Not promotion.');
       const boardPrePromo = produce(board, (draft) => {
-        const { file, rank } = promotionSquare;
-        draft.position[rank][file] = piece;
+        if (!board.state.promotion.active) throw new Error('Not promotion.');
+        const { file, rank } = board.state.promotion.prePromoSquare;
+        draft.position[rank][file] = { ...piece, promoted: true };
       });
-      setBoard(makeMove(boardPrePromo, promotionSquare, promotionSquare));
+      updateBoard(
+        makeMove(
+          boardPrePromo,
+          board.state.promotion.prePromoSquare,
+          board.state.promotion.square
+        )
+      );
     },
   };
   const data = {

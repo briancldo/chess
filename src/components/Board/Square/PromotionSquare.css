@@ -17,21 +17,23 @@
   position: relative;
   height: 5vw;
   width: 5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: 0.1s;
 }
 
 .promotion-square-wrapper:hover {
-  position: relative;
-  height: 5vw;
-  width: 5vw;
   transform: scale(1.1);
   transition: 0.1s;
 }
 
 .promotion-square-wrapper:active {
-  position: relative;
-  height: 5vw;
-  width: 5vw;
   transform: scale(0.95);
   transition: 0.1s;
+}
+
+.promotion-square-containing-piece {
+  height: 4vw;
+  width: 4vw;
 }

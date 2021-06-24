@@ -10,6 +10,7 @@ import {
   GameViewHandlers,
   GameOverHandler,
 } from './GameView.types';
+import { Board as BoardType } from '../../utils/board/board.types';
 
 const GameView: React.FC<GameViewProps> = (props) => {
   const [boardId, setBoardId] = useState(uuidv4());
@@ -17,10 +18,12 @@ const GameView: React.FC<GameViewProps> = (props) => {
   const [initialBoard, setInitialBoard] = useState(
     props.initialBoard ?? initialBoardClassic
   );
+  const [boardMirror, setBoardMirror] = useState(initialBoard);
 
   function handleNewGame() {
     setResult(undefined);
     setInitialBoard(initialBoardClassic);
+    setBoardMirror(initialBoardClassic);
     setBoardId(uuidv4());
   }
 
@@ -32,17 +35,40 @@ const GameView: React.FC<GameViewProps> = (props) => {
     () => ({
       handleNewGame,
       handleGameOver,
+      setBoardMirror,
     }),
     []
   );
 
+  const RenderedSidebar = getSidebarByContext(
+    { result },
+    { handlers, board: boardMirror }
+  );
   return (
     <>
-      <SidebarSpacer result={result} />
+      <SidebarSpacer active />
       <Board key={boardId} initialBoard={initialBoard} handlers={handlers} />
-      <BoardSidebar handlers={handlers} result={result} />
+      {RenderedSidebar}
     </>
   );
 };
 
 export default GameView;
+
+interface SidebarContext {
+  result?: GameResult;
+}
+interface SomeSidebarProps {
+  board: BoardType;
+  handlers: GameViewHandlers;
+}
+function getSidebarByContext(
+  context: SidebarContext,
+  someProps: SomeSidebarProps
+): JSX.Element {
+  const { result } = context;
+  const { board, handlers } = someProps;
+  if (result)
+    return <BoardSidebar type='game-over' {...{ result, handlers }} />;
+  return <BoardSidebar type='game-active' board={board} />;
+}
