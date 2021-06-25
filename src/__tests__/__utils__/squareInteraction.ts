@@ -44,10 +44,11 @@ export interface MoveCoordinate {
 }
 
 export function makeMove(move: MoveCoordinate) {
-  const { origin, destination } = move;
+  const { origin, destination, promotionPiece } = move;
 
   clickSquare(origin);
   clickSquare(destination);
+  if (promotionPiece) choosePromotionPiece(promotionPiece);
 }
 
 export function makeMoves(moves: MoveCoordinate[]) {

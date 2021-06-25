@@ -16,7 +16,7 @@ import {
 } from './common.test.utils';
 
 import * as data from './support/pawn.moves.data';
-import { choosePromotionPiece, makeMove } from '../__utils__/squareInteraction';
+import { makeMove } from '../__utils__/squareInteraction';
 
 describe('#pawn.moves', () => {
   describe('candidate moves', () => {
@@ -91,11 +91,7 @@ describe('#pawn.moves', () => {
             handlers={emptyBoardHandlers}
           />
         );
-        makeMove({
-          origin: promotionData.promotingMove.origin,
-          destination: promotionData.promotingMove.destination,
-        });
-        choosePromotionPiece(promotionData.promotingMove.promotionPiece);
+        makeMove(promotionData.promotingMove);
 
         const position = getBoardTestData().board.position;
         expect(position).toEqual(promotionData.postPromotionBoard.position);

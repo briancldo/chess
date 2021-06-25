@@ -5,11 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import GameView from '../../components/Game/GameView';
 import * as data from './support/capturedPieces.data';
-import {
-  choosePromotionPiece,
-  makeMove,
-  makeMoves,
-} from '../__utils__/squareInteraction';
+import { makeMove, makeMoves } from '../__utils__/squareInteraction';
 import {
   createCapturedPiecesAggregation,
   getCapturedPieces,
@@ -71,7 +67,6 @@ function assertCaptures(data: data.CapturedPiecesData[]) {
 
     for (const { move, expectedCapturedPieces } of movesAndAssertions) {
       makeMove(move);
-      if (move.promotionPiece) choosePromotionPiece(move.promotionPiece);
       const capturedPieces = getCapturedPieces();
       expect(capturedPieces).toEqual(expectedCapturedPieces);
     }
