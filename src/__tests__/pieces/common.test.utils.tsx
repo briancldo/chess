@@ -79,7 +79,7 @@ export function assertMadeMoves(positionsAndMoves: BoardAndMoves[]) {
         />
       );
       if (preTestMoves) makeMoves(preTestMoves);
-      makeMove(testPieceSquare, destination);
+      makeMove({ origin: testPieceSquare, destination });
 
       const { board: simulatedBoard } = getBoardTestData();
       const actualPosition = simulatedBoard.position;

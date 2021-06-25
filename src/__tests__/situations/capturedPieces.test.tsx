@@ -5,11 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import GameView from '../../components/Game/GameView';
 import * as data from './support/capturedPieces.data';
-import {
-  choosePromotionPiece,
-  makeMove,
-  makeMoves,
-} from '../__utils__/squareInteraction';
+import { makeMove, makeMoves } from '../__utils__/squareInteraction';
 import {
   createCapturedPiecesAggregation,
   getCapturedPieces,
@@ -24,7 +20,7 @@ describe('capturedPieces', () => {
       rerender(<GameView key={uuidv4()} initialBoard={board} />);
 
       for (const { move, expectedCapturedPieces } of movesAndAssertions) {
-        makeMove(move.origin, move.destination);
+        makeMove(move);
         const aggCapturedPieces = createCapturedPiecesAggregation(
           getCapturedPieces()
         );
@@ -70,8 +66,7 @@ function assertCaptures(data: data.CapturedPiecesData[]) {
     rerender(<GameView key={uuidv4()} initialBoard={board} />);
 
     for (const { move, expectedCapturedPieces } of movesAndAssertions) {
-      makeMove(move.origin, move.destination);
-      if (move.promotionPiece) choosePromotionPiece(move.promotionPiece);
+      makeMove(move);
       const capturedPieces = getCapturedPieces();
       expect(capturedPieces).toEqual(expectedCapturedPieces);
     }
