@@ -43,14 +43,16 @@ export interface MoveCoordinate {
   promotionPiece?: PieceType;
 }
 
-export function makeMove(origin: Coordinate, destination: Coordinate) {
+export function makeMove(move: MoveCoordinate) {
+  const { origin, destination } = move;
+
   clickSquare(origin);
   clickSquare(destination);
 }
 
 export function makeMoves(moves: MoveCoordinate[]) {
   for (const move of moves) {
-    makeMove(move.origin, move.destination);
+    makeMove(move);
   }
 }
 

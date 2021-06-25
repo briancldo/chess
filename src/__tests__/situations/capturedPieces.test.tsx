@@ -24,7 +24,7 @@ describe('capturedPieces', () => {
       rerender(<GameView key={uuidv4()} initialBoard={board} />);
 
       for (const { move, expectedCapturedPieces } of movesAndAssertions) {
-        makeMove(move.origin, move.destination);
+        makeMove(move);
         const aggCapturedPieces = createCapturedPiecesAggregation(
           getCapturedPieces()
         );
@@ -70,7 +70,7 @@ function assertCaptures(data: data.CapturedPiecesData[]) {
     rerender(<GameView key={uuidv4()} initialBoard={board} />);
 
     for (const { move, expectedCapturedPieces } of movesAndAssertions) {
-      makeMove(move.origin, move.destination);
+      makeMove(move);
       if (move.promotionPiece) choosePromotionPiece(move.promotionPiece);
       const capturedPieces = getCapturedPieces();
       expect(capturedPieces).toEqual(expectedCapturedPieces);

@@ -91,10 +91,10 @@ describe('#pawn.moves', () => {
             handlers={emptyBoardHandlers}
           />
         );
-        makeMove(
-          promotionData.promotingMove.origin,
-          promotionData.promotingMove.destination
-        );
+        makeMove({
+          origin: promotionData.promotingMove.origin,
+          destination: promotionData.promotingMove.destination,
+        });
         choosePromotionPiece(promotionData.promotingMove.promotionPiece);
 
         const position = getBoardTestData().board.position;
