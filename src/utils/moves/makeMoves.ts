@@ -208,11 +208,12 @@ function handleChecks(boardState: BoardState, draft: Draft<Board>) {
   const isBlackKingChecked = kingSquare.b
     ? isSquareAttacked(kingSquare.b, 'b', draft)
     : false;
+
   if (!isWhiteKingChecked && !isBlackKingChecked) return handleUncheck(draft);
+
   const checkedSide = isWhiteKingChecked ? 'w' : 'b';
   const checkedSquare = kingSquare[checkedSide];
   if (!checkedSquare) return;
-  draft.state.check.side = checkedSide;
   setCheckDetails(draft, checkedSquare, checkedSide);
 }
 
