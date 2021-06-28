@@ -58,6 +58,7 @@ const Square: React.FC<SquareProps> = (props) => {
     coordinate,
     containingPiece,
     highlighted,
+    isChecked,
     light,
   };
   return (

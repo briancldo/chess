@@ -14,6 +14,7 @@ export interface SquareMetadata {
   coordinate: Coordinate;
   containingPiece?: Piece;
   highlighted: boolean;
+  isChecked?: boolean;
   light: boolean;
 }
 export function getSquareMetadata(coordinate: Coordinate) {
