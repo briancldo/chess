@@ -148,6 +148,7 @@ export function setCheckDetails(
   const threatPieces = getThreatPieces(draft, kingSquare, color);
   const threatSquares = getThreatSquares(kingSquare, threatPieces);
 
+  draft.state.check.side = color;
   draft.state.check.details.threatPieces = threatPieces;
   draft.state.check.details.threatSquares = threatSquares;
 }

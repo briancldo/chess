@@ -53,6 +53,7 @@ export const singleCheckBlockAttacker = [
 ] as BoardAndManyMoves[];
 
 export const singleCheckCaptureAttacker = [
+  // normal cases
   {
     board: createBoard({
       position: {
@@ -92,6 +93,30 @@ export const singleCheckCaptureAttacker = [
       c7: ['d6'],
       b4: ['d6'],
       d1: ['d6'],
+    },
+  },
+  // king captures attacker
+  {
+    board: createBoard({
+      position: {
+        wk: ['f4'],
+        bq: ['e5'],
+      },
+    }),
+    expectedMovesByCoordinate: {
+      f4: ['e5'],
+    },
+  },
+  {
+    board: createBoard({
+      position: {
+        bk: ['f4'],
+        wq: ['e5'],
+      },
+      state: { turn: 'b' },
+    }),
+    expectedMovesByCoordinate: {
+      f4: ['e5'],
     },
   },
 ] as BoardAndManyMoves[];

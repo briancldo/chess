@@ -50,7 +50,7 @@ export default function makeMove(
 
     handleCapturedPiece(draft, end);
     draft.position[end.rank][end.file] = piece;
-    handleChecks(board.state, draft, piece.color);
+    handleChecks(board.state, draft);
     draft.state.turn = flipColor(draft.state.turn);
 
     handleDetermineGameOver(draft, piece.color);
@@ -196,19 +196,25 @@ function handleCapturedPiece(draft: Draft<Board>, end: BoardSquare) {
   draft.state.capturedPieces[piece.color].sort(comparePieceTypes);
 }
 
-function handleChecks(
-  boardState: BoardState,
-  draft: Draft<Board>,
-  enemyColor: PieceColor
-) {
-  const kingColor = flipColor(enemyColor);
-  const kingSquare = getKingSquare(boardState, kingColor);
-  if (!kingSquare) return;
+function handleChecks(boardState: BoardState, draft: Draft<Board>) {
+  const kingSquare = {
+    w: getKingSquare(boardState, 'w'),
+    b: getKingSquare(boardState, 'b'),
+  };
 
-  const isKingChecked = isSquareAttacked(kingSquare, kingColor, draft);
-  if (!isKingChecked) return handleUncheck(draft);
-  draft.state.check.side = kingColor;
-  setCheckDetails(draft, kingSquare, kingColor);
+  const isWhiteKingChecked = kingSquare.w
+    ? isSquareAttacked(kingSquare.w, 'w', draft)
+    : false;
+  const isBlackKingChecked = kingSquare.b
+    ? isSquareAttacked(kingSquare.b, 'b', draft)
+    : false;
+
+  if (!isWhiteKingChecked && !isBlackKingChecked) return handleUncheck(draft);
+
+  const checkedSide = isWhiteKingChecked ? 'w' : 'b';
+  const checkedSquare = kingSquare[checkedSide];
+  if (!checkedSquare) return;
+  setCheckDetails(draft, checkedSquare, checkedSide);
 }
 
 function handleUncheck(draft: Draft<Board>) {

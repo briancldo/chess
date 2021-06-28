@@ -11,28 +11,33 @@ import {
   BoardAndMoves,
 } from '../pieces/common.test.utils';
 import { getBoardTestData, renderEmptyBoard } from '../__utils__/board.utils';
-import { makeMoves } from '../__utils__/squareInteraction';
+import {
+  getSquareMetadata,
+  makeMove,
+  makeMoves,
+} from '../__utils__/squareInteraction';
 
 import * as data from './support/checks.data';
 import { cleanup } from '@testing-library/react';
+import { squareToCoordinate } from '../../utils/board/square/square';
 
 describe('checks', () => {
   describe('single-check handling', () => {
     test('block attacker', () => {
       for (const dataPoint of data.singleCheckBlockAttacker) {
-        assertCandidateMoves(transformToBoardAndMovesArray(dataPoint));
+        assertHandlesCheck(dataPoint);
       }
     });
 
     test('capture attacker', () => {
       for (const dataPoint of data.singleCheckCaptureAttacker) {
-        assertCandidateMoves(transformToBoardAndMovesArray(dataPoint));
+        assertHandlesCheck(dataPoint);
       }
     });
 
     test('move king', () => {
       for (const dataPoint of data.singleCheckKingMove) {
-        assertCandidateMoves(transformToBoardAndMovesArray(dataPoint));
+        assertHandlesCheck(dataPoint);
       }
     });
   });
@@ -40,7 +45,7 @@ describe('checks', () => {
   describe('double-check handling', () => {
     test('only option is moving king', () => {
       for (const dataPoint of data.doubleChecks) {
-        assertCandidateMoves(transformToBoardAndMovesArray(dataPoint));
+        assertHandlesCheck(dataPoint);
       }
     });
   });
@@ -153,4 +158,41 @@ function transformToBoardAndMovesArray(
   }
 
   return boardAndMoves;
+}
+
+function assertHandlesCheck(dataPoint: data.BoardAndManyMoves) {
+  const boardAndMoves = transformToBoardAndMovesArray(dataPoint);
+  const { rerender } = renderEmptyBoard();
+
+  for (const {
+    board,
+    expectedMoves,
+    testPieceSquare,
+    preTestMoves,
+  } of boardAndMoves) {
+    for (const move of expectedMoves) {
+      rerender(
+        <Board
+          key={uuidv4()}
+          handlers={emptyBoardHandlers}
+          initialBoard={board}
+        />
+      );
+      if (preTestMoves) makeMoves(preTestMoves);
+
+      const kingSquare = board.state.king[board.state.turn].square;
+      if (!kingSquare) throw new Error('Need king square for test.');
+      const kingCoordinate = squareToCoordinate(kingSquare);
+
+      let isChecked = getSquareMetadata(kingCoordinate).isChecked;
+      expect(isChecked).toBe(true);
+
+      makeMove({ origin: testPieceSquare, destination: move });
+
+      isChecked = getSquareMetadata(kingCoordinate).isChecked;
+      expect(isChecked).toBeFalsy();
+    }
+  }
+
+  cleanup();
 }
