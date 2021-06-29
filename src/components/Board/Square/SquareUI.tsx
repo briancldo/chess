@@ -1,7 +1,8 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 
 import { isCornerSquare, ranks, files } from '../../../utils/board/board';
 import MovablePiece from '../../Pieces/MovablePiece';
+import RoundedSquare from './RoundedSquare';
 import {
   SquareUIProps,
   LiteralSquareProps,
@@ -66,14 +67,8 @@ const CornerSquare: React.FC<CornerSquareProps> = (props) => {
   }`;
   const squareShade = isLastRank === isLastFile ? 'dark' : 'light';
   const color = colorProp || colorScheme[squareShade];
-  const cornerSquareStyle: CSSProperties = {
-    height: '5vw',
-    width: '5vw',
-    [`border${corner}Radius`]: '1.3vw',
-    backgroundColor: color,
-    position: 'absolute',
-  };
-  return <div style={cornerSquareStyle} />;
+
+  return <RoundedSquare {...{ color, [corner]: true }} />;
 };
 
 export const SquareHighlight: React.FC<SquareHighlightProps> = (props) => {
