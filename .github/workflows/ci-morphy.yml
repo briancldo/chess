@@ -11,6 +11,9 @@ jobs:
   quality_assurance:
     name: Quality Assurance
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: morphy
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -22,8 +25,6 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - run: cd morphy/
-        name: Change to web-ui directory
       - run: yarn install --frozen-lockfile
       - name: Format
         run: yarn format
