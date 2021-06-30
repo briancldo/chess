@@ -1,9 +1,11 @@
-name: Pull Request CI
+name: Pull Request CI - Morphy
 
 on:
   pull_request:
     branches:
       - master
+    paths:
+      - 'morphy/**'
 
 jobs:
   quality_assurance:
@@ -20,6 +22,8 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - run: cd morphy/
+        name: Change to web-ui directory
       - run: yarn install --frozen-lockfile
       - name: Format
         run: yarn format
