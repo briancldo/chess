@@ -1,7 +1,7 @@
 Chess app, for fun.
 
 ## Monorepo Breakdown
-| Codebase      | Description
-|---------------|---------------
-| morphy        | React frontend 
-| fischer       | Node.js backend
+| Codebase            | Description
+|---------------------|---------------
+| [morphy](morphy/)   | React frontend 
+| [fischer](fischer/) | Node.js backend
