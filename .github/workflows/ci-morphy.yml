@@ -1,14 +1,19 @@
-name: Pull Request CI
+name: Pull Request CI - Morphy
 
 on:
   pull_request:
     branches:
       - master
+    paths:
+      - 'morphy/**'
 
 jobs:
   quality_assurance:
     name: Quality Assurance
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: morphy
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
