@@ -1,9 +1,5 @@
 {
-  "include": [
-    "src/**/*",
-    "__tests__/**/*"
-  ],
-  "exclude": ["./.eslintrc.js"],
+  "include": ["./**/*"],
   "compilerOptions": {
     "incremental": true,
     "target": "es5",
@@ -17,14 +13,12 @@
       "ES2019",
       "ES2020"
     ],
-    "jsx": "react-jsx",
     "sourceMap": true,
     "outDir": "dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "removeComments": true,
     "importHelpers": true,
     "downlevelIteration": true,
-    "isolatedModules": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -33,14 +27,13 @@
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
     "moduleResolution": "node",
-    "types": [],
+    "types": ["node"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true,
-    "noEmit": true
+    "resolveJsonModule": true
   }
 }

@@ -1,0 +1,36 @@
+{
+  "name": "fischer",
+  "scripts": {
+    "start:dev": "ts-node-dev app.ts --transpile-only --rs",
+    "test": "jest --silent --runInBand --colors",
+    "lint": "eslint \"lib/**/*.{js,ts,tsx}\"",
+    "format": "prettier --write \"lib/**/*.{js,ts,tsx}\"",
+    "cruise-deps": "depcruise \"lib/**/*.{js,ts,tsx}\"",
+    "cm": "yarn --cwd ../ cm"
+  },
+  "dependencies": {
+    "socket.io": "4.1.2"
+  },
+  "devDependencies": {
+    "@types/jest": "26.0.23",
+    "@types/node": "16.0.0",
+    "@typescript-eslint/eslint-plugin": "4.28.1",
+    "@typescript-eslint/parser": "4.28.1",
+    "dependency-cruiser": "10.0.4",
+    "eslint": "7.30.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-jest": "24.3.6",
+    "eslint-plugin-jest-formatting": "3.0.0",
+    "eslint-plugin-json-format": "2.0.1",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "3.4.0",
+    "eslint-plugin-promise": "5.1.0",
+    "eslint-plugin-security": "1.4.0",
+    "eslint-plugin-sonarjs": "0.8.0-125",
+    "jest": "27.0.6",
+    "prettier": "2.3.2",
+    "standard-version": "9.3.0",
+    "ts-node-dev": "1.1.8",
+    "typescript": "4.3.5"
+  }
+}
