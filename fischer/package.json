@@ -1,12 +1,12 @@
 {
   "name": "fischer",
-  "main": "app.js",
   "scripts": {
     "start:dev": "ts-node-dev app.ts --transpile-only --rs",
     "test": "jest --silent --runInBand --colors",
-    "lint": "eslint \"lib/**/*.{js,json}\"",
-    "format": "prettier --write \"lib/**/*.js\"",
-    "cruise-deps": "depcruise \"lib/**/*.js\""
+    "lint": "eslint \"lib/**/*.{js,ts,tsx}\"",
+    "format": "prettier --write \"lib/**/*.{js,ts,tsx}\"",
+    "cruise-deps": "depcruise \"lib/**/*.{js,ts,tsx}\"",
+    "cm": "yarn --cwd ../ cm"
   },
   "dependencies": {
     "socket.io": "4.1.2"
