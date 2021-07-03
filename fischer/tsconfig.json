@@ -3,7 +3,7 @@
   "compilerOptions": {
     "incremental": true,
     "target": "es5",
-    "module": "esnext",
+    "module": "commonjs",
     "lib": [
       "ES5",
       "ES6",
@@ -14,8 +14,8 @@
       "ES2020"
     ],
     "sourceMap": true,
-    "outDir": "dist",
-    "rootDir": ".",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "removeComments": true,
     "importHelpers": true,
     "downlevelIteration": true,
