@@ -90,6 +90,13 @@
       "pre-push": "CURRENT_BRANCH=$(git branch | grep \"* master\"); if [ $CURRENT_BRANCH = '* master' ]; then echo 'Error: you are not allowed to push to the master branch'; (exit 1) ; fi"
     }
   },
+  "lint-staged": {
+    "*.ts": [
+      "yarn format",
+      "yarn lint",
+      "yarn cruise-deps"
+    ]
+  },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"

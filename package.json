@@ -12,9 +12,6 @@
     "type": "git",
     "url": "git+https://github.com/briancldo/chess.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/briancldo/chess/issues"
   },
