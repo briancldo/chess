@@ -3,6 +3,7 @@
     "src/**/*",
     "__tests__/**/*"
   ],
+  "exclude": ["./.eslintrc.js"],
   "compilerOptions": {
     "incremental": true,
     "target": "es5",
