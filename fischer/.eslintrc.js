@@ -39,6 +39,8 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    '@typescript-eslint/no-var-requires': 'off',
+    'node/no-unsupported-features/es-syntax': 'off',
   },
   settings: {
     jest: {
