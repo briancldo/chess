@@ -1,8 +1,5 @@
 {
-  "include": [
-    "./**/*",
-    "__tests__/**/*"
-  ],
+  "include": ["./**/*"],
   "compilerOptions": {
     "incremental": true,
     "target": "es5",
