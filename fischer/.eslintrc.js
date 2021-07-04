@@ -1,4 +1,4 @@
-const config = {
+module.exports = {
   root: true,
   env: {
     node: true,
@@ -48,5 +48,3 @@ const config = {
     },
   },
 };
-
-module.exports = process.env.NODE_ENV === 'production' ? {} : config;

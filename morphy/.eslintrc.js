@@ -1,4 +1,4 @@
-const config = {
+module.exports = {
   root: true,
   env: {
     browser: true,
@@ -76,5 +76,3 @@ const config = {
     },
   },
 };
-
-module.exports = process.env.NODE_ENV === 'production' ? {} : config;
