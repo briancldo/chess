@@ -1,5 +1,5 @@
 [build]
-  base = "morphy/"
+  base = "./"
   publish = "build/"
   command = "yarn build"
 
@@ -10,3 +10,8 @@
   YARN_VERSION = "1.22.10"
   DISABLE_ESLINT_PLUGIN = "true"
   TSC_COMPILE_ON_ERROR = "true"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
