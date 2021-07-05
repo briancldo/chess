@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "description": "Chess app, for fun.",
   "scripts": {
+    "start:web:dev": "concurrently \"yarn --cwd ./morphy start\" \"yarn --cwd ./fischer start:dev\"",
     "cm": "cz",
+
     "release:major": "standard-version --release-as major",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch"
@@ -20,6 +22,7 @@
     "@commitlint/cli": "12.1.4",
     "@commitlint/config-conventional": "12.1.4",
     "commitizen": "4.2.4",
+    "concurrently": "6.2.0",
     "cz-conventional-changelog": "3.3.0",
     "standard-version": "9.3.0"
   },
