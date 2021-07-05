@@ -4,10 +4,13 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
+    "start:dev": "yarn --cwd ../ start:web:dev:iso",
+
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false --passWithNoTests",
     "test:watch": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
+
     "cm": "yarn --cwd ../ cm",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,ts,tsx}\"",

@@ -1,5 +1,6 @@
 {
-  "include": ["./**/*"],
+  "include": ["./src/**/*"],
+  "exclude": ["./*.js"],
   "compilerOptions": {
     "incremental": true,
     "target": "es5",
