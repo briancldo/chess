@@ -10,6 +10,9 @@ import GameView from '../components/Game/GameView';
 import PositionGenerator from '../components/Board/Board/PositionGenerator';
 import { GameLocationState } from './utils/routes';
 
+// TODO: Remove, as is temp
+import LoginButton from '../components/Login/LoginButton';
+
 const RouterComponent: React.FC = () => {
   return (
     <Router>
@@ -19,6 +22,9 @@ const RouterComponent: React.FC = () => {
         </Route>
         <Route exact path='/editor'>
           <PositionGenerator />
+        </Route>
+        <Route exact path='/test'>
+          <LoginButton />
         </Route>
       </Switch>
     </Router>
