@@ -8,7 +8,6 @@
     "test": "react-scripts test --watchAll=false --passWithNoTests",
     "test:watch": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
-
     "cm": "yarn --cwd ../ cm",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,ts,tsx}\"",
@@ -48,7 +47,8 @@
     "react-scripts": "4.0.3",
     "tslib": "2.2.0",
     "uuid": "8.3.2",
-    "web-vitals": "1.0.1"
+    "web-vitals": "1.0.1",
+    "zustand": "3.5.5"
   },
   "devDependencies": {
     "@types/jest": "26.0.23",
