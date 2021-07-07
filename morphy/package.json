@@ -4,8 +4,6 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "start:dev": "yarn --cwd ../ start:web:dev:iso",
-
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false --passWithNoTests",
     "test:watch": "react-scripts test --passWithNoTests",

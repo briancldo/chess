@@ -4,7 +4,7 @@
   "description": "Chess app, for fun.",
   "scripts": {
     "start:web:dev": "concurrently \"yarn start:web:dev:iso\" \"yarn start:server:dev:iso\"",
-    "start:web:dev:iso": "netlify dev",
+    "start:web:dev:iso": "yarn --cwd ./morphy start",
     "start:server:dev:iso": "yarn --cwd ./fischer start:dev",
 
     "cm": "cz",
