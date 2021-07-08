@@ -33,4 +33,4 @@ jobs:
       - name: Dependency Cruiser
         run: yarn cruise-deps
       - name: Tests
-        run: yarn test
+        run: yarn test:ci

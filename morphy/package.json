@@ -5,8 +5,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false --passWithNoTests",
-    "test:watch": "react-scripts test --passWithNoTests",
+    "test": "react-scripts test --watchAll=false",
+    "test:ci": "react-scripts test --watchAll=false --ci --runInBand --maxWorkers=4",
+    "test:watch": "react-scripts test",
     "eject": "react-scripts eject",
     "cm": "yarn --cwd ../ cm",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
