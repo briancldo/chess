@@ -6,7 +6,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
-    "test:ci": "react-scripts test --watchAll=false --ci --runInBand --maxWorkers=4",
+    "test:ci": "react-scripts test --watchAll=false --ci --runInBand",
     "test:watch": "react-scripts test",
     "eject": "react-scripts eject",
     "cm": "yarn --cwd ../ cm",
