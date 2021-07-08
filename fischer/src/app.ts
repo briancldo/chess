@@ -1,5 +1,7 @@
 import { Server } from 'socket.io';
 
+import * as cache from './cache';
+
 const io = new Server({
   cors: {
     origin: ['*'],
@@ -7,9 +9,12 @@ const io = new Server({
 });
 
 io.on('connection', (socket) => {
-  socket.on('message', ({ sender, message }) => {
-    console.log(`${sender} said ${message}`);
-    socket.broadcast.emit('message', `${sender}: ${message}`);
+  console.log(`connecting: ${socket.id}`);
+  cache.addConnectionId(socket.id);
+
+  socket.on('disconnecting', () => {
+    console.log(`disconnecting: ${socket.id}`);
+    cache.removeConnectionId(socket.id);
   });
 });
 
