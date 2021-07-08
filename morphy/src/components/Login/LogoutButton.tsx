@@ -7,7 +7,8 @@ const LogoutButton: React.FC = () => {
   const logout = useUserStore((state) => state.logout);
 
   function handleClick() {
-    logout();
+    const shouldLogout = confirm('Are you sure you want to logout?');
+    if (shouldLogout) logout();
   }
 
   return (

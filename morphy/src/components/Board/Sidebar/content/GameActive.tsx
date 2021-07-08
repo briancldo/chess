@@ -3,7 +3,7 @@ import React from 'react';
 import { GameActiveSidebarProps } from '../Sidebar.types';
 import Piece from '../../../Pieces/Piece';
 import './GameActive.css';
-import { PieceColor, PieceType } from '../../../../utils/pieces.types';
+import { PieceColor } from '../../../../utils/pieces.types';
 import { CapturedPieces } from '../../../../utils/board/board.types';
 
 const GameActive: React.FC<GameActiveSidebarProps> = (props) => {
