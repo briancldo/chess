@@ -4,16 +4,16 @@ type Username = string | null;
 
 interface UserStore {
   username: Username;
+  isLoggedIn: boolean;
   login: (username: Username) => void;
   logout: () => void;
-  isLoggedIn: () => boolean;
 }
 
-const useStore = create<UserStore>((set, get) => ({
+const useStore = create<UserStore>((set) => ({
   username: null,
-  login: (username) => set({ username }),
-  logout: () => set({ username: null }),
-  isLoggedIn: () => !!get().username,
+  isLoggedIn: false,
+  login: (username) => set({ username, isLoggedIn: true }),
+  logout: () => set({ username: null, isLoggedIn: false }),
 }));
 
 export default useStore;
