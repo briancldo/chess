@@ -9,11 +9,11 @@ interface UserStore {
   logout: () => void;
 }
 
-const useStore = create<UserStore>((set) => ({
+const useUserStore = create<UserStore>((set) => ({
   username: null,
   isLoggedIn: false,
   login: (username) => set({ username, isLoggedIn: true }),
   logout: () => set({ username: null, isLoggedIn: false }),
 }));
 
-export default useStore;
+export default useUserStore;

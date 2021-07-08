@@ -11,8 +11,7 @@ import PositionGenerator from '../components/Board/Board/PositionGenerator';
 import { GameLocationState } from './utils/routes';
 
 // TODO: Remove, as is temp
-import LoginButton from '../components/Login/LoginButton';
-import LogoutButton from '../components/Login/LogoutButton';
+import LoginOrOutButton from '../components/Login/LoginOrOutButton';
 
 const RouterComponent: React.FC = () => {
   return (
@@ -25,8 +24,7 @@ const RouterComponent: React.FC = () => {
           <PositionGenerator />
         </Route>
         <Route exact path='/test'>
-          <LoginButton />
-          <LogoutButton />
+          <LoginOrOutButton />
         </Route>
       </Switch>
     </Router>
