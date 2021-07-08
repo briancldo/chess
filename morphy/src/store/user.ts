@@ -1,6 +1,6 @@
 import create from 'zustand';
 
-type Username = string | null;
+export type Username = string | null;
 
 interface UserStore {
   username: Username;

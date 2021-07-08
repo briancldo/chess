@@ -13,7 +13,9 @@ const LogoutButton: React.FC = () => {
 
   return (
     <>
-      <Button onClick={handleClick}>Logout</Button>
+      <Button onClick={handleClick} data-testid='logout-button'>
+        Logout
+      </Button>
     </>
   );
 };

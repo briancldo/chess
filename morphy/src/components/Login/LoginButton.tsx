@@ -14,7 +14,11 @@ const LoginButton: React.FC = () => {
     login(username);
   }
 
-  return <Button onClick={handleClick}>Login</Button>;
+  return (
+    <Button onClick={handleClick} data-testid='login-button'>
+      Login
+    </Button>
+  );
 };
 
 export default LoginButton;

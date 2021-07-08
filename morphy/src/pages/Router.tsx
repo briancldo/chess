@@ -8,23 +8,17 @@ import {
 
 import GameView from '../components/Game/GameView';
 import PositionGenerator from '../components/Board/Board/PositionGenerator';
-import { GameLocationState } from './utils/routes';
-
-// TODO: Remove, as is temp
-import LoginOrOutButton from '../components/Login/LoginOrOutButton';
+import { GameLocationState, routeMapping } from './utils/routes';
 
 const RouterComponent: React.FC = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path='/'>
+        <Route exact path={routeMapping.game}>
           <GameViewRoute />
         </Route>
-        <Route exact path='/editor'>
+        <Route exact path={routeMapping.editor}>
           <PositionGenerator />
-        </Route>
-        <Route exact path='/test'>
-          <LoginOrOutButton />
         </Route>
       </Switch>
     </Router>
