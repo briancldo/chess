@@ -12,6 +12,7 @@ import { GameLocationState } from './utils/routes';
 
 // TODO: Remove, as is temp
 import LoginButton from '../components/Login/LoginButton';
+import LogoutButton from '../components/Login/LogoutButton';
 
 const RouterComponent: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const RouterComponent: React.FC = () => {
         </Route>
         <Route exact path='/test'>
           <LoginButton />
+          <LogoutButton />
         </Route>
       </Switch>
     </Router>
