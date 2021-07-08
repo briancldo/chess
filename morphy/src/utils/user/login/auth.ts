@@ -1,4 +1,4 @@
-import { connect } from '../../../backend/ws/connection';
+import { connect, disconnect } from '../../../backend/ws/connection';
 import useUserStore, { Username } from '../../../store/user';
 
 interface LoginDetails {
@@ -11,4 +11,11 @@ export function login(loginDetails: LoginDetails) {
 
   connect();
   storeLogin(username);
+}
+
+export function logout() {
+  const storeLogout = useUserStore.getState().logout;
+
+  disconnect();
+  storeLogout();
 }

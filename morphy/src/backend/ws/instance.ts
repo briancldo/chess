@@ -8,3 +8,10 @@ export function initializeSocket(initSocket: typeof socket) {
   socket = initSocket;
   isSocketInitialized = true;
 }
+
+export function clearSocketInstance() {
+  socket.disconnect();
+
+  socket = io();
+  isSocketInitialized = false;
+}

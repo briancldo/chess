@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Button from '../ui/Button';
-import { login } from '../../utils/user/login/login';
+import { login } from '../../utils/user/login/auth';
 
 const LoginButton: React.FC = () => {
   function handleClick() {
