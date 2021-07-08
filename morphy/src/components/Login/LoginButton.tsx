@@ -1,18 +1,16 @@
 import React from 'react';
 
-import useUserStore from '../../store/user';
 import Button from '../ui/Button';
+import { login } from '../../utils/user/login/login';
 
 const LoginButton: React.FC = () => {
-  const login = useUserStore((state) => state.login);
-
   function handleClick() {
     let username;
     do {
       username = prompt('Select a username:');
       if (username === null) return;
     } while (!username);
-    login(username);
+    login({ username });
   }
 
   return (
