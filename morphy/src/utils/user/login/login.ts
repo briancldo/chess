@@ -1,3 +1,4 @@
+import { connect } from '../../../backend/ws/connection';
 import useUserStore, { Username } from '../../../store/user';
 
 interface LoginDetails {
@@ -8,7 +9,6 @@ export function login(loginDetails: LoginDetails) {
   const { username } = loginDetails;
   const storeLogin = useUserStore.getState().login;
 
-  // TODO: connect to websocket
-
+  connect();
   storeLogin(username);
 }

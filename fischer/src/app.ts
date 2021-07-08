@@ -4,7 +4,8 @@ import * as cache from './cache';
 
 const io = new Server({
   cors: {
-    origin: ['*'],
+    // TODO: restrict to specific origins
+    origin: '*',
   },
 });
 
