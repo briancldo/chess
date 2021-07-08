@@ -10,6 +10,7 @@ const LoginButton: React.FC = () => {
     let username;
     do {
       username = prompt('Select a username:');
+      if (username === null) return;
     } while (!username);
     login(username);
   }
