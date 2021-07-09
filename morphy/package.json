@@ -85,7 +85,8 @@
   "jest": {
     "testMatch": [
       "**/__tests__/**/*.(spec|test).{ts,tsx}"
-    ]
+    ],
+    "resetMocks": false
   },
   "husky": {
     "hooks": {

@@ -2,16 +2,18 @@ import objectGet from 'lodash/get';
 import { DevError } from '../utils/errors';
 
 import defaults from './defaults.json';
+import testConfig from './test.json';
 import developmentConfig from './development.json';
 import productionConfig from './production.json';
 
 const env = process.env.NODE_ENV;
 
 const envConfigMapping: {
-  [env in 'development' | 'production' | 'test']?: Record<string, unknown>;
+  [env in typeof process.env.NODE_ENV]: Record<string, unknown>;
 } = {
   development: developmentConfig,
   production: productionConfig,
+  test: testConfig,
 };
 const envConfig = envConfigMapping[env];
 
