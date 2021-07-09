@@ -55,7 +55,7 @@ describe('#LoginOrOutButton', () => {
 
     test('not connected to socket server', () => {
       render(<LoginOrOutButton />);
-      expect(mockedIo).not.toHaveBeenCalledWith(websocketUrl);
+      expect(socketInstance.connect).not.toHaveBeenCalled();
     });
   });
 
@@ -73,7 +73,7 @@ describe('#LoginOrOutButton', () => {
       render(<LoginOrOutButton />);
       test_login({ username: 'brido' });
 
-      expect(mockedIo).toHaveBeenCalledWith(websocketUrl);
+      expect(socketInstance.connect).toHaveBeenCalled();
     });
   });
 

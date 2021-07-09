@@ -1,13 +1,9 @@
-import { io } from 'socket.io-client';
-import { clearSocketInstance, initializeSocket } from './instance';
-import config from '../../config/config';
-
-const websocketUrl = config.get('WEBSOCKET_URL');
+import { socket } from './instance';
 
 export function connect() {
-  initializeSocket(io(websocketUrl));
+  socket.connect();
 }
 
 export function disconnect() {
-  clearSocketInstance();
+  socket.disconnect();
 }

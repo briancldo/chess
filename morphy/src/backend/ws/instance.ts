@@ -1,17 +1,6 @@
 import { io } from 'socket.io-client';
+import config from '../../config/config';
 
-let isSocketInitialized = false;
-let socket = io();
+const websocketUrl = config.get('WEBSOCKET_URL');
 
-export function initializeSocket(initSocket: typeof socket) {
-  if (isSocketInitialized) return;
-  socket = initSocket;
-  isSocketInitialized = true;
-}
-
-export function clearSocketInstance() {
-  socket.disconnect();
-
-  socket = io();
-  isSocketInitialized = false;
-}
+export const socket = io(websocketUrl, { autoConnect: false });
