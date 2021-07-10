@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Chess app, for fun.",
   "scripts": {
-    "start:server": "yarn --cwd ./fischer start:dev",
+    "start:server": "yarn --cwd ./fischer start",
 
     "start:web:dev": "concurrently \"yarn start:web:dev:iso\" \"yarn start:server:dev:iso\"",
     "start:web:dev:iso": "yarn --cwd ./morphy start",

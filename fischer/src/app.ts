@@ -7,6 +7,7 @@ const io = new Server({
   cors: {
     // TODO: restrict to specific origins
     origin: '*',
+    methods: ['GET', 'POST'],
   },
 });
 
@@ -25,7 +26,7 @@ io.on('connection', (socket) => {
   });
 });
 
-const websocketPort = config.get('WEBSOCKET_PORT');
+const websocketPort = 80; // config.get('WEBSOCKET_PORT');
 io.listen(websocketPort);
 console.log(`listening on port ${websocketPort}`);
 
