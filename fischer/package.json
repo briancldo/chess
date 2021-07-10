@@ -2,18 +2,20 @@
   "name": "fischer",
   "scripts": {
     "start:dev": "ts-node-dev src/app.ts --transpile-only --rs",
-    "test": "jest --colors",
+    "test": "jest --silent --colors",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "cruise-deps": "depcruise \"src/**/*.{js,ts,tsx}\"",
     "cm": "yarn --cwd ../ cm"
   },
   "dependencies": {
+    "lodash": "4.17.21",
     "socket.io": "4.1.2",
     "tslib": "2.3.0"
   },
   "devDependencies": {
     "@types/jest": "26.0.23",
+    "@types/lodash": "4.14.171",
     "@types/node": "16.0.0",
     "@typescript-eslint/eslint-plugin": "4.28.1",
     "@typescript-eslint/parser": "4.28.1",
