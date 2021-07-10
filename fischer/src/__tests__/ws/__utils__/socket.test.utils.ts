@@ -1,7 +1,9 @@
 // eslint-disable-next-line node/no-unpublished-import
 import { io } from 'socket.io-client';
+import config from '../../../config/config';
 
-const socket = io('ws://localhost:5000', { autoConnect: false });
+const websocketPort = config.get('WEBSOCKET_PORT');
+const socket = io(`ws://localhost:${websocketPort}`, { autoConnect: false });
 let connected = false;
 
 export async function connect() {

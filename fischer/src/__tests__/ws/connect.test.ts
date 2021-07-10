@@ -30,5 +30,4 @@ describe('connect', () => {
   });
 });
 
-// TODO: get config working
 // TODO: add testing to CI

@@ -1,6 +1,7 @@
 import { Server } from 'socket.io';
 
 import * as cache from './cache';
+import config from './config/config';
 
 const io = new Server({
   cors: {
@@ -19,6 +20,8 @@ io.on('connection', (socket) => {
   });
 });
 
-io.listen(5000);
+const websocketPort = config.get('WEBSOCKET_PORT');
+io.listen(websocketPort);
+console.log(`listening on port ${websocketPort}`);
 
 export { io };
