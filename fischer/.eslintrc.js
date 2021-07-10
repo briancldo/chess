@@ -39,12 +39,17 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
-    '@typescript-eslint/no-var-requires': 'off',
     'node/no-unsupported-features/es-syntax': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'security/detect-object-injection': 'off',
   },
   settings: {
     jest: {
       version: 'detect',
+    },
+    node: {
+      tryExtensions: ['.ts'],
     },
   },
 };

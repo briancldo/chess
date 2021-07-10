@@ -1,16 +1,27 @@
 import { Server } from 'socket.io';
 
+import * as cache from './cache';
+import config from './config/config';
+
 const io = new Server({
   cors: {
-    origin: ['*'],
+    // TODO: restrict to specific origins
+    origin: '*',
   },
 });
 
 io.on('connection', (socket) => {
-  socket.on('message', ({ sender, message }) => {
-    console.log(`${sender} said ${message}`);
-    socket.broadcast.emit('message', `${sender}: ${message}`);
+  console.log(`connecting: ${socket.id}`);
+  cache.addConnectionId(socket.id);
+
+  socket.on('disconnecting', () => {
+    console.log(`disconnecting: ${socket.id}`);
+    cache.removeConnectionId(socket.id);
   });
 });
 
-io.listen(5000);
+const websocketPort = config.get('WEBSOCKET_PORT');
+io.listen(websocketPort);
+console.log(`listening on port ${websocketPort}`);
+
+export { io };

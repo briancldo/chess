@@ -1,17 +1,26 @@
+jest.mock('socket.io-client');
+
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import { io } from 'socket.io-client';
 
 import LoginOrOutButton from '../../components/Login/LoginOrOutButton';
 import useUserStore from '../../store/user';
 import { test_login, test_logout } from '../__utils__/login.utils';
-import { act } from 'react-dom/test-utils';
+import config from '../../config/config';
+// eslint-disable-next-line jest/no-mocks-import
+import { socketInstance } from '../__mocks__/socket.io-client';
 
+const mockedIo = io as jest.Mock & { isConnected: () => boolean };
 const initialUserStoreState = useUserStore.getState();
+const websocketUrl = config.get('WEBSOCKET_URL');
 
 describe('#LoginOrOutButton', () => {
   afterEach(() => {
     act(() => useUserStore.setState(initialUserStoreState));
+    jest.clearAllMocks();
   });
 
   describe('Button labels', () => {
@@ -37,12 +46,16 @@ describe('#LoginOrOutButton', () => {
       const state = useUserStore.getState();
       expect(state.isLoggedIn).toBe(false);
       expect(state.username).toBeNull();
-      useUserStore.setState({ username: 'asd' });
     });
 
     test('button is login button', () => {
       render(<LoginOrOutButton />);
       expect(() => screen.getByTestId('login-button')).not.toThrowError();
+    });
+
+    test('not connected to socket server', () => {
+      render(<LoginOrOutButton />);
+      expect(socketInstance.connect).not.toHaveBeenCalled();
     });
   });
 
@@ -54,6 +67,13 @@ describe('#LoginOrOutButton', () => {
       const state = useUserStore.getState();
       expect(state.isLoggedIn).toBe(true);
       expect(state.username).toBe('brido');
+    });
+
+    test('connects to socket server', () => {
+      render(<LoginOrOutButton />);
+      test_login({ username: 'brido' });
+
+      expect(socketInstance.connect).toHaveBeenCalled();
     });
   });
 
@@ -75,6 +95,14 @@ describe('#LoginOrOutButton', () => {
       const state = useUserStore.getState();
       expect(state.isLoggedIn).toBe(false);
       expect(state.username).toBeNull();
+    });
+
+    test('disconnects from socket server', () => {
+      render(<LoginOrOutButton />);
+      test_login({ username: 'brido' });
+      test_logout();
+
+      expect(socketInstance.disconnect).toHaveBeenCalled();
     });
   });
 });
