@@ -14,6 +14,11 @@ io.on('connection', (socket) => {
   console.log(`connecting: ${socket.id}`);
   cache.addConnectionId(socket.id);
 
+  socket.on('ping', (callback) => {
+    console.log('got pinged!');
+    callback('pong');
+  });
+
   socket.on('disconnecting', () => {
     console.log(`disconnecting: ${socket.id}`);
     cache.removeConnectionId(socket.id);
