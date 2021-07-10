@@ -1,9 +1,16 @@
 import { Server } from 'socket.io';
+import http from 'http';
+import express from 'express';
+import cors from 'cors';
 
 import * as cache from './cache';
 import config from './config/config';
 
-const io = new Server({
+const app = express();
+app.use(cors());
+const server = http.createServer(app);
+
+const io = new Server(server, {
   cors: {
     // TODO: restrict to specific origins
     origin: '*',
@@ -26,8 +33,8 @@ io.on('connection', (socket) => {
   });
 });
 
-const websocketPort = 80; // config.get('WEBSOCKET_PORT');
-io.listen(websocketPort);
+const websocketPort = config.get('WEBSOCKET_PORT');
+server.listen(websocketPort);
 console.log(`listening on port ${websocketPort}`);
 
 export { io };
