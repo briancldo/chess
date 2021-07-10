@@ -29,5 +29,3 @@ describe('connect', () => {
     });
   });
 });
-
-// TODO: add testing to CI
