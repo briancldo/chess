@@ -1,6 +1,7 @@
 {
   "name": "fischer",
   "scripts": {
+    "start": "ts-node src/app.ts",
     "start:dev": "ts-node-dev src/app.ts --transpile-only --rs",
     "test": "jest --silent --colors",
     "test:ci": "jest --silent --ci --runInBand",
@@ -12,6 +13,7 @@
   "dependencies": {
     "lodash": "4.17.21",
     "socket.io": "4.1.2",
+    "ts-node": "10.1.0",
     "tslib": "2.3.0"
   },
   "devDependencies": {
