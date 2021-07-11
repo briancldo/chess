@@ -8,6 +8,11 @@ import config from './config/config';
 
 const app = express();
 app.use(cors());
+
+app.get('/health', (request, response) => {
+  response.send('OK');
+});
+
 const server = http.createServer(app);
 
 const io = new Server(server, {
