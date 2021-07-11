@@ -1,1 +1,1 @@
-web: yarn start:server
+web: cd fischer/ && yarn build && yarn start
