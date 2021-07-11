@@ -1,1 +1,1 @@
-web: cd fischer/ && yarn global add typescript@4.3.5 && yarn build && yarn start
+web: cd fischer/ && yarn && yarn build && yarn start

@@ -28,7 +28,7 @@
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
     "moduleResolution": "node",
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "lodash", "express"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
