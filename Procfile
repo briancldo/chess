@@ -1,1 +1,1 @@
-web: cd fischer/ && yarn && yarn start
+web: yarn --cwd fischer start
