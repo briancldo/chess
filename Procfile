@@ -1,0 +1,1 @@
+web: cd fischer/ && yarn && yarn start

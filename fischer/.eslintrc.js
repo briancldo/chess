@@ -44,6 +44,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'security/detect-object-injection': 'off',
   },
+  ignorePatterns: ['dist/**/*'],
   settings: {
     jest: {
       version: 'detect',

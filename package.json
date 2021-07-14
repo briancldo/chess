@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "description": "Chess app, for fun.",
   "scripts": {
+    "start:server": "yarn --cwd ./fischer start",
     "start:web:dev": "concurrently \"yarn start:web:dev:iso\" \"yarn start:server:dev:iso\"",
     "start:web:dev:iso": "yarn --cwd ./morphy start",
     "start:server:dev:iso": "yarn --cwd ./fischer start:dev",
-
     "cm": "cz",
-
     "release:major": "standard-version --release-as major",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch"
