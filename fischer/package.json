@@ -1,11 +1,10 @@
 {
   "name": "fischer",
   "scripts": {
-    "start": "node dist/app",
+    "start": "ts-node src/app",
     "start:dev": "ts-node-dev src/app.ts --transpile-only --rs",
     "test": "jest --silent --colors",
     "test:ci": "jest --silent --ci --runInBand",
-    "build": "tsc",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "cruise-deps": "depcruise \"src/**/*.{js,ts,tsx}\"",
