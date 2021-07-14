@@ -4,7 +4,10 @@ import http from 'http';
 import * as cache from './cache';
 import config from './config/config';
 
+const websocketPort = process.env.PORT || config.get('WEBSOCKET_PORT');
 const server = http.createServer();
+server.listen(websocketPort);
+console.log(`listening on port ${websocketPort}`);
 
 const io = new Server(server, {
   cors: {
@@ -27,9 +30,5 @@ io.on('connection', (socket) => {
     cache.removeConnectionId(socket.id);
   });
 });
-
-const websocketPort = process.env.PORT || config.get('WEBSOCKET_PORT');
-server.listen(websocketPort);
-console.log(`listening on port ${websocketPort}`);
 
 export { io };
