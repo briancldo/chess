@@ -9,7 +9,7 @@ export interface UserState {
   isLoggedIn: boolean;
 }
 
-interface UserStore extends UserState {
+export interface UserStore extends UserState {
   login: (username: Username) => void;
   logout: () => void;
 }
