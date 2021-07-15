@@ -2,7 +2,8 @@ jest.mock('socket.io-client');
 
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render } from '@testing-library/react';
+import { render, waitFor, screen } from '@testing-library/react';
+import { v4 as uuidv4 } from 'uuid';
 
 import LoginOrOutButton from '../../components/Login/LoginOrOutButton';
 import * as data from './support/login.data';
@@ -20,6 +21,7 @@ describe('login', () => {
   afterEach(() => {
     if (useUserStore.getState().isLoggedIn) test_logout();
     localStorage.clear();
+    jest.clearAllMocks();
   });
 
   describe('persistent login state', () => {
@@ -34,7 +36,7 @@ describe('login', () => {
       expect(user).toEqual(data.loginState);
     });
 
-    test.only('login state is restored on page load', () => {
+    test('login state is restored on page load', () => {
       render(<LoginOrOutButton />);
 
       test_login({ username: 'brido' });
@@ -44,7 +46,24 @@ describe('login', () => {
     });
   });
 
-  test.todo('restores socket connection on reload if logged in');
+  test('restores socket connection on reload if logged in', async () => {
+    const { rerender } = render(<LoginOrOutButton key={uuidv4()} />);
+
+    test_login({ username: 'brido' });
+    expect(socketInstance.connected).toBe(true);
+
+    // simulating page reload (this order matters!)
+    socketInstance.connected = false;
+    rerender(<LoginOrOutButton key={uuidv4()} />);
+    refreshPage();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('button', { name: 'Logout' })
+      ).toBeInTheDocument();
+    });
+    expect(socketInstance.connected).toBe(true);
+  });
 });
 
 function refreshPage() {

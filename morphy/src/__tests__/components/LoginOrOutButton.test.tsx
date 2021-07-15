@@ -4,18 +4,14 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-import { io } from 'socket.io-client';
 
 import LoginOrOutButton from '../../components/Login/LoginOrOutButton';
 import useUserStore from '../../store/user';
 import { test_login, test_logout } from '../__utils__/login.utils';
-import config from '../../config/config';
 // eslint-disable-next-line jest/no-mocks-import
 import { socketInstance } from '../__mocks__/socket.io-client';
 
-const mockedIo = io as jest.Mock & { isConnected: () => boolean };
 const initialUserStoreState = useUserStore.getState();
-const websocketUrl = config.get('WEBSOCKET_URL');
 
 describe('#LoginOrOutButton', () => {
   afterEach(() => {
