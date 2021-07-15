@@ -1,5 +1,6 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
+import { APP_NAME } from '../utils/constants/app.constants';
 
 export type Username = string | null;
 
@@ -19,7 +20,7 @@ const useUserStore = create<UserStore>(
       logout: () => set({ username: null, isLoggedIn: false }),
     }),
     {
-      name: 'chessapp-user',
+      name: `${APP_NAME}-user`,
     }
   )
 );
