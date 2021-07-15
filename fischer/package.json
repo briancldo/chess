@@ -8,7 +8,8 @@
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "cruise-deps": "depcruise \"src/**/*.{js,ts,tsx}\"",
-    "cm": "yarn --cwd ../ cm"
+    "cm": "yarn --cwd ../ cm",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "lodash": "4.17.21",

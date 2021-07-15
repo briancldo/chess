@@ -32,5 +32,7 @@ jobs:
         run: yarn lint
       - name: Dependency Cruiser
         run: yarn cruise-deps
+      - name: Typecheck
+        run: yarn typecheck
       - name: Tests
         run: yarn test:ci

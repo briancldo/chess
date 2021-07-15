@@ -16,7 +16,7 @@
     "format:fix": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "cruise-deps": "depcruise \"src/**/*.{js,ts,tsx}\"",
     "release": "standard-version",
-    "typecheck": "tsc"
+    "typecheck": "tsc --noEmit"
   },
   "eslintConfig": {
     "extends": [
