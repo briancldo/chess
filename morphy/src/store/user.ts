@@ -4,9 +4,12 @@ import { APP_NAME } from '../utils/constants/app.constants';
 
 export type Username = string | null;
 
-interface UserStore {
+export interface UserState {
   username: Username;
   isLoggedIn: boolean;
+}
+
+interface UserStore extends UserState {
   login: (username: Username) => void;
   logout: () => void;
 }
