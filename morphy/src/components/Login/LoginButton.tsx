@@ -1,16 +1,11 @@
 import React from 'react';
 
 import Button from '../ui/Button';
-import { login } from '../../utils/user/login/auth';
+import { promptLogin } from '../../utils/user/login/auth';
 
 const LoginButton: React.FC = () => {
   function handleClick() {
-    let username;
-    do {
-      username = prompt('Select a username:');
-      if (username === null) return;
-    } while (!username);
-    login({ username });
+    promptLogin();
   }
 
   return (

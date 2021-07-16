@@ -1,16 +1,21 @@
 import { APP_NAME } from './constants/app.constants';
 
-type Key = 'is-connected';
+type Key = 'session-active';
 type PrimitiveValue = string | number | boolean;
 type Value = PrimitiveValue | PrimitiveValue[] | Record<string, PrimitiveValue>;
 
-function persistentStorageGet(key: 'is-connected'): boolean;
+type StorageDefaults = { [key in Key]: Value };
+const defaults: StorageDefaults = {
+  'session-active': false,
+};
+
+function persistentStorageGet(key: 'session-active'): boolean;
 function persistentStorageGet(key: Key): Value {
-  const item = localStorage.getItem(`${APP_NAME}-${key}`);
+  const itemStringified = localStorage.getItem(`${APP_NAME}-${key}`);
+  const item = itemStringified ? JSON.parse(itemStringified) : defaults[key];
   if (item == null) throw new Error(`No saved ${key}`);
 
-  if (key === 'is-connected') return JSON.parse(item) as boolean;
-  return item as never;
+  return item;
 }
 
 function persistentStorageSet(key: Key, value: Value) {
