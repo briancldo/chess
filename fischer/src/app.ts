@@ -25,10 +25,16 @@ io.on('connection', (socket) => {
   });
 
   socket.on('initialization', (username: string, callback) => {
+    const connectionId = socket.id;
+    console.log(`initializing: ${username} (${connectionId}`);
     try {
-      cache.addUser(username, { connectionId: socket.id });
+      cache.addUser(username, { connectionId });
+      console.log(`initialization success for user ${username}`);
       callback('success');
     } catch (error) {
+      console.log(
+        `initialization error for user ${username}: ${error.message}`
+      );
       callback('error', error.message);
     }
   });

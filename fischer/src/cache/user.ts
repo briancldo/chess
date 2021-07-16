@@ -17,11 +17,12 @@ function doesUserExist(username: string) {
 }
 
 function validateUserInfo(username: string, userInfo: UserInfo) {
-  if (doesUserExist(username)) throw new InitializationError('username-taken');
-
+  // check connection id before username matters
   const { connectionId } = userInfo;
   if (connectionCache.isConnectionActive(connectionId))
     throw new InitializationError('connection-id-taken');
+
+  if (doesUserExist(username)) throw new InitializationError('username-taken');
 }
 
 export function addUser(username: string, userInfo: UserInfo) {
