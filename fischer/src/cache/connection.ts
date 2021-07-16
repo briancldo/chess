@@ -1,18 +1,26 @@
-type isActive = boolean;
-interface ConnectionIds {
-  [id: string]: isActive;
+interface ConnectionIdInfo {
+  id: string;
+  username: string;
 }
 
-const connectionIds: ConnectionIds = {};
+interface ConnectionIds {
+  [id: string]: ConnectionIdInfo;
+}
 
-export function addConnectionId(id: string) {
-  connectionIds[id] = true;
+export const connectionIds: ConnectionIds = {};
+
+export function addConnectionId(id: string, info: ConnectionIdInfo) {
+  connectionIds[id] = info;
 }
 
 export function removeConnectionId(id: string) {
   delete connectionIds[id];
 }
 
+export function getConnectionInfo(id: string) {
+  return connectionIds[id];
+}
+
 export function isConnectionActive(id: string) {
-  return connectionIds[id] === true;
+  return connectionIds[id] != undefined;
 }

@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnecting', () => {
     console.log(`disconnecting: ${socket.id}`);
-    // cache.removeUser(socket.id);
+    cache.removeUserByConnectionId(socket.id);
   });
 });
 

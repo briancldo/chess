@@ -2,6 +2,7 @@ import { io } from '../../app';
 import * as socketUtils from './__utils__/socket.test.utils';
 import { isConnectionIdCached } from './__utils__/cache/connectionCache.test.utils';
 import * as userCache from './__utils__/cache/userCache.test.utils';
+import { sleep } from './__utils__/time.utils';
 
 const testUsername = 'brido';
 
@@ -45,13 +46,16 @@ describe('connect', () => {
     });
   });
 
-  describe.skip('disconnect', () => {
-    test('removes id from cache', async () => {
+  describe('disconnect', () => {
+    test('removes username and id from cache', async () => {
       const socket = await socketUtils.connect();
-      const disconnectedSocket = await socketUtils.disconnect(socket);
+      const connectionId = socket.id;
+      await socketUtils.initialize(socket, testUsername);
+      await socketUtils.disconnect(socket);
 
-      expect(disconnectedSocket.id).toBe(socket.id);
-      expect(isConnectionIdCached(disconnectedSocket.id)).toBe(false);
+      await sleep(0.15);
+      expect(isConnectionIdCached(connectionId)).toBe(false);
+      expect(userCache.get(testUsername)).toBeUndefined();
     });
   });
 });

@@ -27,7 +27,10 @@ function validateUserInfo(username: string, userInfo: UserInfo) {
 export function addUser(username: string, userInfo: UserInfo) {
   validateUserInfo(username, userInfo);
 
-  connectionCache.addConnectionId(userInfo.connectionId);
+  connectionCache.addConnectionId(userInfo.connectionId, {
+    username,
+    id: userInfo.connectionId,
+  });
   userCache[username] = userInfo;
 }
 
@@ -36,5 +39,18 @@ export function getUser(username: string) {
 }
 
 export function removeUser(username: string) {
+  const userInfo = userCache[username];
+  if (!userInfo) return;
+
+  const { connectionId } = userInfo;
+  connectionCache.removeConnectionId(connectionId);
   delete userCache[username];
+}
+
+export function removeUserByConnectionId(connectionId: string) {
+  const connectionInfo = connectionCache.getConnectionInfo(connectionId);
+  if (!connectionInfo) return;
+
+  const { username } = connectionInfo;
+  removeUser(username);
 }
