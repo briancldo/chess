@@ -1,31 +1,43 @@
 // eslint-disable-next-line node/no-unpublished-import
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import config from '../../../config/config';
 
 const websocketPort = config.get('WEBSOCKET_PORT');
-const socket = io(`ws://localhost:${websocketPort}`, { autoConnect: false });
-let connected = false;
+let sockets: { [id: string]: Socket } = {};
 
-export async function connect() {
-  return new Promise<typeof socket>((resolve) => {
+export function connect() {
+  const socket = io(`ws://localhost:${websocketPort}`, { autoConnect: false });
+  return new Promise<Socket>((resolve) => {
     socket.on('connect', () => {
-      connected = true;
+      sockets[socket.id] = socket;
       resolve(socket);
     });
     socket.connect();
   });
 }
 
-export function disconnect() {
-  return new Promise<typeof socket>((resolve) => {
-    socket.on('disconnect', () => {
-      connected = false;
-      resolve(socket);
-    });
+export function disconnect(socket: Socket) {
+  delete sockets[socket.id];
+  return new Promise<Socket>((resolve) => {
+    socket.on('disconnect', () => resolve(socket));
     socket.disconnect();
   });
 }
 
-export function isConnected() {
-  return connected;
+export async function disconnectAll() {
+  await Promise.all(Object.values(sockets).map((socket) => disconnect(socket)));
+  sockets = {};
+}
+
+export function initialize(socket: Socket, username: string) {
+  return new Promise<Socket>((resolve, reject) => {
+    socket.emit(
+      'initialization',
+      username,
+      (status: string, reason?: string) => {
+        if (status === 'success') resolve(socket);
+        reject(reason);
+      }
+    );
+  });
 }

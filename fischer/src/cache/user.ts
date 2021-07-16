@@ -17,10 +17,10 @@ function doesUserExist(username: string) {
 }
 
 function validateUserInfo(username: string, userInfo: UserInfo) {
-  if (!doesUserExist(username)) throw new InitializationError('username-taken');
+  if (doesUserExist(username)) throw new InitializationError('username-taken');
 
   const { connectionId } = userInfo;
-  if (!connectionCache.isConnectionActive(connectionId))
+  if (connectionCache.isConnectionActive(connectionId))
     throw new InitializationError('connection-id-taken');
 }
 
@@ -33,4 +33,8 @@ export function addUser(username: string, userInfo: UserInfo) {
 
 export function getUser(username: string) {
   return userCache[username];
+}
+
+export function removeUser(username: string) {
+  delete userCache[username];
 }
