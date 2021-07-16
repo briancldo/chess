@@ -4,14 +4,14 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import { io } from 'socket.io-client';
 
 import LoginOrOutButton from '../../components/Login/LoginOrOutButton';
 import useUserStore from '../../store/user';
 import { test_login, test_logout } from '../__utils__/login.utils';
-// eslint-disable-next-line jest/no-mocks-import
-import { socketInstance } from '../__mocks__/socket.io-client';
 
 const initialUserStoreState = useUserStore.getState();
+const socket = io();
 
 describe('#LoginOrOutButton', () => {
   afterEach(() => {
@@ -51,7 +51,7 @@ describe('#LoginOrOutButton', () => {
 
     test('not connected to socket server', () => {
       render(<LoginOrOutButton />);
-      expect(socketInstance.connect).not.toHaveBeenCalled();
+      expect(socket.connect).not.toHaveBeenCalled();
     });
   });
 
@@ -69,7 +69,7 @@ describe('#LoginOrOutButton', () => {
       render(<LoginOrOutButton />);
       test_login({ username: 'brido' });
 
-      expect(socketInstance.connect).toHaveBeenCalled();
+      expect(socket.connect).toHaveBeenCalled();
     });
   });
 
@@ -98,7 +98,7 @@ describe('#LoginOrOutButton', () => {
       test_login({ username: 'brido' });
       test_logout();
 
-      expect(socketInstance.disconnect).toHaveBeenCalled();
+      expect(socket.disconnect).toHaveBeenCalled();
     });
   });
 });
