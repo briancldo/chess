@@ -20,7 +20,6 @@ import {
 } from '../../backend/ws/initialization';
 
 const testUsername = 'brido';
-const sessionActiveKey = 'chessapp-session-active';
 type InitializationCallback = (
   status: InitializationStatus,
   reason?: InitializationErrorReason
@@ -66,19 +65,16 @@ describe('user.initialization', () => {
       callback('success');
     };
 
-    expect(localStorage.getItem(sessionActiveKey)).toBeNull();
     await test_login({ username: testUsername });
     assertInitializationError({ error: false });
-    expect(localStorage.getItem(sessionActiveKey)).toBe('true');
   });
 
   test('no initialization when session is active', async () => {
+    useUserStore.setState({ isLoggedIn: true });
+    socket.disconnect();
     render(<LoginOrOutButton />);
     initializationHandler = jest.fn();
 
-    localStorage.setItem(sessionActiveKey, 'true');
-    await test_login({ username: testUsername });
-    assertInitializationError({ error: false });
     expect(socket.connect).toHaveBeenCalled();
     expect(initializationHandler).not.toHaveBeenCalled();
   });
@@ -94,7 +90,7 @@ describe('user.initialization', () => {
       assertInitializationError({ error: false });
     });
 
-    test.only('username taken', async () => {
+    test.skip('username taken', async () => {
       render(<LoginOrOutButton />);
       const failUsername = testUsername;
       const retryUsername = 'bridog';
@@ -104,7 +100,6 @@ describe('user.initialization', () => {
 
       await test_loginUsernameTaken(failUsername, retryUsername);
       assertInitializationError({ error: true, message: 'Username is taken.' });
-      expect(localStorage.getItem(sessionActiveKey)).toBeNull();
     });
   });
 });
