@@ -17,7 +17,9 @@ import {
 import useUserStore from '../../store/user';
 import { getMockServer } from '../__utils__/ws/mockServer';
 
-describe('login', () => {
+const testUsername = 'brido';
+
+describe('user.login', () => {
   let mockServer: Server, socket: Socket;
 
   beforeAll(async () => {
@@ -43,7 +45,7 @@ describe('login', () => {
       let user = getPersistentUserState();
       expect(user).toEqual(data.preLoginState);
 
-      await test_login({ username: 'brido' });
+      await test_login({ username: testUsername });
       user = getPersistentUserState();
       expect(user).toEqual(data.loginState);
     });
@@ -51,7 +53,7 @@ describe('login', () => {
     test('login state is restored on page load', async () => {
       render(<LoginOrOutButton />);
 
-      await test_login({ username: 'brido' });
+      await test_login({ username: testUsername });
       refreshPage();
       const user = getLocalUserState();
       expect(user).toEqual(data.loginState);
@@ -61,7 +63,7 @@ describe('login', () => {
   test('restores socket connection on reload if logged in', async () => {
     render(<LoginOrOutButton />);
 
-    await test_login({ username: 'brido' });
+    await test_login({ username: testUsername });
     expect(socket.connected).toBe(true);
 
     refreshPage();

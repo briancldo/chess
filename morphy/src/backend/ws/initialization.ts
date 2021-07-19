@@ -6,13 +6,14 @@ export function initialize(username: Username) {
   socket.emit('initialization', username, initializationErrorHandler);
 }
 
-type InitializationStatus = 'success' | 'error';
-type InitializationErrorReason = 'username-taken' | 'connection-id-taken';
+export type InitializationStatus = 'success' | 'error';
+export type InitializationErrorReason =
+  | 'username-taken'
+  | 'connection-id-taken';
 function initializationErrorHandler(
   status: InitializationStatus,
   reason?: InitializationErrorReason
 ) {
-  console.log({ status, reason });
   if (status === 'success') return;
 
   if (reason === 'connection-id-taken') return;

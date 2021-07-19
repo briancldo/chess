@@ -23,6 +23,25 @@ export async function test_login(loginDetails: TestLoginDetails) {
   await waitFor(() => expect(socket.connected).toBe(true));
 }
 
+export async function test_loginUsernameTaken(
+  failUsername: string,
+  retryUsername: string
+) {
+  return new Promise<void>((resolve) => {
+    let shouldResolve = false;
+    jest.spyOn(window, 'prompt').mockImplementation((message) => {
+      if (message === 'Username is taken.') {
+        shouldResolve = true;
+        return retryUsername;
+      }
+      if (shouldResolve) resolve();
+      return failUsername;
+    });
+    const loginButton = screen.getByRole('button', { name: 'Login' });
+    loginButton.click();
+  });
+}
+
 export async function test_logout() {
   const { isLoggedIn } = useUserStore.getState();
   if (!isLoggedIn) throw new Error('Already logged out.');
