@@ -2,14 +2,16 @@ import { produce } from 'immer';
 import isFunction from 'lodash/isFunction';
 
 import useUserStore, { Username, UserState, UserStore } from '../../store/user';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { APP_NAME } from '../../utils/constants/app.constants';
+
+import { socket } from '../../backend/ws/instance';
 
 interface TestLoginDetails {
   username: Username;
 }
 
-export function test_login(loginDetails: TestLoginDetails) {
+export async function test_login(loginDetails: TestLoginDetails) {
   const { username } = loginDetails;
   const { isLoggedIn } = useUserStore.getState();
   if (isLoggedIn) throw new Error('Already logged in.');
@@ -17,15 +19,36 @@ export function test_login(loginDetails: TestLoginDetails) {
   jest.spyOn(window, 'prompt').mockReturnValueOnce(username);
   const loginButton = screen.getByRole('button', { name: 'Login' });
   loginButton.click();
+
+  await new Promise<void>((resolve) => {
+    socket.on('connect', resolve);
+  });
 }
 
-export function test_logout() {
+export async function test_loginWithRetry(
+  failingUsername: string,
+  retryUsername: string
+) {
+  const promptSpy = jest
+    .spyOn(window, 'prompt')
+    .mockReturnValueOnce(failingUsername)
+    .mockReturnValueOnce(retryUsername);
+
+  const loginButton = screen.getByRole('button', { name: 'Login' });
+  loginButton.click();
+
+  await waitFor(() => expect(promptSpy).toHaveBeenCalledTimes(2));
+}
+
+export async function test_logout() {
   const { isLoggedIn } = useUserStore.getState();
   if (!isLoggedIn) throw new Error('Already logged out.');
 
   jest.spyOn(window, 'confirm').mockReturnValueOnce(true);
   const loginButton = screen.getByRole('button', { name: 'Logout' });
   loginButton.click();
+
+  await waitFor(() => expect(socket.connected).toBe(false));
 }
 
 export function getLocalUserState(): UserState {

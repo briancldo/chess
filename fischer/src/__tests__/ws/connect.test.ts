@@ -1,31 +1,61 @@
 import { io } from '../../app';
-import * as socket from './__utils__/socket.test.utils';
-import { isConnectionIdCached } from './__utils__/cache.test.utils';
+import * as socketUtils from './__utils__/socket.test.utils';
+import { isConnectionIdCached } from './__utils__/cache/connectionCache.test.utils';
+import * as userCache from './__utils__/cache/userCache.test.utils';
+import { sleep } from './__utils__/time.utils';
+
+const testUsername = 'brido';
 
 describe('connect', () => {
   afterEach(async () => {
-    if (socket.isConnected()) await socket.disconnect();
+    await socketUtils.disconnectAll();
+    userCache.remove(testUsername);
   });
 
   afterAll(() => {
     io.close();
   });
 
-  describe('connection', () => {
-    test('adds id to cache', async () => {
-      const connectedSocket = await socket.connect();
-      const connectionId = connectedSocket.id;
+  describe('initialization', () => {
+    test('adds username and id to cache', async () => {
+      const socket = await socketUtils.connect();
+      const connectionId = socket.id;
+      await socketUtils.initialize(socket, testUsername);
+
+      expect(userCache.get(testUsername)).toEqual({ connectionId });
       expect(isConnectionIdCached(connectionId)).toBe(true);
+    });
+
+    test('rejects if username exists', async () => {
+      const socket1 = await socketUtils.connect();
+      await socketUtils.initialize(socket1, testUsername);
+
+      const socket2 = await socketUtils.connect();
+      await expect(socketUtils.initialize(socket2, testUsername)).rejects.toBe(
+        'username-taken'
+      );
+    });
+
+    test('rejects if connection id exists', async () => {
+      const socket = await socketUtils.connect();
+      await socketUtils.initialize(socket, testUsername);
+
+      await expect(
+        socketUtils.initialize(socket, `${testUsername}2`)
+      ).rejects.toBe('connection-id-taken');
     });
   });
 
   describe('disconnect', () => {
-    test('removes id from cache', async () => {
-      const connectedSocket = await socket.connect();
-      const disconnectedSocket = await socket.disconnect();
+    test('removes username and id from cache', async () => {
+      const socket = await socketUtils.connect();
+      const connectionId = socket.id;
+      await socketUtils.initialize(socket, testUsername);
+      await socketUtils.disconnect(socket);
 
-      expect(disconnectedSocket.id).toBe(connectedSocket.id);
-      expect(isConnectionIdCached(disconnectedSocket.id)).toBe(false);
+      await sleep(0.15);
+      expect(isConnectionIdCached(connectionId)).toBe(false);
+      expect(userCache.get(testUsername)).toBeUndefined();
     });
   });
 });

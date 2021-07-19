@@ -5,11 +5,11 @@ import useUserStore from '../../../store/user';
 
 export function useReconnect() {
   useEffect(() => {
-    const { isLoggedIn } = useUserStore.getState();
+    const { isLoggedIn, username } = useUserStore.getState();
     const isConnectedToSocket = socket.connected;
 
     if (isLoggedIn && !isConnectedToSocket) {
-      connect();
+      connect(username);
     }
   }, []);
 }
