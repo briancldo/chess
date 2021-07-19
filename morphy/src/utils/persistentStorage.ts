@@ -1,15 +1,13 @@
 import { APP_NAME } from './constants/app.constants';
 
-type Key = 'session-active';
+type Key = ''; // add keys here
 type PrimitiveValue = string | number | boolean;
 type Value = PrimitiveValue | PrimitiveValue[] | Record<string, PrimitiveValue>;
 
-type StorageDefaults = { [key in Key]: Value };
-const defaults: StorageDefaults = {
-  'session-active': false,
-};
+type StorageDefaults = { [key in Key]?: Value };
+const defaults: StorageDefaults = {};
 
-function persistentStorageGet(key: 'session-active'): boolean;
+// this function must have an overload for each key to specify the value's type
 function persistentStorageGet(key: Key): Value {
   const itemStringified = localStorage.getItem(`${APP_NAME}-${key}`);
   const item = itemStringified ? JSON.parse(itemStringified) : defaults[key];

@@ -1,21 +1,15 @@
 import { initialize } from './initialization';
 import { socket } from './instance';
-import { Username } from '../../store/user';
-import persistentStorage from '../../utils/persistentStorage';
+import useUserStore, { Username } from '../../store/user';
 
-function isSessionActive() {
-  return persistentStorage.get('session-active');
-}
-
-function markSessionAsActive() {
-  persistentStorage.set('session-active', true);
+function shouldInitialize() {
+  return !useUserStore.getState().isLoggedIn;
 }
 
 export function connect(username: Username) {
   socket.on('connect', () => {
-    if (!isSessionActive()) {
+    if (!shouldInitialize()) {
       initialize(username);
-      markSessionAsActive();
     }
   });
   socket.connect();
