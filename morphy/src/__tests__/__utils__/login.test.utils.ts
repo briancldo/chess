@@ -20,7 +20,9 @@ export async function test_login(loginDetails: TestLoginDetails) {
   const loginButton = screen.getByRole('button', { name: 'Login' });
   loginButton.click();
 
-  await waitFor(() => expect(socket.connected).toBe(true));
+  await new Promise<void>((resolve) => {
+    socket.on('connect', resolve);
+  });
 }
 
 export async function test_loginWithRetry(
