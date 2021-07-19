@@ -10,7 +10,7 @@ import { getMockServer } from '../__utils__/ws/mockServer';
 import useUserStore from '../../store/user';
 import {
   test_login,
-  test_loginUsernameTaken,
+  test_loginWithRetry,
   test_logout,
 } from '../__utils__/login.test.utils';
 import LoginOrOutButton from '../../components/Login/LoginOrOutButton';
@@ -90,15 +90,16 @@ describe('user.initialization', () => {
       assertInitializationError({ error: false });
     });
 
-    test.skip('username taken', async () => {
+    test('username taken', async () => {
       render(<LoginOrOutButton />);
-      const failUsername = testUsername;
-      const retryUsername = 'bridog';
+      const failingUsername = 'badusername';
+      const retryUsername = testUsername;
       initializationHandler = (username, callback) => {
-        callback('error', 'username-taken');
+        if (username === failingUsername) callback('error', 'username-taken');
+        if (username === retryUsername) callback('success');
       };
 
-      await test_loginUsernameTaken(failUsername, retryUsername);
+      await test_loginWithRetry(failingUsername, retryUsername);
       assertInitializationError({ error: true, message: 'Username is taken.' });
     });
   });
@@ -111,7 +112,7 @@ function assertInitializationError(config: InitializationErrorConfig) {
 
   if (!error) expect(promptSpy).toHaveBeenCalledTimes(1);
   if (error) {
-    expect(promptSpy).toHaveBeenCalledWith(message);
     expect(promptSpy).toHaveBeenCalledTimes(2);
+    expect(promptSpy).toHaveBeenCalledWith(message);
   }
 }
