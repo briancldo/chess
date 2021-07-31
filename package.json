@@ -7,9 +7,7 @@
     "start:web:dev": "concurrently \"yarn start:web:dev:iso\" \"yarn start:server:dev:iso\"",
     "start:web:dev:iso": "yarn --cwd ./morphy start",
     "start:server:dev:iso": "yarn --cwd ./fischer start:dev",
-
     "heroku-postbuild": "yarn --cwd fischer install",
-
     "cm": "cz",
     "release:major": "standard-version --release-as major",
     "release:minor": "standard-version --release-as minor",
@@ -29,7 +27,10 @@
     "commitizen": "4.2.4",
     "concurrently": "6.2.0",
     "cz-conventional-changelog": "3.3.0",
-    "standard-version": "9.3.0"
+    "standard-version": "9.3.1"
+  },
+  "resolutions": {
+    "trim-newlines": "4.0.2"
   },
   "config": {
     "commitizen": {
