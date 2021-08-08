@@ -28,16 +28,3 @@ export async function disconnectAll() {
   await Promise.all(Object.values(sockets).map((socket) => disconnect(socket)));
   sockets = {};
 }
-
-export function initialize(socket: Socket, username: string) {
-  return new Promise<Socket>((resolve, reject) => {
-    socket.emit(
-      'initialization',
-      username,
-      (status: string, reason?: string) => {
-        if (status === 'success') resolve(socket);
-        reject(reason);
-      }
-    );
-  });
-}
