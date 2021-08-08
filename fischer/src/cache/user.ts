@@ -1,4 +1,3 @@
-import { InitializationError } from '../utils/errors';
 import * as connectionCache from './connection';
 
 interface UserInfo {
@@ -17,12 +16,7 @@ function doesUserExist(username: string) {
 }
 
 function validateUserInfo(username: string, userInfo: UserInfo) {
-  // check connection id before username matters
-  const { connectionId } = userInfo;
-  if (connectionCache.isConnectionActive(connectionId))
-    throw new InitializationError('connection-id-taken');
-
-  if (doesUserExist(username)) throw new InitializationError('username-taken');
+  console.log('No op');
 }
 
 export function addUser(username: string, userInfo: UserInfo) {

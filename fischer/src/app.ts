@@ -24,21 +24,6 @@ io.on('connection', (socket) => {
     callback('pong');
   });
 
-  socket.on('initialization', (username: string, callback) => {
-    const connectionId = socket.id;
-    console.log(`initializing: ${username} (${connectionId}`);
-    try {
-      cache.addUser(username, { connectionId });
-      console.log(`initialization success for user ${username}`);
-      callback('success');
-    } catch (error) {
-      console.log(
-        `initialization error for user ${username}: ${error.message}`
-      );
-      callback('error', error.message);
-    }
-  });
-
   socket.on('disconnecting', () => {
     console.log(`disconnecting: ${socket.id}`);
     cache.removeUserByConnectionId(socket.id);
