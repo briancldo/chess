@@ -1,8 +1,9 @@
 import { Server } from 'socket.io';
 import http from 'http';
 
-import * as cache from './cache/user';
 import config from './config/config';
+import { AuthError } from './utils/errors';
+import { AugmentedSocket, PreAugmentedSocket } from './app.types';
 
 const websocketPort = process.env.PORT || config.get('WEBSOCKET_PORT');
 const server = http.createServer();
@@ -16,7 +17,16 @@ const io = new Server(server, {
   },
 });
 
-io.on('connection', (socket) => {
+io.use((socket: PreAugmentedSocket, next) => {
+  const { username } = socket.handshake.auth;
+  if (!username) return next(new AuthError('Username is required.'));
+
+  socket.username = username;
+  next();
+});
+
+io.on('connection', (_socket) => {
+  const socket = _socket as AugmentedSocket;
   console.log(`connecting: ${socket.id}`);
 
   socket.on('ping', (callback) => {
@@ -26,7 +36,6 @@ io.on('connection', (socket) => {
 
   socket.on('disconnecting', () => {
     console.log(`disconnecting: ${socket.id}`);
-    cache.removeUserByConnectionId(socket.id);
   });
 });
 
