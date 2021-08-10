@@ -27,7 +27,7 @@ io.use((socket: PreAugmentedSocket, next) => {
 
 io.on('connection', (_socket) => {
   const socket = _socket as AugmentedSocket;
-  console.log(`connecting: ${socket.id}`);
+  console.log(`connecting: ${socket.id}; username: ${socket.username}`);
 
   socket.on('ping', (callback) => {
     console.log('got pinged!');
@@ -35,7 +35,7 @@ io.on('connection', (_socket) => {
   });
 
   socket.on('disconnecting', () => {
-    console.log(`disconnecting: ${socket.id}`);
+    console.log(`disconnecting: ${socket.id}; username: ${socket.username}`);
   });
 });
 

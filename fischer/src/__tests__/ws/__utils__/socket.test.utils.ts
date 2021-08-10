@@ -5,13 +5,22 @@ import config from '../../../config/config';
 const websocketPort = config.get('WEBSOCKET_PORT');
 let sockets: { [id: string]: Socket } = {};
 
-export function connect() {
+interface ConnectionInfo {
+  username: string;
+}
+export function connect(connectionInfo: ConnectionInfo) {
+  const { username } = connectionInfo;
   const socket = io(`ws://localhost:${websocketPort}`, { autoConnect: false });
-  return new Promise<Socket>((resolve) => {
+  return new Promise<Socket>((resolve, reject) => {
     socket.on('connect', () => {
       sockets[socket.id] = socket;
       resolve(socket);
     });
+    socket.on('connect_error', (error) => {
+      disconnect(socket);
+      reject(error);
+    });
+    socket.auth = { username };
     socket.connect();
   });
 }
