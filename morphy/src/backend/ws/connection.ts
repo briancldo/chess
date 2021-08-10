@@ -1,7 +1,8 @@
 import { socket } from './instance';
-// import { Username } from '../../store/user';
+import { Username } from '../../store/user';
 
-export function connect(/*username: Username*/) {
+export function connect(username: Username) {
+  socket.auth = { username };
   socket.connect();
 }
 
