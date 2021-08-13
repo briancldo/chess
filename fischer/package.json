@@ -1,5 +1,5 @@
 {
-  "name": "fischer",
+  "name": "@chess/fischer",
   "scripts": {
     "start": "ts-node src/app",
     "start:dev": "ts-node-dev src/app.ts --transpile-only --rs",
