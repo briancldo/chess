@@ -5,6 +5,12 @@ const config: PlaywrightTestConfig = {
     baseURL: 'http://localhost:3000',
     video: process.env.CI ? 'off' : 'retain-on-failure',
   },
+  webServer: {
+    command: 'yarn --cwd .. start:web:dev',
+    port: 3000,
+    timeout: 15000,
+    reuseExistingServer: !process.env.CI,
+  },
   projects: [
     {
       name: 'Chrome Stable',
