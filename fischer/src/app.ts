@@ -2,8 +2,7 @@ import { Server } from 'socket.io';
 import http from 'http';
 
 import config from './config/config';
-import { AuthError } from './utils/errors';
-import { AugmentedSocket, PreAugmentedSocket } from './app.types';
+import { addEvents } from './io';
 
 const websocketPort = process.env.PORT || config.get('WEBSOCKET_PORT');
 const server = http.createServer();
@@ -17,26 +16,6 @@ const io = new Server(server, {
   },
 });
 
-io.use((socket: PreAugmentedSocket, next) => {
-  const { username } = socket.handshake.auth;
-  if (!username) return next(new AuthError('Username is required.'));
-
-  socket.username = username;
-  next();
-});
-
-io.on('connection', (_socket) => {
-  const socket = _socket as AugmentedSocket;
-  console.log(`connecting: ${socket.id}; username: ${socket.username}`);
-
-  socket.on('ping', (callback) => {
-    console.log('got pinged!');
-    callback('pong');
-  });
-
-  socket.on('disconnecting', () => {
-    console.log(`disconnecting: ${socket.id}; username: ${socket.username}`);
-  });
-});
+addEvents(io);
 
 export { io };
