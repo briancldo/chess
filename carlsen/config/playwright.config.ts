@@ -8,6 +8,9 @@ const config: PlaywrightTestConfig = {
     port: 3000,
     timeout: 15000,
     reuseExistingServer: false,
+    env: {
+      REACT_APP_E2E: 'true',
+    },
   },
   use: {
     baseURL: 'http://localhost:3000',
