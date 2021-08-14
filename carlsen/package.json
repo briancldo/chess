@@ -2,6 +2,7 @@
   "name": "@chess/carlsen",
   "description": "E2E testing codebase",
   "scripts": {
+    "start:webserver": "cross-env REACT_APP_E2E=true yarn --cwd .. start:web:dev",
     "test": "playwright test --config=config/playwright.config.ts",
     "lint": "eslint \"./**/*.{js,ts,tsx}\"",
     "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
@@ -13,6 +14,7 @@
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.29.1",
+    "cross-env": "7.0.3",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-json-format": "2.0.1",
