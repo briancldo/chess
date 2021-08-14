@@ -1,8 +1,23 @@
+import http from 'http';
 import { Server } from 'socket.io';
 import { AugmentedSocket, PreAugmentedSocket } from './app.types';
 import { AuthError } from './utils/errors';
 
-export function addEvents(io: Server) {
+export function createServer(port: number) {
+  const server = http.createServer();
+  const io = new Server(server, {
+    cors: {
+      // TODO: restrict to specific origins
+      origin: '*',
+    },
+  });
+
+  addEvents(io);
+  server.listen(port);
+  return io;
+}
+
+function addEvents(io: Server) {
   io.use((socket: PreAugmentedSocket, next) => {
     const { username } = socket.handshake.auth;
     if (!username) return next(new AuthError('Username is required.'));
