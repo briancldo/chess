@@ -4,10 +4,10 @@ import projects from './projects';
 const config: PlaywrightTestConfig = {
   testDir: '../tests',
   webServer: {
-    command: 'yarn --cwd .. start:web:dev',
+    command: 'yarn start:web',
     port: 3000,
     timeout: 15000,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
   },
   use: {
     baseURL: 'http://localhost:3000',
