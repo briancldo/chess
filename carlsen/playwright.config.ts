@@ -3,6 +3,7 @@ import { PlaywrightTestConfig, devices } from '@playwright/test';
 const config: PlaywrightTestConfig = {
   use: {
     baseURL: 'http://localhost:3000',
+    video: process.env.CI ? 'off' : 'retain-on-failure',
   },
   projects: [
     {
