@@ -1,5 +1,5 @@
 {
-  "include": ["./**/*"],
+  "include": ["./config/**/*", "./tests/**/*"],
   "exclude": ["./*.js"],
   "compilerOptions": {
     "incremental": true,
@@ -14,7 +14,7 @@
       "ES2020"
     ],
     "sourceMap": true,
-    "rootDir": "./src",
+    "rootDir": ".",
     "removeComments": true,
     "importHelpers": true,
     "downlevelIteration": true,

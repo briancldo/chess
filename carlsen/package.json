@@ -2,7 +2,7 @@
   "name": "@chess/carlsen",
   "description": "E2E testing codebase",
   "scripts": {
-    "test": "playwright test",
+    "test": "playwright test --config=config/playwright.config.ts",
     "lint": "eslint \"./**/*.{js,ts,tsx}\"",
     "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "cm": "yarn --cwd ../ cm",
