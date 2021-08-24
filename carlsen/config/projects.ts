@@ -7,7 +7,7 @@ import {
 
 const projectsCI = [
   {
-    name: 'Chrome Stable',
+    name: 'Desktop Chrome',
     use: {
       browserName: 'chromium',
       channel: 'chrome',
@@ -45,7 +45,7 @@ const projectsCI = [
 
 const projectsLocal = [
   {
-    name: 'Chrome Stable',
+    name: 'Desktop Chrome',
     use: {
       browserName: 'chromium',
       channel: 'chrome',

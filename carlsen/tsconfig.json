@@ -1,5 +1,5 @@
 {
-  "include": ["./config/**/*", "./tests/**/*"],
+  "include": ["./config/**/*", "./tests/**/*", "./mockServer/**/*"],
   "exclude": ["./*.js"],
   "compilerOptions": {
     "incremental": true,

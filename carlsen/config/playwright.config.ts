@@ -12,6 +12,7 @@ const config: PlaywrightTestConfig = {
       REACT_APP_E2E: 'true',
     },
   },
+  workers: 1,
   use: {
     baseURL: 'http://localhost:3000',
     video: process.env.CI ? 'off' : 'retain-on-failure',
