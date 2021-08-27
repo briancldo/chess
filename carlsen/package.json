@@ -4,7 +4,6 @@
   "scripts": {
     "start:web": "yarn --cwd .. start:web:dev:iso",
     "test": "playwright test --config=config/playwright.config.ts",
-    "test:ci": "npx playwright install-deps && yarn test",
     "lint": "eslint \"./**/*.{js,ts,tsx}\"",
     "format": "prettier --write \"./**/*.{js,ts,tsx}\"",
     "cruise-deps": "depcruise \"./**/*.{js,ts,tsx}\"",

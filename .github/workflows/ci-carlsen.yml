@@ -34,5 +34,7 @@ jobs:
         run: yarn cruise-deps
       - name: Typecheck
         run: yarn typecheck
+      - name: Install operating system dependencies for playwright
+        run: npx playwright install-deps
       - name: Tests
-        run: yarn test:ci
+        run: yarn test
