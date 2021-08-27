@@ -27,6 +27,7 @@ export async function connectWait(socket: Socket) {
 }
 
 export async function disconnectWait(socket: Socket) {
+  if (!socket.connected) return;
   await new Promise<void>((resolve) => {
     socket.on('disconnect', () => resolve());
     socket.disconnect();
