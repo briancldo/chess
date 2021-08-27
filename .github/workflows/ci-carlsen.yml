@@ -34,7 +34,8 @@ jobs:
         run: yarn cruise-deps
       - name: Typecheck
         run: yarn typecheck
-      - name: Install operating system dependencies for playwright
-        run: npx playwright install-deps
+      - name: Install dependencies for playwright
+        # For now, installs all morphy deps. To speed up, build morphy and serve it.
+        run: yarn --cwd ../morphy install --frozen-lockfile && npx playwright install-deps
       - name: Tests
         run: yarn test
