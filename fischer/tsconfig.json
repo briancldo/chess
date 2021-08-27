@@ -1,5 +1,5 @@
 {
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "./src/**/*.json"],
   "exclude": ["./*.js"],
   "compilerOptions": {
     "incremental": true,
