@@ -10,7 +10,7 @@ export function login(loginDetails: LoginDetails) {
   const { username } = loginDetails;
   const storeLogin = useUserStore.getState().login;
 
-  connect(/*username*/);
+  connect(username);
   storeLogin(username);
 }
 

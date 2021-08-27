@@ -1,6 +1,7 @@
 {
-  "include": ["./src/**/*", "./src/**/*.json"],
+  "include": ["./config/**/*", "./tests/**/*", "./mockServer/**/*"],
   "exclude": ["./*.js"],
+  "references": [{ "path": "../fischer" }],
   "compilerOptions": {
     "incremental": true,
     "target": "es5",
@@ -8,16 +9,13 @@
     "lib": [
       "ES5",
       "ES6",
-      "DOM",
       "ES2017",
       "ES2018",
       "ES2019",
       "ES2020"
     ],
     "sourceMap": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "composite": true,
+    "rootDir": ".",
     "removeComments": true,
     "importHelpers": true,
     "downlevelIteration": true,
@@ -35,9 +33,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true
-  },
-  "ts-node": {
-    "transpileOnly": true
+    "resolveJsonModule": true,
+    "noEmit": true
   }
 }
