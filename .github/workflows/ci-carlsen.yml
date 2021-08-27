@@ -36,6 +36,6 @@ jobs:
         run: yarn typecheck
       - name: Install dependencies for playwright
         # For now, installs all morphy deps. To speed up, build morphy and serve it.
-        run: yarn --cwd ../morphy install --frozen-lockfile && npx playwright install-deps
+        run: yarn --cwd ../morphy install --frozen-lockfile && npx playwright install && npx playwright install-deps
       - name: Tests
         run: yarn test
