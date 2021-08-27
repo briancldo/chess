@@ -16,7 +16,6 @@ export const test = base.extend<TestFixtures>({
   io: async ({ baseURL }, use) => {
     const server = initServer();
     const client = initClient();
-    await connectWait(client);
     await use({ server, client });
     await disconnectWait(client);
     await server.close();

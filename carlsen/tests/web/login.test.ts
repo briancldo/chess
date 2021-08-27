@@ -1,13 +1,11 @@
 import { test, expect } from '../__utils__/playwright.utils';
 import { TEST_USER_NAME } from '../../mockServer/config';
-import { disconnectWait } from '../__utils__/client.utils';
 import { Socket } from 'socket.io';
 import { sleep } from '../__utils__/time.utils';
 
 test.describe('login', () => {
   test('login creates socket connection', async ({ page, io }) => {
     await page.goto('/');
-    await disconnectWait(io.client);
 
     await new Promise<void>((resolve) => {
       page.on('dialog', async (dialog) => {
