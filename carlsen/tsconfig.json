@@ -1,6 +1,7 @@
 {
   "include": ["./config/**/*", "./tests/**/*", "./mockServer/**/*"],
   "exclude": ["./*.js"],
+  "references": [{ "path": "../fischer" }],
   "compilerOptions": {
     "incremental": true,
     "target": "es5",
