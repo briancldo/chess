@@ -1,7 +1,7 @@
 import http from 'http';
 import { Server } from 'socket.io';
 
-import { validateUser } from './middleware/user';
+import { validateUsername } from './middleware/user';
 
 export function createServer(port: number) {
   const server = http.createServer();
@@ -18,7 +18,7 @@ export function createServer(port: number) {
 }
 
 function addEvents(io: Server) {
-  io.use(validateUser);
+  io.use(validateUsername);
 
   io.on('connection', (socket) => {
     const { username } = socket.handshake.auth;
