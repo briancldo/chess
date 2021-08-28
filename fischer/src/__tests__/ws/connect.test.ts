@@ -1,5 +1,4 @@
 import { io } from '../../app';
-import { AugmentedSocket } from '../../app.types';
 import * as socketUtils from './__utils__/socket.test.utils';
 
 const testUsername = 'brido';
@@ -16,10 +15,8 @@ describe('connect', () => {
   describe('connection', () => {
     test('connects user with username', async () => {
       const socket = await socketUtils.connect({ username: testUsername });
-      const connectedSocket = io
-        .of('/')
-        .sockets.get(socket.id) as AugmentedSocket;
-      expect(connectedSocket.username).toBe(testUsername);
+      const connectedSocket = io.of('/').sockets.get(socket.id);
+      expect(connectedSocket?.handshake.auth.username).toBe(testUsername);
     });
 
     test('error if no username is passed', async () => {

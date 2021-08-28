@@ -1,6 +1,7 @@
 import http from 'http';
 import { Server } from 'socket.io';
-import { AuthError } from './utils/errors';
+
+import { validateUser } from './middleware/user';
 
 export function createServer(port: number) {
   const server = http.createServer();
@@ -17,12 +18,7 @@ export function createServer(port: number) {
 }
 
 function addEvents(io: Server) {
-  io.use((socket, next) => {
-    const { username } = socket.handshake.auth;
-    if (!username) return next(new AuthError('Username is required.'));
-
-    next();
-  });
+  io.use(validateUser);
 
   io.on('connection', (socket) => {
     const { username } = socket.handshake.auth;
