@@ -1,6 +1,5 @@
 import http from 'http';
 import { Server } from 'socket.io';
-import { AugmentedSocket, PreAugmentedSocket } from './app.types';
 import { AuthError } from './utils/errors';
 
 export function createServer(port: number) {
@@ -18,17 +17,16 @@ export function createServer(port: number) {
 }
 
 function addEvents(io: Server) {
-  io.use((socket: PreAugmentedSocket, next) => {
+  io.use((socket, next) => {
     const { username } = socket.handshake.auth;
     if (!username) return next(new AuthError('Username is required.'));
 
-    socket.username = username;
     next();
   });
 
-  io.on('connection', (_socket) => {
-    const socket = _socket as AugmentedSocket;
-    console.log(`connecting: ${socket.id}; username: ${socket.username}`);
+  io.on('connection', (socket) => {
+    const { username } = socket.handshake.auth;
+    console.log(`connecting: ${socket.id}; username: ${username}`);
 
     socket.on('ping', (callback) => {
       console.log('got pinged!');
@@ -36,7 +34,7 @@ function addEvents(io: Server) {
     });
 
     socket.on('disconnecting', () => {
-      console.log(`disconnecting: ${socket.id}; username: ${socket.username}`);
+      console.log(`disconnecting: ${socket.id}; username: ${username}`);
     });
   });
 }
