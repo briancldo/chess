@@ -4,8 +4,8 @@ import Button from '../ui/Button';
 import { promptLogin } from '../../utils/user/login/auth';
 
 const LoginButton: React.FC = () => {
-  function handleClick() {
-    promptLogin();
+  async function handleClick() {
+    await promptLogin();
   }
 
   return (
