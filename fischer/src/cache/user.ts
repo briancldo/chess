@@ -5,7 +5,7 @@ import { UserInfo } from './types/user';
 const cache = new NodeCache();
 
 function set(username: string, userInfo: UserInfo) {
-  cache.set(username, userInfo);
+  return cache.set(username, userInfo);
 }
 
 function exists(username: string) {
@@ -16,8 +16,13 @@ function remove(username: string) {
   return cache.del(username);
 }
 
+function clear() {
+  return cache.flushAll();
+}
+
 export default {
   set,
   exists,
   remove,
+  clear,
 };
