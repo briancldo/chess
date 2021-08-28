@@ -2,6 +2,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 
 import { validateUsername } from './middleware/user';
+import userCache from './cache/user';
 
 export function createServer(port: number) {
   const server = http.createServer();
@@ -31,6 +32,7 @@ function addEvents(io: Server) {
 
     socket.on('disconnecting', () => {
       console.log(`disconnecting: ${socket.id}; username: ${username}`);
+      userCache.remove(username);
     });
   });
 }

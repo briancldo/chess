@@ -12,7 +12,12 @@ function exists(username: string) {
   return cache.has(username);
 }
 
+function remove(username: string) {
+  return cache.del(username);
+}
+
 export default {
   set,
   exists,
+  remove,
 };
