@@ -34,6 +34,7 @@ describe('user.login', () => {
 
   afterEach(async () => {
     if (useUserStore.getState().isLoggedIn) await test_logout();
+    mockServer.removeAllListeners();
     localStorage.clear();
     jest.clearAllMocks();
   });
@@ -58,6 +59,24 @@ describe('user.login', () => {
       const user = getLocalUserState();
       expect(user).toEqual(data.loginState);
     });
+  });
+
+  test('properly handles login error', async () => {
+    render(<LoginOrOutButton />);
+    const alertSpy = jest.spyOn(window, 'alert').mockReturnValueOnce();
+    const storeLoginSpy = jest.spyOn(useUserStore.getState(), 'login');
+    mockServer.use((_, next) => {
+      // eslint-disable-next-line sonarjs/no-duplicate-string
+      next(new Error('mock error'));
+    });
+
+    await expect(test_login({ username: testUsername })).rejects.toThrow(
+      'mock error'
+    );
+    expect(alertSpy).toHaveBeenCalledWith('Error logging in: mock error');
+
+    expect(mockServer.of('/').sockets.size).toBe(0);
+    expect(storeLoginSpy).not.toHaveBeenCalled();
   });
 
   test('restores socket connection on reload if logged in', async () => {

@@ -20,8 +20,9 @@ export async function test_login(loginDetails: TestLoginDetails) {
   const loginButton = screen.getByRole('button', { name: 'Login' });
   loginButton.click();
 
-  await new Promise<void>((resolve) => {
+  await new Promise<void>((resolve, reject) => {
     socket.on('connect', resolve);
+    socket.on('connect_error', reject);
   });
 }
 
