@@ -8,6 +8,8 @@ module.exports = {
     'eslint:recommended',
     'plugin:prettier/recommended',
     'plugin:sonarjs/recommended',
+    'plugin:jest/recommended',
+    'plugin:jest-formatting/recommended',
     'plugin:node/recommended',
     'plugin:promise/recommended',
     'plugin:@typescript-eslint/recommended',
@@ -24,6 +26,8 @@ module.exports = {
     'sonarjs',
     'json-format',
     'promise',
+    'jest',
+    'jest-formatting',
     '@typescript-eslint',
   ],
   rules: {
@@ -36,6 +40,7 @@ module.exports = {
     'node/no-unsupported-features/es-syntax': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'jest/no-done-callback': 'off',
   },
   ignorePatterns: ['./tsconfig.json'],
   settings: {

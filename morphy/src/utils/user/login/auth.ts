@@ -6,22 +6,26 @@ interface LoginDetails {
   username: Username;
 }
 
-export function login(loginDetails: LoginDetails) {
+export async function login(loginDetails: LoginDetails) {
   const { username } = loginDetails;
   const storeLogin = useUserStore.getState().login;
 
-  connect(username);
-  storeLogin(username);
+  try {
+    await connect(username);
+    storeLogin(username);
+  } catch (error) {
+    alert(`Error logging in: ${error.message}`);
+  }
 }
 
-export function promptLogin(options?: PromptLoginOptions) {
+export async function promptLogin(options?: PromptLoginOptions) {
   const { message = 'Select a username:' } = options || {};
   let username;
   do {
     username = prompt(message);
     if (username === null) return;
   } while (!username);
-  login({ username });
+  await login({ username });
 }
 
 export function logout() {

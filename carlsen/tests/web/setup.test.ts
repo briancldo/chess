@@ -10,7 +10,7 @@ test.describe('setup', () => {
     expect(env).toBe('e2e');
   });
 
-  test('test client is connected to test server', async ({ io }) => {
+  test('client is connected to server', async ({ io }) => {
     await connectWait(io.client);
     expect(io.client.connected).toBe(true);
     expect(io.client.id).not.toBeUndefined();

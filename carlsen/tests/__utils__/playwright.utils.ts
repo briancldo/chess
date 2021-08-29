@@ -1,9 +1,10 @@
-import { test as base, expect } from '@playwright/test';
+import { test as base, expect, Browser } from '@playwright/test';
 import { Server } from 'socket.io';
 import { Socket } from 'socket.io-client';
 
-import { initClient, connectWait, disconnectWait } from './client.utils';
+import { initClient, disconnectWait } from './client.utils';
 import initServer from '../../mockServer/initServer';
+import userCache from '../__utils__/cache/user';
 
 interface TestFixtures {
   io: {
@@ -12,14 +13,24 @@ interface TestFixtures {
   };
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export const test = base.extend<TestFixtures>({
   io: async ({ baseURL }, use) => {
     const server = initServer();
     const client = initClient();
+    await userCache.clear();
     await use({ server, client });
     await disconnectWait(client);
     await server.close();
   },
 });
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export { expect };
+
+export async function newIncognitoPage(browser: Browser, url: string) {
+  const incognitoContext = await browser.newContext();
+  const incognitoPage = await incognitoContext.newPage();
+  await incognitoPage.goto(url);
+  return incognitoPage;
+}

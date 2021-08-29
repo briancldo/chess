@@ -2,7 +2,7 @@ jest.mock('socket.io-client');
 
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { io, Socket } from 'socket.io-client';
 import { Server } from 'socket.io';
 
@@ -34,6 +34,7 @@ describe('user.login', () => {
 
   afterEach(async () => {
     if (useUserStore.getState().isLoggedIn) await test_logout();
+    mockServer.removeAllListeners();
     localStorage.clear();
     jest.clearAllMocks();
   });
@@ -60,7 +61,31 @@ describe('user.login', () => {
     });
   });
 
+  test('properly handles login error', async () => {
+    render(<LoginOrOutButton />);
+    const alertSpy = jest
+      .spyOn(window, 'alert')
+      .mockImplementationOnce(() => ({}));
+    const storeLoginSpy = jest.spyOn(useUserStore.getState(), 'login');
+    let nextObj: Error | undefined = new Error('mock error');
+    mockServer.use((_, next) => {
+      // eslint-disable-next-line sonarjs/no-duplicate-string
+      next(nextObj);
+    });
+
+    await expect(test_login({ username: testUsername })).rejects.toThrow(
+      'mock error'
+    );
+    expect(alertSpy).toHaveBeenCalledWith('Error logging in: mock error');
+
+    expect(mockServer.of('/').sockets.size).toBe(0);
+    expect(storeLoginSpy).not.toHaveBeenCalled();
+
+    nextObj = undefined;
+  });
+
   test('restores socket connection on reload if logged in', async () => {
+    jest.spyOn(window, 'alert').mockImplementationOnce(() => ({}));
     render(<LoginOrOutButton />);
 
     await test_login({ username: testUsername });
@@ -73,5 +98,5 @@ describe('user.login', () => {
 });
 
 function refreshPage() {
-  location.assign(location.href);
+  act(() => location.assign(location.href));
 }

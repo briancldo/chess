@@ -1,9 +1,14 @@
 import { socket } from './instance';
 import { Username } from '../../store/user';
 
-export function connect(username: Username) {
+export async function connect(username: Username) {
   socket.auth = { username };
-  socket.connect();
+
+  await new Promise<void>((resolve, reject) => {
+    socket.on('connect', resolve);
+    socket.on('connect_error', reject);
+    socket.connect();
+  });
 }
 
 export function disconnect() {
