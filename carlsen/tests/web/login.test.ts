@@ -2,7 +2,7 @@ import { Socket } from 'socket.io';
 import { test, expect, newIncognitoPage } from '../__utils__/playwright.utils';
 import { TEST_USER_NAME } from '../../mockServer/config';
 import { sleep } from '../__utils__/time.utils';
-import { login } from '../__utils__/auth.utils';
+import { login, logout } from '../__utils__/auth.utils';
 
 test.describe('login', () => {
   test('login creates socket connection', async ({ page, io }) => {
@@ -44,5 +44,23 @@ test.describe('login', () => {
     expect(
       login(incognitoPage, { username: TEST_USER_NAME, server: io.server })
     ).rejects.toThrow('Error logging in: Username is taken.');
+  });
+
+  test.only('can use taken username once previous user disconnects', async ({
+    page,
+    browser,
+    io,
+  }) => {
+    await page.goto('/');
+    const incognitoPage = await newIncognitoPage(browser, '/');
+
+    const socket = await login(page, {
+      username: TEST_USER_NAME,
+      server: io.server,
+    });
+    await logout(page, { socket });
+    expect(
+      login(incognitoPage, { username: TEST_USER_NAME, server: io.server })
+    ).resolves.not.toThrow();
   });
 });
