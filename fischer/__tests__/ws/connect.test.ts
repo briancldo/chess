@@ -25,5 +25,23 @@ describe('connect', () => {
       });
       await expect(connectNoUsername).rejects.toThrow('Username is required.');
     });
+
+    test('error if username exists', async () => {
+      const username = testUsername;
+      await socketUtils.connect({ username });
+      const connectExistingUsername = socketUtils.connect({ username });
+      await expect(connectExistingUsername).rejects.toThrow(
+        'Username is taken.'
+      );
+    });
+
+    test('username is valid once previous owner disconnects', async () => {
+      const username = testUsername;
+      const connection1 = await socketUtils.connect({ username });
+      await socketUtils.disconnect(connection1);
+
+      const connection2Promise = socketUtils.connect({ username });
+      await expect(connection2Promise).resolves.not.toThrow();
+    });
   });
 });
