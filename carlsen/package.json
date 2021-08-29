@@ -3,7 +3,7 @@
   "description": "E2E testing codebase",
   "scripts": {
     "start:web": "yarn --cwd .. start:web:dev:iso",
-    "test": "playwright test --config=config/playwright.config.ts",
+    "test": "cross-env NODE_ENV=e2e playwright test --config=config/playwright.config.ts",
     "lint": "eslint \"./**/*.{js,ts,tsx}\"",
     "format": "prettier --write \"./**/*.{js,ts,tsx}\"",
     "cruise-deps": "depcruise \"./**/*.{js,ts,tsx}\"",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.29.1",
     "@typescript-eslint/parser": "4.29.1",
+    "cross-env": "7.0.3",
     "dependency-cruiser": "10.1.1",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",

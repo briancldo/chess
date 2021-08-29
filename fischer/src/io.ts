@@ -4,6 +4,8 @@ import { Server } from 'socket.io';
 import { validateUsername } from './middleware/user';
 import userCache from './cache/user';
 import { createLogger } from './utils/logger';
+import { isE2e } from './utils/e2e';
+import { addE2eUtils } from './middleware/e2e';
 
 export function createServer(port: number, eventsOptions?: EventsOptions) {
   const server = http.createServer();
@@ -26,6 +28,7 @@ function addEvents(io: Server, options?: EventsOptions) {
   const { verbose = true } = options || {};
   const logger = createLogger({ verbose });
 
+  if (isE2e()) io.use(addE2eUtils);
   io.use(validateUsername);
 
   io.on('connection', (socket) => {

@@ -4,8 +4,7 @@ import { Socket } from 'socket.io-client';
 
 import { initClient, disconnectWait } from './client.utils';
 import initServer from '../../mockServer/initServer';
-// eslint-disable-next-line node/no-unpublished-import
-import userCache from '../../../fischer/src/cache/user';
+import userCache from '../__utils__/cache/user';
 
 interface TestFixtures {
   io: {
@@ -19,10 +18,10 @@ export const test = base.extend<TestFixtures>({
   io: async ({ baseURL }, use) => {
     const server = initServer();
     const client = initClient();
+    await userCache.clear();
     await use({ server, client });
     await disconnectWait(client);
     await server.close();
-    userCache.clear();
   },
 });
 /* eslint-enable @typescript-eslint/no-unused-vars */
