@@ -8,6 +8,10 @@ function set(username: string, userInfo: UserInfo) {
   return cache.set(username, userInfo);
 }
 
+function get(username: string) {
+  return cache.get(username);
+}
+
 function exists(username: string) {
   return cache.has(username);
 }
@@ -17,11 +21,12 @@ function remove(username: string) {
 }
 
 function clear() {
-  return cache.flushAll();
+  cache.flushAll();
 }
 
 export default {
   set,
+  get,
   exists,
   remove,
   clear,

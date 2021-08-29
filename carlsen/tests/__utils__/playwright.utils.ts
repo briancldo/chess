@@ -2,8 +2,10 @@ import { test as base, expect, Browser } from '@playwright/test';
 import { Server } from 'socket.io';
 import { Socket } from 'socket.io-client';
 
-import { initClient, connectWait, disconnectWait } from './client.utils';
+import { initClient, disconnectWait } from './client.utils';
 import initServer from '../../mockServer/initServer';
+// eslint-disable-next-line node/no-unpublished-import
+import userCache from '../../../fischer/src/cache/user';
 
 interface TestFixtures {
   io: {
@@ -12,6 +14,7 @@ interface TestFixtures {
   };
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export const test = base.extend<TestFixtures>({
   io: async ({ baseURL }, use) => {
     const server = initServer();
@@ -19,8 +22,10 @@ export const test = base.extend<TestFixtures>({
     await use({ server, client });
     await disconnectWait(client);
     await server.close();
+    userCache.clear();
   },
 });
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export { expect };
 

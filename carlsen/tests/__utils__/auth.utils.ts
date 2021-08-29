@@ -19,7 +19,7 @@ export async function login(page: Page, options: LoginOptions) {
             resolve(socket as unknown as Socket);
         });
       } else if (type === 'alert') {
-        reject(dialog.message());
+        reject(new Error(dialog.message()));
       }
     });
     page.click('text=Login');

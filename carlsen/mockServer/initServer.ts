@@ -10,7 +10,7 @@ process.env.SERVER_PORT = PORT.toString();
 
 export default function initServer() {
   // type hack; createServer does return a Server, TS just doesn't like how it's imported
-  const io = createServer(PORT) as unknown as Server;
+  const io = createServer(PORT, { verbose: false }) as unknown as Server;
 
   io.on('connection', (socket) => {
     socket.on('users', () => {

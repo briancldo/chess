@@ -28,7 +28,7 @@ test.describe('login', () => {
     const incognitoPage = await newIncognitoPage(browser, '/');
 
     await login(page, { username: TEST_USER_NAME, server: io.server });
-    expect(
+    await expect(
       login(incognitoPage, {
         username: `${TEST_USER_NAME}2`,
         server: io.server,
@@ -41,12 +41,12 @@ test.describe('login', () => {
     const incognitoPage = await newIncognitoPage(browser, '/');
 
     await login(page, { username: TEST_USER_NAME, server: io.server });
-    expect(
+    await expect(
       login(incognitoPage, { username: TEST_USER_NAME, server: io.server })
     ).rejects.toThrow('Error logging in: Username is taken.');
   });
 
-  test.only('can use taken username once previous user disconnects', async ({
+  test('can use taken username once previous user disconnects', async ({
     page,
     browser,
     io,
@@ -59,7 +59,7 @@ test.describe('login', () => {
       server: io.server,
     });
     await logout(page, { socket });
-    expect(
+    await expect(
       login(incognitoPage, { username: TEST_USER_NAME, server: io.server })
     ).resolves.not.toThrow();
   });

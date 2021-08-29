@@ -3,8 +3,9 @@ import { Server } from 'socket.io';
 
 import { validateUsername } from './middleware/user';
 import userCache from './cache/user';
+import { createLogger } from './utils/logger';
 
-export function createServer(port: number) {
+export function createServer(port: number, eventsOptions?: EventsOptions) {
   const server = http.createServer();
   const io = new Server(server, {
     cors: {
@@ -13,17 +14,23 @@ export function createServer(port: number) {
     },
   });
 
-  addEvents(io);
+  addEvents(io, eventsOptions || {});
   server.listen(port);
   return io;
 }
 
-function addEvents(io: Server) {
+interface EventsOptions {
+  verbose?: boolean;
+}
+function addEvents(io: Server, options?: EventsOptions) {
+  const { verbose = true } = options || {};
+  const logger = createLogger({ verbose });
+
   io.use(validateUsername);
 
   io.on('connection', (socket) => {
     const { username } = socket.handshake.auth;
-    console.log(`connecting: ${socket.id}; username: ${username}`);
+    logger(`connecting: ${socket.id}; username: ${username}`);
 
     socket.on('ping', (callback) => {
       console.log('got pinged!');
@@ -31,7 +38,7 @@ function addEvents(io: Server) {
     });
 
     socket.on('disconnecting', () => {
-      console.log(`disconnecting: ${socket.id}; username: ${username}`);
+      logger(`disconnecting: ${socket.id}; username: ${username}`);
       userCache.remove(username);
     });
   });
