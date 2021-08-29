@@ -2,7 +2,7 @@ import { produce } from 'immer';
 import isFunction from 'lodash/isFunction';
 
 import useUserStore, { Username, UserState, UserStore } from '../../store/user';
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import { APP_NAME } from '../../utils/constants/app.constants';
 
 import { socket } from '../../backend/ws/instance';
@@ -11,7 +11,7 @@ interface TestLoginDetails {
   username: Username;
 }
 
-export async function test_login(loginDetails: TestLoginDetails) {
+async function test_login_pure(loginDetails: TestLoginDetails) {
   const { username } = loginDetails;
   const { isLoggedIn } = useUserStore.getState();
   if (isLoggedIn) throw new Error('Already logged in.');
@@ -24,6 +24,9 @@ export async function test_login(loginDetails: TestLoginDetails) {
     socket.on('connect', resolve);
     socket.on('connect_error', reject);
   });
+}
+export async function test_login(loginDetails: TestLoginDetails) {
+  await act(async () => await test_login_pure(loginDetails));
 }
 
 export async function test_loginWithRetry(
