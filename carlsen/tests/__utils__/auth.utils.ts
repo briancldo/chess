@@ -1,16 +1,25 @@
 import { Page } from '@playwright/test';
-import { sleep } from './time.utils';
+import { Server } from 'socket.io';
 
 interface LoginOptions {
   username: string;
+  server: Server;
 }
-export async function login(page: Page, { username }: LoginOptions) {
+export async function login(page: Page, options: LoginOptions) {
+  const { username, server } = options;
+
   await new Promise<void>((resolve, reject) => {
     page.on('dialog', async (dialog) => {
       const type = dialog.type();
       if (type === 'prompt') {
         await dialog.accept(username);
-        sleep(0.1).then(resolve).catch(reject);
+        new Promise<void>((resolve) => {
+          server.on('connection', (socket) => {
+            if (socket.handshake.auth.username === username) resolve();
+          });
+        })
+          .then(resolve)
+          .catch(reject);
       } else if (type === 'alert') {
         reject(dialog.message());
       }

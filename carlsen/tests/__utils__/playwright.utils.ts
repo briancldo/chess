@@ -1,4 +1,4 @@
-import { test as base, expect } from '@playwright/test';
+import { test as base, expect, Browser } from '@playwright/test';
 import { Server } from 'socket.io';
 import { Socket } from 'socket.io-client';
 
@@ -23,3 +23,10 @@ export const test = base.extend<TestFixtures>({
 });
 
 export { expect };
+
+export async function newIncognitoPage(browser: Browser, url: string) {
+  const incognitoContext = await browser.newContext();
+  const incognitoPage = await incognitoContext.newPage();
+  await incognitoPage.goto(url);
+  return incognitoPage;
+}
