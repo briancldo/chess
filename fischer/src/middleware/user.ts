@@ -12,7 +12,7 @@ export const validateUsername: IoMiddleware = (socket, next) => {
 
   const userId = uuidv4();
   socket.handshake.auth.userId = userId;
-  userCache.set({ username, id: userId });
+  userCache.set({ username, id: userId, connected: true });
 
   next();
 };

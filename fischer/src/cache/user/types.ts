@@ -5,6 +5,7 @@ type Username = string;
 export interface UserInfo {
   id: UserId;
   username: Username;
+  connected: boolean;
 }
 
 // @ts-expect-error: want to override in my own way
