@@ -1,5 +1,5 @@
 import cache from '../../src/cache/user';
-import { UserInfo } from '../../src/cache/types/user';
+import { UserInfo } from '../../src/cache/user/types';
 
 describe('user cache', () => {
   // cache is cleared between tests (declared in setupTests.ts)
