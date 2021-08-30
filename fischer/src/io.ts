@@ -1,7 +1,7 @@
 import http from 'http';
 import { Server } from 'socket.io';
 
-import { validateUsername } from './middleware/user';
+import { establishSession } from './middleware/user';
 import userCache from './cache/user';
 import { createLogger } from './utils/logger';
 import { isE2E } from './utils/env';
@@ -28,8 +28,7 @@ function addEvents(io: Server, options?: EventsOptions) {
   const { verbose = true } = options || {};
   const logger = createLogger({ verbose });
 
-  if (isE2E()) io.use(addE2eUtils);
-  io.use(validateUsername);
+  addMiddleware(io);
 
   io.on('connection', (socket) => {
     const { username } = socket.handshake.auth;
@@ -45,4 +44,9 @@ function addEvents(io: Server, options?: EventsOptions) {
       userCache.removeByUsername(username);
     });
   });
+}
+
+function addMiddleware(io: Server) {
+  if (isE2E()) io.use(addE2eUtils);
+  io.use(establishSession);
 }
