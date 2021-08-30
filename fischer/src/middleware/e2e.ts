@@ -1,8 +1,9 @@
 import userCache from '../cache/user';
+import { isE2E } from '../utils/env';
 import { IoMiddleware } from './types';
 
 export const addE2eUtils: IoMiddleware = (socket, next) => {
-  if (process.env.NODE_ENV !== 'e2e') return next();
+  if (isE2E()) return next();
 
   if (socket.handshake.auth.username === 'clear-cache') {
     userCache.clear();
