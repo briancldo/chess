@@ -42,7 +42,7 @@ function addEvents(io: Server, options?: EventsOptions) {
 
     socket.on('disconnecting', () => {
       logger(`disconnecting: ${socket.id}; username: ${username}`);
-      userCache.remove(username);
+      userCache.removeByUsername(username);
     });
   });
 }
