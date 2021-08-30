@@ -12,14 +12,23 @@ function set(userInfo: UserInfo) {
   nameCache.set(username, id);
 }
 
-function getById(id: string): UserInfo | undefined {
+function getById(id: string) {
   return idCache.get(id);
 }
 
-function getByUsername(username: string): UserInfo | undefined {
+function getId(username: string) {
+  return nameCache.get(username);
+}
+
+function getByUsername(username: string) {
   const userId = nameCache.get(username);
   if (userId == null) return;
   return getById(userId);
+}
+
+function getUsername(id: string) {
+  const user = idCache.get(id);
+  return (user || {}).username;
 }
 
 function existsbyId(id: string) {
@@ -62,6 +71,8 @@ export default {
 
   getById,
   getByUsername,
+  getId,
+  getUsername,
 
   existsbyId,
   existsByUsername,

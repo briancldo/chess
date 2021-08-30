@@ -15,6 +15,8 @@ describe('user cache', () => {
 
     expect(userInfoFromId).toEqual(userInfo);
     expect(userInfoFromUsername).toEqual(userInfo);
+    expect(cache.getId(username)).toBe(id);
+    expect(cache.getUsername(id)).toBe(username);
   });
 
   test('#exists', () => {
