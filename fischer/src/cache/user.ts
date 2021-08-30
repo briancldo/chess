@@ -1,33 +1,75 @@
 import NodeCache from 'node-cache';
 
-import { UserInfo } from './types/user';
+import { UserCacheById, UserCacheByUsername, UserInfo } from './types/user';
 
-const cache = new NodeCache();
+const idCache: UserCacheById = new NodeCache();
+const nameCache: UserCacheByUsername = new NodeCache();
 
-function set(username: string, userInfo: UserInfo) {
-  return cache.set(username, userInfo);
+function set(userInfo: UserInfo) {
+  const { id, username } = userInfo;
+
+  idCache.set(id, userInfo);
+  nameCache.set(username, id);
 }
 
-function get(username: string) {
-  return cache.get(username);
+function getById(id: string): UserInfo | undefined {
+  return idCache.get(id);
 }
 
-function exists(username: string) {
-  return cache.has(username);
+function getByUsername(username: string): UserInfo | undefined {
+  const userId = nameCache.get(username);
+  if (userId == null) return;
+  return getById(userId);
 }
 
-function remove(username: string) {
-  return cache.del(username);
+function existsbyId(id: string) {
+  return idCache.has(id);
+}
+
+function existsByUsername(username: string) {
+  const { id } = getByUsername(username) || {};
+  if (!id) return false;
+  return existsbyId(id);
+}
+
+function usernameExists(username: string) {
+  return nameCache.has(username);
+}
+
+function removeById(id: string) {
+  const { username } = getById(id) || {};
+  if (username) nameCache.del(username);
+  idCache.del(id);
+}
+
+function removeByUsername(username: string) {
+  const { id } = getByUsername(username) || {};
+  if (id) idCache.del(id);
+  nameCache.del(username);
+}
+
+function count() {
+  return idCache.stats.keys;
 }
 
 function clear() {
-  cache.flushAll();
+  idCache.flushAll();
+  nameCache.flushAll();
 }
 
 export default {
   set,
-  get,
-  exists,
-  remove,
+
+  getById,
+  getByUsername,
+
+  existsbyId,
+  existsByUsername,
+  usernameExists,
+
+  removeById,
+  removeByUsername,
+
+  count,
   clear,
 };
