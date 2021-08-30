@@ -48,6 +48,10 @@ function removeByUsername(username: string) {
   nameCache.del(username);
 }
 
+function count() {
+  return idCache.stats.keys;
+}
+
 function clear() {
   idCache.flushAll();
   nameCache.flushAll();
@@ -66,5 +70,6 @@ export default {
   removeById,
   removeByUsername,
 
+  count,
   clear,
 };
