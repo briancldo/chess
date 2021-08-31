@@ -1,7 +1,7 @@
 import NodeCache from 'node-cache';
 
-type UserId = string;
-type Username = string;
+export type UserId = string;
+export type Username = string;
 export type SessionId = string;
 export interface UserInfo {
   id: UserId;

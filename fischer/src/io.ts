@@ -2,10 +2,11 @@ import http from 'http';
 import { Server } from 'socket.io';
 
 import { establishSession } from './middleware/user';
+import { addE2eUtils } from './middleware/e2e';
 import userCache from './cache/user';
 import { createLogger } from './utils/logger';
+import { augmentSocket } from './utils/socket';
 import { isE2E } from './utils/env';
-import { addE2eUtils } from './middleware/e2e';
 
 export function createServer(port: number, eventsOptions?: EventsOptions) {
   const server = http.createServer();
@@ -30,8 +31,9 @@ function addEvents(io: Server, options?: EventsOptions) {
 
   addMiddleware(io);
 
-  io.on('connection', (socket) => {
-    const { username } = socket.handshake.auth;
+  io.on('connection', (_socket) => {
+    const socket = augmentSocket(_socket);
+    const { username } = socket.user;
     logger(`connecting: ${socket.id}; username: ${username}`);
 
     socket.on('ping', (callback) => {
