@@ -24,7 +24,7 @@ describe('connect', () => {
         username: undefined as unknown as string,
       });
       await expect(connectNoUsername).rejects.toThrow('Username is required.');
-      // TODO: check that no connection is established
+      await expect((await io.allSockets()).size).toBe(0);
     });
 
     test('error if username exists', async () => {
@@ -34,7 +34,7 @@ describe('connect', () => {
       await expect(connectExistingUsername).rejects.toThrow(
         'Username is taken.'
       );
-      // TODO: check that no connection is established
+      await expect((await io.allSockets()).size).toBe(1);
     });
 
     test('username is valid once previous owner logs out', async () => {
