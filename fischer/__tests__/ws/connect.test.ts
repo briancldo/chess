@@ -5,7 +5,7 @@ const testUsername = 'brido';
 
 describe('connect', () => {
   afterEach(async () => {
-    await socketUtils.disconnectAll();
+    await socketUtils.logoutAll();
   });
 
   afterAll(() => {
@@ -24,6 +24,7 @@ describe('connect', () => {
         username: undefined as unknown as string,
       });
       await expect(connectNoUsername).rejects.toThrow('Username is required.');
+      // TODO: check that no connection is established
     });
 
     test('error if username exists', async () => {
@@ -33,12 +34,13 @@ describe('connect', () => {
       await expect(connectExistingUsername).rejects.toThrow(
         'Username is taken.'
       );
+      // TODO: check that no connection is established
     });
 
-    test('username is valid once previous owner disconnects', async () => {
+    test('username is valid once previous owner logs out', async () => {
       const username = testUsername;
       const connection1 = await socketUtils.connect({ username });
-      await socketUtils.disconnect(connection1);
+      await socketUtils.logout(connection1);
 
       const connection2Promise = socketUtils.connect({ username });
       await expect(connection2Promise).resolves.not.toThrow();

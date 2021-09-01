@@ -1,6 +1,8 @@
 // eslint-disable-next-line node/no-unpublished-import
 import { io, Socket } from 'socket.io-client';
+
 import config from '../../../src/config/config';
+import { sleep } from './time.utils';
 
 const websocketPort = config.get('WEBSOCKET_PORT');
 let sockets: { [id: string]: Socket } = {};
@@ -34,6 +36,16 @@ export function disconnect(socket: Socket) {
 }
 
 export async function disconnectAll() {
-  await Promise.all(Object.values(sockets).map((socket) => disconnect(socket)));
+  await Promise.all(Object.values(sockets).map(disconnect));
+  sockets = {};
+}
+
+export async function logout(socket: Socket) {
+  delete sockets[socket.id];
+  socket.emit('logout');
+}
+
+export async function logoutAll() {
+  await Promise.all(Object.values(sockets).map(logout));
   sockets = {};
 }

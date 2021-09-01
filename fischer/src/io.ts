@@ -54,8 +54,11 @@ function addEvents(io: Server, options?: EventsOptions) {
     });
 
     socket.on('logout', async () => {
-      await io.in(id).disconnectSockets(true);
+      console.info('a');
+      await io.in(id).disconnectSockets();
+      console.info('b');
       userCache.removeById(id);
+      console.info('c');
     });
   });
 }
