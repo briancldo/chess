@@ -19,7 +19,7 @@ test.describe('login', () => {
     expect(client.handshake.auth.username).toBe(TEST_USER_NAME);
   });
 
-  test('new user can login with different username', async ({
+  test('different user can login with different username', async ({
     page,
     browser,
     io,

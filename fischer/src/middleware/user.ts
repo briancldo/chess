@@ -11,10 +11,8 @@ export const establishSession: IoMiddleware = (socket, next) => {
   const userInfo = sessionId ? userCache.getBySessionId(sessionId) : null;
   console.log({ sessionId, userInfo });
   if (sessionId && userInfo) {
-    console.log('re-establish session');
     reEstablishSession(socket, sessionId, userInfo);
   } else {
-    console.log('new session');
     try {
       createNewSession(socket, { username });
     } catch (error) {
