@@ -22,6 +22,8 @@ export function createServer(port: number, eventsOptions?: EventsOptions) {
   return io;
 }
 
+const mockCache: any = {};
+
 interface EventsOptions {
   verbose?: boolean;
 }
@@ -33,17 +35,31 @@ function addEvents(io: Server, options?: EventsOptions) {
 
   io.on('connection', (_socket) => {
     const socket = augmentSocket(_socket);
-    const { username } = socket.user;
-    logger(`connecting: ${socket.id}; username: ${username}`);
+    const { username, id, sessionId } = socket.user;
+    logger(`connecting: ${id}; username: ${username}`);
+
+    mockCache.setConnectionStatus(id, true);
+    socket.join(id);
+    socket.emit('session', { sessionId, userId: id });
 
     socket.on('ping', (callback) => {
       console.log('got pinged!');
       callback('pong');
     });
 
-    socket.on('disconnecting', () => {
-      logger(`disconnecting: ${socket.id}; username: ${username}`);
-      userCache.removeByUsername(username);
+    socket.on('disconnect', async () => {
+      logger(`disconnected: ${id}; username: ${username}`);
+
+      const matchingSockets = await io.in(id).allSockets();
+      const isDisconnected = matchingSockets.size === 0;
+      if (isDisconnected) {
+        mockCache.setConnectionStatus(id, false);
+      }
+    });
+
+    socket.on('logout', async () => {
+      await io.in(id).disconnectSockets(true);
+      userCache.removeById(id);
     });
   });
 }
