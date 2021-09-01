@@ -5,7 +5,6 @@ import { establishSession } from './middleware/user';
 import { addE2eUtils } from './middleware/e2e';
 import userCache from './cache/user';
 import { createLogger } from './utils/logger';
-import { augmentSocket } from './utils/socket';
 import { isE2E } from './utils/env';
 
 export function createServer(port: number, eventsOptions?: EventsOptions) {
@@ -31,9 +30,8 @@ function addEvents(io: Server, options?: EventsOptions) {
 
   addMiddleware(io);
 
-  io.on('connection', (_socket) => {
-    const socket = augmentSocket(_socket);
-    const { username, id, sessionId } = socket.user;
+  io.on('connection', (socket) => {
+    const { username, userId: id, sessionId } = socket.handshake.auth;
     logger(`connecting: ${id}; username: ${username}`);
 
     userCache.setConnectionStatus(id, true);

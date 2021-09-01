@@ -7,22 +7,30 @@ import { AuthError } from '../utils/errors';
 import { IoMiddleware } from './types';
 
 export const establishSession: IoMiddleware = (socket, next) => {
-  validateUsername(socket, next);
-
   const { username, sessionId } = socket.handshake.auth;
-  const userInfo = userCache.getBySessionId(sessionId);
-  if (sessionId && userInfo) reEstablishSession(socket, sessionId, userInfo);
-  else createNewSession(socket, { username });
+  const userInfo = sessionId ? userCache.getBySessionId(sessionId) : null;
+  console.log({ sessionId, userInfo });
+  if (sessionId && userInfo) {
+    console.log('re-establish session');
+    reEstablishSession(socket, sessionId, userInfo);
+  } else {
+    console.log('new session');
+    try {
+      createNewSession(socket, { username });
+    } catch (error) {
+      return next(error);
+    }
+  }
 
   next();
 };
 
-const validateUsername: IoMiddleware = (socket, next) => {
+const validateUsername = (socket: Socket) => {
   const { username } = socket.handshake.auth;
 
-  if (!username) return next(new AuthError('Username is required.'));
+  if (!username) throw new AuthError('Username is required.');
   if (userCache.usernameExists(username))
-    return next(new AuthError('Username is taken.'));
+    throw new AuthError('Username is taken.');
 };
 
 function reEstablishSession(
@@ -41,6 +49,8 @@ function createNewSession(
   socket: Socket,
   providedUserInfo: { username: Username }
 ) {
+  validateUsername(socket);
+
   const userId = uuidv4();
   const sessionId = uuidv4();
   socket.handshake.auth.userId = userId;

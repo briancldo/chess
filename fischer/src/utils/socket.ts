@@ -10,6 +10,7 @@ interface AugmentedSocket extends Socket {
   };
 }
 
+// TODO: fix! It says socket.join() is not a function!
 export function augmentSocket(socket: Socket) {
   const { username, userId, sessionId } = socket.handshake.auth;
 
