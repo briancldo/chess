@@ -1,20 +1,32 @@
-import { idCache, nameCache } from './instance';
+import { idCache, nameCache, sessionCache } from './instance';
+import { SessionId, UserId, Username } from './types';
 
-export function getById(id: string) {
+export function getById(id: UserId) {
   return idCache.get(id);
 }
 
-export function getId(username: string) {
-  return nameCache.get(username);
-}
-
-export function getByUsername(username: string) {
+export function getByUsername(username: Username) {
   const userId = nameCache.get(username);
-  if (userId == null) return;
+  if (!userId) return;
   return getById(userId);
 }
 
-export function getUsername(id: string) {
+export function getBySessionId(sessionId: SessionId) {
+  const userId = sessionCache.get(sessionId);
+  if (!userId) return;
+  return getById(userId);
+}
+
+export function getId(username: Username) {
+  return nameCache.get(username);
+}
+
+export function getUsername(id: UserId) {
   const user = idCache.get(id);
   return (user || {}).username;
+}
+
+export function getSessionId(id: UserId) {
+  const user = idCache.get(id);
+  return (user || {}).sessionId;
 }

@@ -2,17 +2,15 @@ import { Socket } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
 
 import userCache from '../cache/user';
-import { SessionId, UserInfo } from '../cache/user/types';
+import { SessionId, UserInfo, Username } from '../cache/user/types';
 import { AuthError } from '../utils/errors';
 import { IoMiddleware } from './types';
-
-const mockCache: any = {};
 
 export const establishSession: IoMiddleware = (socket, next) => {
   validateUsername(socket, next);
 
   const { username, sessionId } = socket.handshake.auth;
-  const userInfo = mockCache.getBySessionId(sessionId);
+  const userInfo = userCache.getBySessionId(sessionId);
   if (sessionId && userInfo) reEstablishSession(socket, sessionId, userInfo);
   else createNewSession(socket, { username });
 
@@ -41,14 +39,19 @@ function reEstablishSession(
 
 function createNewSession(
   socket: Socket,
-  providedUserInfo: Omit<UserInfo, 'id' | 'connected'>
+  providedUserInfo: { username: Username }
 ) {
   const userId = uuidv4();
   const sessionId = uuidv4();
   socket.handshake.auth.userId = userId;
   socket.handshake.auth.sessionId = sessionId;
 
-  const userInfo = { ...providedUserInfo, id: userId, connected: false };
+  const userInfo = {
+    ...providedUserInfo,
+    id: userId,
+    sessionId,
+    connected: false,
+  };
 
   userCache.set(userInfo);
 }

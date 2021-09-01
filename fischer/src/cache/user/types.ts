@@ -6,6 +6,7 @@ export type SessionId = string;
 export interface UserInfo {
   id: UserId;
   username: Username;
+  sessionId: SessionId;
   connected: boolean;
 }
 

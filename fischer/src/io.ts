@@ -22,8 +22,6 @@ export function createServer(port: number, eventsOptions?: EventsOptions) {
   return io;
 }
 
-const mockCache: any = {};
-
 interface EventsOptions {
   verbose?: boolean;
 }
@@ -38,7 +36,7 @@ function addEvents(io: Server, options?: EventsOptions) {
     const { username, id, sessionId } = socket.user;
     logger(`connecting: ${id}; username: ${username}`);
 
-    mockCache.setConnectionStatus(id, true);
+    userCache.setConnectionStatus(id, true);
     socket.join(id);
     socket.emit('session', { sessionId, userId: id });
 
@@ -53,7 +51,7 @@ function addEvents(io: Server, options?: EventsOptions) {
       const matchingSockets = await io.in(id).allSockets();
       const isDisconnected = matchingSockets.size === 0;
       if (isDisconnected) {
-        mockCache.setConnectionStatus(id, false);
+        userCache.setConnectionStatus(id, false);
       }
     });
 
