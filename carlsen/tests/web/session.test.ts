@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { test, expect, newIncognitoPage } from '../__utils__/playwright.utils';
 import waitForExpect from 'wait-for-expect';
 
@@ -57,7 +58,28 @@ test.describe('session#', () => {
     });
   });
 
-  // test('session persistents across new tabs');
+  test('session persistents across new tabs', async ({ page, browser, io }) => {
+    await page.goto('/');
+
+    await login(page, {
+      username: TEST_USER_NAME,
+      server: io.server,
+    });
+    const userId = (await localStorageGet(page, 'chessapp-user')).state.userId;
+    expect(userId).toBeDefined();
+
+    const context = page.context();
+    const newPage = await browser.newPage({
+      storageState: await context.storageState(),
+    });
+    if (!newPage) throw new Error('No browser for new page.');
+    await newPage.goto('/');
+
+    await waitForExpect(async () => {
+      const socketsInRoom = await io.server.in(userId).allSockets();
+      expect(socketsInRoom.size).toBe(2);
+    });
+  });
 
   // test('ui logs out if reconnection error');
 });
