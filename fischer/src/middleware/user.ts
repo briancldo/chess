@@ -22,14 +22,6 @@ export const establishSession: IoMiddleware = (socket, next) => {
   next();
 };
 
-const validateUsername = (socket: Socket) => {
-  const { username } = socket.handshake.auth;
-
-  if (!username) throw new AuthError('Username is required.');
-  if (userCache.usernameExists(username))
-    throw new AuthError('Username is taken.');
-};
-
 function reEstablishSession(
   socket: Socket,
   sessionId: SessionId,
@@ -62,3 +54,14 @@ function createNewSession(
 
   userCache.set(userInfo);
 }
+
+const validateUsername = (socket: Socket) => {
+  const { username } = socket.handshake.auth;
+
+  console.log(
+    `username ${username} exists: ${userCache.usernameExists(username)}`
+  );
+  if (!username) throw new AuthError('Username is required.');
+  if (userCache.usernameExists(username))
+    throw new AuthError(`Username is taken: ${username}`);
+};

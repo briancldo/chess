@@ -11,6 +11,10 @@ export async function connect(username: Username, sessionId?: string) {
   });
 }
 
+export function disconnect() {
+  socket.disconnect();
+}
+
 export function emitLogout() {
   socket.emit('logout');
 }

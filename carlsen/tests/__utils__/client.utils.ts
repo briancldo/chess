@@ -1,10 +1,10 @@
 import { io, Socket } from 'socket.io-client';
 import { PORT, TEST_USER_NAME } from '../../mockServer/config';
 
-export function initClient() {
+export function initClient(username: string = TEST_USER_NAME) {
   return io(`ws://localhost:${PORT}`, {
     autoConnect: false,
-    auth: { username: TEST_USER_NAME },
+    auth: { username },
     reconnectionDelay: 1000,
     reconnection: true,
     reconnectionAttempts: 10,

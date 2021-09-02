@@ -25,7 +25,25 @@ test.describe('session#', () => {
     ).resolves.not.toThrow();
   });
 
-  test('user joins room corresponding to their userId', async ({
+  test('user disconnects when leaving page @flaky', async ({ page, io }) => {
+    await page.goto('/');
+
+    await login(page, {
+      username: TEST_USER_NAME,
+      server: io.server,
+    });
+    const userId = (await localStorageGet(page, 'chessapp-user')).state.userId;
+    expect(userId).toBeDefined();
+
+    await page.close();
+
+    await waitForExpect(async () => {
+      const socketsInRoom = await io.server.in(userId).allSockets();
+      expect(socketsInRoom.size).toBe(0);
+    });
+  });
+
+  test('user joins room corresponding to their userId @flaky', async ({
     page,
     io,
   }) => {
@@ -37,11 +55,15 @@ test.describe('session#', () => {
       server: io.server,
     });
     const userId = (await localStorageGet(page, 'chessapp-user')).state.userId;
-    const socketsInRoom = await io.server.in(userId).allSockets();
-    expect(socketsInRoom.size).toBe(1);
+    expect(userId).toBeDefined();
+
+    await waitForExpect(async () => {
+      const socketsInRoom = await io.server.in(userId).allSockets();
+      expect(socketsInRoom.size).toBe(1);
+    });
   });
 
-  test('session persistents across refreshes', async ({ page, io }) => {
+  test('session persistents across refreshes @flaky', async ({ page, io }) => {
     await page.goto('/');
 
     await login(page, {
@@ -50,15 +72,19 @@ test.describe('session#', () => {
     });
     const userId = (await localStorageGet(page, 'chessapp-user')).state.userId;
     expect(userId).toBeDefined();
-    await page.reload();
+    await page.reload({ waitUntil: 'networkidle' });
 
     await waitForExpect(async () => {
       const socketsInRoom = await io.server.in(userId).allSockets();
-      expect(socketsInRoom.size).toBe(1);
+      expect(socketsInRoom.size).toBeGreaterThanOrEqual(1);
     });
   });
 
-  test('session persistents across new tabs', async ({ page, browser, io }) => {
+  test('session persistents across new tabs @flaky', async ({
+    page,
+    browser,
+    io,
+  }) => {
     await page.goto('/');
 
     await login(page, {
@@ -80,6 +106,4 @@ test.describe('session#', () => {
       expect(socketsInRoom.size).toBe(2);
     });
   });
-
-  // test('ui logs out if reconnection error');
 });
