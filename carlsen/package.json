@@ -4,6 +4,7 @@
   "scripts": {
     "start:web": "yarn --cwd .. start:web:dev:iso",
     "test": "cross-env NODE_ENV=e2e playwright test --config=config/playwright.config.ts",
+    "test:slim": "cross-env SLIM=true yarn test",
     "install:tests": "yarn --cwd ../morphy install --frozen-lockfile && yarn --cwd ../fischer install --frozen-lockfile && npx playwright install && npx playwright install-deps",
     "lint": "eslint \"./**/*.{js,ts,tsx}\"",
     "format": "prettier --write \"./**/*.{js,ts,tsx}\"",
