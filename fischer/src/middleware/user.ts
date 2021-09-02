@@ -9,7 +9,6 @@ import { IoMiddleware } from './types';
 export const establishSession: IoMiddleware = (socket, next) => {
   const { username, sessionId } = socket.handshake.auth;
   const userInfo = sessionId ? userCache.getBySessionId(sessionId) : null;
-  console.log({ sessionId, userInfo });
   if (sessionId && userInfo) {
     reEstablishSession(socket, sessionId, userInfo);
   } else {

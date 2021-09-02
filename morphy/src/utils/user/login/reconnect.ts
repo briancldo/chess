@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { connect } from '../../../backend/ws/connection';
 import { socket } from '../../../backend/ws/instance';
 import useUserStore from '../../../store/user';
+import { logout } from './auth';
 
 export function useReconnect() {
   useEffect(() => {
@@ -9,7 +10,7 @@ export function useReconnect() {
     const isConnectedToSocket = socket.connected;
 
     if (isLoggedIn && !isConnectedToSocket) {
-      connect(username, sessionId);
+      connect(username, sessionId).catch(logout);
     }
   }, []);
 }
