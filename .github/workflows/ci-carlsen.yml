@@ -9,13 +9,14 @@ on:
       - 'morphy/**'
       - 'fischer/**'
 
+defaults:
+  run:
+    working-directory: carlsen
+
 jobs:
-  quality_assurance:
+  static_analysis:
     name: Quality Assurance
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: carlsen
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -36,7 +37,21 @@ jobs:
         run: yarn cruise-deps
       - name: Typecheck
         run: yarn typecheck
+
+  e2e:
+    name: Standard E2E Tests
+    runs-on: ubuntu-latest
+    steps:
       - name: Install dependencies for playwright
         run: yarn install:tests
       - name: Tests
         run: yarn test
+
+  e2e-flaky:
+    name: Flaky E2E Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies for playwright
+        run: yarn install:tests
+      - name: Tests
+        run: yarn test:flaky
