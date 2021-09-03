@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import {
   devices,
   PlaywrightTestArgs,
@@ -60,8 +61,21 @@ const projectsLocal = [
   },
 ];
 
-const projects: Project<PlaywrightTestArgs, PlaywrightWorkerArgs>[] = process
-  .env.CI
-  ? projectsCI
-  : projectsLocal;
+const projectsSlim = [
+  {
+    name: 'Desktop Chrome',
+    use: {
+      browserName: 'chromium',
+      channel: 'chrome',
+    },
+  },
+];
+
+const projects = getProjects();
 export default projects;
+
+function getProjects(): Project<PlaywrightTestArgs, PlaywrightWorkerArgs>[] {
+  if (process.env.CI) return projectsCI;
+  if (process.env.SLIM) return projectsSlim;
+  return projectsLocal;
+}

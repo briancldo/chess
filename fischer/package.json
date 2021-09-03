@@ -2,7 +2,7 @@
   "name": "@chess/fischer",
   "scripts": {
     "start": "ts-node src/app",
-    "start:dev": "ts-node-dev src/app.ts --transpile-only --rs",
+    "start:dev": "cross-env NODE_ENV=development ts-node-dev src/app.ts --transpile-only --rs",
     "test": "jest --silent --colors",
     "test:ci": "jest --silent --ci --runInBand",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",

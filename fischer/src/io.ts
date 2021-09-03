@@ -1,11 +1,12 @@
 import http from 'http';
 import { Server } from 'socket.io';
 
-import { validateUsername } from './middleware/user';
+import { establishSession } from './middleware/user';
+import { addE2eUtils } from './middleware/e2e';
 import userCache from './cache/user';
 import { createLogger } from './utils/logger';
-import { isE2e } from './utils/e2e';
-import { addE2eUtils } from './middleware/e2e';
+import { isE2E } from './utils/env';
+import { addDevListeners } from './middleware/development';
 
 export function createServer(port: number, eventsOptions?: EventsOptions) {
   const server = http.createServer();
@@ -28,21 +29,40 @@ function addEvents(io: Server, options?: EventsOptions) {
   const { verbose = true } = options || {};
   const logger = createLogger({ verbose });
 
-  if (isE2e()) io.use(addE2eUtils);
-  io.use(validateUsername);
+  addMiddleware(io);
 
   io.on('connection', (socket) => {
-    const { username } = socket.handshake.auth;
-    logger(`connecting: ${socket.id}; username: ${username}`);
+    const { username, userId: id, sessionId } = socket.handshake.auth;
+    logger(`connecting: ${id}; username: ${username}`);
+    addDevListeners(socket);
+
+    userCache.setConnectionStatus(id, true);
+    socket.join(id);
+    socket.emit('session', { sessionId, userId: id });
 
     socket.on('ping', (callback) => {
       console.log('got pinged!');
       callback('pong');
     });
 
-    socket.on('disconnecting', () => {
-      logger(`disconnecting: ${socket.id}; username: ${username}`);
-      userCache.removeByUsername(username);
+    socket.on('disconnect', async () => {
+      logger(`disconnected: ${id}; username: ${username}`);
+
+      const matchingSockets = await io.in(id).allSockets();
+      const isDisconnected = matchingSockets.size === 0;
+      if (isDisconnected) {
+        userCache.setConnectionStatus(id, false);
+      }
+    });
+
+    socket.on('logout', async () => {
+      await io.in(id).disconnectSockets();
+      userCache.removeById(id);
     });
   });
+}
+
+function addMiddleware(io: Server) {
+  if (isE2E()) io.use(addE2eUtils);
+  io.use(establishSession);
 }

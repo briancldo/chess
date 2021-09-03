@@ -1,4 +1,4 @@
-import { connect, disconnect } from '../../../backend/ws/connection';
+import { connect, emitLogout } from '../../../backend/ws/connection';
 import useUserStore, { Username } from '../../../store/user';
 import { PromptLoginOptions } from './auth.types';
 
@@ -31,6 +31,6 @@ export async function promptLogin(options?: PromptLoginOptions) {
 export function logout() {
   const storeLogout = useUserStore.getState().logout;
 
-  disconnect();
+  emitLogout();
   storeLogout();
 }
