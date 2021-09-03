@@ -1,8 +1,8 @@
 {
-  "name": "fischer",
+  "name": "@chess/fischer",
   "scripts": {
     "start": "ts-node src/app",
-    "start:dev": "ts-node-dev src/app.ts --transpile-only --rs",
+    "start:dev": "cross-env NODE_ENV=development ts-node-dev src/app.ts --transpile-only --rs",
     "test": "jest --silent --colors",
     "test:ci": "jest --silent --ci --runInBand",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
@@ -13,14 +13,17 @@
   },
   "dependencies": {
     "lodash": "4.17.21",
+    "node-cache": "5.1.2",
     "socket.io": "4.1.2",
     "ts-node": "10.1.0",
-    "tslib": "2.3.0"
+    "tslib": "2.3.0",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "@types/jest": "26.0.23",
     "@types/lodash": "4.14.171",
     "@types/node": "16.0.0",
+    "@types/uuid": "8.3.1",
     "@typescript-eslint/eslint-plugin": "4.28.1",
     "@typescript-eslint/parser": "4.28.1",
     "dependency-cruiser": "10.0.4",

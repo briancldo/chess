@@ -1,20 +1,20 @@
-import { initialize } from './initialization';
 import { socket } from './instance';
-import useUserStore, { Username } from '../../store/user';
+import { Username } from '../../store/user';
 
-function shouldInitialize() {
-  return !useUserStore.getState().isLoggedIn;
-}
+export async function connect(username: Username, sessionId?: string) {
+  socket.auth = { username, sessionId };
 
-export function connect(username: Username) {
-  socket.on('connect', () => {
-    if (!shouldInitialize()) {
-      initialize(username);
-    }
+  await new Promise<void>((resolve, reject) => {
+    socket.on('connect', resolve);
+    socket.on('connect_error', reject);
+    socket.connect();
   });
-  socket.connect();
 }
 
 export function disconnect() {
   socket.disconnect();
+}
+
+export function emitLogout() {
+  socket.emit('logout');
 }

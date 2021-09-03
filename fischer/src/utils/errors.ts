@@ -1,9 +1,6 @@
-export type InitializationErrorReason =
-  | 'username-taken'
-  | 'connection-id-taken';
-export class InitializationError extends Error {
-  constructor(message: InitializationErrorReason) {
+export class AuthError extends Error {
+  constructor(message: string) {
     super(message);
-    this.name = 'InitializationError';
+    this.name = 'AuthError';
   }
 }

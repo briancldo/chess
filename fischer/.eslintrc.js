@@ -43,6 +43,7 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'security/detect-object-injection': 'off',
+    'security/detect-non-literal-fs-filename': 'off',
   },
   ignorePatterns: ['dist/**/*'],
   settings: {

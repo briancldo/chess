@@ -13,7 +13,7 @@ import { test_login, test_logout } from '../__utils__/login.test.utils';
 import { Server } from 'socket.io';
 import { getMockServer } from '../__utils__/ws/mockServer';
 
-describe('#LoginOrOutButton', () => {
+describe.skip('#LoginOrOutButton', () => {
   let mockServer: Server, socket: Socket;
 
   beforeAll(async () => {
