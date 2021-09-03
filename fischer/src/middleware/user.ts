@@ -58,10 +58,7 @@ function createNewSession(
 const validateUsername = (socket: Socket) => {
   const { username } = socket.handshake.auth;
 
-  console.log(
-    `username ${username} exists: ${userCache.usernameExists(username)}`
-  );
   if (!username) throw new AuthError('Username is required.');
   if (userCache.usernameExists(username))
-    throw new AuthError(`Username is taken: ${username}`);
+    throw new AuthError('Username is taken.');
 };
