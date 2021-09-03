@@ -42,6 +42,7 @@ jobs:
     name: Standard E2E Tests
     runs-on: ubuntu-latest
     steps:
+      - run: yarn install --frozen-lockfile
       - name: Install dependencies for playwright
         run: yarn install:tests
       - name: Tests
@@ -51,6 +52,7 @@ jobs:
     name: Flaky E2E Tests
     runs-on: ubuntu-latest
     steps:
+      - run: yarn install --frozen-lockfile
       - name: Install dependencies for playwright
         run: yarn install:tests
       - name: Tests
