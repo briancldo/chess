@@ -15,7 +15,7 @@ defaults:
 
 jobs:
   static_analysis:
-    name: Quality Assurance
+    name: Static Analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
