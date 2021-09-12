@@ -7,6 +7,7 @@ import userCache from './cache/user';
 import { createLogger } from './utils/logger';
 import { isE2E } from './utils/env';
 import { addDevListeners } from './middleware/development';
+import { UserId } from './cache/user/types';
 
 export function createServer(port: number, eventsOptions?: EventsOptions) {
   const server = http.createServer();
@@ -43,6 +44,16 @@ function addEvents(io: Server, options?: EventsOptions) {
     socket.on('ping', (callback) => {
       console.log('got pinged!');
       callback('pong');
+    });
+
+    socket.on('challenge', (challengee, callback) => {
+      if (typeof challengee !== 'string') return callback('userNotFound');
+      if (challengee === username) return callback('userNotFound');
+      if (!userCache.existsByUsername(challengee))
+        return callback('userNotFound');
+
+      const challengeeId = userCache.getId(username) as UserId;
+      socket.to(challengeeId).emit('challenge');
     });
 
     socket.on('disconnect', async () => {
