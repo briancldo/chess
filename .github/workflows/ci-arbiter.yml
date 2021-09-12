@@ -1,0 +1,58 @@
+name: Pull Request CI - Arbiter
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'carlsen/**'
+      - 'morphy/**'
+      - 'fischer/**'
+      - 'arbiter/**'
+
+defaults:
+  run:
+    working-directory: arbiter
+
+jobs:
+  static_analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          always-auth: true
+          node-version: 14.x
+          registry-url: https://registry.npmjs.org
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install --frozen-lockfile
+      - name: Format
+        run: yarn format
+      - name: Lint
+        run: yarn lint
+      - name: Dependency Cruiser
+        run: yarn cruise-deps
+      - name: Typecheck
+        run: yarn typecheck
+
+  test:
+    name: Meta Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          always-auth: true
+          node-version: 14.x
+          registry-url: https://registry.npmjs.org
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install --frozen-lockfile
+      - name: Tests
+        run: yarn test
