@@ -12,3 +12,7 @@ const challengeResponses = {
 function handleChallengeResponse(response: keyof typeof challengeResponses) {
   alert(challengeResponses[response]);
 }
+
+socket.on('challenge', (username: string) => {
+  alert(`Challenge from user ${username}`);
+});

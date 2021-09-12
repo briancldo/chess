@@ -52,8 +52,11 @@ function addEvents(io: Server, options?: EventsOptions) {
       if (!userCache.existsByUsername(challengee))
         return callback('userNotFound');
 
-      const challengeeId = userCache.getId(username) as UserId;
-      socket.to(challengeeId).emit('challenge');
+      const challengeeId = userCache.getId(challengee) as UserId;
+      console.log(
+        `${username} (${id}) challenges ${challengee} (${challengeeId})`
+      );
+      socket.to(challengeeId).emit('challenge', username);
     });
 
     socket.on('disconnect', async () => {
