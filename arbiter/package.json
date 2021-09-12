@@ -4,9 +4,9 @@
   "scripts": {
     "test": "jest --silent --colors",
     "test:ci": "jest --silent --ci --runInBand",
-    "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
-    "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
-    "cruise-deps": "depcruise \"src/**/*.{js,ts,tsx}\"",
+    "lint": "eslint \"tests/**/*.{js,ts,tsx}\"",
+    "format": "prettier --write \"tests/**/*.{js,ts,tsx}\"",
+    "cruise-deps": "depcruise \"tests/**/*.{js,ts,tsx}\"",
     "cm": "yarn --cwd ../ cm",
     "typecheck": "tsc --noEmit"
   },
