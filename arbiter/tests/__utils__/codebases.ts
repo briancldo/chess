@@ -22,3 +22,14 @@ export const actualCodebases = fs
 export function getPackageJson(codebase: string): PackageJson {
   return require(path.join('../../../', codebase, 'package.json'));
 }
+
+function getAllPackageJsons() {
+  const packageJsons: Record<string, PackageJson> = {};
+
+  for (const codebase of actualCodebases) {
+    packageJsons[codebase] = getPackageJson(codebase);
+  }
+
+  return packageJsons;
+}
+export const allPackageJsons = getAllPackageJsons();
