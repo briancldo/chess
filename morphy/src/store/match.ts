@@ -9,7 +9,7 @@ type MatchState = {
   };
 };
 
-interface MatchInfo {
+export interface MatchInfo {
   matchId: string;
   opponent: {
     username: string;
