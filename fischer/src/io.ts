@@ -46,18 +46,33 @@ function addEvents(io: Server, options?: EventsOptions) {
       callback('pong');
     });
 
-    socket.on('challenge', (challengee, callback) => {
-      if (typeof challengee !== 'string') return callback('userNotFound');
-      if (challengee === username) return callback('userNotFound');
+    socket.on('challenge_request', (challengee) => {
+      if (typeof challengee !== 'string')
+        return socket.emit('challenge_response', 'userNotFound');
+      if (challengee === username)
+        return socket.emit('challenge_response', 'userNotFound');
       if (!userCache.existsByUsername(challengee))
-        return callback('userNotFound');
+        return socket.emit('challenge_response', 'userNotFound');
 
       const challengeeId = userCache.getId(challengee) as UserId;
       console.log(
         `${username} (${id}) challenges ${challengee} (${challengeeId})`
       );
-      socket.to(challengeeId).emit('challenge', username);
+      return socket.to(challengeeId).emit('challenge_request', username);
     });
+
+    socket.on(
+      'challenge_response',
+      (challengeResponseInfo: { challenger: string; accepted: boolean }) => {
+        const { challenger, accepted } = challengeResponseInfo;
+        const challengerId = userCache.getId(challenger);
+        if (!challengerId) return;
+
+        if (accepted)
+          socket.to(challengerId).emit('challenge_response', 'accepted');
+        else socket.to(challengerId).emit('challenge_response', 'rejected');
+      }
+    );
 
     socket.on('disconnect', async () => {
       logger(`disconnected: ${id}; username: ${username}`);
