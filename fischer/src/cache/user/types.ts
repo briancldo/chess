@@ -7,6 +7,7 @@ export interface UserInfo {
   id: UserId;
   username: Username;
   sessionId: SessionId;
+  connectionId: string;
   connected: boolean;
 }
 

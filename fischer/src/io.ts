@@ -35,6 +35,7 @@ function addEvents(io: Server, options?: EventsOptions) {
 
   addMiddleware(io);
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   io.on('connection', (socket) => {
     const {
       username,
@@ -82,7 +83,9 @@ function addEvents(io: Server, options?: EventsOptions) {
           // TODO: add to user cache which match they're currently in
 
           socket.join(matchId);
-          io.of('/').sockets.get(challengerId)?.join(matchId);
+          const challengerConnId = userCache.getConnectionId(challengerId);
+          if (challengerConnId)
+            io.of('/').sockets.get(challengerConnId)?.join(matchId);
 
           socket.to(challengerId).emit('challenge_response', 'accepted', {
             matchId,

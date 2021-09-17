@@ -16,3 +16,10 @@ export function setConnectionStatus(id: UserId, status: boolean) {
   userInfo.connected = status;
   set(userInfo);
 }
+
+export function updateConnectionId(userId: UserId, connectionId: string) {
+  const userInfo = getById(userId);
+  if (!userInfo) return;
+  userInfo.connectionId = connectionId;
+  set(userInfo);
+}
