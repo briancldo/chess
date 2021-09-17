@@ -1,5 +1,6 @@
 import http from 'http';
 import { Server } from 'socket.io';
+import { v4 as uuidv4 } from 'uuid';
 
 import { establishSession } from './middleware/user';
 import { addE2eUtils } from './middleware/e2e';
@@ -8,6 +9,8 @@ import { createLogger } from './utils/logger';
 import { isE2E } from './utils/env';
 import { addDevListeners } from './middleware/development';
 import { UserId } from './cache/user/types';
+import matchCache from './cache/match';
+import { SocketAuth } from './io.types';
 
 export function createServer(port: number, eventsOptions?: EventsOptions) {
   const server = http.createServer();
@@ -33,7 +36,11 @@ function addEvents(io: Server, options?: EventsOptions) {
   addMiddleware(io);
 
   io.on('connection', (socket) => {
-    const { username, userId: id, sessionId } = socket.handshake.auth;
+    const {
+      username,
+      userId: id,
+      sessionId,
+    } = socket.handshake.auth as SocketAuth;
     logger(`connecting: ${id}; username: ${username}`);
     addDevListeners(socket);
 
@@ -68,14 +75,33 @@ function addEvents(io: Server, options?: EventsOptions) {
         const challengerId = userCache.getId(challenger);
         if (!challengerId) return;
 
-        if (accepted)
-          socket.to(challengerId).emit('challenge_response', 'accepted');
-        else socket.to(challengerId).emit('challenge_response', 'rejected');
+        if (accepted) {
+          const matchId = uuidv4();
+
+          matchCache.set(matchId, { players: [id, challengerId] });
+          // TODO: add to user cache which match they're currently in
+
+          socket.join(matchId);
+          io.of('/').sockets.get(challengerId)?.join(matchId);
+
+          socket.to(challengerId).emit('challenge_response', 'accepted', {
+            matchId,
+            opponent: { username },
+          });
+          socket.emit('challenge_response', 'accepted', {
+            matchId,
+            opponent: { username: challenger },
+          });
+        } else {
+          socket.to(challengerId).emit('challenge_response', 'rejected');
+        }
       }
     );
 
     socket.on('disconnect', async () => {
       logger(`disconnected: ${id}; username: ${username}`);
+
+      // TODO: if in the middle of a match, remove match and alert opponent that user has left
 
       const matchingSockets = await io.in(id).allSockets();
       const isDisconnected = matchingSockets.size === 0;
