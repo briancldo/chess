@@ -1,3 +1,4 @@
+import { routeMapping } from '../../pages/utils/routes';
 import useMatchStore, { MatchInfo } from '../../store/match';
 import { socket } from './instance';
 
@@ -23,6 +24,7 @@ socket.on(
       return informChallengeFailure(code);
 
     useMatchStore.getState().setMatch(matchInfo);
+    window.location.href = routeMapping.match;
   }
 );
 
