@@ -5,7 +5,7 @@ import { MatchDetails } from './types';
 const cache = new NodeCache();
 
 function get(id: string) {
-  return cache.get(id);
+  return cache.get<MatchDetails>(id);
 }
 
 function set(id: string, matchDetails: MatchDetails) {
@@ -16,5 +16,9 @@ function remove(id: string) {
   return cache.del(id);
 }
 
-const matchCache = { get, set, remove };
+function clear() {
+  return cache.flushAll();
+}
+
+const matchCache = { get, set, remove, clear };
 export default matchCache;

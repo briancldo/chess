@@ -1,5 +1,5 @@
 import { io } from '../../src/app';
-import * as socketUtils from './__utils__/socket.test.utils';
+import * as socketUtils from '../__utils__/socket.test.utils';
 
 const testUsername = 'brido';
 
