@@ -9,6 +9,7 @@ import {
 import GameView from '../components/Game/GameView';
 import PositionGenerator from '../components/Board/Board/PositionGenerator';
 import { GameLocationState, routeMapping } from './utils/routes';
+import MatchPage from './Match';
 
 const RouterComponent: React.FC = () => {
   return (
@@ -16,6 +17,9 @@ const RouterComponent: React.FC = () => {
       <Switch>
         <Route exact path={routeMapping.game}>
           <GameViewRoute />
+        </Route>
+        <Route exact path={routeMapping.match}>
+          <MatchPage />
         </Route>
         <Route exact path={routeMapping.editor}>
           <PositionGenerator />
