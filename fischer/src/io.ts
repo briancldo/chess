@@ -66,7 +66,11 @@ function addEvents(io: Server, options?: EventsOptions) {
       console.log(
         `${username} (${id}) challenges ${challengee} (${challengeeId})`
       );
-      return socket.to(challengeeId).emit('challenge_request', username);
+      // delay on development to give me time to switch tabs before chrome suppresses the prompt
+      return setTimeout(
+        () => socket.to(challengeeId).emit('challenge_request', username),
+        process.env.NODE_ENV === 'development' ? 500 : 0
+      );
     });
 
     socket.on(
