@@ -3,12 +3,16 @@ import NodeCache from 'node-cache';
 export type UserId = string;
 export type Username = string;
 export type SessionId = string;
+export interface MatchInfo {
+  id: string;
+}
 export interface UserInfo {
   id: UserId;
   username: Username;
   sessionId: SessionId;
   connectionId: string;
   connected: boolean;
+  match?: MatchInfo;
 }
 
 // @ts-expect-error: want to override in my own way

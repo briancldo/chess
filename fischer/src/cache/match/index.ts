@@ -1,6 +1,6 @@
 import NodeCache from 'node-cache';
 
-import MatchDetails from './types';
+import { MatchDetails } from './types';
 
 const cache = new NodeCache();
 

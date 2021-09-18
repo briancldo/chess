@@ -80,7 +80,8 @@ function addEvents(io: Server, options?: EventsOptions) {
           const matchId = uuidv4();
 
           matchCache.set(matchId, { players: [id, challengerId] });
-          // TODO: add to user cache which match they're currently in
+          userCache.addMatchInfo(id, { id: matchId });
+          userCache.addMatchInfo(challengerId, { id: matchId });
 
           socket.join(matchId);
           const challengerConnId = userCache.getConnectionId(challengerId);

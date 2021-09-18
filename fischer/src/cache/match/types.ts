@@ -1,5 +1,5 @@
 import { UserId } from '../user/types';
 
-export default interface MatchDetails {
+export interface MatchDetails {
   players: [UserId, UserId];
 }
