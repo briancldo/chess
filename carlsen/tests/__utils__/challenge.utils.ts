@@ -32,12 +32,6 @@ export async function sendAndRejectChallenge(
 ) {
   validatePages(challengerPage, challengeePage);
 
-  /*
-    challenger sends challenge
-    challengee rejects
-    challenger gets rejection alert
-  */
-
   return new Promise<string>((resolve) => {
     challengerPage.once('dialog', async (dialog) => {
       await dialog.accept(toUser);
@@ -52,4 +46,13 @@ export async function sendAndRejectChallenge(
 
     challengerPage.click('text=Challenge');
   });
+}
+
+export async function sendChallengeWithError(
+  toUser: string,
+  challengerPage: Page
+) {
+  return await sendAndRejectChallenge(toUser, challengerPage, {
+    once: () => undefined,
+  } as unknown as Page);
 }
