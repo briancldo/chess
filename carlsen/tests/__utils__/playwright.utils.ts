@@ -1,27 +1,18 @@
 import { test as base, expect, Browser } from '@playwright/test';
-import { Server } from 'socket.io';
-import { Socket } from 'socket.io-client';
 
 import { initClient, disconnectWait } from './client.utils';
 import initServer from '../../mockServer/initServer';
 import userCache from '../__utils__/cache/user';
 
-interface TestFixtures {
-  io: {
-    client: Socket;
-    server: Server;
-  };
-}
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
-export const test = base.extend<TestFixtures>({
-  io: async ({ baseURL }, use) => {
+export const test = base.extend({
+  page: async ({ page }, use) => {
     const server = initServer();
     const client = initClient();
     await userCache.clear();
-    await use({ server, client });
+    await use(page);
     await disconnectWait(client);
-    await server.close();
+    server.close();
   },
 });
 /* eslint-enable @typescript-eslint/no-unused-vars */
