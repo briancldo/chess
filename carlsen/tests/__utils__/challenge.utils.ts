@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test';
+import { sleep } from './time.utils';
 
 function validatePages(challengerPage: Page, challengeePage: Page) {
   if (challengerPage === challengeePage)
@@ -18,6 +19,7 @@ export async function sendAndAcceptChallenge(
     });
     challengeePage.once('dialog', async (dialog) => {
       await dialog.accept();
+      await sleep(0.1);
       resolve();
     });
 

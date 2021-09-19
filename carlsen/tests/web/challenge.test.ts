@@ -22,7 +22,6 @@ test.describe('challenge#', () => {
       await login(incognitoPage, { username: 'nepo', server: io.server });
 
       await sendAndAcceptChallenge('magnus', incognitoPage, page);
-      await sleep(0.1);
       expect(page.url()).toBe(`${baseURL}/match`);
       expect(incognitoPage.url()).toBe(`${baseURL}/match`);
     });
@@ -67,6 +66,26 @@ test.describe('challenge#', () => {
 
         const errorMessage = await sendChallengeWithError(TEST_USER_NAME, page);
         expect(errorMessage).toBe('User not found.');
+      });
+
+      test('cannot challenge player already in a match', async ({
+        page,
+        browser,
+        io,
+      }) => {
+        await page.goto('/');
+        const nepoPage = await newIncognitoPage(browser, '/');
+        const caruanaPage = await newIncognitoPage(browser, '/');
+        await login(page, { username: 'magnus', server: io.server });
+        await login(nepoPage, { username: 'nepo', server: io.server });
+        await login(caruanaPage, { username: 'caruana', server: io.server });
+
+        await sendAndAcceptChallenge('magnus', nepoPage, page);
+        const errorMessage = await sendChallengeWithError(
+          'magnus',
+          caruanaPage
+        );
+        expect(errorMessage).toBe('User is currently in a match.');
       });
     });
   });
