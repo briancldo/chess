@@ -11,6 +11,7 @@ import { addDevListeners } from './middleware/development';
 import { UserId } from './cache/user/types';
 import matchCache from './cache/match';
 import { SocketAuth } from './io.types';
+import { validateChallengee } from './utils/validation/challengeRequest';
 
 export function createServer(port: number, eventsOptions?: EventsOptions) {
   const server = http.createServer();
@@ -55,19 +56,11 @@ function addEvents(io: Server, options?: EventsOptions) {
     });
 
     socket.on('challenge_request', (challengee) => {
-      if (typeof challengee !== 'string')
-        return socket.emit('challenge_response', 'userNotFound');
-      if (challengee === username)
-        return socket.emit('challenge_response', 'userNotFound');
-      if (!userCache.existsByUsername(challengee))
-        return socket.emit('challenge_response', 'userNotFound');
-      if (userCache.getByUsername(challengee)?.match)
-        return socket.emit('challenge_response', 'userInMatch');
+      const error = validateChallengee(challengee, username);
+      if (error) return socket.emit('challenge_response', error);
 
       const challengeeId = userCache.getId(challengee) as UserId;
-      console.log(
-        `${username} (${id}) challenges ${challengee} (${challengeeId})`
-      );
+      console.log(`${username} challenges ${challengee}`);
       // delay on development to give me time to switch tabs before chrome suppresses the prompt
       return setTimeout(
         () => socket.to(challengeeId).emit('challenge_request', username),
@@ -81,30 +74,29 @@ function addEvents(io: Server, options?: EventsOptions) {
         const { challenger, accepted } = challengeResponseInfo;
         const challengerId = userCache.getId(challenger);
         if (!challengerId) return;
-
-        if (accepted) {
-          const matchId = uuidv4();
-
-          matchCache.set(matchId, { players: [id, challengerId] });
-          userCache.addMatchInfo(id, { id: matchId });
-          userCache.addMatchInfo(challengerId, { id: matchId });
-
-          socket.join(matchId);
-          const challengerConnId = userCache.getConnectionId(challengerId);
-          if (challengerConnId)
-            io.of('/').sockets.get(challengerConnId)?.join(matchId);
-
-          socket.to(challengerId).emit('challenge_response', 'accepted', {
-            matchId,
-            opponent: { username },
-          });
-          socket.emit('challenge_response', 'accepted', {
-            matchId,
-            opponent: { username: challenger },
-          });
-        } else {
+        if (!accepted) {
           socket.to(challengerId).emit('challenge_response', 'rejected');
+          return;
         }
+
+        const matchId = uuidv4();
+        matchCache.set(matchId, { players: [id, challengerId] });
+        userCache.addMatchInfo(id, { id: matchId });
+        userCache.addMatchInfo(challengerId, { id: matchId });
+
+        socket.join(matchId);
+        const challengerConnId = userCache.getConnectionId(challengerId);
+        if (challengerConnId)
+          io.of('/').sockets.get(challengerConnId)?.join(matchId);
+
+        socket.to(challengerId).emit('challenge_response', 'accepted', {
+          matchId,
+          opponent: { username },
+        });
+        socket.emit('challenge_response', 'accepted', {
+          matchId,
+          opponent: { username: challenger },
+        });
       }
     );
 
