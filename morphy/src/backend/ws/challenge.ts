@@ -15,6 +15,7 @@ const challengeResponses = {
   accepted: 'accepted',
   rejected: 'Challenge declined.',
   userNotFound: 'User not found.',
+  userInMatch: 'User is currently in a match.',
 } as const;
 type ChallengeResponseCodes = keyof typeof challengeResponses;
 socket.on(

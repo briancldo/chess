@@ -61,6 +61,8 @@ function addEvents(io: Server, options?: EventsOptions) {
         return socket.emit('challenge_response', 'userNotFound');
       if (!userCache.existsByUsername(challengee))
         return socket.emit('challenge_response', 'userNotFound');
+      if (userCache.getByUsername(challengee)?.match)
+        return socket.emit('challenge_response', 'userInMatch');
 
       const challengeeId = userCache.getId(challengee) as UserId;
       console.log(
