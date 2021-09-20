@@ -1,10 +1,10 @@
 import { Socket } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
 
-import userCache from '../cache/user';
-import { SessionId, UserInfo, Username } from '../cache/user/types';
-import { AuthError } from '../utils/errors';
-import { IoMiddleware } from './types';
+import userCache from '../../cache/user';
+import { SessionId, UserInfo, Username } from '../../cache/user/types';
+import { AuthError } from '../../utils/errors';
+import { IoMiddleware } from '../types';
 
 export const establishSession: IoMiddleware = (socket, next) => {
   const { username, sessionId } = socket.handshake.auth;

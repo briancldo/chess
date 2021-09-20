@@ -4,10 +4,11 @@ import * as exists from './exists';
 import * as remove from './remove';
 import * as stats from './stats';
 
-export default {
+const userCache = {
   ...setters,
   ...getters,
   ...exists,
   ...remove,
   ...stats,
 };
+export default userCache;

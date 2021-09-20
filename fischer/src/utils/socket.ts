@@ -1,6 +1,7 @@
 import { Socket } from 'socket.io';
 
 import { SessionId, UserId, Username } from '../cache/user/types';
+import { SocketAuth } from '../io.types';
 
 interface AugmentedSocket extends Socket {
   user: {
@@ -22,4 +23,8 @@ export function augmentSocket(socket: Socket) {
       sessionId,
     },
   } as AugmentedSocket;
+}
+
+export function extractAuthInfo(socket: Socket) {
+  return socket.handshake.auth as SocketAuth;
 }

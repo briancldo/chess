@@ -3,7 +3,7 @@
   "scripts": {
     "start": "ts-node src/app",
     "start:dev": "cross-env NODE_ENV=development ts-node-dev src/app.ts --transpile-only --rs",
-    "test": "jest --silent --colors",
+    "test": "jest --silent --colors --runInBand",
     "test:ci": "jest --silent --ci --runInBand",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
