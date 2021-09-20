@@ -3,7 +3,7 @@
   "description": "E2E testing codebase",
   "scripts": {
     "start:web": "yarn --cwd .. start:web:dev:iso",
-    "test": "cross-env NODE_ENV=e2e playwright test --config=config/playwright.config.ts",
+    "test": "cross-env NODE_ENV=e2e SERVER_SILENT_LOGGER=true playwright test --config=config/playwright.config.ts",
     "test:flaky": "cross-env FLAKY=true yarn test",
     "test:slim": "cross-env SLIM=true yarn test",
     "install:tests": "yarn --cwd ../morphy install --frozen-lockfile && yarn --cwd ../fischer install --frozen-lockfile && npx playwright install && npx playwright install-deps",

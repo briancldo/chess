@@ -1,9 +1,4 @@
-interface LoggerOptions {
-  verbose: boolean;
-}
-export function createLogger(options?: LoggerOptions) {
-  const { verbose = true } = options || {};
+const silent = !!process.env.SERVER_SILENT_LOGGER;
 
-  if (verbose) return console.log;
-  return Function.prototype;
-}
+const logger = silent ? Function.prototype : console.log;
+export default logger;
