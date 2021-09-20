@@ -1,6 +1,6 @@
-import userCache from '../cache/user';
-import { isE2E } from '../utils/env';
-import { IoMiddleware } from './types';
+import userCache from '../../cache/user';
+import { isE2E } from '../../utils/env';
+import { IoMiddleware } from '../types';
 
 export const addE2eUtils: IoMiddleware = (socket, next) => {
   if (!isE2E()) return next();

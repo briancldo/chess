@@ -1,10 +1,8 @@
 import http from 'http';
 import { Server } from 'socket.io';
 
-import { establishSession } from './middleware/user';
-import { addE2eUtils } from './middleware/e2e';
-import { isE2E } from './utils/env';
 import addConnectionEvent from './events/connection';
+import { addPreConnectionMiddleware } from './middleware';
 
 export function createServer(port: number) {
   const server = http.createServer();
@@ -21,11 +19,6 @@ export function createServer(port: number) {
 }
 
 function addEvents(io: Server) {
-  addMiddleware(io);
+  addPreConnectionMiddleware(io);
   addConnectionEvent(io);
-}
-
-function addMiddleware(io: Server) {
-  if (isE2E()) io.use(addE2eUtils);
-  io.use(establishSession);
 }
