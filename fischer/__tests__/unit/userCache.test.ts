@@ -8,7 +8,14 @@ describe('user cache', () => {
   const id = 'id123';
   const username = 'user123';
   const sessionId = 'session123';
-  const userInfo: UserInfo = { id, username, sessionId, connected: true };
+  const connectionId = 'connection123';
+  const userInfo: UserInfo = {
+    id,
+    username,
+    sessionId,
+    connectionId,
+    connected: true,
+  };
 
   test('#get', () => {
     cache.set(userInfo);
@@ -37,24 +44,84 @@ describe('user cache', () => {
   });
 
   test('#count', () => {
-    cache.set({ id: '1', username: 'u1', sessionId: 's1', connected: true });
-    cache.set({ id: '2', username: 'u2', sessionId: 's2', connected: true });
-    cache.set({ id: '3', username: 'u3', sessionId: 's3', connected: true });
+    cache.set({
+      id: '1',
+      username: 'u1',
+      sessionId: 's1',
+      connectionId: 'conn1',
+      connected: true,
+    });
+    cache.set({
+      id: '2',
+      username: 'u2',
+      sessionId: 's2',
+      connectionId: 'conn2',
+      connected: true,
+    });
+    cache.set({
+      id: '3',
+      username: 'u3',
+      sessionId: 's3',
+      connectionId: 'conn3',
+      connected: true,
+    });
 
     expect(getTrueCacheSize()).toBe(3);
 
-    cache.set({ id: '4', username: 'u4', sessionId: 's4', connected: true });
-    cache.set({ id: '5', username: 'u5', sessionId: 's5', connected: true });
+    cache.set({
+      id: '4',
+      username: 'u4',
+      sessionId: 's4',
+      connectionId: 'conn4',
+      connected: true,
+    });
+    cache.set({
+      id: '5',
+      username: 'u5',
+      sessionId: 's5',
+      connectionId: 'conn5',
+      connected: true,
+    });
 
     expect(getTrueCacheSize()).toBe(5);
   });
 
   test('#remove', () => {
-    cache.set({ id: '1', username: 'u1', sessionId: 's1', connected: true });
-    cache.set({ id: '2', username: 'u2', sessionId: 's2', connected: true });
-    cache.set({ id: '3', username: 'u3', sessionId: 's3', connected: true });
-    cache.set({ id: '4', username: 'u4', sessionId: 's4', connected: true });
-    cache.set({ id: '5', username: 'u5', sessionId: 's5', connected: true });
+    cache.set({
+      id: '1',
+      username: 'u1',
+      sessionId: 's1',
+      connectionId: 'conn1',
+      connected: true,
+    });
+    cache.set({
+      id: '2',
+      username: 'u2',
+      sessionId: 's2',
+      connectionId: 'conn2',
+      connected: true,
+    });
+    cache.set({
+      id: '3',
+      username: 'u3',
+      sessionId: 's3',
+      connectionId: 'conn3',
+      connected: true,
+    });
+    cache.set({
+      id: '4',
+      username: 'u4',
+      sessionId: 's4',
+      connectionId: 'conn4',
+      connected: true,
+    });
+    cache.set({
+      id: '5',
+      username: 'u5',
+      sessionId: 's5',
+      connectionId: 'conn5',
+      connected: true,
+    });
 
     expect(cache.existsbyId('5')).toBe(true);
     cache.removeById('5');
@@ -68,11 +135,41 @@ describe('user cache', () => {
   });
 
   test('#clear', () => {
-    cache.set({ id: '1', username: 'u1', sessionId: 's1', connected: true });
-    cache.set({ id: '2', username: 'u2', sessionId: 's2', connected: true });
-    cache.set({ id: '3', username: 'u3', sessionId: 's3', connected: true });
-    cache.set({ id: '4', username: 'u4', sessionId: 's4', connected: true });
-    cache.set({ id: '5', username: 'u5', sessionId: 's5', connected: true });
+    cache.set({
+      id: '1',
+      username: 'u1',
+      sessionId: 's1',
+      connectionId: 'conn1',
+      connected: true,
+    });
+    cache.set({
+      id: '2',
+      username: 'u2',
+      sessionId: 's2',
+      connectionId: 'conn2',
+      connected: true,
+    });
+    cache.set({
+      id: '3',
+      username: 'u3',
+      sessionId: 's3',
+      connectionId: 'conn3',
+      connected: true,
+    });
+    cache.set({
+      id: '4',
+      username: 'u4',
+      sessionId: 's4',
+      connectionId: 'conn4',
+      connected: true,
+    });
+    cache.set({
+      id: '5',
+      username: 'u5',
+      sessionId: 's5',
+      connectionId: 'conn5',
+      connected: true,
+    });
 
     expect(getTrueCacheSize()).toBe(5);
     cache.clear();

@@ -15,7 +15,7 @@ export const establishSession: IoMiddleware = (socket, next) => {
     try {
       createNewSession(socket, { username });
     } catch (error) {
-      return next(error);
+      return next(error as Error);
     }
   }
 
@@ -32,6 +32,8 @@ function reEstablishSession(
   socket.handshake.auth.sessionId = sessionId;
   socket.handshake.auth.userId = id;
   socket.handshake.auth.username = username;
+
+  userCache.updateConnectionId(id, socket.id);
 }
 
 function createNewSession(
@@ -45,10 +47,11 @@ function createNewSession(
   socket.handshake.auth.userId = userId;
   socket.handshake.auth.sessionId = sessionId;
 
-  const userInfo = {
+  const userInfo: UserInfo = {
     ...providedUserInfo,
     id: userId,
     sessionId,
+    connectionId: socket.id,
     connected: false,
   };
 

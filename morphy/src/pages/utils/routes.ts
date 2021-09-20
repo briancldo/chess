@@ -2,6 +2,7 @@ import { Board } from '../../utils/board/board.types';
 
 export const routeMapping = {
   game: '/',
+  match: '/match',
   editor: '/editor',
 };
 

@@ -58,22 +58,22 @@ jobs:
       - name: Tests
         run: yarn test
 
-  e2e-flaky:
-    name: Flaky E2E Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          always-auth: true
-          node-version: 14.x
-          registry-url: https://registry.npmjs.org
-      - uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
-      - name: Install dependencies for playwright
-        run: yarn install:tests
-      - name: Tests
-        run: yarn test:flaky
+  # e2e-flaky:
+  #   name: Flaky E2E Tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         always-auth: true
+  #         node-version: 14.x
+  #         registry-url: https://registry.npmjs.org
+  #     - uses: actions/cache@v2
+  #       with:
+  #         path: '**/node_modules'
+  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+  #     - run: yarn install --frozen-lockfile
+  #     - name: Install dependencies for playwright
+  #       run: yarn install:tests
+  #     - name: Tests
+  #       run: yarn test:flaky

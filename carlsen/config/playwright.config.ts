@@ -17,7 +17,7 @@ const config: PlaywrightTestConfig = {
   },
   workers: 1,
   grepInvert: process.env.FLAKY ? [] : [/@flaky/],
-  retries: process.env.FLAKY ? 4 : 0,
+  retries: process.env.FLAKY ? 4 : 2,
   forbidOnly: !!process.env.CI,
   use: {
     baseURL: `http://localhost:${FRONTEND_PORT}`,

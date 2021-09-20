@@ -30,3 +30,8 @@ export function getSessionId(id: UserId) {
   const user = idCache.get(id);
   return (user || {}).sessionId;
 }
+
+export function getConnectionId(id: UserId) {
+  const user = idCache.get(id);
+  return (user || {}).connectionId;
+}

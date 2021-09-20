@@ -1,8 +1,7 @@
 // eslint-disable-next-line node/no-unpublished-import
 import { io, Socket } from 'socket.io-client';
 
-import config from '../../../src/config/config';
-import { sleep } from './time.utils';
+import config from '../../src/config/config';
 
 const websocketPort = config.get('WEBSOCKET_PORT');
 let sockets: { [id: string]: Socket } = {};
