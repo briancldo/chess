@@ -12,6 +12,7 @@ import logger from './utils/logger';
 import addChallengeEvents from './events/challenge';
 import addDisconnectEvents from './events/disconnect';
 import addDebugEvents from './events/debug';
+import { associateUserWithSession } from './middleware/session';
 
 export function createServer(port: number) {
   const server = http.createServer();
@@ -32,14 +33,14 @@ function addEvents(io: Server) {
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   io.on('connection', (socket) => {
-    const { username, userId: id, sessionId } = extractAuthInfo(socket);
+    const { username, userId: id } = extractAuthInfo(socket);
     logger(`connecting: ${id}; username: ${username}`);
+
+    // post-connection middleware
     addDevListeners(socket);
+    associateUserWithSession(socket);
 
-    userCache.setConnectionStatus(id, true);
-    socket.join(id);
-    socket.emit('session', { sessionId, userId: id });
-
+    // events
     addDebugEvents(io, socket);
     addChallengeEvents(io, socket);
     addDisconnectEvents(io, socket);
