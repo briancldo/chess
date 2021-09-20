@@ -14,12 +14,11 @@ test.describe('challenge#', () => {
       page,
       browser,
       baseURL,
-      io,
     }) => {
       await page.goto('/');
       const incognitoPage = await newIncognitoPage(browser, '/');
-      await login(page, { username: 'magnus', server: io.server });
-      await login(incognitoPage, { username: 'nepo', server: io.server });
+      await login(page, { username: 'magnus' });
+      await login(incognitoPage, { username: 'nepo' });
 
       await sendAndAcceptChallenge('magnus', incognitoPage, page);
       expect(page.url()).toBe(`${baseURL}/match`);
@@ -30,12 +29,11 @@ test.describe('challenge#', () => {
       page,
       browser,
       baseURL,
-      io,
     }) => {
       await page.goto('/');
       const incognitoPage = await newIncognitoPage(browser, '/');
-      await login(page, { username: 'magnus', server: io.server });
-      await login(incognitoPage, { username: 'nepo', server: io.server });
+      await login(page, { username: 'magnus' });
+      await login(incognitoPage, { username: 'nepo' });
 
       const rejectMessage = await sendAndRejectChallenge(
         'magnus',
@@ -49,20 +47,17 @@ test.describe('challenge#', () => {
     });
 
     test.describe('challenge errors', () => {
-      test('challenger is alerted if user is not found', async ({
-        page,
-        io,
-      }) => {
+      test('challenger is alerted if user is not found', async ({ page }) => {
         await page.goto('/');
-        await login(page, { username: TEST_USER_NAME, server: io.server });
+        await login(page, { username: TEST_USER_NAME });
 
         const errorMessage = await sendChallengeWithError('nonexistent', page);
         expect(errorMessage).toBe('User not found.');
       });
 
-      test('challenger cannot challenge themselves', async ({ page, io }) => {
+      test('challenger cannot challenge themselves', async ({ page }) => {
         await page.goto('/');
-        await login(page, { username: TEST_USER_NAME, server: io.server });
+        await login(page, { username: TEST_USER_NAME });
 
         const errorMessage = await sendChallengeWithError(TEST_USER_NAME, page);
         expect(errorMessage).toBe('User not found.');
@@ -71,14 +66,13 @@ test.describe('challenge#', () => {
       test('cannot challenge player already in a match', async ({
         page,
         browser,
-        io,
       }) => {
         await page.goto('/');
         const nepoPage = await newIncognitoPage(browser, '/');
         const caruanaPage = await newIncognitoPage(browser, '/');
-        await login(page, { username: 'magnus', server: io.server });
-        await login(nepoPage, { username: 'nepo', server: io.server });
-        await login(caruanaPage, { username: 'caruana', server: io.server });
+        await login(page, { username: 'magnus' });
+        await login(nepoPage, { username: 'nepo' });
+        await login(caruanaPage, { username: 'caruana' });
 
         await sendAndAcceptChallenge('magnus', nepoPage, page);
         const errorMessage = await sendChallengeWithError(
