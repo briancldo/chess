@@ -35,9 +35,10 @@ const addChallengeEvents: EventAdder = (io, socket) => {
       }
 
       const matchId = uuidv4();
+      const sides = getRandomSides([id, challengerId]);
       matchCache.set(matchId, {
         players: [id, challengerId],
-        gameDetails: { sides: getRandomSides([id, challengerId]) },
+        gameDetails: { sides },
       });
       userCache.addMatchInfo(id, { id: matchId });
       userCache.addMatchInfo(challengerId, { id: matchId });
@@ -50,10 +51,12 @@ const addChallengeEvents: EventAdder = (io, socket) => {
       socket.to(challengerId).emit('challenge_response', 'accepted', {
         matchId,
         opponent: { username },
+        gameDetails: { sides },
       });
       socket.emit('challenge_response', 'accepted', {
         matchId,
         opponent: { username: challenger },
+        gameDetails: { sides },
       });
     }
   );
