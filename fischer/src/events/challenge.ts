@@ -48,15 +48,19 @@ const addChallengeEvents: EventAdder = (io, socket) => {
       if (challengerConnId)
         io.of('/').sockets.get(challengerConnId)?.join(matchId);
 
+      const sidesByUsername = {
+        white: userCache.getUsername(sides.white),
+        black: userCache.getUsername(sides.black),
+      };
       socket.to(challengerId).emit('challenge_response', 'accepted', {
         matchId,
         opponent: { username },
-        gameDetails: { sides },
+        gameDetails: { sides: sidesByUsername },
       });
       socket.emit('challenge_response', 'accepted', {
         matchId,
         opponent: { username: challenger },
-        gameDetails: { sides },
+        gameDetails: { sides: sidesByUsername },
       });
     }
   );
