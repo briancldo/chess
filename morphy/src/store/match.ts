@@ -1,22 +1,23 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import { APP_NAME } from '../utils/constants/app.constants';
+import { DeepPartial } from '../utils/object.types';
+import { Username } from './user';
 
-type MatchState = {
-  matchId?: string;
-  opponent: {
-    username?: string;
-  };
-};
-
-export interface MatchInfo {
+export interface MatchState {
   matchId: string;
   opponent: {
     username: string;
   };
+  gameDetails: {
+    sides: {
+      white: Username;
+      black: Username;
+    };
+  };
 }
-interface MatchStore extends MatchState {
-  setMatch: (matchInfo: MatchInfo) => void;
+interface MatchStore extends DeepPartial<MatchState> {
+  setMatch: (matchInfo: MatchState) => void;
 }
 
 const useMatchStore = create<MatchStore>(
@@ -25,6 +26,12 @@ const useMatchStore = create<MatchStore>(
       matchId: undefined,
       opponent: {
         username: undefined,
+      },
+      gameDetails: {
+        sides: {
+          white: undefined,
+          black: undefined,
+        },
       },
       setMatch: (info) => set(info),
     }),
