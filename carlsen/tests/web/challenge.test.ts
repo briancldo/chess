@@ -9,7 +9,7 @@ import { sleep } from '../__utils__/time.utils';
 import { TEST_USER_NAME } from '../../mockServer/config';
 
 test.describe('challenge#', () => {
-  test.describe('sending a challenge', () => {
+  test.describe('sending a challenge#', () => {
     test('accepting challenge redirects both users to match page', async ({
       page,
       browser,
@@ -46,7 +46,7 @@ test.describe('challenge#', () => {
       expect(incognitoPage.url()).toBe(`${baseURL}/`);
     });
 
-    test.describe('challenge errors', () => {
+    test.describe('challenge errors#', () => {
       test('challenger is alerted if user is not found', async ({ page }) => {
         await page.goto('/');
         await login(page, { username: TEST_USER_NAME });

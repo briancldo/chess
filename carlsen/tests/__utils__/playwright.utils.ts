@@ -10,7 +10,9 @@ export const test = base.extend({
     const server = initServer();
     const client = initClient();
     await userCache.clear();
+
     await use(page);
+
     await disconnectWait(client);
     server.close();
   },

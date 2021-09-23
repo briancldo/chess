@@ -62,7 +62,7 @@ const SideName: React.FC<SideNameProps> = (props) => {
   return (
     <div className='sidebar-game-active-username-row'>
       <p>
-        <b>{name}</b>
+        <b data-testid={`match-username-${name}`}>{name}</b>
       </p>
     </div>
   );
