@@ -46,6 +46,57 @@ describe('challenge', () => {
     );
     expect(playersInMatch.sort()).toEqual(['magnus', 'nepo']);
   });
+
+  test('sides are assigned', async () => {
+    const magnusSocket = await socketUtils.connect({ username: 'magnus' });
+    await socketUtils.connect({ username: 'nepo' });
+    await createAndAcceptChallenge(magnusSocket);
+
+    const magnusId = userCache.getId('magnus');
+    const nepoId = userCache.getId('nepo');
+    const matchId = userCache.getByUsername('magnus')?.match?.id as string;
+    expect(matchCache.get(matchId)?.gameDetails.sides).toEqual({
+      white: expect.stringMatching(`(${magnusId})|(${nepoId})`),
+      black: expect.stringMatching(`(${magnusId})|(${nepoId})`),
+    });
+  });
+
+  test('sides are randomized', async () => {
+    const floorSpy = jest.spyOn(Math, 'floor');
+
+    // create + accept match - magnus is white, nepo is black
+    let magnusSocket = await socketUtils.connect({ username: 'magnus' });
+    await socketUtils.connect({ username: 'nepo' });
+    floorSpy.mockReturnValueOnce(0);
+    await createAndAcceptChallenge(magnusSocket);
+
+    let magnusId = userCache.getId('magnus');
+    let nepoId = userCache.getId('nepo');
+    let matchId = userCache.getByUsername('magnus')?.match?.id as string;
+    let match = matchCache.get(matchId);
+
+    expect(match?.gameDetails.sides.white).toBe(magnusId);
+    expect(match?.gameDetails.sides.black).toBe(nepoId);
+
+    // resetting data - doing it all over
+    await socketUtils.logoutAll();
+    userCache.clear();
+    matchCache.clear();
+
+    // create + accept match - nepo is white, magnus is black
+    magnusSocket = await socketUtils.connect({ username: 'magnus' });
+    await socketUtils.connect({ username: 'nepo' });
+    floorSpy.mockReturnValueOnce(1);
+    await createAndAcceptChallenge(magnusSocket);
+
+    magnusId = userCache.getId('magnus');
+    nepoId = userCache.getId('nepo');
+    matchId = userCache.getByUsername('magnus')?.match?.id as string;
+    match = matchCache.get(matchId);
+
+    expect(match?.gameDetails.sides.white).toBe(nepoId);
+    expect(match?.gameDetails.sides.black).toBe(magnusId);
+  });
 });
 
 // NOTE: will need refactoring once challenge_response requires a challenge_request

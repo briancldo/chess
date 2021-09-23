@@ -5,6 +5,7 @@ import matchCache from '../cache/match';
 import { UserId, Username } from '../cache/user/types';
 import { extractAuthInfo } from '../utils/socket';
 import { EventAdder } from './types';
+import { MatchGameSideDetails } from '../cache/match/types';
 
 const addChallengeEvents: EventAdder = (io, socket) => {
   const { username, userId: id } = extractAuthInfo(socket);
@@ -34,7 +35,11 @@ const addChallengeEvents: EventAdder = (io, socket) => {
       }
 
       const matchId = uuidv4();
-      matchCache.set(matchId, { players: [id, challengerId] });
+      const sides = getRandomSides([id, challengerId]);
+      matchCache.set(matchId, {
+        players: [id, challengerId],
+        gameDetails: { sides },
+      });
       userCache.addMatchInfo(id, { id: matchId });
       userCache.addMatchInfo(challengerId, { id: matchId });
 
@@ -43,24 +48,39 @@ const addChallengeEvents: EventAdder = (io, socket) => {
       if (challengerConnId)
         io.of('/').sockets.get(challengerConnId)?.join(matchId);
 
+      const sidesByUsername = {
+        white: userCache.getUsername(sides.white),
+        black: userCache.getUsername(sides.black),
+      };
       socket.to(challengerId).emit('challenge_response', 'accepted', {
         matchId,
         opponent: { username },
+        gameDetails: { sides: sidesByUsername },
       });
       socket.emit('challenge_response', 'accepted', {
         matchId,
         opponent: { username: challenger },
+        gameDetails: { sides: sidesByUsername },
       });
     }
   );
 };
 export default addChallengeEvents;
 
-export function validateChallengee(challengee: Username, username: Username) {
+function validateChallengee(challengee: Username, username: Username) {
   if (typeof challengee !== 'string') return 'userNotFound';
   if (challengee === username) return 'userNotFound';
   if (!userCache.existsByUsername(challengee)) return 'userNotFound';
   if (userCache.getByUsername(challengee)?.match) return 'userInMatch';
 
   return null;
+}
+
+function getRandomSides(players: [UserId, UserId]): MatchGameSideDetails {
+  const randomIndex = Math.floor(Math.random() * 2) as 0 | 1;
+  const otherIndex = randomIndex === 0 ? 1 : 0;
+  return {
+    white: players[randomIndex],
+    black: players[otherIndex],
+  };
 }

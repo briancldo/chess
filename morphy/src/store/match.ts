@@ -1,23 +1,8 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
+
 import { APP_NAME } from '../utils/constants/app.constants';
-
-type MatchState = {
-  matchId?: string;
-  opponent: {
-    username?: string;
-  };
-};
-
-export interface MatchInfo {
-  matchId: string;
-  opponent: {
-    username: string;
-  };
-}
-interface MatchStore extends MatchState {
-  setMatch: (matchInfo: MatchInfo) => void;
-}
+import { MatchStore } from './types/match';
 
 const useMatchStore = create<MatchStore>(
   persist(
@@ -26,6 +11,12 @@ const useMatchStore = create<MatchStore>(
       opponent: {
         username: undefined,
       },
+      gameDetails: {
+        sides: {
+          white: undefined,
+          black: undefined,
+        },
+      },
       setMatch: (info) => set(info),
     }),
     { name: `${APP_NAME}-match` }
@@ -33,3 +24,4 @@ const useMatchStore = create<MatchStore>(
 );
 
 export default useMatchStore;
+export * from './types/match';

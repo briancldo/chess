@@ -1,7 +1,11 @@
+import { MatchGameDetails } from '../../store/match';
 import { Board, GameResult } from '../../utils/board/board.types';
 
+export type BoardDirection = 1 | -1;
 export interface GameViewProps {
   initialBoard?: Board;
+  direction?: BoardDirection;
+  gameDetails?: MatchGameDetails;
 }
 
 export type GameOverHandler = (result: GameResult) => void;

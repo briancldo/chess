@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { GameResult } from '../../utils/board/board.types';
 
 import Board from '../Board/Board/Board';
 import initialBoardClassic from '../../utils/board/board.init';
@@ -9,10 +8,13 @@ import {
   GameViewProps,
   GameViewHandlers,
   GameOverHandler,
+  BoardDirection,
 } from './GameView.types';
-import { Board as BoardType } from '../../utils/board/board.types';
+import { Board as BoardType, GameResult } from '../../utils/board/board.types';
+import { MatchGameDetails } from '../../store/match';
 
 const GameView: React.FC<GameViewProps> = (props) => {
+  const { direction, gameDetails } = props;
   const [boardId, setBoardId] = useState(uuidv4());
   const [result, setResult] = useState<GameResult>();
   const [initialBoard, setInitialBoard] = useState(
@@ -42,12 +44,17 @@ const GameView: React.FC<GameViewProps> = (props) => {
 
   const RenderedSidebar = getSidebarByContext(
     { result },
-    { handlers, board: boardMirror }
+    { handlers, board: boardMirror, direction, gameDetails }
   );
   return (
     <>
       <SidebarSpacer active />
-      <Board key={boardId} initialBoard={initialBoard} handlers={handlers} />
+      <Board
+        key={boardId}
+        initialBoard={initialBoard}
+        direction={direction}
+        handlers={handlers}
+      />
       {RenderedSidebar}
     </>
   );
@@ -60,6 +67,8 @@ interface SidebarContext {
 }
 interface SomeSidebarProps {
   board: BoardType;
+  direction?: BoardDirection;
+  gameDetails?: MatchGameDetails;
   handlers: GameViewHandlers;
 }
 function getSidebarByContext(
@@ -67,8 +76,10 @@ function getSidebarByContext(
   someProps: SomeSidebarProps
 ): JSX.Element {
   const { result } = context;
-  const { board, handlers } = someProps;
+  const { board, direction, gameDetails, handlers } = someProps;
   if (result)
     return <BoardSidebar type='game-over' {...{ result, handlers }} />;
-  return <BoardSidebar type='game-active' board={board} />;
+  return (
+    <BoardSidebar type='game-active' {...{ board, direction, gameDetails }} />
+  );
 }

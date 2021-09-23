@@ -15,6 +15,7 @@ import {
   BoardHandlers,
   BoardUIProps,
   FocusedPiece,
+  BoardData,
 } from './Board.types';
 import { BoardTestData } from '../../../__tests__/__utils__/board.utils';
 import { PromotionPiece } from '../../../utils/pieces.types';
@@ -73,7 +74,8 @@ const Board: React.FC<BoardProps> = (props) => {
       );
     },
   };
-  const data = {
+  const data: BoardData = {
+    direction: props.direction || 1,
     candidateSquares,
     focusedPiece,
     gameOver,
@@ -99,6 +101,7 @@ export const BoardUI: React.FC<BoardUIProps> = (props) => {
   const checkedSquare = checkedSide
     ? board.state.king[checkedSide].square
     : undefined;
+  const ranksByDirection = data.direction === 1 ? ranks : [...ranks].reverse();
 
   const boardTestData: BoardTestData = { board };
   return (
@@ -107,7 +110,7 @@ export const BoardUI: React.FC<BoardUIProps> = (props) => {
       data-test={JSON.stringify(boardTestData)}
       className='board'
     >
-      {ranks.map((rank) => (
+      {ranksByDirection.map((rank) => (
         <React.Fragment key={`rank${rank}`}>
           <Rank
             number={rank}

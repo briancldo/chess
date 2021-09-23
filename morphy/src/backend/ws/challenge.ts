@@ -1,5 +1,5 @@
 import { routeMapping } from '../../pages/utils/routes';
-import useMatchStore, { MatchInfo } from '../../store/match';
+import useMatchStore, { MatchState } from '../../store/match';
 import { socket } from './instance';
 
 export function challengeUser(username: string) {
@@ -20,7 +20,7 @@ const challengeResponses = {
 type ChallengeResponseCodes = keyof typeof challengeResponses;
 socket.on(
   'challenge_response',
-  (code: ChallengeResponseCodes, matchInfo: MatchInfo) => {
+  (code: ChallengeResponseCodes, matchInfo: MatchState) => {
     if (code !== challengeResponses.accepted)
       return informChallengeFailure(code);
 
