@@ -2,6 +2,7 @@ import { DevError } from './errors';
 import {
   Piece,
   PieceColor,
+  PieceColorFull,
   PieceString,
   PieceType,
   PromotionPiece,
@@ -71,4 +72,12 @@ const pieceOrdering = {
 };
 export function comparePieceTypes(type1: PieceType, type2: PieceType) {
   return pieceOrdering[type1] > pieceOrdering[type2] ? 1 : -1;
+}
+
+export function getShorthandColor(
+  color: PieceColor | PieceColorFull
+): PieceColor {
+  if (color === 'white') return 'w';
+  if (color === 'black') return 'b';
+  return color;
 }

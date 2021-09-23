@@ -1,4 +1,5 @@
 export type PieceColor = 'w' | 'b';
+export type PieceColorFull = 'white' | 'black';
 export type PieceType = 'k' | 'q' | 'r' | 'b' | 'n' | 'p';
 export type PromotionPieceType = 'q' | 'r' | 'b' | 'n';
 interface PieceBase {

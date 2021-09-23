@@ -5,7 +5,7 @@ export interface MatchGameDetailsSides {
   black?: Username;
 }
 
-interface MatchGameDetails {
+export interface MatchGameDetails {
   sides?: MatchGameDetailsSides;
 }
 
