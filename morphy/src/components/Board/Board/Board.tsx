@@ -101,7 +101,7 @@ export const BoardUI: React.FC<BoardUIProps> = (props) => {
   const checkedSquare = checkedSide
     ? board.state.king[checkedSide].square
     : undefined;
-  const ranksByDirection = data.direction === 1 ? ranks : ranks.reverse();
+  const ranksByDirection = data.direction === 1 ? ranks : [...ranks].reverse();
 
   const boardTestData: BoardTestData = { board };
   return (
