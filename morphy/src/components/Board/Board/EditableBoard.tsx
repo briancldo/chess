@@ -34,6 +34,7 @@ const EditableBoard: React.FC<EditableBoardProps> = (props) => {
     selectPromotionPiece: dummyHandler,
   };
   const boardData: BoardData = {
+    direction: 1,
     candidateSquares,
     focusedPiece: {},
     gameOver: false,

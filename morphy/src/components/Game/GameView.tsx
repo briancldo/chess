@@ -13,6 +13,7 @@ import {
 import { Board as BoardType } from '../../utils/board/board.types';
 
 const GameView: React.FC<GameViewProps> = (props) => {
+  const { direction } = props;
   const [boardId, setBoardId] = useState(uuidv4());
   const [result, setResult] = useState<GameResult>();
   const [initialBoard, setInitialBoard] = useState(
@@ -47,7 +48,12 @@ const GameView: React.FC<GameViewProps> = (props) => {
   return (
     <>
       <SidebarSpacer active />
-      <Board key={boardId} initialBoard={initialBoard} handlers={handlers} />
+      <Board
+        key={boardId}
+        initialBoard={initialBoard}
+        direction={direction}
+        handlers={handlers}
+      />
       {RenderedSidebar}
     </>
   );

@@ -4,7 +4,7 @@ import {
   BoardSquare,
 } from '../../../utils/board/board.types';
 import { Piece, PieceColor, PromotionPiece } from '../../../utils/pieces.types';
-import { GameViewHandlers } from '../../Game/GameView.types';
+import { BoardDirection, GameViewHandlers } from '../../Game/GameView.types';
 
 export type FocusedPiece =
   | {
@@ -22,6 +22,7 @@ export interface BoardHandlers {
 }
 
 export interface BoardData {
+  direction: BoardDirection;
   candidateSquares: BoardSquare[];
   focusedPiece: FocusedPiece;
   gameOver: boolean;
@@ -32,6 +33,7 @@ export interface BoardData {
 
 export interface BoardProps {
   initialBoard: Board;
+  direction?: BoardDirection;
   handlers: GameViewHandlers;
 }
 
