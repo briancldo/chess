@@ -4,9 +4,11 @@ import GameView from '../components/Game/GameView';
 import { BoardDirection } from '../components/Game/GameView.types';
 import useMatchStore, { MatchGameDetailsSides } from '../store/match';
 import initialBoard from '../utils/board/board.init';
-import { Username } from '../store/user';
+import useUserStore, { Username } from '../store/user';
+import { PieceColor } from '../utils/pieces.types';
 
 const MatchPage: React.FC = () => {
+  const username = useUserStore((state) => state.username);
   const matchId = useMatchStore((state) => state.matchId);
   const opponent = useMatchStore((state) => state.opponent);
   const gameDetails = useMatchStore((state) => state.gameDetails);
@@ -17,7 +19,13 @@ const MatchPage: React.FC = () => {
   );
 
   if (!matchId) return <h1>You are not in a match.</h1>;
-  return <GameView {...{ initialBoard, direction, gameDetails }} />;
+
+  const color: PieceColor = sides?.white === username ? 'w' : 'b';
+  return (
+    <GameView
+      {...{ initialBoard, direction, gameDetails, moveOnlyColor: color }}
+    />
+  );
 };
 
 export default MatchPage;

@@ -15,6 +15,7 @@ export interface SquareProps {
   isChecked?: boolean;
   isGameOver: boolean;
   turn: PieceColor;
+  moveOnlyColor?: PieceColor;
   promotion: BoardPromotionState;
   handlers: BoardHandlers;
 }

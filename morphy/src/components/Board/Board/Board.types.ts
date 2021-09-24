@@ -28,12 +28,14 @@ export interface BoardData {
   gameOver: boolean;
   turn: PieceColor;
   promotion: BoardPromotionState;
+  moveOnlyColor?: PieceColor;
   hideHighlights?: boolean;
 }
 
 export interface BoardProps {
   initialBoard: Board;
   direction?: BoardDirection;
+  moveOnlyColor?: PieceColor;
   handlers: GameViewHandlers;
 }
 

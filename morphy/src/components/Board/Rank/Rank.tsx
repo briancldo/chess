@@ -35,6 +35,7 @@ const Rank: React.FC<RankProps> = (props) => {
             isChecked={checkedSquare && checkedSquare.file === file}
             isGameOver={data.gameOver}
             turn={data.turn}
+            moveOnlyColor={data.moveOnlyColor}
             promotion={data.promotion}
             handlers={handlers}
           />

@@ -27,6 +27,7 @@ const Square: React.FC<SquareProps> = (props) => {
     isChecked,
     isGameOver,
     turn,
+    moveOnlyColor,
     promotion,
     handlers,
   } = props;
@@ -46,6 +47,12 @@ const Square: React.FC<SquareProps> = (props) => {
   }
 
   function handleSquareMouseDown() {
+    if (
+      containingPiece &&
+      moveOnlyColor &&
+      moveOnlyColor !== containingPiece.color
+    )
+      return;
     if (isGameOver) return;
     if (promotion.active) return;
     if (!containingPiece && !highlighted) return handlers.removePieceFocus();
