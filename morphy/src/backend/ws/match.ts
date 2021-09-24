@@ -16,3 +16,7 @@ export function addMoveListener(
     socket.off('move');
   };
 }
+
+export function emitMove(origin: BoardSquare, destination: BoardSquare) {
+  socket.emit('move', { origin, destination });
+}

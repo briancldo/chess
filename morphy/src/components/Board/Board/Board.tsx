@@ -19,7 +19,7 @@ import {
 } from './Board.types';
 import { BoardTestData } from '../../../__tests__/__utils__/board.utils';
 import { PromotionPiece } from '../../../utils/pieces.types';
-import { addMoveListener } from '../../../backend/ws/match';
+import { addMoveListener, emitMove } from '../../../backend/ws/match';
 
 const Board: React.FC<BoardProps> = (props) => {
   const { initialBoard, direction, moveOnlyColor } = props;
@@ -79,6 +79,12 @@ const Board: React.FC<BoardProps> = (props) => {
 
   useEffect(() => {
     if (!moveOnlyColor) return;
+
+    // monkeypatching handlers.movePiece to emit made moves
+    handlers.movePiece = (destination) => {
+      emitMove(focusedPiece.square, destination);
+      handlers.movePiece(destination);
+    };
 
     function movePiece(origin: BoardSquare, destination: BoardSquare) {
       const piece = getPieceAtSquare(board.position, origin);
