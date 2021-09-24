@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { produce } from 'immer';
 
 import Rank from '../Rank/Rank';
-import { ranks } from '../../../utils/board/board';
+import { getPieceAtSquare, ranks } from '../../../utils/board/board';
 import { getPieceLegalMoves, makeMove } from '../../../utils/moves/moves';
 import './Board.css';
 import {
@@ -19,6 +19,7 @@ import {
 } from './Board.types';
 import { BoardTestData } from '../../../__tests__/__utils__/board.utils';
 import { PromotionPiece } from '../../../utils/pieces.types';
+import { addMoveListener } from '../../../backend/ws/match';
 
 const Board: React.FC<BoardProps> = (props) => {
   const { initialBoard, direction, moveOnlyColor } = props;
@@ -78,8 +79,17 @@ const Board: React.FC<BoardProps> = (props) => {
 
   useEffect(() => {
     if (!moveOnlyColor) return;
-    // add remote move listener
-  }, [moveOnlyColor]);
+
+    function movePiece(origin: BoardSquare, destination: BoardSquare) {
+      const piece = getPieceAtSquare(board.position, origin);
+      if (!piece) return;
+      setFocusedPiece({ piece, square: origin });
+      handlers.movePiece(destination);
+    }
+
+    return addMoveListener(movePiece);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const data: BoardData = {
     direction: direction || 1,
