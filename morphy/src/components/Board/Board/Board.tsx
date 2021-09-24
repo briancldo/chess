@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { produce } from 'immer';
 
 import Rank from '../Rank/Rank';
-import { getPieceAtSquare, ranks } from '../../../utils/board/board';
+import { ranks } from '../../../utils/board/board';
 import { getPieceLegalMoves, makeMove } from '../../../utils/moves/moves';
 import './Board.css';
 import {
@@ -19,7 +19,7 @@ import {
 } from './Board.types';
 import { BoardTestData } from '../../../__tests__/__utils__/board.utils';
 import { PromotionPiece } from '../../../utils/pieces.types';
-import { addMoveListener, emitMove } from '../../../backend/ws/match';
+import { useRemoteMoves } from '../../../backend/ws/match';
 
 const Board: React.FC<BoardProps> = (props) => {
   const { initialBoard, direction, moveOnlyColor } = props;
@@ -77,26 +77,7 @@ const Board: React.FC<BoardProps> = (props) => {
     },
   };
 
-  useEffect(() => {
-    if (!moveOnlyColor) return;
-
-    // monkeypatching handlers.movePiece to emit made moves
-    handlers.movePiece = (destination) => {
-      emitMove(focusedPiece.square, destination);
-      handlers.movePiece(destination);
-    };
-
-    function movePiece(origin: BoardSquare, destination: BoardSquare) {
-      const piece = getPieceAtSquare(board.position, origin);
-      if (!piece) return;
-      setFocusedPiece({ piece, square: origin });
-      handlers.movePiece(destination);
-    }
-
-    return addMoveListener(movePiece);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  useRemoteMoves({ moveOnlyColor, handlers, focusedPiece, updateBoard });
   const data: BoardData = {
     direction: direction || 1,
     candidateSquares,
