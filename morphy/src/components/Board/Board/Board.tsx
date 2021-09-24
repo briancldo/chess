@@ -19,9 +19,11 @@ import {
 } from './Board.types';
 import { BoardTestData } from '../../../__tests__/__utils__/board.utils';
 import { PromotionPiece } from '../../../utils/pieces.types';
+import { useRemoteMoves } from '../../../backend/ws/match';
 
 const Board: React.FC<BoardProps> = (props) => {
-  const [board, setBoard] = useState(props.initialBoard);
+  const { initialBoard, direction, moveOnlyColor } = props;
+  const [board, setBoard] = useState(initialBoard);
   const [focusedPiece, setFocusedPiece] = useState<FocusedPiece>({});
   const [candidateSquares, setCandidateSquares] = useState<BoardSquare[]>([]);
   const turn = board.state.turn;
@@ -74,12 +76,15 @@ const Board: React.FC<BoardProps> = (props) => {
       );
     },
   };
+
+  useRemoteMoves({ moveOnlyColor, handlers, focusedPiece, updateBoard });
   const data: BoardData = {
-    direction: props.direction || 1,
+    direction: direction || 1,
     candidateSquares,
     focusedPiece,
     gameOver,
     turn,
+    moveOnlyColor,
     promotion: board.state.promotion,
   };
   return (

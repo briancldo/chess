@@ -14,10 +14,11 @@ export type FocusedPiece =
   | Record<string, never>;
 
 export type SelectPromotionPiece = (piece: PromotionPiece) => void;
+export type MovePieceHandler = (destination: BoardSquare) => void;
 export interface BoardHandlers {
   setPieceFocus: (piece: Piece, square: BoardSquare) => void;
   removePieceFocus: () => void;
-  movePiece: (destination: BoardSquare) => void;
+  movePiece: MovePieceHandler;
   selectPromotionPiece: SelectPromotionPiece;
 }
 
@@ -28,12 +29,14 @@ export interface BoardData {
   gameOver: boolean;
   turn: PieceColor;
   promotion: BoardPromotionState;
+  moveOnlyColor?: PieceColor;
   hideHighlights?: boolean;
 }
 
 export interface BoardProps {
   initialBoard: Board;
   direction?: BoardDirection;
+  moveOnlyColor?: PieceColor;
   handlers: GameViewHandlers;
 }
 

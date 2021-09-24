@@ -6,6 +6,7 @@ import { extractAuthInfo } from '../utils/socket';
 import addChallengeEvents from './challenge';
 import addDebugEvents from './debug';
 import addDisconnectEvents from './disconnect';
+import addMoveEvents from './move';
 
 export default function addConnectionEvent(io: Server) {
   io.on('connection', (socket) => {
@@ -16,6 +17,7 @@ export default function addConnectionEvent(io: Server) {
     // events
     addDebugEvents(io, socket);
     addChallengeEvents(io, socket);
+    addMoveEvents(io, socket);
     addDisconnectEvents(io, socket);
   });
 }

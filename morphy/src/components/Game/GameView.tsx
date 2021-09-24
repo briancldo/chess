@@ -14,7 +14,7 @@ import { Board as BoardType, GameResult } from '../../utils/board/board.types';
 import { MatchGameDetails } from '../../store/match';
 
 const GameView: React.FC<GameViewProps> = (props) => {
-  const { direction, gameDetails } = props;
+  const { direction, moveOnlyColor, gameDetails } = props;
   const [boardId, setBoardId] = useState(uuidv4());
   const [result, setResult] = useState<GameResult>();
   const [initialBoard, setInitialBoard] = useState(
@@ -53,6 +53,7 @@ const GameView: React.FC<GameViewProps> = (props) => {
         key={boardId}
         initialBoard={initialBoard}
         direction={direction}
+        moveOnlyColor={moveOnlyColor}
         handlers={handlers}
       />
       {RenderedSidebar}
