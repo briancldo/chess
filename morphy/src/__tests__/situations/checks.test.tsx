@@ -184,13 +184,15 @@ function assertHandlesCheck(dataPoint: data.BoardAndManyMoves) {
       if (!kingSquare) throw new Error('Need king square for test.');
       const kingCoordinate = squareToCoordinate(kingSquare);
 
-      let isChecked = getSquareMetadata(kingCoordinate).isChecked;
+      const squareMetadata = getSquareMetadata(kingCoordinate);
+      const { isChecked, containingPiece } = squareMetadata;
+      expect(containingPiece?.type).toEqual('k');
       expect(isChecked).toBe(true);
 
       makeMove({ origin: testPieceSquare, destination: move });
 
-      isChecked = getSquareMetadata(kingCoordinate).isChecked;
-      expect(isChecked).toBeFalsy();
+      const isCheckedAfter = getSquareMetadata(kingCoordinate).isChecked;
+      expect(isCheckedAfter).toBeFalsy();
     }
   }
 
