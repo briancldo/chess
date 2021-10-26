@@ -19,7 +19,7 @@ import { getMockServer } from '../__utils__/ws/mockServer';
 
 const testUsername = 'brido';
 
-describe('user.login', () => {
+describe.skip('user.login', () => {
   let mockServer: Server;
 
   beforeAll(async () => {

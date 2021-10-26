@@ -7,7 +7,7 @@ import { test_login } from '../__utils__/login.test.utils';
 import { getMockServer } from '../__utils__/ws/mockServer';
 import { Server } from 'socket.io';
 
-describe('#ChallengeButton', () => {
+describe.skip('#ChallengeButton', () => {
   let mockServer: Server;
 
   beforeAll(async () => {

@@ -50,7 +50,8 @@ export default function makeMove(
 
     handleCapturedPiece(draft, end);
     draft.position[end.rank][end.file] = piece;
-    handleChecks(board.state, draft);
+    if (piece.type === 'k') draft.state.king[piece.color].square = end;
+    handleChecks(draft.state, draft);
     draft.state.turn = flipColor(draft.state.turn);
 
     handleDetermineGameOver(draft, piece.color);
