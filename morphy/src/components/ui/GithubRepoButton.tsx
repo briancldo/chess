@@ -5,9 +5,11 @@ import Button from './Button';
 
 export default function GithubRepoButton() {
   return (
-    <Button onClick={() => alert('asd')} className='github-repo-button'>
-      <GithubSvg />
-      <span style={{ alignSelf: 'center' }}>{'\t'}GitHub</span>
-    </Button>
+    <a href='https://github.com/briancldo/chess' target='_tab'>
+      <Button className='github-repo-button'>
+        <GithubSvg />
+        <span>{'\t'}GitHub</span>
+      </Button>
+    </a>
   );
 }
