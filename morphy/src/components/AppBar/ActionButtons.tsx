@@ -7,6 +7,7 @@ import PingButton from '../misc/PingButton';
 import config from '../../config/config';
 
 import './AppActionButtons.css';
+import GithubRepoButton from '../ui/GithubRepoButton';
 
 const { environment } = config;
 
@@ -15,6 +16,7 @@ const ActionButtons: React.FC = () => {
 
   return (
     <div className='app-action-buttons'>
+      <GithubRepoButton />
       {environment !== 'production' && <PingButton />}
       {isLoggedIn && <ChallengeButton />}
       <LoginSection />
