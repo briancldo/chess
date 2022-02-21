@@ -30,3 +30,8 @@
 .sidebar-game-active-username-row {
   padding-left: 0.5rem;
 }
+
+.is-my-turn {
+  font-weight: bold;
+  color: #6465FA;
+}
