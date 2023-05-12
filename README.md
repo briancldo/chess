@@ -1,5 +1,7 @@
 Chess app, for fun.
 
+⚠️ This won't work right now! Heroku recently removed its free tier, so the backend is not currently operational. At some point, I'll move this over to render.com. They were always better anyway.
+
 ## Monorepo Breakdown
 | Codebase            | Description     | Deploy Status
 |---------------------|-----------------|---------------
