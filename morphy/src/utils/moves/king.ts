@@ -33,12 +33,12 @@ const kingMove = (square: BoardSquare, color: PieceColor, board: Board) => {
 
 export default kingMove;
 
-const offsets = [0, 1, -1] as const;
+const OFFSETS = [0, 1, -1] as const;
 export function computeRegularMoves(square: BoardSquare) {
   const squares: BoardSquare[] = [];
 
-  for (const offsetX of offsets) {
-    for (const offsetY of offsets) {
+  for (const offsetX of OFFSETS) {
+    for (const offsetY of OFFSETS) {
       if (offsetX == 0 && offsetY === 0) continue;
 
       try {
